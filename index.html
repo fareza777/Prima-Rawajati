@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0A1F44">
+  <meta name="description" content="PRIMA - Platform Ringkas Interaktif Masyarakat Kelurahan Rawajati. Akses informasi layanan administrasi kelurahan kapan saja, di mana saja.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PRIMA">
+  <title>PRIMA – Kelurahan Rawajati</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <!-- App CSS (v4 – Royal Government Theme) -->
+  <link rel="stylesheet" href="css/style.css?v=4">
+
+  <!-- Desktop fix: inline override agar tidak terkena cache -->
+  <style>
+    /* DESKTOP FIX v3 */
+    .top-header {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      z-index: 100;
+    }
+    body {
+      padding-top: 64px !important;   /* tinggi header */
+    }
+    @media (min-width: 640px) {
+      html {
+        background:
+          radial-gradient(ellipse at 20% 0%, #1E3A8A 0%, transparent 50%),
+          radial-gradient(ellipse at 80% 100%, #7C2D12 0%, transparent 45%),
+          linear-gradient(145deg,#05122E 0%,#0A1F44 45%,#0D2658 75%,#0A1F44 100%) !important;
+        min-height: 100%;
+      }
+      body {
+        max-width: 430px !important;
+        margin: 0 auto !important;
+        background: #F7F5EF !important;
+        box-shadow: 0 8px 40px rgba(0,0,0,.5), 0 32px 80px rgba(0,0,0,.4), 0 0 0 1px rgba(212,175,55,.15) !important;
+      }
+      .top-header {
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%) !important;
+        width: 430px !important;
+        max-width: 430px !important;
+      }
+      .bottom-nav {
+        position: fixed !important;
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%) !important;
+        width: 402px !important;    /* 430px shell - 14px margin */
+        max-width: 402px !important;
+        bottom: 12px !important;
+      }
+    }
+  </style>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     TOP HEADER
+═══════════════════════════════════════════ -->
+<header class="top-header">
+  <div class="header-logo">
+    <div class="logo-badge"><span>PRIMA</span></div>
+    <div class="logo-text">
+      <h1>Kelurahan Rawajati</h1>
+      <p>Platform Ringkas Interaktif Masyarakat</p>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="header-btn" onclick="showQRCode()" title="QR Code" aria-label="QR Code"><i data-lucide="qr-code"></i></button>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════
+     PAGE: HOME
+═══════════════════════════════════════════ -->
+<main id="page-home" class="page active">
+
+  <!-- Hero Banner -->
+  <div class="hero-banner">
+    <div class="hero-badge"><i data-lucide="sparkles"></i> Akses 24/7 · Gratis</div>
+    <h2>Layanan Kelurahan <span>Rawajati</span></h2>
+    <p>Informasi lengkap syarat surat, peta wilayah, dan info warga. Kapan saja, di mana saja — tanpa perlu bolak-balik ke kelurahan!</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="stat-num" id="stat-layanan">12+</div>
+        <div class="stat-label">Jenis Layanan</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num" id="stat-lokasi">20+</div>
+        <div class="stat-label">Lokasi Dipeta</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num" id="stat-always">24/7</div>
+        <div class="stat-label">Dapat Diakses</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Search -->
+  <div class="quick-search">
+    <div class="search-box">
+      <span class="search-icon"><i data-lucide="search"></i></span>
+      <input type="search" id="home-search" placeholder="Cari layanan, lokasi, atau info warga…" autocomplete="off">
+    </div>
+    <div id="search-results" style="display:none; margin-top:8px; background:white; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,.12); overflow:hidden; border:1px solid var(--border)"></div>
+  </div>
+
+  <!-- Info Banner -->
+  <div class="info-banner" style="margin:0 16px 8px;max-width:568px;margin-left:auto;margin-right:auto;display:flex">
+    <span class="info-icon"><i data-lucide="clock"></i></span>
+    <p>Jam Kerja Kelurahan: <strong>Senin–Jumat, 08.00–16.00 WIB</strong>. Untuk informasi di luar jam kerja, gunakan PRIMA atau fitur <em>Tanya Kami</em>.</p>
+  </div>
+
+  <!-- Menu Grid -->
+  <div class="menu-grid">
+    <div class="menu-card blue" onclick="navigateTo('layanan')">
+      <span class="card-icon"><i data-lucide="file-text"></i></span>
+      <h3>Layanan & Surat</h3>
+      <p>Syarat, prosedur & template dokumen</p>
+    </div>
+    <div class="menu-card green" onclick="navigateTo('peta')">
+      <span class="card-icon"><i data-lucide="map"></i></span>
+      <h3>Peta Wilayah</h3>
+      <p>Fasilitas, RW, dan lokasi penting</p>
+    </div>
+    <div class="menu-card orange" onclick="navigateTo('info')">
+      <span class="card-icon"><i data-lucide="utensils"></i></span>
+      <h3>Info Warga</h3>
+      <p>Kuliner, usaha binaan & kegiatan</p>
+    </div>
+    <div class="menu-card teal" onclick="navigateTo('chat')">
+      <span class="card-icon"><i data-lucide="message-circle"></i></span>
+      <h3>Tanya Kami</h3>
+      <p>AI chatbot siap 24 jam</p>
+    </div>
+    <div class="menu-card purple" onclick="navigateTo('suara')">
+      <span class="card-icon"><i data-lucide="pen-line"></i></span>
+      <h3>Suara Warga</h3>
+      <p>Masukan & saran untuk PRIMA</p>
+    </div>
+    <div class="menu-card gold" onclick="navigateTo('admin')">
+      <span class="card-icon"><i data-lucide="shield-check"></i></span>
+      <h3>Admin</h3>
+      <p>Panel pengelola konten</p>
+    </div>
+  </div>
+
+  <!-- Layanan Cepat -->
+  <div class="section-header">
+    <h2><i data-lucide="zap" class="sh-icon"></i> Layanan Sering Diakses</h2>
+    <p>Klik untuk lihat syarat & prosedur lengkap</p>
+  </div>
+  <div class="layanan-grid" id="quick-layanan">
+    <!-- Rendered by JS via renderLayananQuick() -->
+  </div>
+
+</main>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: LAYANAN & SURAT
+═══════════════════════════════════════════ -->
+<main id="page-layanan" class="page">
+  <div class="section-header">
+    <h2>📋 Layanan & Surat</h2>
+    <p>Lengkap dengan syarat, prosedur, dan template dokumen yang dapat diunduh</p>
+  </div>
+
+  <div style="padding:0 16px 12px;max-width:600px;margin:0 auto">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="search" id="layanan-search" placeholder="Cari jenis layanan…" autocomplete="off">
+    </div>
+  </div>
+
+  <div class="info-banner" style="margin:0 16px 12px;max-width:568px;margin-left:auto;margin-right:auto;display:flex">
+    <span class="info-icon">💡</span>
+    <p>Semua layanan <strong>GRATIS</strong>. Siapkan dokumen sebelum datang untuk mempercepat proses.</p>
+  </div>
+
+  <div class="layanan-grid" id="layanan-list">
+    <!-- Rendered by JS -->
+  </div>
+</main>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: PETA WILAYAH
+═══════════════════════════════════════════ -->
+<main id="page-peta" class="page">
+  <div class="section-header">
+    <h2>🗺️ Peta Wilayah Rawajati</h2>
+    <p>Fasilitas, lokasi RW, masjid, bank sampah, dan area penting lainnya</p>
+  </div>
+
+  <!-- Filter Chips -->
+  <div class="map-filter-bar">
+    <button class="filter-chip active" data-filter="Semua" onclick="updateMapFilter('Semua')">🔍 Semua</button>
+    <button class="filter-chip" data-filter="Pemerintahan" onclick="updateMapFilter('Pemerintahan')">🏛️ Pemerintahan</button>
+    <button class="filter-chip" data-filter="RW" onclick="updateMapFilter('RW')">🏘️ Sekretariat RW</button>
+    <button class="filter-chip" data-filter="Ibadah" onclick="updateMapFilter('Ibadah')">🕌 Ibadah</button>
+    <button class="filter-chip" data-filter="Lingkungan" onclick="updateMapFilter('Lingkungan')">♻️ Lingkungan</button>
+    <button class="filter-chip" data-filter="Ekonomi" onclick="updateMapFilter('Ekonomi')">🏪 Ekonomi</button>
+    <button class="filter-chip" data-filter="Kesehatan" onclick="updateMapFilter('Kesehatan')">🏥 Kesehatan</button>
+    <button class="filter-chip" data-filter="Fasilitas Umum" onclick="updateMapFilter('Fasilitas Umum')">⚽ Fasilitas</button>
+    <button class="filter-chip" data-filter="Peringatan" onclick="updateMapFilter('Peringatan')">⚠️ Rawan Banjir</button>
+  </div>
+
+  <!-- Map Container -->
+  <div id="map-container"></div>
+
+  <!-- Legend -->
+  <div class="map-legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#1565C0"></span>Pemerintahan</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#6A1B9A"></span>RW</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#00695C"></span>Ibadah</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#2E7D32"></span>Bank Sampah</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#E65100"></span>Ekonomi</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#D32F2F"></span>Kesehatan</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#C62828"></span>⚠️ Rawan Banjir</div>
+  </div>
+</main>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: INFO WARGA
+═══════════════════════════════════════════ -->
+<main id="page-info" class="page">
+  <div class="section-header">
+    <h2>🍜 Info Warga Rawajati</h2>
+    <p>Kuliner favorit, usaha binaan KUKM, dan kegiatan RT/RW</p>
+  </div>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="kuliner">🍜 Kuliner</button>
+    <button class="tab-btn" data-tab="usaha">🏪 Usaha Binaan</button>
+    <button class="tab-btn" data-tab="kegiatan">📅 Kegiatan</button>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content active" id="tab-kuliner" style="padding-top:12px">
+    <div id="kuliner-list"></div>
+  </div>
+  <div class="tab-content" id="tab-usaha" style="padding-top:12px">
+    <div id="usaha-list"></div>
+  </div>
+  <div class="tab-content" id="tab-kegiatan" style="padding-top:12px">
+    <div id="kegiatan-list"></div>
+  </div>
+</main>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: TANYA KAMI (CHATBOT)
+═══════════════════════════════════════════ -->
+<main id="page-chat" class="page">
+  <div class="chatbot-page">
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div class="chat-avatar">🤖</div>
+      <div>
+        <h3>Asisten PRIMA</h3>
+        <p><span class="online-dot"></span>Online · Siap membantu 24 jam</p>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div style="font-size:11px;opacity:.7">Percakapan</div>
+        <div style="font-size:15px;font-weight:700" id="chat-count">0</div>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="chat-messages" id="chat-messages"></div>
+
+    <!-- Suggestions -->
+    <div class="chat-suggestions" id="chat-suggestions"></div>
+
+    <!-- Input Area -->
+    <div class="chat-input-area">
+      <div class="chat-input-wrap">
+        <textarea id="chat-input" placeholder="Ketik pertanyaan Anda…" rows="1"></textarea>
+      </div>
+      <button class="chat-send-btn" id="chat-send">➤</button>
+    </div>
+  </div>
+</main>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: SUARA WARGA
+═══════════════════════════════════════════ -->
+<main id="page-suara" class="page">
+  <div class="section-header">
+    <h2>✏️ Suara Warga</h2>
+    <p>Masukan dan saran Anda membantu kami meningkatkan PRIMA</p>
+  </div>
+
+  <div class="suara-page">
+    <form id="suara-form">
+
+      <!-- Rating -->
+      <div class="survey-card">
+        <h3>⭐ Bagaimana pengalaman Anda dengan PRIMA?</h3>
+        <div class="star-rating">
+          <button type="button" class="star-btn" data-val="1">⭐</button>
+          <button type="button" class="star-btn" data-val="2">⭐</button>
+          <button type="button" class="star-btn" data-val="3">⭐</button>
+          <button type="button" class="star-btn" data-val="4">⭐</button>
+          <button type="button" class="star-btn" data-val="5">⭐</button>
+        </div>
+        <div class="rating-label" id="rating-label">Pilih bintang di atas</div>
+      </div>
+
+      <!-- Fitur Favorit -->
+      <div class="survey-card">
+        <h3>💡 Fitur mana yang paling berguna?</h3>
+        <div class="option-grid">
+          <button type="button" class="option-btn" data-group="fitur">📋 Layanan & Surat</button>
+          <button type="button" class="option-btn" data-group="fitur">🗺️ Peta Wilayah</button>
+          <button type="button" class="option-btn" data-group="fitur">💬 AI Chatbot</button>
+          <button type="button" class="option-btn" data-group="fitur">🍜 Info Warga</button>
+        </div>
+      </div>
+
+      <!-- Akses Info -->
+      <div class="survey-card">
+        <h3>📱 Apakah PRIMA membantu Anda mendapat info layanan di luar jam kerja?</h3>
+        <div class="option-grid">
+          <button type="button" class="option-btn" data-group="akses">✅ Ya, sangat membantu</button>
+          <button type="button" class="option-btn" data-group="akses">🙂 Cukup membantu</button>
+          <button type="button" class="option-btn" data-group="akses">😐 Biasa saja</button>
+          <button type="button" class="option-btn" data-group="akses">❌ Belum membantu</button>
+        </div>
+      </div>
+
+      <!-- Masukan -->
+      <div class="survey-card">
+        <h3>💬 Masukan & Saran Konten</h3>
+        <div class="form-group">
+          <label for="masukan-text">Ada informasi yang kurang atau perlu diperbaiki?</label>
+          <textarea id="masukan-text" placeholder="Contoh: Tolong tambahkan info syarat surat nikah…" rows="3"></textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="form-group" style="margin-bottom:0">
+            <label for="nama-warga">Nama (opsional)</label>
+            <input type="text" id="nama-warga" placeholder="Nama Anda">
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label for="rt-warga">RT/RW</label>
+            <input type="text" id="rt-warga" placeholder="Contoh: RT 02/RW 05">
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">✉️ Kirim Masukan Saya</button>
+      <p style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:10px">
+        Masukan Anda bersifat anonim dan hanya digunakan untuk pengembangan PRIMA.
+      </p>
+
+    </form>
+  </div>
+</main>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: ADMIN
+═══════════════════════════════════════════ -->
+<main id="page-admin" class="page">
+  <div class="section-header">
+    <h2>🔧 Panel Admin PRIMA</h2>
+    <p>Kelola konten dan pantau statistik penggunaan</p>
+  </div>
+
+  <div class="admin-page">
+    <!-- Login -->
+    <div id="admin-login-section">
+      <div class="admin-login">
+        <div class="admin-icon">🔐</div>
+        <h3>Login Admin</h3>
+        <p>Masukkan password untuk mengakses panel pengelola konten PRIMA</p>
+        <form id="admin-login-form">
+          <div class="form-group" style="margin-bottom:12px;text-align:left">
+            <label>Password Admin</label>
+            <input type="password" id="admin-password" placeholder="Masukkan password…" required>
+          </div>
+          <button type="submit" class="submit-btn">🔓 Masuk ke Panel Admin</button>
+        </form>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:12px">Password default: <code>prima2026</code><br>Hubungi pengelola IT untuk reset password.</p>
+      </div>
+    </div>
+
+    <!-- Panel -->
+    <div id="admin-panel-section" style="display:none">
+
+      <!-- Stats Cards -->
+      <div class="admin-stats">
+        <div class="admin-stat-card">
+          <div class="astat-num" id="admin-stat-percakapan">0</div>
+          <div class="astat-label">💬 Total Percakapan</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="astat-num" id="admin-stat-feedback">0</div>
+          <div class="astat-label">✏️ Total Feedback</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="astat-num" id="admin-stat-rating">-</div>
+          <div class="astat-label">⭐ Rata-rata Rating</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="astat-num" id="admin-stat-kepuasan">0%</div>
+          <div class="astat-label">😊 Tingkat Kepuasan</div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="admin-action-list">
+        <div class="admin-action" onclick="updateAdminStats(); showAdminFeedback()">
+          <span class="aa-icon">📊</span>
+          <div>
+            <h4>Lihat Feedback Warga</h4>
+            <p>Review masukan dan saran dari warga</p>
+          </div>
+          <span class="aa-arrow">›</span>
+        </div>
+        <div class="admin-action" onclick="exportData()">
+          <span class="aa-icon">📥</span>
+          <div>
+            <h4>Ekspor Data</h4>
+            <p>Download data feedback & percakapan (.json)</p>
+          </div>
+          <span class="aa-arrow">›</span>
+        </div>
+        <div class="admin-action" onclick="showQRCode()">
+          <span class="aa-icon">📱</span>
+          <div>
+            <h4>Generate QR Code</h4>
+            <p>Buat & cetak QR Code untuk papan informasi</p>
+          </div>
+          <span class="aa-arrow">›</span>
+        </div>
+        <div class="admin-action" onclick="clearChatHistory()">
+          <span class="aa-icon">🗑️</span>
+          <div>
+            <h4>Reset Data Percakapan</h4>
+            <p>Hapus riwayat chat dari cache lokal</p>
+          </div>
+          <span class="aa-arrow">›</span>
+        </div>
+      </div>
+
+      <!-- Feedback List -->
+      <div style="margin-top:16px">
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:10px">📝 Feedback Terbaru</h3>
+        <div id="admin-feedback-list"></div>
+      </div>
+
+      <!-- Roadmap -->
+      <div style="margin-top:16px;background:var(--surface);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm);border:1px solid var(--border)">
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:12px">🗺️ Roadmap Implementasi</h3>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="background:var(--accent);color:white;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700;flex-shrink:0">✅ FASE 1</span>
+            <div>
+              <div style="font-size:13px;font-weight:700">Jangka Pendek (0–2 Bln)</div>
+              <div style="font-size:12px;color:var(--text-muted)">PRIMA live via QR, 12 layanan, FAQ chatbot, 5 titik pemasangan QR, pelatihan 2 staf</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="background:var(--primary);color:white;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700;flex-shrink:0">🔄 FASE 2</span>
+            <div>
+              <div style="font-size:13px;font-weight:700">Jangka Menengah (2–4 Bln)</div>
+              <div style="font-size:12px;color:var(--text-muted)">Target 100 percakapan chatbot, kepuasan ≥75%, update konten mingguan, warga manual ≤25%</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="background:var(--warning);color:white;border-radius:4px;padding:2px 8px;font-size:11px;font-weight:700;flex-shrink:0">🎯 FASE 3</span>
+            <div>
+              <div style="font-size:13px;font-weight:700">Jangka Panjang (>4 Bln)</div>
+              <div style="font-size:12px;color:var(--text-muted)">Kunjungan berulang ≤10%, kepuasan ≥85%, kebutuhan luar jam kerja terpenuhi ≥85%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logout -->
+      <button class="submit-btn" style="background:var(--danger);margin-top:16px" onclick="adminLogout()">🚪 Keluar dari Admin</button>
+    </div>
+  </div>
+</main>
+
+
+<!-- ══════════════════════════════════════════
+     BOTTOM NAVIGATION
+═══════════════════════════════════════════ -->
+<nav class="bottom-nav">
+  <span class="nav-indicator" aria-hidden="true"></span>
+  <button class="nav-item active" data-page="home">
+    <span class="nav-icon"><i data-lucide="home"></i></span>
+    <span>Beranda</span>
+  </button>
+  <button class="nav-item" data-page="layanan">
+    <span class="nav-icon"><i data-lucide="file-text"></i></span>
+    <span>Layanan</span>
+  </button>
+  <button class="nav-item" data-page="peta">
+    <span class="nav-icon"><i data-lucide="map"></i></span>
+    <span>Peta</span>
+  </button>
+  <button class="nav-item" data-page="info">
+    <span class="nav-icon"><i data-lucide="newspaper"></i></span>
+    <span>Info</span>
+  </button>
+  <button class="nav-item" data-page="chat">
+    <span class="nav-icon"><i data-lucide="message-circle"></i></span>
+    <span>Tanya</span>
+  </button>
+</nav>
+
+
+<!-- ══════════════════════════════════════════
+     MODAL OVERLAY (Detail / QR)
+═══════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-sheet" id="modal-body-content"></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════ -->
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<!-- Leaflet.js -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- QRCode.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<!-- App Data -->
+<script src="js/data.js"></script>
+<!-- Chatbot Engine -->
+<script src="js/chatbot.js"></script>
+<!-- Main App -->
+<script src="js/app.js"></script>
+
+<!-- Inline: quick-layanan + admin helpers + PWA SW -->
+<script>
+  // Render 4 quick-access services on Home
+  (function(){
+    const quick = ['SKD','SAW','PENGANTAR-SKCK','SKTM'];
+    const data  = PRIMA_DATA.layanan.filter(l => quick.includes(l.id));
+    const container = document.getElementById('quick-layanan');
+    if(container) {
+      container.innerHTML = data.map(l => `
+        <div class="layanan-card" onclick="showLayananDetail('${l.id}')">
+          <span class="lcard-emoji">${l.emoji}</span>
+          <div class="lcard-body">
+            <h3>${l.nama}</h3>
+            <div class="lcard-meta">
+              <span class="badge badge-blue">${l.kategori}</span>
+              <span class="badge badge-green">⏱ ${l.waktuProses}</span>
+            </div>
+          </div>
+          <span class="lcard-arrow">›</span>
+        </div>
+      `).join('');
+    }
+  })();
+
+  // Admin helpers
+  function clearChatHistory() {
+    if(confirm('Hapus riwayat percakapan lokal?')) {
+      localStorage.removeItem('prima_chat_logs');
+      localStorage.removeItem('prima_chat_stats');
+      showToast('🗑️ Riwayat percakapan dihapus');
+      updateAdminStats();
+    }
+  }
+  function adminLogout() {
+    document.getElementById('admin-login-section').style.display = 'block';
+    document.getElementById('admin-panel-section').style.display = 'none';
+    document.getElementById('admin-password').value = '';
+    showToast('👋 Anda telah keluar dari panel admin');
+  }
+
+  // Initialize Lucide icons + debounced refresh on DOM mutations
+  let _iconTimer = null;
+  function refreshIcons(){ if(window.lucide) lucide.createIcons(); }
+  function scheduleRefresh(){
+    if(_iconTimer) return;
+    _iconTimer = setTimeout(() => { _iconTimer = null; refreshIcons(); }, 60);
+  }
+  window.refreshIcons = refreshIcons;
+  refreshIcons();
+  new MutationObserver(muts => {
+    // Only refresh if any added node contains a data-lucide attr
+    for (const m of muts) {
+      for (const n of m.addedNodes) {
+        if (n.nodeType === 1 && (n.matches?.('[data-lucide]') || n.querySelector?.('[data-lucide]'))) {
+          scheduleRefresh();
+          return;
+        }
+      }
+    }
+  }).observe(document.body, { childList:true, subtree:true });
+
+  // Animated bottom-nav indicator
+  (function(){
+    const nav = document.querySelector('.bottom-nav');
+    if(!nav) return;
+    const ind = nav.querySelector('.nav-indicator');
+    function move(el){
+      if(!el || !ind) return;
+      const r = el.getBoundingClientRect();
+      const nr = nav.getBoundingClientRect();
+      ind.style.width = r.width + 'px';
+      ind.style.transform = `translateX(${r.left - nr.left}px)`;
+    }
+    nav.addEventListener('click', e => {
+      const btn = e.target.closest('.nav-item');
+      if(btn) requestAnimationFrame(() => move(btn));
+    });
+    window.addEventListener('load', () => move(nav.querySelector('.nav-item.active')));
+    window.addEventListener('resize', () => move(nav.querySelector('.nav-item.active')));
+  })();
+
+  // Register Service Worker for PWA
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+</script>
+
+</body>
+</html>

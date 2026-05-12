@@ -1,0 +1,802 @@
+// ================================================================
+// PRIMA - DATA MASTER
+// Kelurahan Rawajati, Kec. Pancoran, Jakarta Selatan
+// ================================================================
+
+const PRIMA_DATA = {
+
+  // ── META ──────────────────────────────────────────────────────
+  meta: {
+    kelurahan  : "Rawajati",
+    kecamatan  : "Pancoran",
+    kota       : "Jakarta Selatan",
+    provinsi   : "DKI Jakarta",
+    alamat     : "Jl. Rawajati Timur No.1, Rawajati, Pancoran, Jakarta Selatan 12750",
+    telepon    : "(021) 7994427",
+    email      : "kel.rawajati@jakarta.go.id",
+    jamKerja   : "Senin–Jumat, 08.00–16.00 WIB",
+    koordinat  : { lat: -6.2605, lng: 106.8490 },
+    versi      : "1.0.0",
+    terakhirUpdate: "Mei 2026"
+  },
+
+  // ── LAYANAN & SURAT ───────────────────────────────────────────
+  layanan: [
+    {
+      id: "SKD",
+      nama: "Surat Keterangan Domisili",
+      emoji: "🏠",
+      kategori: "Kependudukan",
+      deskripsi: "Surat yang menyatakan bahwa seseorang berdomisili di wilayah Kelurahan Rawajati.",
+      waktuProses: "1 hari kerja",
+      biaya: "Gratis",
+      syarat: [
+        "Fotokopi KTP (1 lembar)",
+        "Fotokopi Kartu Keluarga (1 lembar)",
+        "Surat Pengantar RT/RW",
+        "Pas foto 3×4 (2 lembar)",
+        "Formulir permohonan (tersedia di loket)"
+      ],
+      prosedur: [
+        "Ambil surat pengantar di RT setempat",
+        "Bawa ke Sekretariat RW untuk ditandatangani Ketua RW",
+        "Datang ke loket Kelurahan dengan membawa semua berkas",
+        "Isi formulir permohonan di loket",
+        "Tunggu proses verifikasi (±30 menit)",
+        "Surat siap diambil / dicetak"
+      ],
+      dokumenUnduh: [
+        { nama: "Formulir Permohonan SKD", url: "#form-skd" },
+        { nama: "Contoh Surat Keterangan Domisili", url: "#contoh-skd" }
+      ],
+      tags: ["domisili", "keterangan tempat tinggal", "alamat", "surat domisili"]
+    },
+    {
+      id: "SAW",
+      nama: "Surat Ahli Waris",
+      emoji: "⚖️",
+      kategori: "Hukum & Keluarga",
+      deskripsi: "Surat keterangan yang menjelaskan siapa saja ahli waris yang sah dari almarhum/almarhumah.",
+      waktuProses: "2–3 hari kerja",
+      biaya: "Gratis",
+      syarat: [
+        "Fotokopi KTP pemohon (1 lembar)",
+        "Fotokopi KTP seluruh ahli waris (1 lembar masing-masing)",
+        "Fotokopi Kartu Keluarga (1 lembar)",
+        "Fotokopi Akta Kematian (1 lembar)",
+        "Fotokopi Akta Nikah / Buku Nikah almarhum (bila ada)",
+        "Fotokopi Akta Kelahiran seluruh ahli waris",
+        "Surat Pengantar RT/RW",
+        "Surat Pernyataan Ahli Waris bermaterai (contoh dapat diunduh)"
+      ],
+      prosedur: [
+        "Siapkan seluruh dokumen persyaratan",
+        "Minta surat pengantar ke RT → RW",
+        "Datang ke loket Kelurahan",
+        "Isi formulir & serahkan berkas",
+        "Verifikasi oleh petugas (1–2 hari kerja)",
+        "Penandatanganan oleh Lurah",
+        "Surat siap diambil"
+      ],
+      dokumenUnduh: [
+        { nama: "Surat Pernyataan Ahli Waris (template)", url: "#form-saw" },
+        { nama: "Formulir Permohonan Surat Ahli Waris", url: "#form-saw2" }
+      ],
+      tags: ["ahli waris", "waris", "warisan", "kematian", "pewaris"]
+    },
+    {
+      id: "PM1-PBB",
+      nama: "PM-1 Pecah PBB",
+      emoji: "🏗️",
+      kategori: "Pertanahan & Properti",
+      deskripsi: "Surat pengantar untuk pemecahan Pajak Bumi dan Bangunan (PBB) atas nama yang baru.",
+      waktuProses: "1–2 hari kerja",
+      biaya: "Gratis",
+      syarat: [
+        "Fotokopi KTP pemohon (1 lembar)",
+        "Fotokopi Kartu Keluarga (1 lembar)",
+        "Fotokopi SPPT PBB tahun berjalan",
+        "Fotokopi sertifikat tanah / bukti kepemilikan",
+        "Akta jual beli / hibah / waris (sesuai dasar pemecahan)",
+        "Surat Pengantar RT/RW",
+        "Denah/sketsa lokasi tanah"
+      ],
+      prosedur: [
+        "Lengkapi seluruh dokumen persyaratan",
+        "Minta surat pengantar RT → RW",
+        "Datang ke loket Kelurahan",
+        "Petugas verifikasi dokumen",
+        "Proses penerbitan surat pengantar PM-1",
+        "Bawa PM-1 ke Kantor Kecamatan / BPRD untuk proses lanjutan"
+      ],
+      dokumenUnduh: [
+        { nama: "Formulir Permohonan PM-1 Pecah PBB", url: "#form-pm1-pbb" }
+      ],
+      tags: ["pbb", "pecah pbb", "pajak bumi bangunan", "pm1", "pm-1"]
+    },
+    {
+      id: "PM1-OrangSama",
+      nama: "PM-1 Keterangan Orang Sama",
+      emoji: "👤",
+      kategori: "Identitas",
+      deskripsi: "Surat pengantar yang menerangkan bahwa seseorang dengan nama berbeda di beberapa dokumen adalah orang yang sama.",
+      waktuProses: "1 hari kerja",
+      biaya: "Gratis",
+      syarat: [
+        "Fotokopi KTP (1 lembar)",
+        "Fotokopi Kartu Keluarga (1 lembar)",
+        "Dokumen-dokumen yang mengandung perbedaan nama (fotokopi)",
+        "Surat Pengantar RT/RW",
+        "Surat Pernyataan bermaterai bahwa orang tersebut adalah orang yang sama"
+      ],
+      prosedur: [
+        "Siapkan semua dokumen dengan perbedaan nama",
+        "Buat surat pernyataan bermaterai",
+        "Minta pengantar RT → RW",
+        "Datang ke loket Kelurahan",
+        "Verifikasi petugas",
+        "Surat diterbitkan dan ditandatangani Lurah"
+      ],
+      dokumenUnduh: [
+        { nama: "Surat Pernyataan Orang Sama (template)", url: "#form-orangsama" },
+        { nama: "Formulir Permohonan PM-1 Orang Sama", url: "#form-pm1-os" }
+      ],
+      tags: ["orang sama", "keterangan orang sama", "pm1", "perbedaan nama", "nama berbeda"]
+    },
+    {
+      id: "SKTM",
+      nama: "Surat Keterangan Tidak Mampu (SKTM)",
+      emoji: "📄",
+      kategori: "Sosial",
+      deskripsi: "Surat yang menerangkan bahwa seseorang termasuk dalam kategori kurang mampu secara ekonomi.",
+      waktuProses: "1 hari kerja",
+      biaya: "Gratis",
+      syarat: [
+        "Fotokopi KTP (1 lembar)",
+        "Fotokopi Kartu Keluarga (1 lembar)",
+        "Surat Pengantar RT/RW",
+        "Surat keterangan dari Ketua RT bahwa pemohon layak mendapat SKTM",
+        "Keterangan kebutuhan (untuk pendidikan / kesehatan / lainnya)"
+      ],
+      prosedur: [
+        "Koordinasikan dengan Ketua RT setempat",
+        "Minta surat pengantar RT → RW",
+        "Datang ke loket Kelurahan",
+        "Serahkan berkas dan jelaskan keperluan",
+        "Verifikasi dan proses oleh petugas",
+        "Surat diterbitkan hari yang sama"
+      ],
+      dokumenUnduh: [
+        { nama: "Formulir SKTM", url: "#form-sktm" }
+      ],
+      tags: ["tidak mampu", "miskin", "sktm", "beasiswa", "kurang mampu", "keringanan"]
+    },
+    {
+      id: "SKU",
+      nama: "Surat Keterangan Usaha (SKU)",
+      emoji: "🏪",
+      kategori: "Usaha & Ekonomi",
+      deskripsi: "Surat yang menerangkan bahwa seseorang memiliki usaha di wilayah Kelurahan Rawajati.",
+      waktuProses: "1 hari kerja",
+      biaya: "Gratis",
+      syarat: [
+        "Fotokopi KTP (1 lembar)",
+        "Fotokopi Kartu Keluarga (1 lembar)",
+        "Surat Pengantar RT/RW",
+        "Foto tempat usaha (minimal 2 foto)",
+        "Isi formulir permohonan"
+      ],
+      prosedur: [
+        "Siapkan foto usaha dan dokumen",
+        "Minta pengantar RT → RW",
+        "Datang ke loket Kelurahan",
+        "Isi formulir dan serahkan berkas",
+        "Petugas memverifikasi",
+        "SKU diterbitkan dan ditandatangani Lurah"
+      ],
+      dokumenUnduh: [
+        { nama: "Formulir Permohonan SKU", url: "#form-sku" }
+      ],
+      tags: ["usaha", "sku", "keterangan usaha", "umkm", "bisnis", "dagang"]
+    },
+    {
+      id: "PENGANTAR-KTP",
+      nama: "Surat Pengantar Pembuatan/Perubahan KTP & KK",
+      emoji: "🪪",
+      kategori: "Kependudukan",
+      deskripsi: "Surat pengantar dari Kelurahan untuk pembuatan, perpanjangan, atau perubahan data KTP dan Kartu Keluarga.",
+      waktuProses: "1 hari kerja (surat pengantar)",
+      biaya: "Gratis",
+      syarat: [
+        "Fotokopi KTP lama (jika ada)",
+        "Fotokopi Kartu Keluarga",
+        "Surat Pengantar RT/RW",
+        "Akta Kelahiran (untuk pembuatan pertama)",
+        "Dokumen pendukung perubahan data (jika ada)"
+      ],
+      prosedur: [
+        "Minta surat pengantar RT → RW",
+        "Datang ke loket Kelurahan",
+        "Serahkan berkas",
+        "Terima surat pengantar dari Kelurahan",
+        "Bawa ke Kantor Dukcapil Jakarta Selatan"
+      ],
+      dokumenUnduh: [
+        { nama: "Formulir Perubahan Data KTP/KK", url: "#form-ktp" }
+      ],
+      tags: ["ktp", "kk", "kartu keluarga", "dukcapil", "pengantar ktp", "perubahan data"]
+    },
+    {
+      id: "PENGANTAR-SKCK",
+      nama: "Surat Pengantar SKCK",
+      emoji: "🔏",
+      kategori: "Kepolisian",
+      deskripsi: "Surat pengantar dari Kelurahan untuk pengurusan Surat Keterangan Catatan Kepolisian (SKCK).",
+      waktuProses: "1 hari kerja",
+      biaya: "Gratis",
+      syarat: [
+        "Fotokopi KTP (1 lembar)",
+        "Fotokopi Kartu Keluarga (1 lembar)",
+        "Surat Pengantar RT/RW",
+        "Pas foto terbaru 4×6 (4 lembar, background merah)",
+        "Keterangan keperluan SKCK"
+      ],
+      prosedur: [
+        "Minta surat pengantar RT → RW",
+        "Datang ke loket Kelurahan",
+        "Serahkan berkas dan isi formulir",
+        "Terima surat pengantar dari Kelurahan",
+        "Bawa ke Polsek / Polres setempat untuk penerbitan SKCK"
+      ],
+      dokumenUnduh: [
+        { nama: "Formulir Permohonan Pengantar SKCK", url: "#form-skck" }
+      ],
+      tags: ["skck", "catatan kepolisian", "polisi", "keterangan baik", "pengantar skck"]
+    },
+    {
+      id: "SK-LAHIR",
+      nama: "Surat Keterangan Lahir",
+      emoji: "👶",
+      kategori: "Kependudukan",
+      deskripsi: "Surat keterangan kelahiran sebagai dokumen awal sebelum pembuatan Akta Kelahiran di Dukcapil.",
+      waktuProses: "1 hari kerja",
+      biaya: "Gratis",
+      syarat: [
+        "Surat keterangan lahir dari Rumah Sakit / Bidan / Puskesmas",
+        "Fotokopi KTP kedua orang tua",
+        "Fotokopi Kartu Keluarga",
+        "Fotokopi Buku Nikah / Akta Perkawinan orang tua",
+        "Surat Pengantar RT/RW"
+      ],
+      prosedur: [
+        "Siapkan surat keterangan dari fasilitas kesehatan",
+        "Minta pengantar RT → RW",
+        "Datang ke loket Kelurahan",
+        "Serahkan berkas",
+        "Surat keterangan kelahiran diterbitkan",
+        "Gunakan untuk pengurusan Akta Kelahiran di Dukcapil"
+      ],
+      dokumenUnduh: [
+        { nama: "Formulir Surat Keterangan Lahir", url: "#form-lahir" }
+      ],
+      tags: ["lahir", "kelahiran", "akta lahir", "bayi", "anak baru lahir"]
+    },
+    {
+      id: "SK-MATI",
+      nama: "Surat Keterangan Kematian",
+      emoji: "🕯️",
+      kategori: "Kependudukan",
+      deskripsi: "Surat keterangan kematian yang diterbitkan oleh Kelurahan berdasarkan laporan keluarga.",
+      waktuProses: "1 hari kerja",
+      biaya: "Gratis",
+      syarat: [
+        "Surat keterangan kematian dari Dokter / Rumah Sakit / Puskesmas",
+        "Fotokopi KTP almarhum/almarhumah",
+        "Fotokopi Kartu Keluarga",
+        "Fotokopi KTP pemohon (keluarga)",
+        "Surat Pengantar RT/RW"
+      ],
+      prosedur: [
+        "Siapkan surat keterangan dari fasilitas kesehatan / dokter",
+        "Minta pengantar RT → RW",
+        "Datang ke loket Kelurahan",
+        "Serahkan berkas",
+        "Surat kematian diterbitkan",
+        "Lanjutkan ke Dukcapil untuk Akta Kematian"
+      ],
+      dokumenUnduh: [
+        { nama: "Formulir Surat Keterangan Kematian", url: "#form-mati" }
+      ],
+      tags: ["kematian", "meninggal", "akta kematian", "almarhum", "almarhumah"]
+    },
+    {
+      id: "LEGALISIR",
+      nama: "Legalisir Dokumen",
+      emoji: "🖊️",
+      kategori: "Umum",
+      deskripsi: "Pengesahan fotokopi dokumen kependudukan oleh Lurah sebagai tanda keaslian.",
+      waktuProses: "1 hari kerja",
+      biaya: "Gratis",
+      syarat: [
+        "Dokumen asli yang akan dilegalisir",
+        "Fotokopi dokumen yang akan dilegalisir (sesuai kebutuhan)",
+        "Fotokopi KTP pemohon",
+        "Surat Pengantar RT/RW (jika diperlukan)"
+      ],
+      prosedur: [
+        "Bawa dokumen asli dan fotokopinya ke loket Kelurahan",
+        "Tunjukkan dokumen asli kepada petugas",
+        "Petugas memverifikasi keaslian",
+        "Dokumen distempel dan ditandatangani Lurah",
+        "Dokumen legalisir siap"
+      ],
+      dokumenUnduh: [],
+      tags: ["legalisir", "cap kelurahan", "pengesahan", "fotokopi", "stempel"]
+    },
+    {
+      id: "SK-PINDAH",
+      nama: "Surat Keterangan Pindah",
+      emoji: "🚚",
+      kategori: "Kependudukan",
+      deskripsi: "Surat keterangan untuk proses kepindahan domisili dari Kelurahan Rawajati ke wilayah lain.",
+      waktuProses: "1–2 hari kerja",
+      biaya: "Gratis",
+      syarat: [
+        "Fotokopi KTP (1 lembar)",
+        "Fotokopi Kartu Keluarga (1 lembar)",
+        "Surat Pengantar RT/RW",
+        "Keterangan alamat tujuan pindah",
+        "Formulir permohonan pindah"
+      ],
+      prosedur: [
+        "Beritahu RT/RW mengenai rencana pindah",
+        "Minta surat pengantar RT → RW",
+        "Datang ke loket Kelurahan dengan berkas lengkap",
+        "Verifikasi petugas",
+        "Terima Surat Keterangan Pindah",
+        "Bawa ke Dukcapil untuk proses lanjutan"
+      ],
+      dokumenUnduh: [
+        { nama: "Formulir Permohonan Pindah", url: "#form-pindah" }
+      ],
+      tags: ["pindah", "pindah domisili", "pindah alamat", "keterangan pindah"]
+    }
+  ],
+
+  // ── PETA WILAYAH ──────────────────────────────────────────────
+  petaMarkers: [
+    {
+      id: "kelurahan",
+      nama: "Kantor Kelurahan Rawajati",
+      kategori: "Pemerintahan",
+      icon: "🏛️",
+      warna: "#1565C0",
+      lat: -6.2605, lng: 106.8490,
+      info: "Kantor Kelurahan Rawajati – Pusat pelayanan administrasi warga. Jam: Senin–Jumat 08.00–16.00 WIB. Telp: (021) 7994427"
+    },
+    {
+      id: "bank-sampah-1",
+      nama: "Bank Sampah Rawajati Indah",
+      kategori: "Lingkungan",
+      icon: "♻️",
+      warna: "#2E7D32",
+      lat: -6.2590, lng: 106.8472,
+      info: "Bank Sampah aktif untuk warga RW 03–05. Buka setiap Sabtu 08.00–11.00 WIB. Hubungi: Pak Budi (081xxxxxxxxx)"
+    },
+    {
+      id: "bank-sampah-2",
+      nama: "Bank Sampah Berkah Rawajati",
+      kategori: "Lingkungan",
+      icon: "♻️",
+      warna: "#2E7D32",
+      lat: -6.2625, lng: 106.8510,
+      info: "Bank Sampah RW 07–09. Buka Minggu 07.00–10.00 WIB. Menerima: plastik, kertas, botol, logam."
+    },
+    {
+      id: "lokbin-1",
+      nama: "Lokbin KUKM Rawajati",
+      kategori: "Ekonomi",
+      icon: "🏪",
+      warna: "#E65100",
+      lat: -6.2612, lng: 106.8478,
+      info: "Lokasi Binaan KUKM – Tempat usaha binaan warga Rawajati. ±20 lapak UMKM aktif. Buka setiap hari 08.00–21.00 WIB."
+    },
+    {
+      id: "rw01",
+      nama: "Sekretariat RW 01",
+      kategori: "RW",
+      icon: "🏘️",
+      warna: "#6A1B9A",
+      lat: -6.2580, lng: 106.8465,
+      info: "Sekretariat RW 01 Rawajati. Ketua: Bp. Ahmad. Untuk urusan pengantar surat RT/RW."
+    },
+    {
+      id: "rw02",
+      nama: "Sekretariat RW 02",
+      kategori: "RW",
+      icon: "🏘️",
+      warna: "#6A1B9A",
+      lat: -6.2595, lng: 106.8458,
+      info: "Sekretariat RW 02 Rawajati. Ketua: Bp. Hendra."
+    },
+    {
+      id: "rw03",
+      nama: "Sekretariat RW 03",
+      kategori: "RW",
+      icon: "🏘️",
+      warna: "#6A1B9A",
+      lat: -6.2610, lng: 106.8502,
+      info: "Sekretariat RW 03 Rawajati. Ketua: Ibu Sari."
+    },
+    {
+      id: "rw04",
+      nama: "Sekretariat RW 04",
+      kategori: "RW",
+      icon: "🏘️",
+      warna: "#6A1B9A",
+      lat: -6.2622, lng: 106.8488,
+      info: "Sekretariat RW 04 Rawajati. Ketua: Bp. Dodi."
+    },
+    {
+      id: "rw05",
+      nama: "Sekretariat RW 05",
+      kategori: "RW",
+      icon: "🏘️",
+      warna: "#6A1B9A",
+      lat: -6.2635, lng: 106.8472,
+      info: "Sekretariat RW 05 Rawajati. Ketua: Bp. Faisal."
+    },
+    {
+      id: "masjid-1",
+      nama: "Masjid Al-Hikmah Rawajati",
+      kategori: "Ibadah",
+      icon: "🕌",
+      warna: "#00695C",
+      lat: -6.2598, lng: 106.8482,
+      info: "Masjid Al-Hikmah – Masjid utama RW 01–02. Kegiatan: Sholat 5 waktu, Jumat, pengajian rutin Rabu malam."
+    },
+    {
+      id: "masjid-2",
+      nama: "Masjid Al-Ikhlas",
+      kategori: "Ibadah",
+      icon: "🕌",
+      warna: "#00695C",
+      lat: -6.2628, lng: 106.8495,
+      info: "Masjid Al-Ikhlas – Melayani warga RW 04–06. Kegiatan TPA setiap hari 16.00–17.30 WIB."
+    },
+    {
+      id: "masjid-3",
+      nama: "Masjid Ar-Rahman",
+      kategori: "Ibadah",
+      icon: "🕌",
+      warna: "#00695C",
+      lat: -6.2642, lng: 106.8508,
+      info: "Masjid Ar-Rahman – RW 07–09. Pengajian ibu-ibu setiap Kamis pagi."
+    },
+    {
+      id: "musholla-1",
+      nama: "Musholla Al-Barokah",
+      kategori: "Ibadah",
+      icon: "🕌",
+      warna: "#80CBC4",
+      lat: -6.2582, lng: 106.8476,
+      info: "Musholla Al-Barokah – RW 01. Tersedia untuk sholat berjamaah dan kegiatan warga."
+    },
+    {
+      id: "musholla-2",
+      nama: "Musholla Nurul Iman",
+      kategori: "Ibadah",
+      icon: "🕌",
+      warna: "#80CBC4",
+      lat: -6.2618, lng: 106.8469,
+      info: "Musholla Nurul Iman – RW 03. Kegiatan majelis taklim setiap Selasa."
+    },
+    {
+      id: "lapangan-1",
+      nama: "Lapangan Olahraga RW 02",
+      kategori: "Fasilitas Umum",
+      icon: "⚽",
+      warna: "#F57F17",
+      lat: -6.2602, lng: 106.8462,
+      info: "Lapangan serbaguna – Futsal, badminton, senam pagi. Buka 06.00–21.00 WIB."
+    },
+    {
+      id: "lapangan-2",
+      nama: "Lapangan Olahraga RW 06",
+      kategori: "Fasilitas Umum",
+      icon: "⚽",
+      warna: "#F57F17",
+      lat: -6.2638, lng: 106.8483,
+      info: "Lapangan RW 06 – Kegiatan senam pagi ibu PKK setiap Minggu 06.30 WIB."
+    },
+    {
+      id: "rawan-banjir-1",
+      nama: "⚠️ Zona Rawan Banjir – Kali Ciliwung",
+      kategori: "Peringatan",
+      icon: "🌊",
+      warna: "#C62828",
+      lat: -6.2648, lng: 106.8515,
+      info: "⚠️ ZONA RAWAN BANJIR – Area dekat Kali Ciliwung. Waspada saat curah hujan tinggi. Siaga BPBD DKI: 112."
+    },
+    {
+      id: "rawan-banjir-2",
+      nama: "⚠️ Zona Rawan Banjir – RW 08",
+      kategori: "Peringatan",
+      icon: "🌊",
+      warna: "#C62828",
+      lat: -6.2655, lng: 106.8496,
+      info: "⚠️ ZONA RAWAN BANJIR – Titik genangan RW 08. Kedalaman bisa mencapai 80cm saat banjir besar. Siaga: 112."
+    },
+    {
+      id: "kawasan-penataan",
+      nama: "Kawasan Penataan Lingkungan",
+      kategori: "Pembangunan",
+      icon: "🏗️",
+      warna: "#546E7A",
+      lat: -6.2617, lng: 106.8522,
+      info: "Kawasan penataan lingkungan – Program revitalisasi area permukiman. Target selesai: Desember 2026."
+    },
+    {
+      id: "puskesmas",
+      nama: "Puskesmas Rawajati",
+      kategori: "Kesehatan",
+      icon: "🏥",
+      warna: "#D32F2F",
+      lat: -6.2608, lng: 106.8455,
+      info: "Puskesmas Rawajati – Layanan kesehatan dasar. Jam: Senin–Jumat 07.30–15.30, Sabtu 07.30–12.00 WIB. Telp: (021) 7989xxx"
+    }
+  ],
+
+  // ── INFO WARGA ────────────────────────────────────────────────
+  infoWarga: {
+    kuliner: [
+      {
+        id: "k1",
+        nama: "Warung Soto Pak Manto",
+        emoji: "🍜",
+        deskripsi: "Soto Betawi khas Rawajati, sudah berjualan 20+ tahun. Favorit warga sejak 2003!",
+        lokasi: "Jl. Rawajati Timur No.12 (depan RW 02)",
+        jam: "06.00–14.00 WIB",
+        telepon: "081xxxxxxx1",
+        favorit: "Soto Betawi Spesial, Es Jeruk Peras",
+        tags: ["soto", "betawi", "sarapan", "kuliner"]
+      },
+      {
+        id: "k2",
+        nama: "Nasi Uduk Bu Ati",
+        emoji: "🍚",
+        deskripsi: "Nasi uduk legendaris dengan lauk komplit. Antrean panjang pertanda enak!",
+        lokasi: "Gang Rawajati Barat No.5 (RW 01)",
+        jam: "05.30–09.00 WIB (habis sebelum waktunya!)",
+        telepon: "081xxxxxxx2",
+        favorit: "Nasi Uduk Komplit, Semur Jengkol",
+        tags: ["nasi uduk", "sarapan", "pagi", "kuliner"]
+      },
+      {
+        id: "k3",
+        nama: "Bakso & Mie Ayam Mas Bowo",
+        emoji: "🍱",
+        deskripsi: "Bakso jumbo dan mie ayam dengan kuah kaldu sapi asli. Buka siang–malam.",
+        lokasi: "Lokbin KUKM Rawajati",
+        jam: "11.00–21.00 WIB",
+        telepon: "081xxxxxxx3",
+        favorit: "Bakso Urat Jumbo, Mie Ayam Ceker",
+        tags: ["bakso", "mie ayam", "makan siang", "kuliner"]
+      },
+      {
+        id: "k4",
+        nama: "Es Teh Tarik Pak Dadang",
+        emoji: "🧋",
+        deskripsi: "Minuman segar khas, teh tarik dan jus buah. Ngobrol sambil ngopi di sini!",
+        lokasi: "Pintu masuk Lokbin RW 04",
+        jam: "07.00–22.00 WIB",
+        telepon: "081xxxxxxx4",
+        favorit: "Teh Tarik Spesial, Jus Alpukat Kocok",
+        tags: ["minuman", "teh", "jus", "kuliner"]
+      },
+      {
+        id: "k5",
+        nama: "Warung Padang Bu Minah",
+        emoji: "🍛",
+        deskripsi: "Masakan Padang rumahan dengan cita rasa autentik. Rendang dan gulai jadi andalan.",
+        lokasi: "Jl. Rawajati Selatan No.8 (RW 05)",
+        jam: "10.00–20.00 WIB",
+        telepon: "081xxxxxxx5",
+        favorit: "Rendang Daging, Gulai Nangka",
+        tags: ["padang", "rendang", "gulai", "makan siang", "kuliner"]
+      }
+    ],
+    usahaBinaan: [
+      {
+        id: "u1",
+        nama: "Kerajinan Anyaman Bu Siti",
+        emoji: "🧺",
+        kategori: "Kerajinan Tangan",
+        deskripsi: "Usaha anyaman bambu dan rotan – tas, tempat buah, hiasan dinding. Bisa custom order.",
+        pemilik: "Siti Rahayu",
+        lokasi: "Lokbin KUKM, Lapak 03",
+        kontak: "081xxxxxxx6",
+        binaan: "KUKM Kelurahan Rawajati"
+      },
+      {
+        id: "u2",
+        nama: "Jahit & Konveksi Pak Rahmat",
+        emoji: "🧵",
+        kategori: "Konveksi",
+        deskripsi: "Jasa jahit pakaian, seragam sekolah, batik, dan konveksi kecil. Harga terjangkau.",
+        pemilik: "Rahmat Hidayat",
+        lokasi: "Jl. Rawajati Barat No.22 (RW 03)",
+        kontak: "081xxxxxxx7",
+        binaan: "KUKM Kelurahan Rawajati"
+      },
+      {
+        id: "u3",
+        nama: "UMKM Olahan Pangan Bu Dewi",
+        emoji: "🍪",
+        kategori: "Makanan Olahan",
+        deskripsi: "Produksi kue kering, keripik singkong, dan snack rumahan bersertifikat P-IRT.",
+        pemilik: "Dewi Lestari",
+        lokasi: "Lokbin KUKM, Lapak 07",
+        kontak: "081xxxxxxx8",
+        binaan: "KUKM Kelurahan Rawajati"
+      },
+      {
+        id: "u4",
+        nama: "Sablon & Percetakan Mas Agus",
+        emoji: "🖨️",
+        kategori: "Percetakan",
+        deskripsi: "Sablon kaos, spanduk, banner, undangan. Harga bersahabat untuk warga Rawajati.",
+        pemilik: "Agus Santoso",
+        lokasi: "Gang Melati No.4 (RW 06)",
+        kontak: "081xxxxxxx9",
+        binaan: "KUKM Kelurahan Rawajati"
+      }
+    ],
+    kegiatanRTRW: [
+      {
+        id: "g1",
+        nama: "Posyandu Balita & Lansia",
+        emoji: "👶👴",
+        jadwal: "Setiap Rabu ke-2, 08.00–11.00 WIB",
+        lokasi: "Balai RW 03 & RW 07",
+        kontak: "Hubungi Kader Posyandu setempat",
+        deskripsi: "Penimbangan, imunisasi, pemberian vitamin, dan cek kesehatan lansia gratis."
+      },
+      {
+        id: "g2",
+        nama: "Kerja Bakti Lingkungan",
+        emoji: "🧹",
+        jadwal: "Minggu ke-1 setiap bulan, 07.00–10.00 WIB",
+        lokasi: "Seluruh RW, Koordinasi RT masing-masing",
+        kontak: "Ketua RT / RW setempat",
+        deskripsi: "Gotong royong bersih-bersih lingkungan, selokan, dan fasilitas umum."
+      },
+      {
+        id: "g3",
+        nama: "Pengajian Ibu-Ibu PKK",
+        emoji: "📖",
+        jadwal: "Setiap Kamis, 09.00–11.00 WIB",
+        lokasi: "Masjid Al-Hikmah & Masjid Ar-Rahman (bergantian)",
+        kontak: "Ibu Ketua PKK RW",
+        deskripsi: "Pengajian rutin, arisan, diskusi program PKK dan kegiatan sosial kemasyarakatan."
+      },
+      {
+        id: "g4",
+        nama: "Senam Pagi Warga",
+        emoji: "🏃",
+        jadwal: "Setiap Minggu, 06.30–08.00 WIB",
+        lokasi: "Lapangan RW 02 & Lapangan RW 06",
+        kontak: "Pelatih Senam: Ibu Rini (081xxxxxxxx)",
+        deskripsi: "Senam aerobik dan poco-poco untuk seluruh warga. Gratis! Bawa minum sendiri."
+      },
+      {
+        id: "g5",
+        nama: "Rapat RT/RW Bulanan",
+        emoji: "🗣️",
+        jadwal: "Minggu ke-3 setiap bulan (malam)",
+        lokasi: "Sekretariat RW masing-masing",
+        kontak: "Ketua RT / RW",
+        deskripsi: "Musyawarah warga, penyampaian informasi kelurahan, dan pembahasan isu lingkungan."
+      }
+    ]
+  },
+
+  // ── FAQ CHATBOT ───────────────────────────────────────────────
+  faqChatbot: [
+    {
+      intent: "jam_kerja",
+      keywords: ["jam", "buka", "tutup", "waktu", "operasional", "kerja", "kantor"],
+      jawaban: "⏰ **Jam Kerja Kelurahan Rawajati:**\n\nSenin – Jumat: **08.00 – 16.00 WIB**\nIstirahat: 12.00 – 13.00 WIB\n\nSabtu, Minggu & Hari Libur: **TUTUP**\n\n💡 *Untuk informasi layanan di luar jam kerja, gunakan PRIMA kapan saja – tersedia 24/7!*"
+    },
+    {
+      intent: "alamat_lokasi",
+      keywords: ["alamat", "lokasi", "dimana", "letak", "kantor kelurahan", "rawajati"],
+      jawaban: "📍 **Kantor Kelurahan Rawajati:**\n\nJl. Rawajati Timur No.1\nRawajati, Pancoran\nJakarta Selatan 12750\n\n📞 Telepon: (021) 7994427\n📧 Email: kel.rawajati@jakarta.go.id\n\n🗺️ Lihat di menu **Peta Wilayah** untuk petunjuk arah!"
+    },
+    {
+      intent: "syarat_domisili",
+      keywords: ["domisili", "keterangan domisili", "surat domisili", "tinggal", "tempat tinggal"],
+      jawaban: "🏠 **Syarat Surat Keterangan Domisili:**\n\n1. ✅ Fotokopi KTP (1 lembar)\n2. ✅ Fotokopi KK (1 lembar)\n3. ✅ Surat Pengantar RT/RW\n4. ✅ Pas foto 3×4 (2 lembar)\n5. ✅ Formulir permohonan (ambil di loket)\n\n⏱️ Waktu: **1 hari kerja**\n💰 Biaya: **GRATIS**\n\n📋 Lihat detail lengkap di menu **Layanan & Surat → Surat Keterangan Domisili**"
+    },
+    {
+      intent: "syarat_ahli_waris",
+      keywords: ["ahli waris", "waris", "warisan", "pewaris"],
+      jawaban: "⚖️ **Syarat Surat Ahli Waris:**\n\n1. ✅ Fotokopi KTP pemohon & semua ahli waris\n2. ✅ Fotokopi KK\n3. ✅ Fotokopi Akta Kematian\n4. ✅ Fotokopi Akta Nikah almarhum\n5. ✅ Fotokopi Akta Kelahiran semua ahli waris\n6. ✅ Surat Pengantar RT/RW\n7. ✅ Surat Pernyataan Ahli Waris bermaterai\n\n⏱️ Waktu: **2–3 hari kerja**\n💰 Biaya: **GRATIS**"
+    },
+    {
+      intent: "syarat_pbb",
+      keywords: ["pbb", "pajak bumi", "bangunan", "pecah pbb", "pm1", "pm-1"],
+      jawaban: "🏗️ **Syarat PM-1 Pecah PBB:**\n\n1. ✅ Fotokopi KTP & KK\n2. ✅ Fotokopi SPPT PBB tahun berjalan\n3. ✅ Fotokopi sertifikat tanah\n4. ✅ Akta jual beli / hibah / waris\n5. ✅ Surat Pengantar RT/RW\n6. ✅ Denah/sketsa lokasi tanah\n\n⏱️ Waktu: **1–2 hari kerja** | 💰 **GRATIS**\n\nSetelah dapat PM-1 dari Kelurahan, bawa ke Kantor Kecamatan atau BPRD Jakarta."
+    },
+    {
+      intent: "syarat_skck",
+      keywords: ["skck", "catatan kepolisian", "keterangan baik", "polisi", "surat kepolisian"],
+      jawaban: "🔏 **Syarat Pengantar SKCK dari Kelurahan:**\n\n1. ✅ Fotokopi KTP & KK\n2. ✅ Surat Pengantar RT/RW\n3. ✅ Pas foto 4×6 background merah (4 lembar)\n\n⏱️ **1 hari kerja** | 💰 **GRATIS** (surat pengantar Kelurahan)\n\nSetelah dapat surat pengantar, bawa ke **Polsek Pancoran** atau **Polres Jakarta Selatan** untuk penerbitan SKCK."
+    },
+    {
+      intent: "syarat_sktm",
+      keywords: ["sktm", "tidak mampu", "miskin", "kurang mampu", "keringanan", "beasiswa"],
+      jawaban: "📄 **Syarat SKTM (Surat Keterangan Tidak Mampu):**\n\n1. ✅ Fotokopi KTP & KK\n2. ✅ Surat Pengantar RT/RW\n3. ✅ Surat dari Ketua RT bahwa layak mendapat SKTM\n4. ✅ Keterangan keperluan (pendidikan/kesehatan/dll)\n\n⏱️ **1 hari kerja** | 💰 **GRATIS**\n\nKoordinasikan dulu dengan Ketua RT sebelum datang ke Kelurahan ya! 🙏"
+    },
+    {
+      intent: "syarat_ktp",
+      keywords: ["ktp", "kartu tanda penduduk", "buat ktp", "ganti ktp", "perpanjang ktp", "kk", "kartu keluarga"],
+      jawaban: "🪪 **Syarat Pengantar KTP/KK dari Kelurahan:**\n\n1. ✅ KTP lama (jika ada)\n2. ✅ Fotokopi KK\n3. ✅ Surat Pengantar RT/RW\n4. ✅ Akta Kelahiran (untuk pembuatan pertama)\n\n⏱️ **1 hari kerja** (surat pengantar Kelurahan)\n\nSetelah itu bawa ke **Kantor Dukcapil Jakarta Selatan** di Jl. Trunojoyo No.1."
+    },
+    {
+      intent: "syarat_lahir",
+      keywords: ["akta lahir", "kelahiran", "bayi", "anak lahir", "baru lahir", "surat lahir"],
+      jawaban: "👶 **Syarat Surat Keterangan Lahir:**\n\n1. ✅ Surat keterangan lahir dari RS/Bidan/Puskesmas\n2. ✅ Fotokopi KTP kedua orang tua\n3. ✅ Fotokopi KK\n4. ✅ Fotokopi Buku Nikah orang tua\n5. ✅ Surat Pengantar RT/RW\n\n⏱️ **1 hari kerja** | 💰 **GRATIS**\n\nSetelah dapat surat dari Kelurahan, urus Akta Kelahiran di Dukcapil."
+    },
+    {
+      intent: "syarat_kematian",
+      keywords: ["kematian", "meninggal", "almarhum", "almarhumah", "akta mati"],
+      jawaban: "🕯️ **Syarat Surat Keterangan Kematian:**\n\n1. ✅ Surat keterangan dari dokter/RS/Puskesmas\n2. ✅ Fotokopi KTP almarhum\n3. ✅ Fotokopi KK\n4. ✅ Fotokopi KTP pemohon (keluarga)\n5. ✅ Surat Pengantar RT/RW\n\n⏱️ **1 hari kerja** | 💰 **GRATIS**\n\nInnalillahi... Semoga diberikan ketabahan. 🙏"
+    },
+    {
+      intent: "syarat_sku",
+      keywords: ["sku", "surat usaha", "keterangan usaha", "umkm", "bisnis", "buka usaha"],
+      jawaban: "🏪 **Syarat Surat Keterangan Usaha (SKU):**\n\n1. ✅ Fotokopi KTP & KK\n2. ✅ Surat Pengantar RT/RW\n3. ✅ Foto tempat usaha (minimal 2 foto)\n4. ✅ Formulir permohonan\n\n⏱️ **1 hari kerja** | 💰 **GRATIS**"
+    },
+    {
+      intent: "legalisir",
+      keywords: ["legalisir", "cap", "stempel", "pengesahan", "fotokopi"],
+      jawaban: "🖊️ **Legalisir Dokumen di Kelurahan:**\n\n1. ✅ Bawa dokumen ASLI\n2. ✅ Fotokopi dokumen (sesuai kebutuhan)\n3. ✅ Fotokopi KTP\n\n⏱️ **1 hari kerja** | 💰 **GRATIS**\n\n💡 *Jangan lupa bawa dokumen aslinya ya, untuk verifikasi oleh petugas!*"
+    },
+    {
+      intent: "bank_sampah",
+      keywords: ["bank sampah", "sampah", "daur ulang", "recycle", "sampah plastik"],
+      jawaban: "♻️ **Bank Sampah di Rawajati:**\n\n🏠 **Bank Sampah Rawajati Indah** (RW 03–05)\n📅 Sabtu, 08.00–11.00 WIB\n\n🏠 **Bank Sampah Berkah Rawajati** (RW 07–09)\n📅 Minggu, 07.00–10.00 WIB\n\nMenerima: plastik, kertas, botol, logam\n\n🗺️ Lihat lokasi tepat di menu **Peta Wilayah**!"
+    },
+    {
+      intent: "posyandu",
+      keywords: ["posyandu", "imunisasi", "vaksin", "timbang", "balita", "lansia", "kesehatan"],
+      jawaban: "👶 **Posyandu Balita & Lansia:**\n\n📅 Setiap **Rabu ke-2** setiap bulan\n⏰ 08.00 – 11.00 WIB\n📍 Balai RW 03 & RW 07\n\nLayanan:\n✅ Penimbangan balita\n✅ Imunisasi\n✅ Pemberian vitamin\n✅ Cek kesehatan lansia\n💰 **GRATIS**\n\nHubungi kader Posyandu RT/RW setempat untuk info lebih lanjut."
+    },
+    {
+      intent: "pengaduan",
+      keywords: ["pengaduan", "lapor", "keluhan", "masalah", "aduan", "komplain"],
+      jawaban: "📢 **Cara Menyampaikan Pengaduan:**\n\n1. 📝 Gunakan fitur **Suara Warga** di menu utama PRIMA\n2. 📞 Hubungi Kelurahan: **(021) 7994427**\n3. 📧 Email: kel.rawajati@jakarta.go.id\n4. 🏛️ Datang langsung ke Kelurahan (Senin–Jumat, 08.00–16.00 WIB)\n5. 📱 JAKI App (Jakarta Kini) untuk pengaduan digital Pemprov DKI\n\nSemua pengaduan akan ditindaklanjuti. Terima kasih partisipasinya! 🙏"
+    },
+    {
+      intent: "info_prima",
+      keywords: ["prima", "aplikasi", "platform", "qr", "qr code", "ini apa", "tentang"],
+      jawaban: "ℹ️ **Tentang PRIMA:**\n\n**PRIMA** (Platform Ringkas Interaktif Masyarakat) adalah platform digital Kelurahan Rawajati yang bisa diakses **kapan saja, di mana saja** melalui QR Code.\n\n📋 **Fitur:**\n• Informasi syarat & prosedur surat\n• Peta wilayah interaktif\n• Info kuliner & usaha warga\n• AI Chatbot 24/7\n• Kotak saran digital\n\nDibuat untuk memudahkan warga Rawajati mendapat informasi tanpa harus bolak-balik ke kelurahan! 😊"
+    },
+    {
+      intent: "salam",
+      keywords: ["halo", "hi", "hey", "selamat", "assalamu", "pagi", "siang", "sore", "malam", "hei"],
+      jawaban: "Halo! 👋 Selamat datang di **PRIMA – Kelurahan Rawajati**!\n\nSaya asisten virtual yang siap membantu Anda 24 jam. Anda bisa tanya:\n\n📋 Syarat & prosedur surat\n⏰ Jam kerja & lokasi kelurahan\n♻️ Info bank sampah\n👶 Jadwal posyandu\n🏪 Info usaha warga\n...dan banyak lagi!\n\n*Ketik pertanyaan Anda di bawah ini.* 😊"
+    },
+    {
+      intent: "terima_kasih",
+      keywords: ["terima kasih", "makasih", "thanks", "thank you", "thx", "tq"],
+      jawaban: "Sama-sama! 😊🙏\n\nSenang bisa membantu Anda. Jika masih ada pertanyaan lain, jangan ragu untuk bertanya.\n\n*PRIMA selalu siap melayani warga Rawajati, 24 jam sehari, 7 hari seminggu!* 💪"
+    },
+    {
+      intent: "nomor_darurat",
+      keywords: ["darurat", "emergency", "bahaya", "banjir", "kebakaran", "maling", "polisi", "ambulans"],
+      jawaban: "🚨 **Nomor Darurat:**\n\n🚒 Pemadam Kebakaran: **113**\n🚑 Ambulans: **119**\n👮 Polisi: **110**\n🆘 BPBD (Bencana): **112**\n🏥 Puskesmas Rawajati: **(021) 7989xxx**\n🏛️ Kelurahan Rawajati: **(021) 7994427**\n\nDalam keadaan darurat, segera hubungi nomor di atas! 🙏"
+    }
+  ]
+};
