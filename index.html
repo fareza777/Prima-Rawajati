@@ -281,25 +281,6 @@
         <h3>Asisten PRIMA</h3>
         <p><span class="online-dot"></span><span id="chat-mode-label">Online · Siap membantu 24 jam</span></p>
       </div>
-      <div class="chat-header-actions">
-        <button class="chat-mode-btn" id="chat-settings-btn" title="Pengaturan AI" aria-label="Pengaturan AI"><i data-lucide="sliders-horizontal"></i></button>
-      </div>
-    </div>
-
-    <!-- AI Settings Panel (collapsible) -->
-    <div class="chat-settings" id="chat-settings" hidden>
-      <div class="cs-row">
-        <label class="cs-toggle">
-          <input type="checkbox" id="ai-enabled" checked>
-          <span class="cs-toggle-track"><span class="cs-toggle-thumb"></span></span>
-          <span class="cs-toggle-label">Mode AI (OpenRouter)</span>
-        </label>
-      </div>
-      <div class="cs-row">
-        <label class="cs-label" for="ai-model">Model</label>
-        <select id="ai-model" class="cs-select"></select>
-      </div>
-      <div class="cs-hint">💡 Saat AI mati, chatbot pakai mesin keyword bawaan (offline). Riwayat percakapan: <span id="chat-count">0</span> sesi.</div>
     </div>
 
     <!-- Messages -->
@@ -478,6 +459,26 @@
             <p>Hapus riwayat chat dari cache lokal</p>
           </div>
           <span class="aa-arrow">›</span>
+        </div>
+      </div>
+
+      <!-- AI / LLM Settings -->
+      <div style="margin-top:16px;background:var(--surface);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm);border:1px solid var(--border)">
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:4px">🤖 Pengaturan AI Chatbot</h3>
+        <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Atur mode AI dan pilih model LLM yang dipakai chatbot. Berlaku untuk semua pengunjung.</p>
+        <div class="chat-settings" id="chat-settings" style="position:static;box-shadow:none;border:none;padding:0;margin:0">
+          <div class="cs-row">
+            <label class="cs-toggle">
+              <input type="checkbox" id="ai-enabled" checked>
+              <span class="cs-toggle-track"><span class="cs-toggle-thumb"></span></span>
+              <span class="cs-toggle-label">Mode AI (OpenRouter)</span>
+            </label>
+          </div>
+          <div class="cs-row">
+            <label class="cs-label" for="ai-model">Model</label>
+            <select id="ai-model" class="cs-select"></select>
+          </div>
+          <div class="cs-hint">💡 Saat AI mati, chatbot pakai mesin keyword bawaan (offline). Riwayat percakapan: <span id="chat-count">0</span> sesi.</div>
         </div>
       </div>
 

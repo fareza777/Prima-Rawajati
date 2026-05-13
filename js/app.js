@@ -429,64 +429,59 @@ function initChatbot() {
     input.style.height = Math.min(input.scrollHeight, 100) + 'px';
   });
 
-  // ── AI Settings panel ──
-  initAISettings();
+  // Refresh mode label di chat header (tidak butuh UI admin)
+  refreshChatModeLabel();
 }
 
+// Render label "Online · ✨ AI …" di header chat berdasarkan state localStorage.
+function refreshChatModeLabel() {
+  const modeLabel = document.getElementById('chat-mode-label');
+  if (!modeLabel || typeof PRIMA_AI === 'undefined') return;
+
+  if (isAIEnabled()) {
+    const m = PRIMA_AI.MODELS.find(x => x.id === PRIMA_AI.getSelectedModel());
+    modeLabel.innerHTML = `Online · ✨ AI <strong>${m?.short || 'Active'}</strong>`;
+    PRIMA_AI.isAvailable().then(ok => {
+      if (!ok) modeLabel.textContent = 'Mode lokal · Endpoint AI belum aktif';
+    });
+  } else {
+    modeLabel.textContent = 'Online · Mode lokal (offline-OK)';
+  }
+}
+
+// Wire up kontrol AI di Panel Admin (toggle + model selector).
 function initAISettings() {
-  const settingsBtn = document.getElementById('chat-settings-btn');
   const panel = document.getElementById('chat-settings');
   const aiToggle = document.getElementById('ai-enabled');
   const modelSelect = document.getElementById('ai-model');
-  const modeLabel = document.getElementById('chat-mode-label');
 
-  if (!settingsBtn || !panel || typeof PRIMA_AI === 'undefined') return;
+  if (!panel || !aiToggle || !modelSelect || typeof PRIMA_AI === 'undefined') return;
 
-  // Populate model dropdown
-  modelSelect.innerHTML = PRIMA_AI.MODELS.map(m =>
-    `<option value="${m.id}">${m.label}</option>`
-  ).join('');
+  // Populate model dropdown (idempotent)
+  if (!modelSelect.dataset.populated) {
+    modelSelect.innerHTML = PRIMA_AI.MODELS.map(m =>
+      `<option value="${m.id}">${m.label}</option>`
+    ).join('');
+    modelSelect.dataset.populated = '1';
+
+    modelSelect.addEventListener('change', () => {
+      PRIMA_AI.setSelectedModel(modelSelect.value);
+      showToast('🤖 Model diganti: ' + (PRIMA_AI.MODELS.find(m => m.id === modelSelect.value)?.short || ''));
+      refreshChatModeLabel();
+    });
+
+    aiToggle.addEventListener('change', () => {
+      localStorage.setItem('prima_ai_enabled', aiToggle.checked ? '1' : '0');
+      refreshChatModeLabel();
+    });
+  }
+
+  // Sync UI dengan state tersimpan
   modelSelect.value = PRIMA_AI.getSelectedModel();
-  modelSelect.addEventListener('change', () => {
-    PRIMA_AI.setSelectedModel(modelSelect.value);
-    showToast('🤖 Model diganti: ' + (PRIMA_AI.MODELS.find(m => m.id === modelSelect.value)?.short || ''));
-    updateModeLabel();
-  });
-
-  // Restore AI toggle state
   const saved = localStorage.getItem('prima_ai_enabled');
   aiToggle.checked = saved === null ? true : saved === '1';
-  aiToggle.addEventListener('change', () => {
-    localStorage.setItem('prima_ai_enabled', aiToggle.checked ? '1' : '0');
-    settingsBtn.classList.toggle('active', aiToggle.checked);
-    updateModeLabel();
-  });
-  settingsBtn.classList.toggle('active', aiToggle.checked);
 
-  // Toggle panel visibility
-  settingsBtn.addEventListener('click', () => {
-    panel.hidden = !panel.hidden;
-  });
-
-  // Initial label
-  updateModeLabel();
-
-  // Probe availability for friendlier message
-  PRIMA_AI.isAvailable().then(ok => {
-    if (!ok && aiToggle.checked) {
-      modeLabel.textContent = 'Mode lokal · Endpoint AI belum aktif';
-    }
-  });
-
-  function updateModeLabel() {
-    if (!modeLabel) return;
-    if (aiToggle.checked) {
-      const m = PRIMA_AI.MODELS.find(x => x.id === PRIMA_AI.getSelectedModel());
-      modeLabel.innerHTML = `Online · ✨ AI <strong>${m?.short || 'Active'}</strong>`;
-    } else {
-      modeLabel.textContent = 'Online · Mode lokal (offline-OK)';
-    }
-  }
+  refreshChatModeLabel();
 }
 
 function renderSuggestions() {
@@ -576,10 +571,11 @@ async function sendMessage() {
   }, 500 + Math.random() * 300);
 }
 
-// AI helpers
+// AI helpers — baca dari localStorage karena UI control kini ada di Panel Admin
+// dan checkbox-nya hanya hadir setelah admin login.
 function isAIEnabled() {
-  const cb = document.getElementById('ai-enabled');
-  return cb ? cb.checked : false;
+  const saved = localStorage.getItem('prima_ai_enabled');
+  return saved === null ? true : saved === '1';
 }
 
 function formatBotText(text) {
@@ -812,6 +808,7 @@ function renderAdminPage() {
       document.getElementById('admin-panel-section').style.display = 'block';
       showToast('✅ Login berhasil. Selamat datang, Admin!');
       updateAdminStats();
+      initAISettings();
     } else {
       showToast('❌ Password salah. Coba lagi.');
       document.getElementById('admin-password').value = '';
