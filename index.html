@@ -277,14 +277,29 @@
     <!-- Chat Header -->
     <div class="chat-header">
       <div class="chat-avatar">🤖</div>
-      <div>
+      <div class="chat-header-info">
         <h3>Asisten PRIMA</h3>
-        <p><span class="online-dot"></span>Online · Siap membantu 24 jam</p>
+        <p><span class="online-dot"></span><span id="chat-mode-label">Online · Siap membantu 24 jam</span></p>
       </div>
-      <div style="margin-left:auto;text-align:right">
-        <div style="font-size:11px;opacity:.7">Percakapan</div>
-        <div style="font-size:15px;font-weight:700" id="chat-count">0</div>
+      <div class="chat-header-actions">
+        <button class="chat-mode-btn" id="chat-settings-btn" title="Pengaturan AI" aria-label="Pengaturan AI"><i data-lucide="sliders-horizontal"></i></button>
       </div>
+    </div>
+
+    <!-- AI Settings Panel (collapsible) -->
+    <div class="chat-settings" id="chat-settings" hidden>
+      <div class="cs-row">
+        <label class="cs-toggle">
+          <input type="checkbox" id="ai-enabled" checked>
+          <span class="cs-toggle-track"><span class="cs-toggle-thumb"></span></span>
+          <span class="cs-toggle-label">Mode AI (OpenRouter)</span>
+        </label>
+      </div>
+      <div class="cs-row">
+        <label class="cs-label" for="ai-model">Model</label>
+        <select id="ai-model" class="cs-select"></select>
+      </div>
+      <div class="cs-hint">💡 Saat AI mati, chatbot pakai mesin keyword bawaan (offline). Riwayat percakapan: <span id="chat-count">0</span> sesi.</div>
     </div>
 
     <!-- Messages -->
@@ -554,6 +569,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <!-- App Data -->
 <script src="js/data.js"></script>
+<!-- AI Client (OpenRouter via Vercel proxy) -->
+<script src="js/ai.js"></script>
 <!-- Chatbot Engine -->
 <script src="js/chatbot.js"></script>
 <!-- Main App -->

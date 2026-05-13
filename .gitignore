@@ -3,6 +3,11 @@
 Thumbs.db
 desktop.ini
 
+# Env (never commit secrets!)
+.env
+.env.local
+.env.*.local
+
 # Editor
 .vscode/
 .idea/

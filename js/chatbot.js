@@ -149,6 +149,18 @@ class PRIMAChatbot {
     localStorage.setItem('prima_chat_logs', JSON.stringify(logs));
   }
 
+  // Record an AI-driven exchange (used when AI mode handles the response)
+  recordExchange(userMessage, botResponse, source = 'ai') {
+    this.messageCount++;
+    this.stats.totalMessages++;
+    if (this.messageCount === 1) this.stats.totalConversations++;
+    this._saveStats();
+
+    this.conversationHistory.push({ role: 'user', text: userMessage, timestamp: new Date().toISOString() });
+    this.conversationHistory.push({ role: 'bot', text: botResponse, timestamp: new Date().toISOString(), source });
+    this._persistConversation(userMessage, botResponse);
+  }
+
   getStats() {
     return this.stats;
   }

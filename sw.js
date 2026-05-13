@@ -1,11 +1,12 @@
 // PRIMA Service Worker – v2 (Royal Government Theme)
 // Strategy: network-first for app shell (HTML/CSS/JS), cache-first for static assets (fonts, leaflet).
-const CACHE = 'prima-v2.0.0';
+const CACHE = 'prima-v3.0.0';
 const NETWORK_FIRST = [
   './',
   './index.html',
   './css/style.css',
   './js/data.js',
+  './js/ai.js',
   './js/chatbot.js',
   './js/app.js'
 ];
@@ -37,6 +38,9 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   const url = e.request.url;
+
+  // Never cache API endpoints (chat proxy must always be live)
+  if (url.includes('/api/')) return;
 
   // Cache-first for third-party static assets
   if (CACHE_FIRST.some(prefix => url.startsWith(prefix))) {

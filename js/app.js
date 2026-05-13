@@ -428,6 +428,65 @@ function initChatbot() {
     input.style.height = 'auto';
     input.style.height = Math.min(input.scrollHeight, 100) + 'px';
   });
+
+  // ── AI Settings panel ──
+  initAISettings();
+}
+
+function initAISettings() {
+  const settingsBtn = document.getElementById('chat-settings-btn');
+  const panel = document.getElementById('chat-settings');
+  const aiToggle = document.getElementById('ai-enabled');
+  const modelSelect = document.getElementById('ai-model');
+  const modeLabel = document.getElementById('chat-mode-label');
+
+  if (!settingsBtn || !panel || typeof PRIMA_AI === 'undefined') return;
+
+  // Populate model dropdown
+  modelSelect.innerHTML = PRIMA_AI.MODELS.map(m =>
+    `<option value="${m.id}">${m.label}</option>`
+  ).join('');
+  modelSelect.value = PRIMA_AI.getSelectedModel();
+  modelSelect.addEventListener('change', () => {
+    PRIMA_AI.setSelectedModel(modelSelect.value);
+    showToast('🤖 Model diganti: ' + (PRIMA_AI.MODELS.find(m => m.id === modelSelect.value)?.short || ''));
+    updateModeLabel();
+  });
+
+  // Restore AI toggle state
+  const saved = localStorage.getItem('prima_ai_enabled');
+  aiToggle.checked = saved === null ? true : saved === '1';
+  aiToggle.addEventListener('change', () => {
+    localStorage.setItem('prima_ai_enabled', aiToggle.checked ? '1' : '0');
+    settingsBtn.classList.toggle('active', aiToggle.checked);
+    updateModeLabel();
+  });
+  settingsBtn.classList.toggle('active', aiToggle.checked);
+
+  // Toggle panel visibility
+  settingsBtn.addEventListener('click', () => {
+    panel.hidden = !panel.hidden;
+  });
+
+  // Initial label
+  updateModeLabel();
+
+  // Probe availability for friendlier message
+  PRIMA_AI.isAvailable().then(ok => {
+    if (!ok && aiToggle.checked) {
+      modeLabel.textContent = 'Mode lokal · Endpoint AI belum aktif';
+    }
+  });
+
+  function updateModeLabel() {
+    if (!modeLabel) return;
+    if (aiToggle.checked) {
+      const m = PRIMA_AI.MODELS.find(x => x.id === PRIMA_AI.getSelectedModel());
+      modeLabel.innerHTML = `Online · ✨ AI <strong>${m?.short || 'Active'}</strong>`;
+    } else {
+      modeLabel.textContent = 'Online · Mode lokal (offline-OK)';
+    }
+  }
 }
 
 function renderSuggestions() {
@@ -443,7 +502,7 @@ function sendSuggestion(text) {
   sendMessage();
 }
 
-function sendMessage() {
+async function sendMessage() {
   const input = document.getElementById('chat-input');
   const text = input.value.trim();
   if (!text) return;
@@ -452,16 +511,147 @@ function sendMessage() {
   input.value = '';
   input.style.height = 'auto';
 
-  // Show typing indicator
-  const typingId = showTyping();
+  const aiEnabled = isAIEnabled();
 
-  // Process with slight delay for natural feel
-  setTimeout(() => {
+  // AI mode: stream response from OpenRouter
+  if (aiEnabled && typeof PRIMA_AI !== 'undefined') {
+    const typingId = showTyping();
+    let bubbleEl = null;
+    let fullText = '';
+
+    // Build conversation history (last few exchanges)
+    const history = chatbot.conversationHistory.slice(-8);
+
+    const result = await PRIMA_AI.streamChat(history, text, {
+      onToken: (chunk) => {
+        if (!bubbleEl) {
+          removeTyping(typingId);
+          bubbleEl = startStreamingBotMessage();
+        }
+        fullText += chunk;
+        bubbleEl.innerHTML = formatBotText(fullText);
+        scrollToBottom();
+      },
+      onError: (err) => {
+        console.warn('[PRIMA AI] error, falling back to rule-based:', err);
+      }
+    });
+
+    if (result.ok && fullText.trim()) {
+      // Finalize bubble
+      if (bubbleEl) {
+        bubbleEl.classList.remove('streaming');
+        finalizeBotMessage(bubbleEl.closest('.chat-msg'), {
+          text: fullText,
+          sources: result.retrievedDocs || [],
+          time: getCurrentTime(),
+          modelUsed: PRIMA_AI.getSelectedModel()
+        });
+      }
+      // Persist + record
+      chatbot.recordExchange(text, fullText, 'ai');
+      updateChatStats();
+      return;
+    }
+
+    // AI failed → fall through to rule-based
     removeTyping(typingId);
+    if (bubbleEl) {
+      const msg = bubbleEl.closest('.chat-msg');
+      if (msg) msg.remove();
+    }
+    addBotMessage(
+      '<em>⚠️ Mode AI tidak tersedia (' + (result.error || 'unknown') + '). Beralih ke mesin lokal…</em>',
+      getCurrentTime()
+    );
+  }
+
+  // Rule-based fallback
+  const typingId2 = showTyping();
+  setTimeout(() => {
+    removeTyping(typingId2);
     const response = chatbot.processMessage(text);
-    addBotMessage(response.text, response.timestamp);
+    addBotMessage(response.text, response.timestamp, { intent: response.intent });
     updateChatStats();
-  }, 600 + Math.random() * 400);
+  }, 500 + Math.random() * 300);
+}
+
+// AI helpers
+function isAIEnabled() {
+  const cb = document.getElementById('ai-enabled');
+  return cb ? cb.checked : false;
+}
+
+function formatBotText(text) {
+  // Simple markdown: **bold**, *italic*, line breaks, lists
+  let html = escapeHtml(text)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^*])\*([^*\n]+?)\*/g, '$1<em>$2</em>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\n/g, '<br>');
+  return html;
+}
+
+function startStreamingBotMessage() {
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg bot';
+  div.innerHTML = `
+    <div class="msg-avatar">🤖</div>
+    <div style="flex:1;min-width:0">
+      <div class="msg-bubble streaming"></div>
+    </div>
+  `;
+  container.appendChild(div);
+  scrollToBottom();
+  return div.querySelector('.msg-bubble');
+}
+
+function finalizeBotMessage(msgEl, opts) {
+  if (!msgEl) return;
+  const wrap = msgEl.querySelector('div[style*="flex:1"]') || msgEl.children[1];
+  // Add sources chips
+  if (opts.sources && opts.sources.length) {
+    const srcDiv = document.createElement('div');
+    srcDiv.className = 'msg-sources';
+    srcDiv.innerHTML = opts.sources.slice(0, 4).map(d =>
+      `<span class="msg-source-chip">${escapeHtml(d.title)}</span>`
+    ).join('');
+    wrap.appendChild(srcDiv);
+  }
+  // Time + actions
+  const meta = document.createElement('div');
+  meta.className = 'msg-time';
+  const modelShort = (PRIMA_AI?.MODELS || []).find(m => m.id === opts.modelUsed)?.short || 'AI';
+  meta.innerHTML = `✨ ${escapeHtml(modelShort)} · ${opts.time}`;
+  wrap.appendChild(meta);
+
+  // Action buttons
+  const actions = document.createElement('div');
+  actions.className = 'msg-actions';
+  const sig = btoa(unescape(encodeURIComponent((opts.text || '').slice(0,80)))).slice(0,12);
+  actions.innerHTML = `
+    <button class="msg-act-btn" data-act="up" data-sig="${sig}" title="Jawaban membantu"><i data-lucide="thumbs-up"></i></button>
+    <button class="msg-act-btn" data-act="down" data-sig="${sig}" title="Jawaban tidak membantu"><i data-lucide="thumbs-down"></i></button>
+    <button class="msg-act-btn" data-act="copy" title="Salin jawaban"><i data-lucide="copy"></i></button>
+  `;
+  actions.addEventListener('click', e => {
+    const btn = e.target.closest('.msg-act-btn');
+    if (!btn) return;
+    const act = btn.dataset.act;
+    if (act === 'copy') {
+      navigator.clipboard?.writeText(opts.text);
+      showToast('📋 Jawaban disalin');
+    } else if (act === 'up' || act === 'down') {
+      btn.classList.add(act === 'up' ? 'active-up' : 'active-down');
+      // Save feedback
+      const fbs = JSON.parse(localStorage.getItem('prima_ai_feedback') || '[]');
+      fbs.push({ sig: btn.dataset.sig, vote: act, text: opts.text.slice(0,200), ts: Date.now(), model: opts.modelUsed });
+      localStorage.setItem('prima_ai_feedback', JSON.stringify(fbs.slice(-200)));
+      showToast(act === 'up' ? '✨ Terima kasih atas masukannya!' : '📝 Akan kami perbaiki');
+    }
+  });
+  wrap.appendChild(actions);
 }
 
 function addUserMessage(text, time) {
@@ -479,15 +669,16 @@ function addUserMessage(text, time) {
   scrollToBottom();
 }
 
-function addBotMessage(html, time) {
+function addBotMessage(html, time, opts = {}) {
   const container = document.getElementById('chat-messages');
   const div = document.createElement('div');
   div.className = 'chat-msg bot';
+  const tag = opts.intent ? ` · ${escapeHtml(opts.intent)}` : '';
   div.innerHTML = `
     <div class="msg-avatar">🤖</div>
-    <div>
+    <div style="flex:1;min-width:0">
       <div class="msg-bubble">${html}</div>
-      <div class="msg-time">PRIMA Bot · ${time}</div>
+      <div class="msg-time">PRIMA Bot${tag} · ${time}</div>
     </div>
   `;
   container.appendChild(div);
