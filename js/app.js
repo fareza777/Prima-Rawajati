@@ -1160,6 +1160,7 @@ document.addEventListener('click', e => {
 let _dataEditorDraft = null;
 let _dataEditorTab = 'layanan';
 let _pendingFileUploads = []; // [{ path, content: base64, layananId, nama }]
+let _dataEditorEditingIdx = null; // null = list view, -1 = new item, 0+ = editing existing
 
 // Schema kolom Excel per kategori. Urutan kolom = urutan di sheet.
 const DATA_EDITOR_SCHEMA = {
@@ -1233,6 +1234,7 @@ function openDataEditor() {
   }
   _dataEditorDraft = JSON.parse(JSON.stringify(PRIMA_DATA));
   _dataEditorTab = 'layanan';
+  _dataEditorEditingIdx = null;
   _pendingFileUploads = [];
   renderDataEditor();
   const modal = document.getElementById('modal-overlay');
@@ -1274,6 +1276,7 @@ function renderDataEditor() {
 
 function switchDataEditorTab(key) {
   _dataEditorTab = key;
+  _dataEditorEditingIdx = null;
   document.querySelectorAll('.de-tab').forEach(b => b.classList.toggle('active', b.textContent === DATA_EDITOR_SCHEMA[key].label));
   renderDataEditorTab();
 }
@@ -1284,31 +1287,119 @@ function renderDataEditorTab() {
   const data = getCategoryArray(_dataEditorTab);
   const count = schema.singleObject ? 1 : (data || []).length;
 
-  // Build preview list (non-singleObject only)
+  // ═══════════════════════════════════════════════════════════════
+  // LAYANAN FORM MODE (user-friendly, no JSON)
+  // ═══════════════════════════════════════════════════════════════
+  if (_dataEditorTab === 'layanan' && _dataEditorEditingIdx !== null) {
+    const isNew = _dataEditorEditingIdx === -1;
+    const item = isNew
+      ? { id:'', nama:'', emoji:'📄', kategori:'', deskripsi:'', waktuProses:'', biaya:'Gratis', syarat:[], prosedur:[], dokumenUnduh:[], tags:[] }
+      : _dataEditorDraft.layanan[_dataEditorEditingIdx] || {};
+
+    const syaratText = Array.isArray(item.syarat) ? item.syarat.join('\n') : '';
+    const prosedurText = Array.isArray(item.prosedur) ? item.prosedur.join('\n') : '';
+    const docs = Array.isArray(item.dokumenUnduh) ? item.dokumenUnduh : [];
+
+    container.innerHTML = `
+      <div class="de-toolbar">
+        <span class="de-count">${isNew ? 'Layanan Baru' : escapeHtml(item.nama || item.id)}</span>
+        <button class="de-btn" onclick="cancelLayananForm()">← Kembali</button>
+        <button class="de-btn de-btn-ai" onclick="saveLayananForm()">💾 Simpan ke Draft</button>
+      </div>
+
+      <div class="de-form" style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+        <div class="de-form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div>
+            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">ID (singkatan)</label>
+            <input type="text" id="lf-id" value="${escapeHtml(item.id || '')}" placeholder="SKD" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px">
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Nama Layanan</label>
+            <input type="text" id="lf-nama" value="${escapeHtml(item.nama || '')}" placeholder="Surat Keterangan Domisili" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px">
+          </div>
+        </div>
+        <div class="de-form-row" style="display:grid;grid-template-columns:80px 1fr 1fr;gap:10px">
+          <div>
+            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Emoji</label>
+            <input type="text" id="lf-emoji" value="${escapeHtml(item.emoji || '')}" placeholder="🏠" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;text-align:center">
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Kategori</label>
+            <input type="text" id="lf-kategori" value="${escapeHtml(item.kategori || '')}" placeholder="Kependudukan" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px">
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Biaya</label>
+            <input type="text" id="lf-biaya" value="${escapeHtml(item.biaya || '')}" placeholder="Gratis" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px">
+          </div>
+        </div>
+        <div>
+          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Waktu Proses</label>
+          <input type="text" id="lf-waktu" value="${escapeHtml(item.waktuProses || '')}" placeholder="1 hari kerja" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px">
+        </div>
+        <div>
+          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Deskripsi</label>
+          <textarea id="lf-deskripsi" rows="2" placeholder="Penjelasan singkat layanan…" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;resize:vertical;line-height:1.5">${escapeHtml(item.deskripsi || '')}</textarea>
+        </div>
+        <div class="de-form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div>
+            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Syarat <span style="font-weight:400">(satu per baris)</span></label>
+            <textarea id="lf-syarat" rows="5" placeholder="Fotokopi KTP&#10;Surat Pengantar RT/RW" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;resize:vertical;line-height:1.5">${escapeHtml(syaratText)}</textarea>
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Prosedur <span style="font-weight:400">(satu per baris)</span></label>
+            <textarea id="lf-prosedur" rows="5" placeholder="Ambil surat pengantar di RT&#10;Datang ke loket kelurahan" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;resize:vertical;line-height:1.5">${escapeHtml(prosedurText)}</textarea>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Dokumen Unduh</label>
+          <div id="lf-docs-list" style="display:flex;flex-direction:column;gap:6px">
+            ${docs.map((d, i) => `
+              <div class="lf-doc-row" style="display:flex;gap:6px;align-items:center">
+                <input type="text" class="lf-doc-nama" data-idx="${i}" value="${escapeHtml(d.nama)}" placeholder="Nama dokumen" style="flex:1;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px">
+                <input type="text" class="lf-doc-url" data-idx="${i}" value="${escapeHtml(d.url)}" placeholder="URL / dokumen/file.pdf" style="flex:1;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px">
+                <button class="de-pv-del" onclick="removeDocRow(${i})" title="Hapus" style="width:28px;height:28px">✕</button>
+              </div>
+            `).join('')}
+          </div>
+          <button class="de-btn" onclick="addDocRow()" style="margin-top:6px;font-size:12px;padding:6px 10px">+ Tambah Dokumen</button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;padding:10px;background:var(--surface-2);border-radius:8px;border:1px dashed var(--border);font-size:12px;color:var(--text-muted)">
+        💡 <strong>Tips:</strong> Isi field di atas, lalu klik <strong>"Simpan ke Draft"</strong>. Setelah semua layanan selesai di-edit, klik tombol <strong>"💾 Simpan & Publish"</strong> di bawah untuk commit ke GitHub.
+      </div>
+    `;
+    return;
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // DEFAULT: LIST + JSON EDITOR (non-layanan tabs)
+  // ═══════════════════════════════════════════════════════════════
   let previewHtml = '';
   if (!schema.singleObject && Array.isArray(data) && data.length > 0) {
+    const isLayananList = _dataEditorTab === 'layanan';
     previewHtml = `
       <div class="de-preview">
         ${data.map((item, i) => `
-          <div class="de-preview-item" data-idx="${i}">
+          <div class="de-preview-item" data-idx="${i}" ${isLayananList ? `onclick="editLayananItem(${i})" style="cursor:pointer"` : ''}>
             <span class="de-pv-emoji">${item.emoji || item.icon || '📄'}</span>
             <div class="de-pv-body">
               <strong>${escapeHtml(item.nama || item.id || 'Item ' + (i+1))}</strong>
               <span class="de-pv-id">${escapeHtml(item.id || '')}</span>
             </div>
-            <button class="de-pv-del" onclick="deleteDataItem(${i})" title="Hapus item ini">🗑️</button>
+            <button class="de-pv-del" onclick="event.stopPropagation();deleteDataItem(${i})" title="Hapus item ini">🗑️</button>
           </div>
         `).join('')}
       </div>
+      ${isLayananList ? `<button class="de-btn" onclick="addLayananItem()" style="width:100%;margin:8px 0;padding:12px">➕ Tambah Layanan Baru</button>` : ''}
     `;
   }
 
-  // File upload panel (only for layanan tab)
   const isLayanan = _dataEditorTab === 'layanan';
   const layananOptions = isLayanan && _dataEditorDraft?.layanan
     ? _dataEditorDraft.layanan.map(l => `<option value="${escapeHtml(l.id)}">${escapeHtml(l.id)} — ${escapeHtml(l.nama)}</option>`).join('')
     : '';
-  // Show existing files in layanan items + allow delete
   let existingFilesHtml = '';
   if (isLayanan && _dataEditorDraft?.layanan) {
     const allFiles = [];
@@ -1386,6 +1477,84 @@ function renderDataEditorTab() {
 
   const ta = document.getElementById('de-json-editor');
   ta.addEventListener('input', validateAndApplyJSON);
+}
+
+function editLayananItem(idx) {
+  _dataEditorEditingIdx = idx;
+  renderDataEditorTab();
+}
+
+function addLayananItem() {
+  _dataEditorEditingIdx = -1;
+  renderDataEditorTab();
+}
+
+function cancelLayananForm() {
+  _dataEditorEditingIdx = null;
+  renderDataEditorTab();
+}
+
+function saveLayananForm() {
+  const id = document.getElementById('lf-id')?.value.trim();
+  const nama = document.getElementById('lf-nama')?.value.trim();
+  if (!id || !nama) { showToast('❌ ID dan Nama wajib diisi.'); return; }
+
+  const syaratRaw = document.getElementById('lf-syarat')?.value || '';
+  const prosedurRaw = document.getElementById('lf-prosedur')?.value || '';
+  const syarat = syaratRaw.split('\n').map(s => s.trim()).filter(Boolean);
+  const prosedur = prosedurRaw.split('\n').map(s => s.trim()).filter(Boolean);
+
+  // Collect dokumenUnduh from form rows
+  const docRows = document.querySelectorAll('.lf-doc-row');
+  const dokumenUnduh = [];
+  docRows.forEach(row => {
+    const n = row.querySelector('.lf-doc-nama')?.value.trim();
+    const u = row.querySelector('.lf-doc-url')?.value.trim();
+    if (n && u) dokumenUnduh.push({ nama: n, url: u });
+  });
+
+  const newItem = {
+    id,
+    nama,
+    emoji: document.getElementById('lf-emoji')?.value.trim() || '📄',
+    kategori: document.getElementById('lf-kategori')?.value.trim() || '',
+    deskripsi: document.getElementById('lf-deskripsi')?.value.trim() || '',
+    waktuProses: document.getElementById('lf-waktu')?.value.trim() || '',
+    biaya: document.getElementById('lf-biaya')?.value.trim() || 'Gratis',
+    syarat,
+    prosedur,
+    dokumenUnduh,
+    tags: [] // Tags can be added later via JSON if needed
+  };
+
+  if (_dataEditorEditingIdx === -1) {
+    _dataEditorDraft.layanan.push(newItem);
+    showToast('✅ Layanan baru ditambahkan ke draft.');
+  } else {
+    _dataEditorDraft.layanan[_dataEditorEditingIdx] = newItem;
+    showToast('✅ Perubahan disimpan ke draft.');
+  }
+  _dataEditorEditingIdx = null;
+  renderDataEditorTab();
+}
+
+function addDocRow() {
+  const list = document.getElementById('lf-docs-list');
+  const idx = list.children.length;
+  const div = document.createElement('div');
+  div.className = 'lf-doc-row';
+  div.style.cssText = 'display:flex;gap:6px;align-items:center';
+  div.innerHTML = `
+    <input type="text" class="lf-doc-nama" data-idx="${idx}" placeholder="Nama dokumen" style="flex:1;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px">
+    <input type="text" class="lf-doc-url" data-idx="${idx}" placeholder="URL / dokumen/file.pdf" style="flex:1;padding:6px 8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px">
+    <button class="de-pv-del" onclick="this.parentElement.remove()" title="Hapus" style="width:28px;height:28px">✕</button>
+  `;
+  list.appendChild(div);
+}
+
+function removeDocRow(idx) {
+  const rows = document.querySelectorAll('.lf-doc-row');
+  if (rows[idx]) rows[idx].remove();
 }
 
 function toggleFileUploadPanel() {

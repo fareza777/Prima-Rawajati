@@ -1724,6 +1724,18 @@ a.download-btn, .download-btn {
   color: #fff;
 }
 
+[data-theme="dark"] .de-form input,
+[data-theme="dark"] .de-form textarea,
+[data-theme="dark"] .de-form select {
+  background: #111827 !important;
+  border-color: #374151 !important;
+  color: #E5E7EB !important;
+}
+[data-theme="dark"] .de-form input::placeholder,
+[data-theme="dark"] .de-form textarea::placeholder {
+  color: #6B7280 !important;
+}
+
 @media (min-width: 640px) {
   [data-theme="dark"] html {
     background:
