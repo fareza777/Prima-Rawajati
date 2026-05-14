@@ -1308,9 +1308,42 @@ function renderDataEditorTab() {
   const layananOptions = isLayanan && _dataEditorDraft?.layanan
     ? _dataEditorDraft.layanan.map(l => `<option value="${escapeHtml(l.id)}">${escapeHtml(l.id)} — ${escapeHtml(l.nama)}</option>`).join('')
     : '';
+  // Show existing files in layanan items + allow delete
+  let existingFilesHtml = '';
+  if (isLayanan && _dataEditorDraft?.layanan) {
+    const allFiles = [];
+    _dataEditorDraft.layanan.forEach(l => {
+      if (Array.isArray(l.dokumenUnduh)) {
+        l.dokumenUnduh.forEach((d, di) => {
+          if (d.url && !d.url.startsWith('#')) {
+            allFiles.push({ layananId: l.id, layananNama: l.nama, docIdx: di, nama: d.nama, url: d.url });
+          }
+        });
+      }
+    });
+    if (allFiles.length > 0) {
+      existingFilesHtml = `
+        <div class="de-pending-files">
+          <strong>📎 File template aktif (${allFiles.length}):</strong>
+          ${allFiles.map(f => `
+            <span class="de-pf-tag de-pf-exists">
+              ${escapeHtml(f.nama)}
+              <button class="de-pf-del" onclick="deleteTemplateFile('${escapeHtml(f.layananId)}',${f.docIdx})" title="Hapus file ini">✕</button>
+            </span>
+          `).join('')}
+        </div>
+      `;
+    }
+  }
+
   const pendingFilesHtml = _pendingFileUploads.length > 0
     ? `<div class="de-pending-files"><strong>📎 File siap upload (${_pendingFileUploads.length}):</strong>
-       ${_pendingFileUploads.map(f => `<span class="de-pf-tag">${escapeHtml(f.nama)} → dokumen/${escapeHtml(f.path.split('/').pop())}</span>`).join('')}</div>`
+       ${_pendingFileUploads.map((f, fi) => `
+         <span class="de-pf-tag de-pf-pending">
+           ${escapeHtml(f.nama)}
+           <button class="de-pf-del" onclick="removePendingFile(${fi})" title="Batalkan">✕</button>
+         </span>
+       `).join('')}</div>`
     : '';
 
   container.innerHTML = `
@@ -1327,6 +1360,7 @@ function renderDataEditorTab() {
       <button class="de-btn" onclick="downloadJSON()">⬇ JSON</button>
     </div>
     ${previewHtml}
+    ${existingFilesHtml}
     ${pendingFilesHtml}
     ${isLayanan ? `
     <div id="de-file-panel" style="display:none;margin:10px 0;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;">
@@ -1396,6 +1430,29 @@ function addTemplateFile() {
   };
   reader.onerror = () => showToast('❌ Gagal membaca file.');
   reader.readAsDataURL(file);
+}
+
+function removePendingFile(idx) {
+  if (!confirm('Batalkan upload file ini?')) return;
+  const removed = _pendingFileUploads.splice(idx, 1)[0];
+  if (removed) {
+    // Also remove from draft layanan dokumenUnduh
+    const layanan = _dataEditorDraft.layanan.find(l => l.id === removed.layananId);
+    if (layanan && Array.isArray(layanan.dokumenUnduh)) {
+      layanan.dokumenUnduh = layanan.dokumenUnduh.filter(d => d.url !== removed.path);
+    }
+  }
+  renderDataEditorTab();
+  showToast('🗑️ File upload dibatalkan.');
+}
+
+function deleteTemplateFile(layananId, docIdx) {
+  if (!confirm('Yakin hapus file template ini? File di server TIDAK terhapus, hanya dihapus dari daftar layanan.')) return;
+  const layanan = _dataEditorDraft.layanan.find(l => l.id === layananId);
+  if (!layanan || !Array.isArray(layanan.dokumenUnduh)) return;
+  layanan.dokumenUnduh.splice(docIdx, 1);
+  renderDataEditorTab();
+  showToast('🗑️ File dihapus dari layanan. Klik Simpan untuk publish.');
 }
 
 function deleteDataItem(index) {
