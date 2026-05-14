@@ -1468,15 +1468,23 @@ function renderDataEditorTab() {
       </div>
     </div>
     ` : ''}
+    ${!isLayanan ? `
     <p style="font-size:12px;color:var(--text-muted);margin:8px 0">
       Edit langsung di JSON di bawah. Format harus valid (tanda kutip ganda, koma antar item). Untuk field array (seperti <code>syarat</code>), pakai array JSON <code>["item 1", "item 2"]</code>.
     </p>
     <textarea id="de-json-editor" class="de-json" spellcheck="false">${escapeHtml(JSON.stringify(data, null, 2))}</textarea>
     <div id="de-json-error" style="color:var(--danger,#c1272d);font-size:12px;min-height:18px;margin-top:4px"></div>
+    ` : `
+    <div style="margin-top:12px;padding:10px;background:var(--surface-2);border-radius:8px;border:1px dashed var(--border);font-size:12px;color:var(--text-muted)">
+      💡 <strong>Tips:</strong> Klik salah satu layanan di atas untuk mengedit. Klik <strong>"➕ Tambah Layanan Baru"</strong> untuk menambahkan layanan baru. Setelah semua selesai, klik <strong>"💾 Simpan & Publish"</strong> di bawah.
+    </div>
+    `}
   `;
 
-  const ta = document.getElementById('de-json-editor');
-  ta.addEventListener('input', validateAndApplyJSON);
+  if (!isLayanan) {
+    const ta = document.getElementById('de-json-editor');
+    if (ta) ta.addEventListener('input', validateAndApplyJSON);
+  }
 }
 
 function editLayananItem(idx) {
