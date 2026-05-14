@@ -2138,6 +2138,11 @@ function forgetAdminSecret() {
 
 // ── Save: POST ke /api/save-data ─────────────────────────────────
 async function saveDataEditor() {
+  // If user is currently editing a form item, auto-save it to draft first
+  if (_dataEditorEditingIdx !== null) {
+    saveFormEdit();
+  }
+
   // Pastikan JSON di tab aktif tervalidasi sebelum kirim
   if (!validateAndApplyJSON()) {
     showToast('❌ JSON tab aktif tidak valid. Perbaiki dulu.');
