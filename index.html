@@ -126,7 +126,7 @@
   <!-- Info Banner -->
   <div class="info-banner" style="margin:0 16px 8px;max-width:568px;margin-left:auto;margin-right:auto;display:flex">
     <span class="info-icon"><i data-lucide="clock"></i></span>
-    <p>Jam Kerja Kelurahan: <strong>Senin–Jumat, 08.00–16.00 WIB</strong>. Untuk informasi di luar jam kerja, gunakan PRIMA atau fitur <em>Tanya Kami</em>.</p>
+    <p>Jam Kerja Kelurahan: <strong>Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB</strong>. Untuk informasi di luar jam kerja, gunakan PRIMA atau fitur <em>Tanya Kami</em>.</p>
   </div>
 
   <!-- Menu Grid -->
@@ -475,10 +475,15 @@
             </label>
           </div>
           <div class="cs-row">
-            <label class="cs-label" for="ai-model">Model</label>
+            <label class="cs-label" for="ai-model">Preset</label>
             <select id="ai-model" class="cs-select"></select>
           </div>
-          <div class="cs-hint">💡 Saat AI mati, chatbot pakai mesin keyword bawaan (offline). Riwayat percakapan: <span id="chat-count">0</span> sesi.</div>
+          <div class="cs-row" style="flex-wrap:wrap;gap:6px">
+            <label class="cs-label" for="ai-model-custom" style="flex:0 0 100%">Model ID custom (opsional)</label>
+            <input type="text" id="ai-model-custom" class="cs-select" style="flex:1;min-width:0" placeholder="contoh: anthropic/claude-3.5-sonnet atau biarkan kosong untuk pakai preset">
+            <button type="button" id="ai-model-custom-save" class="submit-btn" style="padding:8px 14px;font-size:13px;flex:0 0 auto">Simpan</button>
+          </div>
+          <div class="cs-hint">💡 Daftar model lengkap: <a href="https://openrouter.ai/models" target="_blank" rel="noopener" style="color:var(--gold-deep);text-decoration:underline">openrouter.ai/models</a>. Saat AI mati, chatbot pakai mesin keyword bawaan (offline). Riwayat percakapan: <span id="chat-count">0</span> sesi.</div>
         </div>
       </div>
 

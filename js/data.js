@@ -14,7 +14,7 @@ const PRIMA_DATA = {
     alamat     : "Jl. Rawajati Timur No.1, Rawajati, Pancoran, Jakarta Selatan 12750",
     telepon    : "(021) 7994427",
     email      : "kel.rawajati@jakarta.go.id",
-    jamKerja   : "Senin–Jumat, 08.00–16.00 WIB",
+    jamKerja   : "Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB",
     koordinat  : { lat: -6.2605, lng: 106.8490 },
     versi      : "1.0.0",
     terakhirUpdate: "Mei 2026"
@@ -372,7 +372,7 @@ const PRIMA_DATA = {
       icon: "🏛️",
       warna: "#1565C0",
       lat: -6.2605, lng: 106.8490,
-      info: "Kantor Kelurahan Rawajati – Pusat pelayanan administrasi warga. Jam: Senin–Jumat 08.00–16.00 WIB. Telp: (021) 7994427"
+      info: "Kantor Kelurahan Rawajati – Pusat pelayanan administrasi warga. Jam: Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB. Telp: (021) 7994427"
     },
     {
       id: "bank-sampah-1",
@@ -706,7 +706,7 @@ const PRIMA_DATA = {
     {
       intent: "jam_kerja",
       keywords: ["jam", "buka", "tutup", "waktu", "operasional", "kerja", "kantor"],
-      jawaban: "⏰ **Jam Kerja Kelurahan Rawajati:**\n\nSenin – Jumat: **08.00 – 16.00 WIB**\nIstirahat: 12.00 – 13.00 WIB\n\nSabtu, Minggu & Hari Libur: **TUTUP**\n\n💡 *Untuk informasi layanan di luar jam kerja, gunakan PRIMA kapan saja – tersedia 24/7!*"
+      jawaban: "⏰ **Jam Kerja Kelurahan Rawajati:**\n\nSenin – Kamis: **07.30 – 16.00 WIB**\nJumat: **07.30 – 16.30 WIB**\nIstirahat: 12.00 – 13.00 WIB (Jumat: 11.30 – 13.00 WIB)\n\nSabtu, Minggu & Hari Libur: **TUTUP**\n\n💡 *Untuk informasi layanan di luar jam kerja, gunakan PRIMA kapan saja – tersedia 24/7!*"
     },
     {
       intent: "alamat_lokasi",
@@ -776,7 +776,7 @@ const PRIMA_DATA = {
     {
       intent: "pengaduan",
       keywords: ["pengaduan", "lapor", "keluhan", "masalah", "aduan", "komplain"],
-      jawaban: "📢 **Cara Menyampaikan Pengaduan:**\n\n1. 📝 Gunakan fitur **Suara Warga** di menu utama PRIMA\n2. 📞 Hubungi Kelurahan: **(021) 7994427**\n3. 📧 Email: kel.rawajati@jakarta.go.id\n4. 🏛️ Datang langsung ke Kelurahan (Senin–Jumat, 08.00–16.00 WIB)\n5. 📱 JAKI App (Jakarta Kini) untuk pengaduan digital Pemprov DKI\n\nSemua pengaduan akan ditindaklanjuti. Terima kasih partisipasinya! 🙏"
+      jawaban: "📢 **Cara Menyampaikan Pengaduan:**\n\n1. 📝 Gunakan fitur **Suara Warga** di menu utama PRIMA\n2. 📞 Hubungi Kelurahan: **(021) 7994427**\n3. 📧 Email: kel.rawajati@jakarta.go.id\n4. 🏛️ Datang langsung ke Kelurahan (Senin–Kamis 07.30–16.00, Jumat 07.30–16.30 WIB)\n5. 📱 JAKI App (Jakarta Kini) untuk pengaduan digital Pemprov DKI\n\nSemua pengaduan akan ditindaklanjuti. Terima kasih partisipasinya! 🙏"
     },
     {
       intent: "info_prima",

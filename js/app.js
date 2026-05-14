@@ -439,8 +439,10 @@ function refreshChatModeLabel() {
   if (!modeLabel || typeof PRIMA_AI === 'undefined') return;
 
   if (isAIEnabled()) {
-    const m = PRIMA_AI.MODELS.find(x => x.id === PRIMA_AI.getSelectedModel());
-    modeLabel.innerHTML = `Online · ✨ AI <strong>${m?.short || 'Active'}</strong>`;
+    const id = PRIMA_AI.getSelectedModel();
+    const m = PRIMA_AI.MODELS.find(x => x.id === id);
+    const label = m?.short || (id.split('/').pop() || 'Custom').slice(0, 24);
+    modeLabel.innerHTML = `Online · ✨ AI <strong>${escapeHtml(label)}</strong>`;
     PRIMA_AI.isAvailable().then(ok => {
       if (!ok) modeLabel.textContent = 'Mode lokal · Endpoint AI belum aktif';
     });
@@ -449,23 +451,30 @@ function refreshChatModeLabel() {
   }
 }
 
-// Wire up kontrol AI di Panel Admin (toggle + model selector).
+// Wire up kontrol AI di Panel Admin (toggle + model selector + custom ID).
 function initAISettings() {
   const panel = document.getElementById('chat-settings');
   const aiToggle = document.getElementById('ai-enabled');
   const modelSelect = document.getElementById('ai-model');
+  const customInput = document.getElementById('ai-model-custom');
+  const customSaveBtn = document.getElementById('ai-model-custom-save');
 
   if (!panel || !aiToggle || !modelSelect || typeof PRIMA_AI === 'undefined') return;
 
-  // Populate model dropdown (idempotent)
+  // Populate model dropdown (idempotent) + listener setup
   if (!modelSelect.dataset.populated) {
     modelSelect.innerHTML = PRIMA_AI.MODELS.map(m =>
       `<option value="${m.id}">${m.label}</option>`
-    ).join('');
+    ).join('') + '<option value="__custom__">— Custom (isi di bawah) —</option>';
     modelSelect.dataset.populated = '1';
 
     modelSelect.addEventListener('change', () => {
+      if (modelSelect.value === '__custom__') {
+        if (customInput) customInput.focus();
+        return;
+      }
       PRIMA_AI.setSelectedModel(modelSelect.value);
+      if (customInput) customInput.value = '';
       showToast('🤖 Model diganti: ' + (PRIMA_AI.MODELS.find(m => m.id === modelSelect.value)?.short || ''));
       refreshChatModeLabel();
     });
@@ -474,10 +483,34 @@ function initAISettings() {
       localStorage.setItem('prima_ai_enabled', aiToggle.checked ? '1' : '0');
       refreshChatModeLabel();
     });
+
+    if (customSaveBtn && customInput) {
+      const saveCustom = () => {
+        const ok = PRIMA_AI.setSelectedModel(customInput.value);
+        if (!ok) {
+          showToast('❌ Format model ID tidak valid. Contoh: vendor/model-name');
+          return;
+        }
+        showToast('🤖 Model custom disimpan: ' + customInput.value.trim());
+        modelSelect.value = '__custom__';
+        refreshChatModeLabel();
+      };
+      customSaveBtn.addEventListener('click', saveCustom);
+      customInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); saveCustom(); }
+      });
+    }
   }
 
   // Sync UI dengan state tersimpan
-  modelSelect.value = PRIMA_AI.getSelectedModel();
+  const currentModel = PRIMA_AI.getSelectedModel();
+  if (PRIMA_AI.isCustomModel(currentModel)) {
+    modelSelect.value = '__custom__';
+    if (customInput) customInput.value = currentModel;
+  } else {
+    modelSelect.value = currentModel;
+    if (customInput) customInput.value = '';
+  }
   const saved = localStorage.getItem('prima_ai_enabled');
   aiToggle.checked = saved === null ? true : saved === '1';
 

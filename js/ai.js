@@ -122,7 +122,7 @@ ${ctxBlocks || '(tidak ada konteks spesifik — pakai pengetahuan umum tentang P
 KONTAK KELURAHAN:
 - Telepon: ${meta.telepon || '(021) 7994427'}
 - Alamat: ${meta.alamat || 'Jl. Rawajati Timur, Pancoran, Jakarta Selatan'}
-- Jam Kerja: Senin–Jumat, 08.00–16.00 WIB`;
+- Jam Kerja: ${meta.jamKerja || 'Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB'}`;
   }
 
   // ── STREAMING CHAT ─────────────────────────────────────────────
@@ -209,8 +209,16 @@ KONTAK KELURAHAN:
   function getSelectedModel() {
     return localStorage.getItem('prima_ai_model') || DEFAULT_MODEL;
   }
+  // Menerima ID preset maupun custom (mis. "anthropic/claude-3.5-sonnet").
+  // Validasi minimal: harus format "vendor/model", non-empty.
   function setSelectedModel(id) {
-    if (MODELS.find(m => m.id === id)) localStorage.setItem('prima_ai_model', id);
+    const clean = (id || '').trim();
+    if (!clean || !clean.includes('/')) return false;
+    localStorage.setItem('prima_ai_model', clean);
+    return true;
+  }
+  function isCustomModel(id) {
+    return !MODELS.find(m => m.id === id);
   }
 
   // ── AVAILABILITY CHECK ─────────────────────────────────────────
@@ -233,6 +241,7 @@ KONTAK KELURAHAN:
     buildSystemPrompt,
     getSelectedModel,
     setSelectedModel,
+    isCustomModel,
     isAvailable
   };
 })();
