@@ -257,11 +257,12 @@ function showLayananDetail(id) {
       <div class="modal-section">
         <h4>📥 Unduh Dokumen</h4>
         ${layanan.dokumenUnduh.map(d => `
-          <button class="download-btn" onclick="handleDownload('${d.nama}')">
+          <a class="download-btn" href="${escapeHtml(d.url)}" download target="_blank" rel="noopener"
+             onclick="handleDownload('${escapeHtml(d.nama)}','${escapeHtml(d.url)}')">
             <span class="dl-icon">📄</span>
-            <span>${d.nama}</span>
+            <span>${escapeHtml(d.nama)}</span>
             <span style="margin-left:auto">⬇️</span>
-          </button>
+          </a>
         `).join('')}
       </div>
       ` : ''}
@@ -284,10 +285,31 @@ function closeModal() {
   document.body.style.overflow = '';
 }
 
-function handleDownload(docName) {
+function handleDownload(docName, url) {
+  if (!url || url.startsWith('#')) {
+    showToast('❌ File template belum tersedia. Hubungi admin kelurahan.');
+    return false;
+  }
+  // Resolve relative path to absolute
+  const absoluteUrl = url.startsWith('http') ? url : new URL(url, window.location.href).href;
   showToast(`📄 Mengunduh: ${docName}…`);
-  // In production this would fetch real file
-  setTimeout(() => showToast('✅ Template berhasil diunduh!'), 1500);
+  // For external URLs, let the anchor tag handle it; for same-origin we could fetch+blob
+  if (!absoluteUrl.startsWith(window.location.origin)) {
+    return true; // Let <a> target="_blank" handle it
+  }
+  // Same-origin: fetch and trigger download via blob (works on mobile)
+  fetch(absoluteUrl)
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.blob(); })
+    .then(blob => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = docName.replace(/[^a-zA-Z0-9\s.-]/g, '') + (absoluteUrl.match(/\.[^.]+$/)?.[0] || '.pdf');
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(a.href);
+      showToast('✅ Berhasil diunduh ke perangkat');
+    })
+    .catch(e => { showToast('❌ Gagal unduh: ' + e.message); });
+  return false;
 }
 
 // ── MAP PAGE ─────────────────────────────────────────────────────

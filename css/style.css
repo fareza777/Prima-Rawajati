@@ -702,7 +702,7 @@ input:focus, textarea:focus, select:focus {
   margin-top: 3px;
   color: var(--navy-800);
 }
-.download-btn {
+a.download-btn, .download-btn {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -717,6 +717,7 @@ input:focus, textarea:focus, select:focus {
   transition: transform var(--transition), box-shadow var(--transition);
   width: 100%;
   box-shadow: 0 6px 18px rgba(10,31,68,.2);
+  text-decoration: none;
 }
 .download-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(10,31,68,.28); }
 .download-btn:active { transform: scale(.98); }
@@ -1697,6 +1698,13 @@ input:focus, textarea:focus, select:focus {
 [data-theme="dark"] .badge-blue  { background: rgba(59,130,246,.15); color: #93C5FD; }
 [data-theme="dark"] .badge-green { background: rgba(34,197,94,.15); color: #86EFAC; }
 [data-theme="dark"] .badge-gold  { background: rgba(212,175,55,.15); color: #F4C95D; }
+
+[data-theme="dark"] a.download-btn,
+[data-theme="dark"] .download-btn {
+  background: linear-gradient(145deg, #1E3A8A, #13306E);
+  border-color: rgba(212,175,55,.35);
+  color: #fff;
+}
 
 @media (min-width: 640px) {
   [data-theme="dark"] html {
