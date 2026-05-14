@@ -18,6 +18,7 @@ function bootApp() {
   chatbot = new PRIMAChatbot(PRIMA_DATA.faqChatbot);
   initNav();
   renderHome();
+  renderLayananQuick();
   renderLayanan(PRIMA_DATA.layanan);
   renderInfoWarga();
   renderSuaraWarga();
@@ -165,6 +166,26 @@ function showSearchResults(results, query) {
 function highlightText(text, query) {
   const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
   return text.replace(regex, '<mark class="highlight">$1</mark>');
+}
+
+// Quick-access services on home page (first 4 from data)
+function renderLayananQuick() {
+  const container = document.getElementById('quick-layanan');
+  if (!container) return;
+  const quick = PRIMA_DATA.layanan.slice(0, 4);
+  container.innerHTML = quick.map(l => `
+    <div class="layanan-card" onclick="showLayananDetail('${l.id}')">
+      <span class="lcard-emoji">${l.emoji}</span>
+      <div class="lcard-body">
+        <h3>${escapeHtml(l.nama)}</h3>
+        <div class="lcard-meta">
+          <span class="badge badge-blue">${escapeHtml(l.kategori)}</span>
+          <span class="badge badge-green">${escapeHtml(l.biaya)}</span>
+        </div>
+      </div>
+      <span class="lcard-arrow">›</span>
+    </div>
+  `).join('');
 }
 
 // ── LAYANAN PAGE ─────────────────────────────────────────────────
@@ -483,10 +504,7 @@ function refreshChatModeLabel() {
   if (!modeLabel || typeof PRIMA_AI === 'undefined') return;
 
   if (isAIEnabled()) {
-    const id = PRIMA_AI.getSelectedModel();
-    const m = PRIMA_AI.MODELS.find(x => x.id === id);
-    const label = m?.short || (id.split('/').pop() || 'Custom').slice(0, 24);
-    modeLabel.innerHTML = `Online · ✨ AI <strong>${escapeHtml(label)}</strong>`;
+    modeLabel.textContent = 'Online · AI aktif';
     PRIMA_AI.isAvailable().then(ok => {
       if (!ok) modeLabel.textContent = 'Mode lokal · Endpoint AI belum aktif';
     });
@@ -787,8 +805,7 @@ function finalizeBotMessage(msgEl, opts) {
   // Time + actions
   const meta = document.createElement('div');
   meta.className = 'msg-time';
-  const modelShort = (PRIMA_AI?.MODELS || []).find(m => m.id === opts.modelUsed)?.short || 'AI';
-  meta.innerHTML = `✨ ${escapeHtml(modelShort)} · ${opts.time}`;
+  meta.textContent = opts.time;
   wrap.appendChild(meta);
 
   // Action buttons
