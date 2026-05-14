@@ -594,27 +594,32 @@
 
 <!-- Inline: quick-layanan + admin helpers + PWA SW -->
 <script>
-  // Render 4 quick-access services on Home
-  (function(){
+  // Render 4 quick-access services on Home (wait for data to load)
+  function renderQuickLayanan(){
+    if (!window.PRIMA_DATA || !Array.isArray(PRIMA_DATA.layanan)) return;
     const quick = ['SKD','SAW','PENGANTAR-SKCK','SKTM'];
     const data  = PRIMA_DATA.layanan.filter(l => quick.includes(l.id));
     const container = document.getElementById('quick-layanan');
-    if(container) {
-      container.innerHTML = data.map(l => `
-        <div class="layanan-card" onclick="showLayananDetail('${l.id}')">
-          <span class="lcard-emoji">${l.emoji}</span>
-          <div class="lcard-body">
-            <h3>${l.nama}</h3>
-            <div class="lcard-meta">
-              <span class="badge badge-blue">${l.kategori}</span>
-              <span class="badge badge-green">⏱ ${l.waktuProses}</span>
-            </div>
+    if(!container) return;
+    container.innerHTML = data.map(l => `
+      <div class="layanan-card" onclick="showLayananDetail('${l.id}')">
+        <span class="lcard-emoji">${l.emoji || '📄'}</span>
+        <div class="lcard-body">
+          <h3>${l.nama}</h3>
+          <div class="lcard-meta">
+            <span class="badge badge-blue">${l.kategori || ''}</span>
+            <span class="badge badge-green">⏱ ${l.waktuProses || ''}</span>
           </div>
-          <span class="lcard-arrow">›</span>
         </div>
-      `).join('');
-    }
-  })();
+        <span class="lcard-arrow">›</span>
+      </div>
+    `).join('');
+  }
+  if (window.PRIMA_DATA_READY) {
+    renderQuickLayanan();
+  } else {
+    window.addEventListener('prima:data-ready', renderQuickLayanan, { once: true });
+  }
 
   // Admin helpers
   function clearChatHistory() {
