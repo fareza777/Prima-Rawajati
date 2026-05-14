@@ -87,7 +87,54 @@ Kalau pakai `python -m http.server`, mode AI **mati** otomatis (chatbot fallback
 
 ## Admin
 
-Password default: `prima2026` (ubah di `js/app.js`).
+Password login default: `prima2026` (ubah di `js/app.js`).
+
+### Editor Data PRIMA (Self-service via Admin Panel)
+
+Admin bisa edit konten (layanan, FAQ chatbot, info warga, peta) langsung dari Panel Admin tanpa developer. Perubahan di-commit otomatis ke GitHub via API → Vercel auto-deploy.
+
+**Cara kerja:**
+
+```
+Admin Panel → POST /api/save-data → GitHub Contents API → Vercel rebuild
+```
+
+Token GitHub disimpan di Vercel env vars — **tidak pernah** menyentuh browser.
+
+**Setup (sekali saja):**
+
+1. **Buat GitHub Personal Access Token (PAT)**
+   - Buka https://github.com/settings/tokens?type=beta → "Generate new token (fine-grained)"
+   - Repository access: **Only select repositories** → pilih `Prima-Rawajati`
+   - Permissions → Repository → **Contents: Read and write**
+   - Generate & salin token (`github_pat_…`)
+
+2. **Set Env Vars di Vercel** (Dashboard → Settings → Environment Variables → Production + Preview + Development)
+   ```
+   GITHUB_TOKEN   = github_pat_xxxxx (dari langkah 1)
+   GITHUB_REPO    = fareza777/Prima-Rawajati
+   GITHUB_BRANCH  = main
+   ADMIN_SECRET   = <string acak 32+ karakter, simpan baik-baik>
+   ```
+
+3. **Redeploy** sekali (Vercel → Deployments → terakhir → Redeploy)
+
+**Pemakaian admin:**
+
+1. Masuk Panel Admin (login dengan `prima2026`)
+2. Klik **📝 Editor Data PRIMA**
+3. Pilih tab kategori (Layanan / FAQ / Peta / Kuliner / Usaha Binaan / Kegiatan / Meta)
+4. Edit langsung di JSON editor **ATAU** klik "⬇ Download Excel" → edit di Excel desktop → "⬆ Upload Excel"
+5. Klik **💾 Simpan & Publish ke GitHub** → masukkan Admin Secret → tunggu konfirmasi
+6. Vercel auto-build ~1-2 menit → warga akan lihat versi terbaru saat refresh
+
+**Format Excel:**
+- Setiap kategori punya kolom standar (lihat header sheet saat download)
+- Untuk field array (mis. `syarat`, `prosedur`, `keywords`): pisahkan item dengan ` | ` (spasi-pipe-spasi)
+  - Contoh: `KTP asli | KK asli | Surat pengantar RT`
+- Untuk `dokumenUnduh` (JSON kompleks): isi dengan JSON array string seperti `[{"nama":"Form A","url":"..."}]`
+
+**Sumber data sekarang:** [`data/prima-data.json`](data/prima-data.json) — file ini di-fetch async oleh `js/data.js` saat halaman dimuat.
 
 ## Lisensi
 

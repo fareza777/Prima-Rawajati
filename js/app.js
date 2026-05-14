@@ -8,7 +8,13 @@ let mapMarkers = [];
 let activeFilter = 'Semua';
 
 // ── INIT ─────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+// Data dimuat async dari data/prima-data.json oleh js/data.js.
+// Render hanya setelah event 'prima:data-ready' supaya semua section
+// punya data lengkap saat pertama kali tampil.
+function bootApp() {
+  if (window.PRIMA_DATA_LOAD_ERROR) {
+    showToast('⚠️ Gagal memuat data PRIMA: ' + window.PRIMA_DATA_LOAD_ERROR);
+  }
   chatbot = new PRIMAChatbot(PRIMA_DATA.faqChatbot);
   initNav();
   renderHome();
@@ -20,6 +26,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load saved page
   const lastPage = localStorage.getItem('prima_last_page') || 'home';
   navigateTo(lastPage);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.PRIMA_DATA_READY) {
+    bootApp();
+  } else {
+    window.addEventListener('prima:data-ready', bootApp, { once: true });
+  }
 });
 
 // ── NAVIGATION ───────────────────────────────────────────────────
@@ -1014,3 +1028,305 @@ document.addEventListener('click', e => {
     if (sr) sr.style.display = 'none';
   }
 });
+
+
+// ══════════════════════════════════════════════════════════════════
+// ADMIN — DATA EDITOR (commit via /api/save-data → GitHub → Vercel)
+// ══════════════════════════════════════════════════════════════════
+
+// Working copy yang di-edit admin. Disalin dari PRIMA_DATA saat modal dibuka.
+let _dataEditorDraft = null;
+let _dataEditorTab = 'layanan';
+
+// Schema kolom Excel per kategori. Urutan kolom = urutan di sheet.
+const DATA_EDITOR_SCHEMA = {
+  layanan: {
+    label: '📋 Layanan & Surat',
+    fields: ['id', 'nama', 'kategori', 'emoji', 'deskripsi', 'syarat', 'prosedur', 'waktuProses', 'biaya', 'dokumenUnduh'],
+    arrayFields: ['syarat', 'prosedur'],
+    jsonFields: ['dokumenUnduh']
+  },
+  faqChatbot: {
+    label: '💬 FAQ Chatbot',
+    fields: ['intent', 'keywords', 'jawaban'],
+    arrayFields: ['keywords'],
+    jsonFields: []
+  },
+  petaMarkers: {
+    label: '🗺️ Peta Wilayah',
+    fields: ['id', 'nama', 'kategori', 'icon', 'warna', 'lat', 'lng', 'alamat', 'deskripsi', 'info'],
+    arrayFields: [],
+    jsonFields: []
+  },
+  kuliner: {
+    label: '🍽️ Kuliner',
+    fields: ['id', 'nama', 'kategori', 'deskripsi', 'lokasi', 'jam', 'kontak', 'foto'],
+    arrayFields: [],
+    jsonFields: [],
+    parent: 'infoWarga'
+  },
+  usahaBinaan: {
+    label: '🏪 Usaha Binaan',
+    fields: ['id', 'nama', 'kategori', 'pemilik', 'deskripsi', 'lokasi', 'kontak'],
+    arrayFields: [],
+    jsonFields: [],
+    parent: 'infoWarga'
+  },
+  kegiatanRTRW: {
+    label: '🤝 Kegiatan RT/RW',
+    fields: ['id', 'nama', 'deskripsi', 'jadwal', 'lokasi', 'penanggungJawab'],
+    arrayFields: [],
+    jsonFields: [],
+    parent: 'infoWarga'
+  },
+  meta: {
+    label: '⚙️ Meta Kelurahan',
+    fields: [],
+    arrayFields: [],
+    jsonFields: [],
+    singleObject: true
+  }
+};
+
+function getCategoryArray(category) {
+  const schema = DATA_EDITOR_SCHEMA[category];
+  if (!schema) return null;
+  if (schema.singleObject) return _dataEditorDraft.meta;
+  if (schema.parent) return _dataEditorDraft[schema.parent][category];
+  return _dataEditorDraft[category];
+}
+
+function setCategoryArray(category, arr) {
+  const schema = DATA_EDITOR_SCHEMA[category];
+  if (schema.singleObject) { _dataEditorDraft.meta = arr; return; }
+  if (schema.parent) { _dataEditorDraft[schema.parent][category] = arr; return; }
+  _dataEditorDraft[category] = arr;
+}
+
+function openDataEditor() {
+  if (!window.PRIMA_DATA_READY) {
+    showToast('⏳ Data belum siap, coba lagi sebentar.');
+    return;
+  }
+  _dataEditorDraft = JSON.parse(JSON.stringify(PRIMA_DATA));
+  _dataEditorTab = 'layanan';
+  renderDataEditor();
+  const modal = document.getElementById('modal-overlay');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderDataEditor() {
+  const body = document.getElementById('modal-body-content');
+  const tabs = Object.entries(DATA_EDITOR_SCHEMA).map(([key, s]) =>
+    `<button class="de-tab ${key === _dataEditorTab ? 'active' : ''}" onclick="switchDataEditorTab('${key}')">${s.label}</button>`
+  ).join('');
+
+  body.innerHTML = `
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <span class="modal-emoji">📝</span>
+      <div class="modal-title">
+        <h3>Editor Data PRIMA</h3>
+        <p>Edit konten yang tampil ke warga. Perubahan akan di-commit ke GitHub & auto-deploy via Vercel.</p>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="de-tabs">${tabs}</div>
+      <div id="de-tab-content"></div>
+
+      <div class="de-actions">
+        <button class="submit-btn" style="background:var(--accent)" onclick="saveDataEditor()">💾 Simpan & Publish ke GitHub</button>
+        <button class="submit-btn" style="background:var(--text-muted)" onclick="closeModal()">Batal</button>
+      </div>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:8px">
+        💡 Setelah publish, Vercel auto-build ~1-2 menit. Warga akan otomatis lihat versi terbaru saat refresh.
+      </p>
+    </div>
+  `;
+  renderDataEditorTab();
+}
+
+function switchDataEditorTab(key) {
+  _dataEditorTab = key;
+  document.querySelectorAll('.de-tab').forEach(b => b.classList.toggle('active', b.textContent === DATA_EDITOR_SCHEMA[key].label));
+  renderDataEditorTab();
+}
+
+function renderDataEditorTab() {
+  const container = document.getElementById('de-tab-content');
+  const schema = DATA_EDITOR_SCHEMA[_dataEditorTab];
+  const data = getCategoryArray(_dataEditorTab);
+  const count = schema.singleObject ? 1 : (data || []).length;
+
+  container.innerHTML = `
+    <div class="de-toolbar">
+      <span class="de-count">${count} ${schema.singleObject ? 'object' : 'baris'}</span>
+      ${!schema.singleObject ? `
+        <button class="de-btn" onclick="downloadCategoryExcel('${_dataEditorTab}')">⬇ Download Excel</button>
+        <button class="de-btn" onclick="document.getElementById('de-excel-input').click()">⬆ Upload Excel</button>
+        <input type="file" id="de-excel-input" hidden accept=".xlsx,.xls,.csv" onchange="handleExcelUpload(event, '${_dataEditorTab}')">
+      ` : ''}
+      <button class="de-btn" onclick="downloadJSON()">⬇ JSON penuh</button>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);margin:8px 0">
+      Edit langsung di JSON di bawah. Format harus valid (tanda kutip ganda, koma antar item). Untuk field array (seperti <code>syarat</code>), pakai array JSON <code>["item 1", "item 2"]</code>.
+    </p>
+    <textarea id="de-json-editor" class="de-json" spellcheck="false">${escapeHtml(JSON.stringify(data, null, 2))}</textarea>
+    <div id="de-json-error" style="color:var(--danger,#c1272d);font-size:12px;min-height:18px;margin-top:4px"></div>
+  `;
+
+  const ta = document.getElementById('de-json-editor');
+  ta.addEventListener('input', validateAndApplyJSON);
+}
+
+function validateAndApplyJSON() {
+  const ta = document.getElementById('de-json-editor');
+  const errEl = document.getElementById('de-json-error');
+  try {
+    const parsed = JSON.parse(ta.value);
+    setCategoryArray(_dataEditorTab, parsed);
+    errEl.textContent = '✓ JSON valid';
+    errEl.style.color = 'var(--success,#2e7d32)';
+    return true;
+  } catch (e) {
+    errEl.textContent = '✗ ' + e.message;
+    errEl.style.color = 'var(--danger,#c1272d)';
+    return false;
+  }
+}
+
+function downloadJSON() {
+  const blob = new Blob([JSON.stringify(_dataEditorDraft, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'prima-data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('📥 prima-data.json terunduh');
+}
+
+// ── Excel import/export per kategori ─────────────────────────────
+function rowToObject(row, schema) {
+  const obj = {};
+  schema.fields.forEach(f => {
+    let v = row[f];
+    if (v === undefined || v === null) v = '';
+    if (schema.arrayFields.includes(f)) {
+      // Excel cell pakai "item 1 | item 2 | item 3" sebagai pemisah array
+      obj[f] = String(v).split('|').map(s => s.trim()).filter(Boolean);
+    } else if (schema.jsonFields.includes(f)) {
+      try { obj[f] = v ? JSON.parse(v) : []; } catch { obj[f] = []; }
+    } else if (f === 'lat' || f === 'lng') {
+      obj[f] = Number(v);
+    } else {
+      obj[f] = v;
+    }
+  });
+  return obj;
+}
+
+function objectToRow(item, schema) {
+  const row = {};
+  schema.fields.forEach(f => {
+    const v = item[f];
+    if (schema.arrayFields.includes(f)) {
+      row[f] = Array.isArray(v) ? v.join(' | ') : (v || '');
+    } else if (schema.jsonFields.includes(f)) {
+      row[f] = JSON.stringify(v || []);
+    } else {
+      row[f] = v == null ? '' : v;
+    }
+  });
+  return row;
+}
+
+function downloadCategoryExcel(category) {
+  if (typeof XLSX === 'undefined') {
+    showToast('⚠️ SheetJS belum termuat. Refresh halaman.');
+    return;
+  }
+  const schema = DATA_EDITOR_SCHEMA[category];
+  const data = getCategoryArray(category) || [];
+  const rows = data.map(item => objectToRow(item, schema));
+  const ws = XLSX.utils.json_to_sheet(rows, { header: schema.fields });
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, category);
+  XLSX.writeFile(wb, `prima-${category}.xlsx`);
+  showToast(`📥 prima-${category}.xlsx terunduh`);
+}
+
+function handleExcelUpload(event, category) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (typeof XLSX === 'undefined') {
+    showToast('⚠️ SheetJS belum termuat.');
+    return;
+  }
+
+  const schema = DATA_EDITOR_SCHEMA[category];
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const wb = XLSX.read(e.target.result, { type: 'array' });
+      const sheetName = wb.SheetNames[0];
+      const rows = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { defval: '' });
+      const parsed = rows.map(r => rowToObject(r, schema));
+      setCategoryArray(category, parsed);
+      renderDataEditorTab();
+      showToast(`✓ ${parsed.length} baris di-import dari Excel`);
+    } catch (err) {
+      showToast('❌ Gagal baca Excel: ' + err.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+  event.target.value = '';
+}
+
+// ── Save: POST ke /api/save-data ─────────────────────────────────
+async function saveDataEditor() {
+  // Pastikan JSON di tab aktif tervalidasi sebelum kirim
+  if (!validateAndApplyJSON()) {
+    showToast('❌ JSON tab aktif tidak valid. Perbaiki dulu.');
+    return;
+  }
+
+  const secret = prompt('Masukkan Admin Secret (env ADMIN_SECRET di Vercel):');
+  if (!secret) return;
+
+  const commitMessage = prompt(
+    'Pesan commit (opsional):',
+    'chore(data): admin update via Panel'
+  ) || 'chore(data): admin update via Panel';
+
+  showToast('⏳ Mengirim ke GitHub…');
+
+  try {
+    const res = await fetch('/api/save-data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Admin-Secret': secret
+      },
+      body: JSON.stringify({ data: _dataEditorDraft, message: commitMessage })
+    });
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      showToast('❌ Gagal: ' + (out.error || res.status));
+      return;
+    }
+    showToast('✅ Tersimpan! Vercel auto-deploy ~1-2 menit.');
+    if (out.url) {
+      setTimeout(() => {
+        if (confirm('Buka commit di GitHub?')) window.open(out.url, '_blank');
+      }, 500);
+    }
+    // Update local in-memory data agar admin tidak perlu refresh untuk lihat versi baru
+    window.PRIMA_DATA = JSON.parse(JSON.stringify(_dataEditorDraft));
+    closeModal();
+  } catch (e) {
+    showToast('❌ Network error: ' + e.message);
+  }
+}

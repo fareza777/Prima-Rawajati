@@ -452,6 +452,14 @@
           </div>
           <span class="aa-arrow">›</span>
         </div>
+        <div class="admin-action" onclick="openDataEditor()">
+          <span class="aa-icon">📝</span>
+          <div>
+            <h4>Editor Data PRIMA</h4>
+            <p>Edit layanan, FAQ, info warga, peta — import/export Excel</p>
+          </div>
+          <span class="aa-arrow">›</span>
+        </div>
         <div class="admin-action" onclick="clearChatHistory()">
           <span class="aa-icon">🗑️</span>
           <div>
@@ -573,6 +581,8 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <!-- QRCode.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<!-- SheetJS (untuk import/export Excel di Panel Admin) -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <!-- App Data -->
 <script src="js/data.js"></script>
 <!-- AI Client (OpenRouter via Vercel proxy) -->

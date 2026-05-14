@@ -1370,3 +1370,77 @@ input:focus, textarea:focus, select:focus {
     z-index: 1;
   }
 }
+
+
+/* ── Data Editor (Admin Modal) ──────────────────────────────────── */
+.de-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+.de-tab {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.de-tab:hover { background: var(--surface-2); color: var(--text); }
+.de-tab.active {
+  background: var(--navy-900);
+  color: var(--gold);
+  border-color: var(--navy-900);
+}
+.de-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.de-count {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  padding: 4px 10px;
+  background: var(--surface-2);
+  border-radius: 12px;
+}
+.de-btn {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.de-btn:hover { background: var(--gold); color: var(--navy-900); border-color: var(--gold-deep); }
+.de-json {
+  width: 100%;
+  min-height: 300px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  resize: vertical;
+  line-height: 1.5;
+}
+.de-json:focus { outline: 2px solid var(--gold); outline-offset: -2px; }
+.de-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+.de-actions .submit-btn { flex: 1; }
