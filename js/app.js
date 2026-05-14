@@ -934,9 +934,7 @@ function renderSuaraWarga() {
       return;
     }
 
-    // Save to localStorage
-    const feedbacks = JSON.parse(localStorage.getItem('prima_feedbacks') || '[]');
-    feedbacks.push({
+    const newFeedback = {
       id: Date.now(),
       timestamp: new Date().toISOString(),
       rating: selectedRating,
@@ -945,8 +943,19 @@ function renderSuaraWarga() {
       masukan,
       nama,
       rt
-    });
-    localStorage.setItem('prima_feedbacks', JSON.stringify(feedbacks));
+    };
+
+    // Local backup (in case server unavailable)
+    const localFbs = JSON.parse(localStorage.getItem('prima_feedbacks') || '[]');
+    localFbs.push(newFeedback);
+    localStorage.setItem('prima_feedbacks', JSON.stringify(localFbs));
+
+    // Async send to server
+    fetch('/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ feedback: newFeedback })
+    }).catch(() => {});
 
     // Update admin stats
     updateAdminStats();
@@ -985,8 +994,46 @@ function renderAdminPage() {
   });
 }
 
-function updateAdminStats() {
-  const feedbacks = JSON.parse(localStorage.getItem('prima_feedbacks') || '[]');
+let _feedbacksCache = null;
+
+async function fetchServerFeedbacks() {
+  if (_feedbacksCache) return _feedbacksCache;
+  try {
+    const res = await fetch('/api/feedback', { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      _feedbacksCache = Array.isArray(data.feedbacks) ? data.feedbacks : [];
+      return _feedbacksCache;
+    }
+  } catch {}
+  // Fallback to localStorage
+  return JSON.parse(localStorage.getItem('prima_feedbacks') || '[]');
+}
+
+function _renderFeedbackList(feedbacks) {
+  const list = document.getElementById('admin-feedback-list');
+  if (!list) return;
+  if (!feedbacks.length) {
+    list.innerHTML = '<p style="color:var(--text-muted);font-size:13px;text-align:center;padding:20px">Belum ada masukan dari warga.</p>';
+    return;
+  }
+  list.innerHTML = feedbacks.slice().reverse().slice(0, 20).map(f => `
+    <div style="padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;background:var(--bg)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <strong style="font-size:14px">${escapeHtml(f.nama)}</strong>
+        <span style="font-size:12px;color:var(--text-muted)">RT ${escapeHtml(f.rt)}</span>
+        <span style="margin-left:auto;font-size:12px">${'⭐'.repeat(f.rating)}</span>
+      </div>
+      ${f.fiturFavorit ? `<p style="font-size:11px;color:var(--text-muted)">Fitur favorit: ${escapeHtml(f.fiturFavorit)}</p>` : ''}
+      ${f.aksesInfo ? `<p style="font-size:11px;color:var(--text-muted)">Akses info: ${escapeHtml(f.aksesInfo)}</p>` : ''}
+      ${f.masukan ? `<p style="font-size:13px;color:var(--text)">"${escapeHtml(f.masukan)}"</p>` : ''}
+      <p style="font-size:11px;color:var(--text-muted);margin-top:4px">${new Date(f.timestamp).toLocaleString('id-ID')}</p>
+    </div>
+  `).join('');
+}
+
+async function updateAdminStats() {
+  const feedbacks = await fetchServerFeedbacks();
   const chatStats = chatbot ? chatbot.getStats() : JSON.parse(localStorage.getItem('prima_chat_stats') || '{"totalConversations":0}');
 
   const avgRating = feedbacks.length > 0
@@ -1005,36 +1052,19 @@ function updateAdminStats() {
   if (el('admin-stat-kepuasan'))   el('admin-stat-kepuasan').textContent   = satisfactionRate + '%';
   if (el('chat-count'))            el('chat-count').textContent            = chatStats.totalConversations || 0;
 
-  // Feedback list
-  const list = document.getElementById('admin-feedback-list');
-  if (list) {
-    if (!feedbacks.length) {
-      list.innerHTML = '<p style="color:var(--text-muted);font-size:13px;text-align:center;padding:20px">Belum ada masukan dari warga.</p>';
-      return;
-    }
-    list.innerHTML = feedbacks.slice().reverse().slice(0, 10).map(f => `
-      <div style="padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;background:var(--bg)">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-          <strong style="font-size:14px">${escapeHtml(f.nama)}</strong>
-          <span style="font-size:12px;color:var(--text-muted)">RT ${escapeHtml(f.rt)}</span>
-          <span style="margin-left:auto;font-size:12px">${'⭐'.repeat(f.rating)}</span>
-        </div>
-        ${f.masukan ? `<p style="font-size:13px;color:var(--text)">"${escapeHtml(f.masukan)}"</p>` : ''}
-        <p style="font-size:11px;color:var(--text-muted);margin-top:4px">${new Date(f.timestamp).toLocaleString('id-ID')}</p>
-      </div>
-    `).join('');
-  }
+  _renderFeedbackList(feedbacks);
 }
 
-function showAdminFeedback() {
-  updateAdminStats();
+async function showAdminFeedback() {
+  _feedbacksCache = null; // force refresh
+  await updateAdminStats();
   showToast('📊 Data feedback dimuat ulang');
 }
 
-function exportData() {
-  const feedbacks = JSON.parse(localStorage.getItem('prima_feedbacks') || '[]');
+async function exportData() {
+  const feedbacks = await fetchServerFeedbacks();
   const chatLogs  = JSON.parse(localStorage.getItem('prima_chat_logs')  || '[]');
-  const chatStats = JSON.parse(localStorage.getItem('prima_chat_stats') || '{}');
+  const chatStats = chatbot ? chatbot.getStats() : JSON.parse(localStorage.getItem('prima_chat_stats') || '{}');
 
   const data = {
     exportDate: new Date().toISOString(),
