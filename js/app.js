@@ -1212,6 +1212,76 @@ const DATA_EDITOR_SCHEMA = {
   }
 };
 
+// Form field specs: label, placeholder, type, rows (for textarea)
+const FORM_FIELD_SPECS = {
+  id: { label: 'ID (singkatan)', ph: 'SKD' },
+  nama: { label: 'Nama', ph: 'Nama item' },
+  emoji: { label: 'Emoji', ph: '🏠', w: '80px' },
+  kategori: { label: 'Kategori', ph: 'Kependudukan' },
+  biaya: { label: 'Biaya', ph: 'Gratis' },
+  waktuProses: { label: 'Waktu Proses', ph: '1 hari kerja' },
+  deskripsi: { label: 'Deskripsi', ph: 'Penjelasan singkat…', type: 'textarea', rows: 2 },
+  syarat: { label: 'Syarat', ph: 'Fotokopi KTP…', type: 'textarea', rows: 5 },
+  prosedur: { label: 'Prosedur', ph: 'Langkah-langkah…', type: 'textarea', rows: 5 },
+  intent: { label: 'Intent / Kode', ph: 'nikah' },
+  keywords: { label: 'Keywords', ph: 'nikah, pernikahan…', type: 'textarea', rows: 3 },
+  jawaban: { label: 'Jawaban Chatbot', ph: 'Jawaban lengkap…', type: 'textarea', rows: 5 },
+  icon: { label: 'Icon Leaflet', ph: 'university' },
+  warna: { label: 'Warna Marker', ph: '#D4AF37' },
+  lat: { label: 'Latitude', ph: '-6.2605' },
+  lng: { label: 'Longitude', ph: '106.849' },
+  alamat: { label: 'Alamat', ph: 'Jl. …' },
+  info: { label: 'Info Tambahan', ph: 'Detail…', type: 'textarea', rows: 2 },
+  lokasi: { label: 'Lokasi', ph: 'Alamat / tempat' },
+  jam: { label: 'Jam Buka', ph: '08.00–22.00' },
+  kontak: { label: 'Kontak', ph: '0812…' },
+  foto: { label: 'URL Foto', ph: 'https://…' },
+  pemilik: { label: 'Pemilik', ph: 'Nama pemilik' },
+  jadwal: { label: 'Jadwal', ph: 'Setiap hari Jumat' },
+  penanggungJawab: { label: 'Penanggung Jawab', ph: 'Nama PJ' }
+};
+
+// Form layout per tab: array of rows, each row is array of field keys
+const FORM_LAYOUTS = {
+  layanan: [
+    ['id','nama'],
+    ['emoji','kategori','biaya'],
+    ['waktuProses'],
+    ['deskripsi'],
+    ['syarat','prosedur']
+  ],
+  faqChatbot: [
+    ['intent','keywords'],
+    ['jawaban']
+  ],
+  petaMarkers: [
+    ['id','nama'],
+    ['kategori','icon','warna'],
+    ['lat','lng'],
+    ['alamat'],
+    ['deskripsi'],
+    ['info']
+  ],
+  kuliner: [
+    ['id','nama'],
+    ['kategori','lokasi','jam'],
+    ['deskripsi'],
+    ['kontak','foto']
+  ],
+  usahaBinaan: [
+    ['id','nama'],
+    ['kategori','pemilik','lokasi'],
+    ['deskripsi'],
+    ['kontak']
+  ],
+  kegiatanRTRW: [
+    ['id','nama'],
+    ['jadwal','lokasi'],
+    ['deskripsi'],
+    ['penanggungJawab']
+  ]
+};
+
 function getCategoryArray(category) {
   const schema = DATA_EDITOR_SCHEMA[category];
   if (!schema) return null;
@@ -1288,69 +1358,44 @@ function renderDataEditorTab() {
   const count = schema.singleObject ? 1 : (data || []).length;
 
   // ═══════════════════════════════════════════════════════════════
-  // LAYANAN FORM MODE (user-friendly, no JSON)
+  // FORM MODE: editing an item in any array-based tab
   // ═══════════════════════════════════════════════════════════════
-  if (_dataEditorTab === 'layanan' && _dataEditorEditingIdx !== null) {
+  if (_dataEditorEditingIdx !== null && !schema.singleObject) {
     const isNew = _dataEditorEditingIdx === -1;
-    const item = isNew
-      ? { id:'', nama:'', emoji:'📄', kategori:'', deskripsi:'', waktuProses:'', biaya:'Gratis', syarat:[], prosedur:[], dokumenUnduh:[], tags:[] }
-      : _dataEditorDraft.layanan[_dataEditorEditingIdx] || {};
+    const item = isNew ? {} : (data[_dataEditorEditingIdx] || {});
+    const title = isNew ? 'Item Baru' : escapeHtml(item.nama || item.id || item.intent || 'Edit');
+    const layout = FORM_LAYOUTS[_dataEditorTab] || [];
 
-    const syaratText = Array.isArray(item.syarat) ? item.syarat.join('\n') : '';
-    const prosedurText = Array.isArray(item.prosedur) ? item.prosedur.join('\n') : '';
-    const docs = Array.isArray(item.dokumenUnduh) ? item.dokumenUnduh : [];
+    let formRowsHtml = '';
+    layout.forEach(row => {
+      const cols = row.map(key => {
+        const spec = FORM_FIELD_SPECS[key] || { label: key, ph: '' };
+        const isArray = schema.arrayFields.includes(key);
+        const isTextarea = spec.type === 'textarea' || isArray;
+        let value = item[key] || '';
+        if (isArray && Array.isArray(value)) value = value.join('\n');
 
-    container.innerHTML = `
-      <div class="de-toolbar">
-        <span class="de-count">${isNew ? 'Layanan Baru' : escapeHtml(item.nama || item.id)}</span>
-        <button class="de-btn" onclick="cancelLayananForm()">← Kembali</button>
-        <button class="de-btn de-btn-ai" onclick="saveLayananForm()">💾 Simpan ke Draft</button>
-      </div>
+        const inputStyle = 'width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px';
+        const taStyle = inputStyle + ';resize:vertical;line-height:1.5';
+        const extraStyle = spec.w ? `;width:${spec.w}` : '';
+        const arrayHint = isArray ? ' <span style="font-weight:400">(satu per baris)</span>' : '';
 
-      <div class="de-form" style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
-        <div class="de-form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div>
-            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">ID (singkatan)</label>
-            <input type="text" id="lf-id" value="${escapeHtml(item.id || '')}" placeholder="SKD" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px">
-          </div>
-          <div>
-            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Nama Layanan</label>
-            <input type="text" id="lf-nama" value="${escapeHtml(item.nama || '')}" placeholder="Surat Keterangan Domisili" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px">
-          </div>
-        </div>
-        <div class="de-form-row" style="display:grid;grid-template-columns:80px 1fr 1fr;gap:10px">
-          <div>
-            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Emoji</label>
-            <input type="text" id="lf-emoji" value="${escapeHtml(item.emoji || '')}" placeholder="🏠" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;text-align:center">
-          </div>
-          <div>
-            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Kategori</label>
-            <input type="text" id="lf-kategori" value="${escapeHtml(item.kategori || '')}" placeholder="Kependudukan" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px">
-          </div>
-          <div>
-            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Biaya</label>
-            <input type="text" id="lf-biaya" value="${escapeHtml(item.biaya || '')}" placeholder="Gratis" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px">
-          </div>
-        </div>
-        <div>
-          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Waktu Proses</label>
-          <input type="text" id="lf-waktu" value="${escapeHtml(item.waktuProses || '')}" placeholder="1 hari kerja" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px">
-        </div>
-        <div>
-          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Deskripsi</label>
-          <textarea id="lf-deskripsi" rows="2" placeholder="Penjelasan singkat layanan…" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;resize:vertical;line-height:1.5">${escapeHtml(item.deskripsi || '')}</textarea>
-        </div>
-        <div class="de-form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div>
-            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Syarat <span style="font-weight:400">(satu per baris)</span></label>
-            <textarea id="lf-syarat" rows="5" placeholder="Fotokopi KTP&#10;Surat Pengantar RT/RW" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;resize:vertical;line-height:1.5">${escapeHtml(syaratText)}</textarea>
-          </div>
-          <div>
-            <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Prosedur <span style="font-weight:400">(satu per baris)</span></label>
-            <textarea id="lf-prosedur" rows="5" placeholder="Ambil surat pengantar di RT&#10;Datang ke loket kelurahan" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;resize:vertical;line-height:1.5">${escapeHtml(prosedurText)}</textarea>
-          </div>
-        </div>
+        const inputHtml = isTextarea
+          ? `<textarea id="de-form-${key}" rows="${spec.rows || 3}" placeholder="${spec.ph}" style="${taStyle}">${escapeHtml(value)}</textarea>`
+          : `<input type="text" id="de-form-${key}" value="${escapeHtml(value)}" placeholder="${spec.ph}" style="${inputStyle}${extraStyle}">`;
 
+        return `<div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">${spec.label}${arrayHint}</label>${inputHtml}</div>`;
+      }).join('');
+
+      const gridCols = row.map(() => '1fr').join(' ');
+      formRowsHtml += `<div style="display:grid;grid-template-columns:${gridCols};gap:10px">${cols}</div>`;
+    });
+
+    // Special: dokumenUnduh section for layanan
+    let docsSection = '';
+    if (_dataEditorTab === 'layanan') {
+      const docs = Array.isArray(item.dokumenUnduh) ? item.dokumenUnduh : [];
+      docsSection = `
         <div>
           <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Dokumen Unduh</label>
           <div id="lf-docs-list" style="display:flex;flex-direction:column;gap:6px">
@@ -1364,36 +1409,85 @@ function renderDataEditorTab() {
           </div>
           <button class="de-btn" onclick="addDocRow()" style="margin-top:6px;font-size:12px;padding:6px 10px">+ Tambah Dokumen</button>
         </div>
-      </div>
+      `;
+    }
 
+    container.innerHTML = `
+      <div class="de-toolbar">
+        <span class="de-count">${title}</span>
+        <button class="de-btn" onclick="cancelFormEdit()">← Kembali</button>
+        <button class="de-btn de-btn-ai" onclick="saveFormEdit()">💾 Simpan ke Draft</button>
+      </div>
+      <div class="de-form" style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+        ${formRowsHtml}
+        ${docsSection}
+      </div>
       <div style="margin-top:12px;padding:10px;background:var(--surface-2);border-radius:8px;border:1px dashed var(--border);font-size:12px;color:var(--text-muted)">
-        💡 <strong>Tips:</strong> Isi field di atas, lalu klik <strong>"Simpan ke Draft"</strong>. Setelah semua layanan selesai di-edit, klik tombol <strong>"💾 Simpan & Publish"</strong> di bawah untuk commit ke GitHub.
+        💡 <strong>Tips:</strong> Isi field di atas, lalu klik <strong>"Simpan ke Draft"</strong>. Setelah semua selesai, klik <strong>"💾 Simpan & Publish"</strong> di bawah.
       </div>
     `;
     return;
   }
 
   // ═══════════════════════════════════════════════════════════════
-  // DEFAULT: LIST + JSON EDITOR (non-layanan tabs)
+  // META FORM MODE
+  // ═══════════════════════════════════════════════════════════════
+  if (schema.singleObject) {
+    const meta = _dataEditorDraft.meta || {};
+    container.innerHTML = `
+      <div class="de-toolbar">
+        <span class="de-count">Meta Kelurahan</span>
+        <button class="de-btn de-btn-ai" onclick="saveMetaForm()">💾 Simpan ke Draft</button>
+      </div>
+      <div class="de-form" style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Nama Kelurahan</label><input type="text" id="mf-kelurahan" value="${escapeHtml(meta.kelurahan||'')}" placeholder="Rawajati" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px"></div>
+          <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Kecamatan</label><input type="text" id="mf-kecamatan" value="${escapeHtml(meta.kecamatan||'')}" placeholder="Pancoran" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Kota</label><input type="text" id="mf-kota" value="${escapeHtml(meta.kota||'')}" placeholder="Jakarta Selatan" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px"></div>
+          <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Provinsi</label><input type="text" id="mf-provinsi" value="${escapeHtml(meta.provinsi||'')}" placeholder="DKI Jakarta" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px"></div>
+        </div>
+        <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Alamat Lengkap</label><textarea id="mf-alamat" rows="2" placeholder="Jl. ..." style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;resize:vertical;line-height:1.5">${escapeHtml(meta.alamat||'')}</textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Telepon</label><input type="text" id="mf-telepon" value="${escapeHtml(meta.telepon||'')}" placeholder="(021) ..." style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px"></div>
+          <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Email</label><input type="text" id="mf-email" value="${escapeHtml(meta.email||'')}" placeholder="kel@..." style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px"></div>
+        </div>
+        <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Jam Kerja</label><input type="text" id="mf-jamKerja" value="${escapeHtml(meta.jamKerja||'')}" placeholder="Senin–Kamis..." style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Latitude</label><input type="text" id="mf-lat" value="${escapeHtml(meta.koordinat?.lat?.toString()||'')}" placeholder="-6.2605" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px"></div>
+          <div><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px">Longitude</label><input type="text" id="mf-lng" value="${escapeHtml(meta.koordinat?.lng?.toString()||'')}" placeholder="106.849" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px"></div>
+        </div>
+      </div>
+      <div style="margin-top:12px;padding:10px;background:var(--surface-2);border-radius:8px;border:1px dashed var(--border);font-size:12px;color:var(--text-muted)">
+        💡 <strong>Tips:</strong> Isi field di atas, lalu klik <strong>"Simpan ke Draft"</strong>. Setelah semua selesai, klik <strong>"💾 Simpan & Publish"</strong> di bawah.
+      </div>
+    `;
+    return;
+  }
+
+  // ═══════════════════════════════════════════════════════════════
+  // LIST MODE (all array-based tabs)
   // ═══════════════════════════════════════════════════════════════
   let previewHtml = '';
-  if (!schema.singleObject && Array.isArray(data) && data.length > 0) {
-    const isLayananList = _dataEditorTab === 'layanan';
+  if (Array.isArray(data) && data.length > 0) {
     previewHtml = `
       <div class="de-preview">
         ${data.map((item, i) => `
-          <div class="de-preview-item" data-idx="${i}" ${isLayananList ? `onclick="editLayananItem(${i})" style="cursor:pointer"` : ''}>
+          <div class="de-preview-item" data-idx="${i}" onclick="editItem(${i})" style="cursor:pointer">
             <span class="de-pv-emoji">${item.emoji || item.icon || '📄'}</span>
             <div class="de-pv-body">
-              <strong>${escapeHtml(item.nama || item.id || 'Item ' + (i+1))}</strong>
-              <span class="de-pv-id">${escapeHtml(item.id || '')}</span>
+              <strong>${escapeHtml(item.nama || item.id || item.intent || 'Item ' + (i+1))}</strong>
+              <span class="de-pv-id">${escapeHtml(item.id || item.intent || '')}</span>
             </div>
             <button class="de-pv-del" onclick="event.stopPropagation();deleteDataItem(${i})" title="Hapus item ini">🗑️</button>
           </div>
         `).join('')}
       </div>
-      ${isLayananList ? `<button class="de-btn" onclick="addLayananItem()" style="width:100%;margin:8px 0;padding:12px">➕ Tambah Layanan Baru</button>` : ''}
+      <button class="de-btn" onclick="addItem()" style="width:100%;margin:8px 0;padding:12px">➕ Tambah Item Baru</button>
     `;
+  } else {
+    previewHtml = `<button class="de-btn" onclick="addItem()" style="width:100%;margin:8px 0;padding:12px">➕ Tambah Item Baru</button>`;
   }
 
   const isLayanan = _dataEditorTab === 'layanan';
@@ -1439,14 +1533,12 @@ function renderDataEditorTab() {
 
   container.innerHTML = `
     <div class="de-toolbar">
-      <span class="de-count">${count} ${schema.singleObject ? 'object' : 'baris'}</span>
-      ${!schema.singleObject ? `
-        <button class="de-btn de-btn-ai" onclick="document.getElementById('de-narrative-input').click()" title="Upload Word/Excel/TXT — AI akan parse otomatis">🤖 Import Narasi (AI)</button>
-        <input type="file" id="de-narrative-input" hidden accept=".docx,.xlsx,.xls,.csv,.txt,.md" onchange="handleNarrativeUpload(event, '${_dataEditorTab}')">
-        <button class="de-btn" onclick="downloadCategoryExcel('${_dataEditorTab}')">⬇ Excel</button>
-        <button class="de-btn" onclick="document.getElementById('de-excel-input').click()">⬆ Excel</button>
-        <input type="file" id="de-excel-input" hidden accept=".xlsx,.xls,.csv" onchange="handleExcelUpload(event, '${_dataEditorTab}')">
-      ` : ''}
+      <span class="de-count">${count} baris</span>
+      <button class="de-btn de-btn-ai" onclick="document.getElementById('de-narrative-input').click()" title="Upload Word/Excel/TXT — AI akan parse otomatis">🤖 Import Narasi (AI)</button>
+      <input type="file" id="de-narrative-input" hidden accept=".docx,.xlsx,.xls,.csv,.txt,.md" onchange="handleNarrativeUpload(event, '${_dataEditorTab}')">
+      <button class="de-btn" onclick="downloadCategoryExcel('${_dataEditorTab}')">⬇ Excel</button>
+      <button class="de-btn" onclick="document.getElementById('de-excel-input').click()">⬆ Excel</button>
+      <input type="file" id="de-excel-input" hidden accept=".xlsx,.xls,.csv" onchange="handleExcelUpload(event, '${_dataEditorTab}')">
       ${isLayanan ? `<button class="de-btn" onclick="toggleFileUploadPanel()">📎 Upload File Template</button>` : ''}
       <button class="de-btn" onclick="downloadJSON()">⬇ JSON</button>
     </div>
@@ -1468,82 +1560,93 @@ function renderDataEditorTab() {
       </div>
     </div>
     ` : ''}
-    ${!isLayanan ? `
-    <p style="font-size:12px;color:var(--text-muted);margin:8px 0">
-      Edit langsung di JSON di bawah. Format harus valid (tanda kutip ganda, koma antar item). Untuk field array (seperti <code>syarat</code>), pakai array JSON <code>["item 1", "item 2"]</code>.
-    </p>
-    <textarea id="de-json-editor" class="de-json" spellcheck="false">${escapeHtml(JSON.stringify(data, null, 2))}</textarea>
-    <div id="de-json-error" style="color:var(--danger,#c1272d);font-size:12px;min-height:18px;margin-top:4px"></div>
-    ` : `
     <div style="margin-top:12px;padding:10px;background:var(--surface-2);border-radius:8px;border:1px dashed var(--border);font-size:12px;color:var(--text-muted)">
-      💡 <strong>Tips:</strong> Klik salah satu layanan di atas untuk mengedit. Klik <strong>"➕ Tambah Layanan Baru"</strong> untuk menambahkan layanan baru. Setelah semua selesai, klik <strong>"💾 Simpan & Publish"</strong> di bawah.
+      💡 <strong>Tips:</strong> Klik salah satu item di atas untuk mengedit. Klik <strong>"➕ Tambah Item Baru"</strong> untuk menambahkan. Setelah semua selesai, klik <strong>"💾 Simpan & Publish"</strong> di bawah.
     </div>
-    `}
   `;
-
-  if (!isLayanan) {
-    const ta = document.getElementById('de-json-editor');
-    if (ta) ta.addEventListener('input', validateAndApplyJSON);
-  }
 }
 
-function editLayananItem(idx) {
+function editItem(idx) {
   _dataEditorEditingIdx = idx;
   renderDataEditorTab();
 }
 
-function addLayananItem() {
+function addItem() {
   _dataEditorEditingIdx = -1;
   renderDataEditorTab();
 }
 
-function cancelLayananForm() {
+function cancelFormEdit() {
   _dataEditorEditingIdx = null;
   renderDataEditorTab();
 }
 
-function saveLayananForm() {
-  const id = document.getElementById('lf-id')?.value.trim();
-  const nama = document.getElementById('lf-nama')?.value.trim();
-  if (!id || !nama) { showToast('❌ ID dan Nama wajib diisi.'); return; }
+function saveFormEdit() {
+  const schema = DATA_EDITOR_SCHEMA[_dataEditorTab];
+  const layout = FORM_LAYOUTS[_dataEditorTab] || [];
+  const newItem = {};
 
-  const syaratRaw = document.getElementById('lf-syarat')?.value || '';
-  const prosedurRaw = document.getElementById('lf-prosedur')?.value || '';
-  const syarat = syaratRaw.split('\n').map(s => s.trim()).filter(Boolean);
-  const prosedur = prosedurRaw.split('\n').map(s => s.trim()).filter(Boolean);
-
-  // Collect dokumenUnduh from form rows
-  const docRows = document.querySelectorAll('.lf-doc-row');
-  const dokumenUnduh = [];
-  docRows.forEach(row => {
-    const n = row.querySelector('.lf-doc-nama')?.value.trim();
-    const u = row.querySelector('.lf-doc-url')?.value.trim();
-    if (n && u) dokumenUnduh.push({ nama: n, url: u });
+  layout.forEach(row => {
+    row.forEach(key => {
+      const isArray = schema.arrayFields.includes(key);
+      const el = document.getElementById(`de-form-${key}`);
+      if (!el) return;
+      let val = el.value.trim();
+      if (isArray) {
+        val = val.split('\n').map(s => s.trim()).filter(Boolean);
+      }
+      newItem[key] = val;
+    });
   });
 
-  const newItem = {
-    id,
-    nama,
-    emoji: document.getElementById('lf-emoji')?.value.trim() || '📄',
-    kategori: document.getElementById('lf-kategori')?.value.trim() || '',
-    deskripsi: document.getElementById('lf-deskripsi')?.value.trim() || '',
-    waktuProses: document.getElementById('lf-waktu')?.value.trim() || '',
-    biaya: document.getElementById('lf-biaya')?.value.trim() || 'Gratis',
-    syarat,
-    prosedur,
-    dokumenUnduh,
-    tags: [] // Tags can be added later via JSON if needed
-  };
+  // Validation
+  const reqKey = _dataEditorTab === 'faqChatbot' ? 'intent' : 'id';
+  const reqLabel = _dataEditorTab === 'faqChatbot' ? 'Intent' : 'ID';
+  const nameKey = _dataEditorTab === 'faqChatbot' ? 'jawaban' : 'nama';
+  const nameLabel = _dataEditorTab === 'faqChatbot' ? 'Jawaban' : 'Nama';
 
+  if (!newItem[reqKey]) { showToast(`❌ ${reqLabel} wajib diisi.`); return; }
+  if (!newItem[nameKey]) { showToast(`❌ ${nameLabel} wajib diisi.`); return; }
+
+  // Special: dokumenUnduh for layanan
+  if (_dataEditorTab === 'layanan') {
+    const docRows = document.querySelectorAll('.lf-doc-row');
+    const dokumenUnduh = [];
+    docRows.forEach(row => {
+      const n = row.querySelector('.lf-doc-nama')?.value.trim();
+      const u = row.querySelector('.lf-doc-url')?.value.trim();
+      if (n && u) dokumenUnduh.push({ nama: n, url: u });
+    });
+    newItem.dokumenUnduh = dokumenUnduh;
+    newItem.tags = [];
+  }
+
+  const dataArr = getCategoryArray(_dataEditorTab);
   if (_dataEditorEditingIdx === -1) {
-    _dataEditorDraft.layanan.push(newItem);
-    showToast('✅ Layanan baru ditambahkan ke draft.');
+    dataArr.push(newItem);
+    showToast('✅ Item baru ditambahkan ke draft.');
   } else {
-    _dataEditorDraft.layanan[_dataEditorEditingIdx] = newItem;
+    dataArr[_dataEditorEditingIdx] = newItem;
     showToast('✅ Perubahan disimpan ke draft.');
   }
   _dataEditorEditingIdx = null;
   renderDataEditorTab();
+}
+
+function saveMetaForm() {
+  const meta = _dataEditorDraft.meta || {};
+  meta.kelurahan = document.getElementById('mf-kelurahan')?.value.trim() || '';
+  meta.kecamatan = document.getElementById('mf-kecamatan')?.value.trim() || '';
+  meta.kota = document.getElementById('mf-kota')?.value.trim() || '';
+  meta.provinsi = document.getElementById('mf-provinsi')?.value.trim() || '';
+  meta.alamat = document.getElementById('mf-alamat')?.value.trim() || '';
+  meta.telepon = document.getElementById('mf-telepon')?.value.trim() || '';
+  meta.email = document.getElementById('mf-email')?.value.trim() || '';
+  meta.jamKerja = document.getElementById('mf-jamKerja')?.value.trim() || '';
+  meta.koordinat = meta.koordinat || {};
+  meta.koordinat.lat = parseFloat(document.getElementById('mf-lat')?.value) || 0;
+  meta.koordinat.lng = parseFloat(document.getElementById('mf-lng')?.value) || 0;
+  showToast('✅ Meta disimpan ke draft.');
 }
 
 function addDocRow() {
