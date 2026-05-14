@@ -84,6 +84,7 @@
     </div>
   </div>
   <div class="header-actions">
+    <button class="theme-toggle" id="theme-toggle" onclick="toggleDarkMode()" title="Ganti tema" aria-label="Ganti tema"><span id="theme-icon">🌙</span></button>
     <button class="header-btn" onclick="showQRCode()" title="QR Code" aria-label="QR Code"><i data-lucide="qr-code"></i></button>
   </div>
 </header>
@@ -727,6 +728,52 @@
     window.addEventListener('load', () => move(nav.querySelector('.nav-item.active')));
     window.addEventListener('resize', () => move(nav.querySelector('.nav-item.active')));
   })();
+
+  // ═════════════════════════════════════════════════════════════
+  // DARK MODE
+  // ═════════════════════════════════════════════════════════════
+  const THEME_KEY = 'prima_theme_v1';
+  function getStoredTheme() {
+    try { return localStorage.getItem(THEME_KEY); } catch { return null; }
+  }
+  function setStoredTheme(theme) {
+    try { localStorage.setItem(THEME_KEY, theme); } catch {}
+  }
+  function applyTheme(theme) {
+    const body = document.body;
+    const icon = document.getElementById('theme-icon');
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (theme === 'dark') {
+      body.setAttribute('data-theme', 'dark');
+      if (icon) icon.textContent = '☀️';
+      if (metaTheme) metaTheme.setAttribute('content', '#0B1021');
+    } else {
+      body.removeAttribute('data-theme');
+      if (icon) icon.textContent = '🌙';
+      if (metaTheme) metaTheme.setAttribute('content', '#0A1F44');
+    }
+  }
+  function initTheme() {
+    let theme = getStoredTheme();
+    if (!theme) {
+      // First visit: respect system preference
+      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      setStoredTheme(theme);
+    }
+    applyTheme(theme);
+  }
+  function toggleDarkMode() {
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    const next = isDark ? 'light' : 'dark';
+    setStoredTheme(next);
+    applyTheme(next);
+    showToast(isDark ? '☀️ Mode terang' : '🌙 Mode gelap');
+  }
+  // Listen for system theme changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!getStoredTheme()) applyTheme(e.matches ? 'dark' : 'light');
+  });
+  initTheme();
 
   // Register Service Worker for PWA (auto-update on new version)
   if ('serviceWorker' in navigator) {
