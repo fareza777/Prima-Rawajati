@@ -489,12 +489,17 @@ function initAISettings() {
       }
       PRIMA_AI.setSelectedModel(modelSelect.value);
       if (customInput) customInput.value = '';
-      showToast('🤖 Model diganti: ' + (PRIMA_AI.MODELS.find(m => m.id === modelSelect.value)?.short || ''));
+      showToast('🤖 Model diubah (draft) — klik "Simpan ke GitHub" supaya berlaku global');
+      markAISettingsDirty();
       refreshChatModeLabel();
     });
 
     aiToggle.addEventListener('change', () => {
-      localStorage.setItem('prima_ai_enabled', aiToggle.checked ? '1' : '0');
+      // Mutate PRIMA_DATA.aiSettings (source of truth) + cache di localStorage
+      if (!window.PRIMA_DATA.aiSettings) window.PRIMA_DATA.aiSettings = {};
+      window.PRIMA_DATA.aiSettings.enabled = aiToggle.checked;
+      try { localStorage.setItem('prima_ai_enabled', aiToggle.checked ? '1' : '0'); } catch {}
+      markAISettingsDirty();
       refreshChatModeLabel();
     });
 
@@ -505,8 +510,9 @@ function initAISettings() {
           showToast('❌ Format model ID tidak valid. Contoh: vendor/model-name');
           return;
         }
-        showToast('🤖 Model custom disimpan: ' + customInput.value.trim());
+        showToast('🤖 Model custom diubah (draft) — klik "Simpan ke GitHub"');
         modelSelect.value = '__custom__';
+        markAISettingsDirty();
         refreshChatModeLabel();
       };
       customSaveBtn.addEventListener('click', saveCustom);
@@ -516,7 +522,7 @@ function initAISettings() {
     }
   }
 
-  // Sync UI dengan state tersimpan
+  // Sync UI dengan state dari PRIMA_DATA (source of truth)
   const currentModel = PRIMA_AI.getSelectedModel();
   if (PRIMA_AI.isCustomModel(currentModel)) {
     modelSelect.value = '__custom__';
@@ -525,10 +531,93 @@ function initAISettings() {
     modelSelect.value = currentModel;
     if (customInput) customInput.value = '';
   }
-  const saved = localStorage.getItem('prima_ai_enabled');
-  aiToggle.checked = saved === null ? true : saved === '1';
+  aiToggle.checked = isAIEnabled();
 
+  // Render status indikator + tombol Simpan
+  renderAISettingsStatus();
   refreshChatModeLabel();
+}
+
+// Status pending publish + tombol Save dilekatkan setelah .cs-hint.
+let _aiSettingsDirty = false;
+function markAISettingsDirty() {
+  _aiSettingsDirty = true;
+  renderAISettingsStatus();
+}
+function renderAISettingsStatus() {
+  const panel = document.getElementById('chat-settings');
+  if (!panel) return;
+  let footer = document.getElementById('ai-settings-footer');
+  if (!footer) {
+    footer = document.createElement('div');
+    footer.id = 'ai-settings-footer';
+    footer.style.cssText = 'display:flex;align-items:center;gap:10px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);flex-wrap:wrap';
+    panel.appendChild(footer);
+  }
+  const status = _aiSettingsDirty
+    ? '<span style="color:#c1272d;font-weight:700">● Belum di-publish</span> <span style="color:var(--text-muted);font-size:12px">(perubahan hanya berlaku di device ini)</span>'
+    : '<span style="color:#2e7d32;font-weight:700">✓ Tersinkron dengan GitHub</span>';
+  footer.innerHTML = `
+    <div style="flex:1;min-width:0;font-size:13px">${status}</div>
+    <button type="button" class="submit-btn" id="ai-settings-save-btn"
+            style="padding:8px 14px;font-size:13px;background:${_aiSettingsDirty ? 'var(--gold)' : 'var(--text-muted)'};color:${_aiSettingsDirty ? 'var(--navy-900)' : '#fff'};flex:0 0 auto"
+            ${_aiSettingsDirty ? '' : 'disabled'}>
+      💾 Simpan ke GitHub
+    </button>
+  `;
+  const btn = footer.querySelector('#ai-settings-save-btn');
+  if (btn) btn.addEventListener('click', saveAISettingsToGitHub);
+}
+
+// Commit PRIMA_DATA (yang sudah memuat aiSettings terbaru) ke GitHub.
+async function saveAISettingsToGitHub() {
+  if (!window.PRIMA_DATA) {
+    showToast('⏳ Data belum siap.');
+    return;
+  }
+  if (typeof ensureAdminSecret !== 'function') {
+    showToast('❌ Helper save belum tersedia.');
+    return;
+  }
+  let secret = await ensureAdminSecret();
+  if (!secret) return;
+
+  const ai = window.PRIMA_DATA.aiSettings || {};
+  const commitMessage = `chore(ai): set model=${ai.model || '?'} enabled=${ai.enabled ? 'on' : 'off'}`;
+
+  showToast('⏳ Publish setting AI ke GitHub…');
+
+  try {
+    let res = await fetch('/api/save-data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': secret },
+      body: JSON.stringify({ data: window.PRIMA_DATA, message: commitMessage })
+    });
+
+    if (res.status === 401) {
+      clearAdminSecret();
+      showToast('🔑 Secret salah/expired. Coba lagi…');
+      secret = await ensureAdminSecret(true);
+      if (!secret) return;
+      res = await fetch('/api/save-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': secret },
+        body: JSON.stringify({ data: window.PRIMA_DATA, message: commitMessage })
+      });
+    }
+
+    const out = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      showToast('❌ Gagal: ' + (out.error || res.status));
+      return;
+    }
+    _aiSettingsDirty = false;
+    renderAISettingsStatus();
+    refreshChatModeLabel();
+    showToast('✅ Setting AI tersimpan global. Vercel auto-deploy ~1-2 menit.');
+  } catch (e) {
+    showToast('❌ Network error: ' + e.message);
+  }
 }
 
 function renderSuggestions() {
@@ -618,9 +707,12 @@ async function sendMessage() {
   }, 500 + Math.random() * 300);
 }
 
-// AI helpers — baca dari localStorage karena UI control kini ada di Panel Admin
-// dan checkbox-nya hanya hadir setelah admin login.
+// AI helpers — source of truth: PRIMA_DATA.aiSettings (committed via GitHub
+// supaya semua device dapat setting yang sama). localStorage cache fallback
+// kalau PRIMA_DATA belum di-load (mis. saat first paint sebelum fetch JSON).
 function isAIEnabled() {
+  const fromData = window.PRIMA_DATA?.aiSettings?.enabled;
+  if (typeof fromData === 'boolean') return fromData;
   const saved = localStorage.getItem('prima_ai_enabled');
   return saved === null ? true : saved === '1';
 }
@@ -1548,6 +1640,12 @@ async function saveDataEditor() {
 
   let secret = await ensureAdminSecret();
   if (!secret) return;
+
+  // Sync aiSettings dari PRIMA_DATA terbaru sebelum push, supaya save dari Data
+  // Editor tidak overwrite perubahan AI settings yang baru saja di-publish.
+  if (window.PRIMA_DATA?.aiSettings) {
+    _dataEditorDraft.aiSettings = JSON.parse(JSON.stringify(window.PRIMA_DATA.aiSettings));
+  }
 
   // Commit message default tanpa prompt — cepat. Admin advanced bisa edit via input.
   const commitMessage = 'chore(data): admin update via Panel';

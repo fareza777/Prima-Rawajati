@@ -212,15 +212,26 @@ KONTAK KELURAHAN:
   }
 
   // ── MODEL SELECTION ────────────────────────────────────────────
+  // Source of truth: window.PRIMA_DATA.aiSettings (committed via /api/save-data
+  // → semua device dapat setting yang sama). localStorage hanya cache fallback
+  // saat PRIMA_DATA belum di-load.
   function getSelectedModel() {
+    const fromData = window.PRIMA_DATA?.aiSettings?.model;
+    if (fromData && typeof fromData === 'string') return fromData;
     return localStorage.getItem('prima_ai_model') || DEFAULT_MODEL;
   }
   // Menerima ID preset maupun custom (mis. "anthropic/claude-3.5-sonnet").
   // Validasi minimal: harus format "vendor/model", non-empty.
+  // Mutate PRIMA_DATA.aiSettings.model in-memory; admin perlu klik "Simpan ke
+  // GitHub" supaya berlaku global. localStorage tetap ditulis sebagai cache.
   function setSelectedModel(id) {
     const clean = (id || '').trim();
     if (!clean || !clean.includes('/')) return false;
-    localStorage.setItem('prima_ai_model', clean);
+    if (window.PRIMA_DATA) {
+      if (!window.PRIMA_DATA.aiSettings) window.PRIMA_DATA.aiSettings = {};
+      window.PRIMA_DATA.aiSettings.model = clean;
+    }
+    try { localStorage.setItem('prima_ai_model', clean); } catch {}
     return true;
   }
   function isCustomModel(id) {

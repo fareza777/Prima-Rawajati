@@ -30,6 +30,13 @@ function validateData(d) {
   if (!Array.isArray(d.petaMarkers)) return 'Field "petaMarkers" harus array.';
   if (!d.infoWarga || typeof d.infoWarga !== 'object') return 'Field "infoWarga" wajib ada.';
   if (!Array.isArray(d.faqChatbot)) return 'Field "faqChatbot" harus array.';
+  if (d.aiSettings !== undefined) {
+    if (typeof d.aiSettings !== 'object' || d.aiSettings === null) return 'Field "aiSettings" harus object.';
+    if (d.aiSettings.enabled !== undefined && typeof d.aiSettings.enabled !== 'boolean') return 'aiSettings.enabled harus boolean.';
+    if (d.aiSettings.model !== undefined && (typeof d.aiSettings.model !== 'string' || !d.aiSettings.model.includes('/'))) {
+      return 'aiSettings.model harus string format "vendor/model".';
+    }
+  }
   return null;
 }
 

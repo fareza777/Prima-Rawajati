@@ -1101,5 +1101,9 @@
       ],
       "jawaban": "🚨 **Nomor Darurat:**\n\n🚒 Pemadam Kebakaran: **113**\n🚑 Ambulans: **119**\n👮 Polisi: **110**\n🆘 BPBD (Bencana): **112**\n🏥 Puskesmas Rawajati: **(021) 7989xxx**\n🏛️ Kelurahan Rawajati: **(021) 7994427**\n\nDalam keadaan darurat, segera hubungi nomor di atas! 🙏"
     }
-  ]
+  ],
+  "aiSettings": {
+    "enabled": true,
+    "model": "google/gemma-4-26b-a4b-it:free"
+  }
 }
