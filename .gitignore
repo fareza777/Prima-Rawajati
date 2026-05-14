@@ -11,6 +11,11 @@ desktop.ini
 # Vercel
 .vercel/
 
+# Claude Code worktrees / secrets
+.claude/
+.prima-admin-secrets.txt
+*-secrets.txt
+
 # Editor
 .vscode/
 .idea/

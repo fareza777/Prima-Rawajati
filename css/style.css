@@ -245,7 +245,8 @@ input:focus, textarea:focus, select:focus {
   display: inline-flex; align-items: center; justify-content: center;
   transition: transform .35s var(--ease-spring);
 }
-.nav-item .nav-icon [data-lucide] { width: 20px; height: 20px; }
+.nav-item .nav-icon [data-lucide],
+.nav-item .nav-icon svg { width: 20px; height: 20px; stroke-width: 2; }
 .nav-item.active { color: #fff; }
 .nav-item.active .nav-icon { transform: translateY(-2px) scale(1.08); }
 
@@ -325,7 +326,8 @@ input:focus, textarea:focus, select:focus {
   margin-bottom: 14px;
   backdrop-filter: blur(6px);
 }
-.hero-badge [data-lucide] { width: 13px; height: 13px; color: var(--gold-light); }
+.hero-badge [data-lucide],
+.hero-badge svg { width: 13px; height: 13px; color: var(--gold-light); }
 .hero-banner h2 {
   position: relative;
   font-family: var(--font-display);
@@ -406,7 +408,8 @@ input:focus, textarea:focus, select:focus {
   pointer-events: none;
   display: inline-flex;
 }
-.search-box .search-icon [data-lucide] { width: 18px; height: 18px; }
+.search-box .search-icon [data-lucide],
+.search-box .search-icon svg { width: 18px; height: 18px; color: var(--text-muted); }
 
 /* ── MENU GRID ── */
 .menu-grid {
@@ -461,7 +464,8 @@ input:focus, textarea:focus, select:focus {
   margin-bottom: 10px;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 4px 10px rgba(10,31,68,.08);
 }
-.menu-card .card-icon [data-lucide] { width: 22px; height: 22px; stroke-width: 2; }
+.menu-card .card-icon [data-lucide],
+.menu-card .card-icon svg { width: 22px; height: 22px; stroke-width: 2; color: inherit; }
 .menu-card h3 {
   position: relative;
   font-family: var(--font-display);
@@ -504,7 +508,8 @@ input:focus, textarea:focus, select:focus {
   color: var(--gold-deep);
   display: inline-flex;
 }
-.info-banner .info-icon [data-lucide] { width: 18px; height: 18px; }
+.info-banner .info-icon [data-lucide],
+.info-banner .info-icon svg { width: 18px; height: 18px; }
 .info-banner p { font-size: 13px; line-height: 1.45; color: #5A4A00; }
 
 /* ── LAYANAN LIST ── */
@@ -882,7 +887,8 @@ input:focus, textarea:focus, select:focus {
   display: inline-flex; align-items: center; justify-content: center;
   transition: all var(--transition);
 }
-.chat-mode-btn [data-lucide] { width: 18px; height: 18px; }
+.chat-mode-btn [data-lucide],
+.chat-mode-btn svg { width: 18px; height: 18px; }
 .chat-mode-btn:hover { background: rgba(212,175,55,.2); border-color: var(--gold); }
 .chat-mode-btn.active { background: var(--gold); color: var(--navy-900); border-color: var(--gold-deep); }
 
@@ -995,7 +1001,8 @@ input:focus, textarea:focus, select:focus {
   color: var(--text-muted);
   transition: all var(--transition);
 }
-.msg-act-btn [data-lucide] { width: 14px; height: 14px; }
+.msg-act-btn [data-lucide],
+.msg-act-btn svg { width: 14px; height: 14px; }
 .msg-act-btn:hover { color: var(--gold-deep); border-color: var(--gold); background: var(--gold-soft); }
 .msg-act-btn.active-up { color: var(--accent); border-color: var(--accent); background: var(--accent-light); }
 .msg-act-btn.active-down { color: var(--danger); border-color: var(--danger); background: #FEE2E2; }

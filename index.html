@@ -575,8 +575,8 @@
 <!-- ══════════════════════════════════════════
      SCRIPTS
 ═══════════════════════════════════════════ -->
-<!-- Lucide Icons -->
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<!-- Lucide Icons (pinned to v0 — v1+ has breaking API changes) -->
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 <!-- Leaflet.js -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <!-- QRCode.js -->
@@ -632,9 +632,41 @@
     showToast('👋 Anda telah keluar dari panel admin');
   }
 
+  // Emoji fallback map (used if Lucide fails to load)
+  const ICON_FALLBACK = {
+    'home':'🏠','file-text':'📄','map':'🗺️','newspaper':'📰','message-circle':'💬',
+    'utensils':'🍽️','pen-line':'✏️','shield-check':'🛡️','search':'🔎','clock':'🕐',
+    'qr-code':'⬛','sparkles':'✨','zap':'⚡','sliders-horizontal':'🎛️',
+    'thumbs-up':'👍','thumbs-down':'👎','copy':'📋','send':'➤','bot':'🤖','user':'👤'
+  };
+  function applyEmojiFallback() {
+    document.querySelectorAll('[data-lucide]').forEach(el => {
+      const name = el.getAttribute('data-lucide');
+      const emoji = ICON_FALLBACK[name];
+      if (emoji && !el.querySelector('svg')) {
+        el.textContent = emoji;
+        el.style.fontStyle = 'normal';
+        el.removeAttribute('data-lucide');
+      }
+    });
+  }
+
   // Initialize Lucide icons + debounced refresh on DOM mutations
   let _iconTimer = null;
-  function refreshIcons(){ if(window.lucide) lucide.createIcons(); }
+  function refreshIcons(){
+    if (window.lucide && typeof lucide.createIcons === 'function') {
+      try { lucide.createIcons(); } catch(e) { console.warn('Lucide error:', e); applyEmojiFallback(); }
+    } else {
+      applyEmojiFallback();
+    }
+  }
+  // If Lucide doesn't load within 2s, apply emoji fallback
+  setTimeout(() => {
+    if (!window.lucide || typeof lucide.createIcons !== 'function') {
+      console.warn('Lucide not available, using emoji fallback');
+      applyEmojiFallback();
+    }
+  }, 2000);
   function scheduleRefresh(){
     if(_iconTimer) return;
     _iconTimer = setTimeout(() => { _iconTimer = null; refreshIcons(); }, 60);
