@@ -13,7 +13,7 @@
       "lng": 106.849
     },
     "versi": "1.0.0",
-    "terakhirUpdate": "2026-05-14T03:26:23.795Z"
+    "terakhirUpdate": "2026-05-14T03:33:03.390Z"
   },
   "layanan": [
     {
@@ -469,6 +469,24 @@
         "pindah alamat",
         "keterangan pindah"
       ]
+    },
+    {
+      "id": "NLK",
+      "nama": "Nikah Luar Kota",
+      "kategori": "",
+      "emoji": "",
+      "deskripsi": "",
+      "waktuProses": "",
+      "biaya": "",
+      "syarat": [
+        "pengantar rt rw",
+        "ktp kk",
+        "surat pernyataan izin wali",
+        "surat keterangan sehat"
+      ],
+      "prosedur": [],
+      "dokumenUnduh": [],
+      "tags": []
     }
   ],
   "petaMarkers": [
