@@ -13,7 +13,7 @@
       "lng": 106.849
     },
     "versi": "1.0.0",
-    "terakhirUpdate": "2026-05-14T22:03:29.813Z"
+    "terakhirUpdate": "2026-05-14T22:04:39.498Z"
   },
   "layanan": [
     {
@@ -1111,6 +1111,6 @@
   ],
   "aiSettings": {
     "enabled": true,
-    "model": "deepseek/deepseek-v4-flash:free"
+    "model": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free"
   }
 }
