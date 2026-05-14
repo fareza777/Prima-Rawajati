@@ -256,14 +256,22 @@ function showLayananDetail(id) {
       ${layanan.dokumenUnduh.length > 0 ? `
       <div class="modal-section">
         <h4>📥 Unduh Dokumen</h4>
-        ${layanan.dokumenUnduh.map(d => `
-          <a class="download-btn" href="${escapeHtml(d.url)}" download target="_blank" rel="noopener"
-             onclick="handleDownload('${escapeHtml(d.nama)}','${escapeHtml(d.url)}')">
-            <span class="dl-icon">📄</span>
-            <span>${escapeHtml(d.nama)}</span>
-            <span style="margin-left:auto">⬇️</span>
-          </a>
-        `).join('')}
+        ${layanan.dokumenUnduh.map(d => {
+          const hasFile = d.url && !d.url.startsWith('#');
+          return hasFile ? `
+            <a class="download-btn" href="${escapeHtml(d.url)}" download target="_blank" rel="noopener">
+              <span class="dl-icon">📄</span>
+              <span>${escapeHtml(d.nama)}</span>
+              <span style="margin-left:auto">⬇️</span>
+            </a>
+          ` : `
+            <button class="download-btn" style="opacity:.55;cursor:not-allowed" onclick="showToast('❌ File template belum tersedia. Hubungi admin kelurahan.')">
+              <span class="dl-icon">📄</span>
+              <span>${escapeHtml(d.nama)}</span>
+              <span style="margin-left:auto">⛔</span>
+            </button>
+          `;
+        }).join('')}
       </div>
       ` : ''}
 
