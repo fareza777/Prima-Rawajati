@@ -35,18 +35,10 @@
       padding-top: 64px !important;   /* tinggi header */
     }
     @media (min-width: 640px) {
-      html {
-        background:
-          radial-gradient(ellipse at 20% 0%, #1E3A8A 0%, transparent 50%),
-          radial-gradient(ellipse at 80% 100%, #7C2D12 0%, transparent 45%),
-          linear-gradient(145deg,#05122E 0%,#0A1F44 45%,#0D2658 75%,#0A1F44 100%) !important;
-        min-height: 100%;
-      }
+      html { min-height: 100%; }
       body {
         max-width: 430px !important;
         margin: 0 auto !important;
-        background: #F7F5EF !important;
-        box-shadow: 0 8px 40px rgba(0,0,0,.5), 0 32px 80px rgba(0,0,0,.4), 0 0 0 1px rgba(212,175,55,.15) !important;
       }
       .top-header {
         left: 50% !important;
@@ -756,8 +748,8 @@
   function initTheme() {
     let theme = getStoredTheme();
     if (!theme) {
-      // First visit: respect system preference
-      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      // Default selalu terang; user bisa switch manual ke gelap
+      theme = 'light';
       setStoredTheme(theme);
     }
     applyTheme(theme);
