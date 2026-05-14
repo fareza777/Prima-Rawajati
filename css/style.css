@@ -1575,8 +1575,27 @@ input:focus, textarea:focus, select:focus {
   background: linear-gradient(180deg, var(--surface), var(--surface-2));
   border-bottom-color: var(--border);
 }
-[data-theme="dark"] .chat-msg.bot { background: var(--surface-2); }
-[data-theme="dark"] .chat-msg.user { background: var(--navy-600); }
+[data-theme="dark"] .chat-messages { background: var(--bg); }
+[data-theme="dark"] .chat-msg.bot .msg-bubble {
+  background: linear-gradient(145deg, #1E2940, #182236);
+  border-color: #2A3650;
+  color: var(--text);
+}
+[data-theme="dark"] .chat-msg.user .msg-bubble {
+  background: linear-gradient(145deg, #1E3A8A, #13306E);
+  border-color: rgba(212,175,55,.35);
+}
+[data-theme="dark"] .typing-dot { background: var(--gold-light); }
+[data-theme="dark"] .suggestion-chip {
+  background: var(--surface-2);
+  border-color: var(--border);
+  color: var(--text);
+}
+[data-theme="dark"] .suggestion-chip:hover {
+  border-color: var(--gold);
+  background: rgba(212,175,55,.12);
+  color: var(--gold-light);
+}
 [data-theme="dark"] .msg-source-tag {
   background: rgba(30,41,64,.9);
   color: var(--text-muted);
