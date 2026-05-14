@@ -75,6 +75,12 @@ const PRIMA_AI = (() => {
     return _index;
   }
 
+  // Reset index supaya next retrieval rebuild dari PRIMA_DATA terbaru.
+  // Wajib dipanggil setelah admin save data baru via /api/save-data.
+  function resetIndex() {
+    _index = null;
+  }
+
   function retrieveContext(query, topK = 6) {
     const docs = _buildIndex();
     if (!docs) return [];
@@ -242,6 +248,7 @@ KONTAK KELURAHAN:
     getSelectedModel,
     setSelectedModel,
     isCustomModel,
-    isAvailable
+    isAvailable,
+    resetIndex
   };
 })();

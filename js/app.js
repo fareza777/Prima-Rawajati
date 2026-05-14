@@ -1587,6 +1587,14 @@ async function saveDataEditor() {
     }
     // Update local in-memory data agar admin tidak perlu refresh untuk lihat versi baru
     window.PRIMA_DATA = JSON.parse(JSON.stringify(_dataEditorDraft));
+    // Rebuild RAG index supaya AI chatbot langsung kenal data baru tanpa reload
+    if (window.PRIMA_AI && typeof PRIMA_AI.resetIndex === 'function') {
+      PRIMA_AI.resetIndex();
+    }
+    // Re-init chatbot rule-based dengan FAQ baru
+    if (typeof chatbot !== 'undefined' && PRIMA_DATA.faqChatbot) {
+      chatbot.faq = PRIMA_DATA.faqChatbot;
+    }
     closeModal();
   } catch (e) {
     showToast('❌ Network error: ' + e.message);
