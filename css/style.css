@@ -1431,6 +1431,18 @@ input:focus, textarea:focus, select:focus {
   transition: all .15s ease;
 }
 .de-btn:hover { background: var(--gold); color: var(--navy-900); border-color: var(--gold-deep); }
+.de-btn-ai {
+  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 12px rgba(139,92,246,.35);
+}
+.de-btn-ai:hover {
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #DB2777 100%) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(139,92,246,.5);
+}
 .de-json {
   width: 100%;
   min-height: 300px;

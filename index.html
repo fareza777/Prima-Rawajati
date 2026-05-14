@@ -456,7 +456,23 @@
           <span class="aa-icon">📝</span>
           <div>
             <h4>Editor Data PRIMA</h4>
-            <p>Edit layanan, FAQ, info warga, peta — import/export Excel</p>
+            <p>Edit layanan, FAQ, info warga, peta — import Word/Excel + AI parse</p>
+          </div>
+          <span class="aa-arrow">›</span>
+        </div>
+        <div class="admin-action" onclick="changeAdminSecret()">
+          <span class="aa-icon">🔑</span>
+          <div>
+            <h4>Ubah Admin Secret</h4>
+            <p>Update token untuk simpan data ke GitHub</p>
+          </div>
+          <span class="aa-arrow">›</span>
+        </div>
+        <div class="admin-action" onclick="forgetAdminSecret()">
+          <span class="aa-icon">🔒</span>
+          <div>
+            <h4>Hapus Secret dari Device</h4>
+            <p>Untuk komputer bersama — secret akan diminta ulang saat save</p>
           </div>
           <span class="aa-arrow">›</span>
         </div>
@@ -583,6 +599,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <!-- SheetJS (untuk import/export Excel di Panel Admin) -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<!-- mammoth.js (untuk extract text dari Word .docx — AI narrative import) -->
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
 <!-- App Data -->
 <script src="js/data.js"></script>
 <!-- AI Client (OpenRouter via Vercel proxy) -->

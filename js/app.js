@@ -1164,11 +1164,13 @@ function renderDataEditorTab() {
     <div class="de-toolbar">
       <span class="de-count">${count} ${schema.singleObject ? 'object' : 'baris'}</span>
       ${!schema.singleObject ? `
-        <button class="de-btn" onclick="downloadCategoryExcel('${_dataEditorTab}')">⬇ Download Excel</button>
-        <button class="de-btn" onclick="document.getElementById('de-excel-input').click()">⬆ Upload Excel</button>
+        <button class="de-btn de-btn-ai" onclick="document.getElementById('de-narrative-input').click()" title="Upload Word/Excel/TXT — AI akan parse otomatis">🤖 Import Narasi (AI)</button>
+        <input type="file" id="de-narrative-input" hidden accept=".docx,.xlsx,.xls,.csv,.txt,.md" onchange="handleNarrativeUpload(event, '${_dataEditorTab}')">
+        <button class="de-btn" onclick="downloadCategoryExcel('${_dataEditorTab}')">⬇ Excel</button>
+        <button class="de-btn" onclick="document.getElementById('de-excel-input').click()">⬆ Excel</button>
         <input type="file" id="de-excel-input" hidden accept=".xlsx,.xls,.csv" onchange="handleExcelUpload(event, '${_dataEditorTab}')">
       ` : ''}
-      <button class="de-btn" onclick="downloadJSON()">⬇ JSON penuh</button>
+      <button class="de-btn" onclick="downloadJSON()">⬇ JSON</button>
     </div>
     <p style="font-size:12px;color:var(--text-muted);margin:8px 0">
       Edit langsung di JSON di bawah. Format harus valid (tanda kutip ganda, koma antar item). Untuk field array (seperti <code>syarat</code>), pakai array JSON <code>["item 1", "item 2"]</code>.
@@ -1285,6 +1287,257 @@ function handleExcelUpload(event, category) {
   event.target.value = '';
 }
 
+// ══════════════════════════════════════════════════════════════════
+// AI NARRATIVE IMPORT — Upload Word/Excel/TXT → AI parse jadi JSON
+// ══════════════════════════════════════════════════════════════════
+
+async function extractTextFromFile(file) {
+  const name = file.name.toLowerCase();
+  const ext = name.split('.').pop();
+
+  if (ext === 'docx') {
+    if (typeof mammoth === 'undefined') throw new Error('mammoth.js belum termuat (perlu internet)');
+    const buf = await file.arrayBuffer();
+    const result = await mammoth.extractRawText({ arrayBuffer: buf });
+    return result.value || '';
+  }
+
+  if (ext === 'xlsx' || ext === 'xls' || ext === 'csv') {
+    if (typeof XLSX === 'undefined') throw new Error('SheetJS belum termuat');
+    const buf = await file.arrayBuffer();
+    const wb = XLSX.read(buf, { type: 'array' });
+    // Gabungkan semua sheet sebagai CSV string
+    return wb.SheetNames.map(name => {
+      const csv = XLSX.utils.sheet_to_csv(wb.Sheets[name]);
+      return `=== Sheet: ${name} ===\n${csv}`;
+    }).join('\n\n');
+  }
+
+  if (ext === 'txt' || ext === 'md') {
+    return await file.text();
+  }
+
+  throw new Error('Format tidak didukung: ' + ext + '. Pakai .docx, .xlsx, .csv, .txt, atau .md');
+}
+
+function buildAIParsePrompt(text, category) {
+  const schema = DATA_EDITOR_SCHEMA[category];
+  const existing = getCategoryArray(category) || [];
+  const sample = existing.length > 0 ? JSON.stringify(existing[0], null, 2) : null;
+
+  let fieldDesc;
+  if (schema.singleObject) {
+    fieldDesc = 'Object tunggal dengan field bebas (lihat contoh).';
+  } else {
+    fieldDesc = `Array dari objek. Setiap objek punya field:\n` +
+      schema.fields.map(f => {
+        let hint = '';
+        if (schema.arrayFields.includes(f)) hint = ' (ARRAY of strings)';
+        else if (schema.jsonFields.includes(f)) hint = ' (ARRAY of objects)';
+        else if (f === 'lat' || f === 'lng') hint = ' (NUMBER)';
+        else if (f === 'id') hint = ' (string pendek unique, mis. "SKD", "k1", "g3")';
+        return `  - "${f}"${hint}`;
+      }).join('\n');
+  }
+
+  return `Kamu adalah AI parser data untuk PRIMA Kelurahan Rawajati.
+
+TUGAS: Ekstrak data terstruktur dari teks narasi/dokumen Word/Excel di bawah, ubah jadi JSON sesuai schema kategori "${category}" (${schema.label}).
+
+SCHEMA:
+${fieldDesc}
+
+${sample ? 'CONTOH SATU ITEM:\n```json\n' + sample + '\n```\n' : ''}
+
+ATURAN:
+1. Output WAJIB pure JSON ${schema.singleObject ? 'object' : 'array'} — JANGAN ada penjelasan, JANGAN pakai markdown code fence.
+2. Kalau ada baris yang ambigu atau tidak punya nama, SKIP — jangan paksakan.
+3. Field "id" harus unique dan pendek. Generate dari nama (mis. "Surat Keterangan Domisili" → "SKD").
+4. Field array seperti "syarat", "prosedur", "keywords": pecah jadi list per item (bullet/nomor/baris).
+5. Kalau field tidak disebut di sumber, pakai string kosong "" atau array kosong [].
+6. Output bahasa Indonesia.
+
+TEKS SUMBER:
+"""
+${text.slice(0, 12000)}
+"""
+
+JSON output:`;
+}
+
+function stripJsonFences(text) {
+  // Hapus ```json ... ``` atau ``` ... ```
+  return text
+    .replace(/^```(?:json)?\s*/i, '')
+    .replace(/\s*```\s*$/, '')
+    .trim();
+}
+
+async function aiParseNarrative(text, category) {
+  if (typeof PRIMA_AI === 'undefined') throw new Error('AI module tidak ada');
+
+  const prompt = buildAIParsePrompt(text, category);
+
+  // Gunakan endpoint OpenRouter yang sudah ada via /api/chat (non-streaming)
+  const model = PRIMA_AI.getSelectedModel();
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model,
+      messages: [
+        { role: 'system', content: 'Kamu adalah JSON parser yang teliti. Selalu return pure JSON tanpa penjelasan.' },
+        { role: 'user', content: prompt }
+      ],
+      stream: false,
+      temperature: 0.1,
+      max_tokens: 4000
+    })
+  });
+
+  if (!res.ok) {
+    const err = await res.text().catch(() => '');
+    throw new Error(`API ${res.status}: ${err.slice(0, 200)}`);
+  }
+
+  const data = await res.json();
+  const raw = data.choices?.[0]?.message?.content || '';
+  if (!raw) throw new Error('AI tidak return konten');
+
+  const cleaned = stripJsonFences(raw);
+  let parsed;
+  try {
+    parsed = JSON.parse(cleaned);
+  } catch (e) {
+    // Coba ekstrak JSON dari teks yang ada penjelasan
+    const m = cleaned.match(/(\{[\s\S]*\}|\[[\s\S]*\])/);
+    if (m) {
+      try { parsed = JSON.parse(m[0]); }
+      catch { throw new Error('AI return JSON tidak valid: ' + e.message); }
+    } else {
+      throw new Error('AI return JSON tidak valid: ' + e.message);
+    }
+  }
+
+  return parsed;
+}
+
+async function handleNarrativeUpload(event, category) {
+  const file = event.target.files[0];
+  event.target.value = '';
+  if (!file) return;
+
+  const schema = DATA_EDITOR_SCHEMA[category];
+  if (!schema || schema.singleObject) {
+    showToast('❌ Kategori ini tidak support import narasi');
+    return;
+  }
+
+  // Konfirmasi mode: replace atau append
+  const mode = confirm(
+    `Import dari "${file.name}" ke kategori "${schema.label}".\n\n` +
+    `OK = TAMBAH ke data yang sudah ada (append)\n` +
+    `Cancel = GANTI semua data (replace)`
+  ) ? 'append' : 'replace';
+
+  showToast('📄 Membaca file…');
+
+  let text;
+  try {
+    text = await extractTextFromFile(file);
+  } catch (e) {
+    showToast('❌ Gagal baca file: ' + e.message);
+    return;
+  }
+
+  if (!text || text.trim().length < 10) {
+    showToast('❌ File kosong atau tidak terbaca');
+    return;
+  }
+
+  // Show in-modal AI progress
+  const errEl = document.getElementById('de-json-error');
+  if (errEl) {
+    errEl.style.color = 'var(--gold-deep)';
+    errEl.innerHTML = '🤖 AI sedang parse narasi → JSON… (10-30 detik)';
+  }
+  showToast('🤖 AI parsing… mohon tunggu 10-30 detik');
+
+  let parsed;
+  try {
+    parsed = await aiParseNarrative(text, category);
+  } catch (e) {
+    if (errEl) { errEl.style.color = 'var(--danger,#c1272d)'; errEl.textContent = '✗ ' + e.message; }
+    showToast('❌ AI gagal: ' + e.message);
+    return;
+  }
+
+  // Pastikan format array
+  if (!Array.isArray(parsed)) {
+    if (typeof parsed === 'object' && parsed !== null) {
+      parsed = [parsed]; // wrap single object jadi array
+    } else {
+      showToast('❌ AI return bukan array/object');
+      return;
+    }
+  }
+
+  // Gabungkan dengan data lama jika append
+  const existing = getCategoryArray(category) || [];
+  const merged = mode === 'append' ? [...existing, ...parsed] : parsed;
+
+  setCategoryArray(category, merged);
+  renderDataEditorTab();
+  showToast(`✅ ${parsed.length} item ${mode === 'append' ? 'ditambahkan' : 'menggantikan data lama'}. Review & klik Simpan.`);
+}
+
+// ── Admin Secret: tersimpan di device, di-prompt sekali ──────────
+const ADMIN_SECRET_KEY = 'prima_admin_secret_v1';
+
+function getStoredAdminSecret() {
+  try { return localStorage.getItem(ADMIN_SECRET_KEY) || ''; }
+  catch { return ''; }
+}
+
+async function ensureAdminSecret(forcePrompt = false) {
+  let secret = forcePrompt ? '' : getStoredAdminSecret();
+  if (secret) return secret;
+
+  secret = prompt(
+    '🔑 Masukkan Admin Secret SEKALI saja\n\n' +
+    '(Nilai ADMIN_SECRET dari Vercel Environment Variables.\n' +
+    'Akan disimpan di perangkat ini supaya tidak perlu ketik lagi.)',
+    ''
+  );
+  if (!secret) return '';
+  secret = secret.trim();
+  if (secret.length < 8) {
+    showToast('❌ Secret terlalu pendek');
+    return '';
+  }
+  try { localStorage.setItem(ADMIN_SECRET_KEY, secret); } catch {}
+  showToast('✅ Secret tersimpan di perangkat ini');
+  return secret;
+}
+
+function clearAdminSecret() {
+  try { localStorage.removeItem(ADMIN_SECRET_KEY); } catch {}
+}
+
+function changeAdminSecret() {
+  if (confirm('Ganti Admin Secret? Anda akan diminta input baru.')) {
+    clearAdminSecret();
+    ensureAdminSecret(true);
+  }
+}
+
+function forgetAdminSecret() {
+  if (confirm('Hapus Admin Secret dari perangkat ini?\n\nUntuk save berikutnya, Anda perlu input ulang.')) {
+    clearAdminSecret();
+    showToast('🔒 Secret dihapus dari device');
+  }
+}
+
 // ── Save: POST ke /api/save-data ─────────────────────────────────
 async function saveDataEditor() {
   // Pastikan JSON di tab aktif tervalidasi sebelum kirim
@@ -1293,25 +1546,34 @@ async function saveDataEditor() {
     return;
   }
 
-  const secret = prompt('Masukkan Admin Secret (env ADMIN_SECRET di Vercel):');
+  let secret = await ensureAdminSecret();
   if (!secret) return;
 
-  const commitMessage = prompt(
-    'Pesan commit (opsional):',
-    'chore(data): admin update via Panel'
-  ) || 'chore(data): admin update via Panel';
+  // Commit message default tanpa prompt — cepat. Admin advanced bisa edit via input.
+  const commitMessage = 'chore(data): admin update via Panel';
 
   showToast('⏳ Mengirim ke GitHub…');
 
   try {
-    const res = await fetch('/api/save-data', {
+    let res = await fetch('/api/save-data', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Admin-Secret': secret
-      },
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': secret },
       body: JSON.stringify({ data: _dataEditorDraft, message: commitMessage })
     });
+
+    // Auto-retry sekali kalau secret invalid (misal user ganti env baru)
+    if (res.status === 401) {
+      clearAdminSecret();
+      showToast('🔑 Secret tersimpan salah/expired. Coba lagi…');
+      secret = await ensureAdminSecret(true);
+      if (!secret) return;
+      res = await fetch('/api/save-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': secret },
+        body: JSON.stringify({ data: _dataEditorDraft, message: commitMessage })
+      });
+    }
+
     const out = await res.json().catch(() => ({}));
     if (!res.ok) {
       showToast('❌ Gagal: ' + (out.error || res.status));
