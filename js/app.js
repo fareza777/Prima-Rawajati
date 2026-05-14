@@ -1159,6 +1159,7 @@ document.addEventListener('click', e => {
 // Working copy yang di-edit admin. Disalin dari PRIMA_DATA saat modal dibuka.
 let _dataEditorDraft = null;
 let _dataEditorTab = 'layanan';
+let _pendingFileUploads = []; // [{ path, content: base64, layananId, nama }]
 
 // Schema kolom Excel per kategori. Urutan kolom = urutan di sheet.
 const DATA_EDITOR_SCHEMA = {
@@ -1232,6 +1233,7 @@ function openDataEditor() {
   }
   _dataEditorDraft = JSON.parse(JSON.stringify(PRIMA_DATA));
   _dataEditorTab = 'layanan';
+  _pendingFileUploads = [];
   renderDataEditor();
   const modal = document.getElementById('modal-overlay');
   modal.classList.add('open');
@@ -1301,6 +1303,16 @@ function renderDataEditorTab() {
     `;
   }
 
+  // File upload panel (only for layanan tab)
+  const isLayanan = _dataEditorTab === 'layanan';
+  const layananOptions = isLayanan && _dataEditorDraft?.layanan
+    ? _dataEditorDraft.layanan.map(l => `<option value="${escapeHtml(l.id)}">${escapeHtml(l.id)} — ${escapeHtml(l.nama)}</option>`).join('')
+    : '';
+  const pendingFilesHtml = _pendingFileUploads.length > 0
+    ? `<div class="de-pending-files"><strong>📎 File siap upload (${_pendingFileUploads.length}):</strong>
+       ${_pendingFileUploads.map(f => `<span class="de-pf-tag">${escapeHtml(f.nama)} → dokumen/${escapeHtml(f.path.split('/').pop())}</span>`).join('')}</div>`
+    : '';
+
   container.innerHTML = `
     <div class="de-toolbar">
       <span class="de-count">${count} ${schema.singleObject ? 'object' : 'baris'}</span>
@@ -1311,9 +1323,26 @@ function renderDataEditorTab() {
         <button class="de-btn" onclick="document.getElementById('de-excel-input').click()">⬆ Excel</button>
         <input type="file" id="de-excel-input" hidden accept=".xlsx,.xls,.csv" onchange="handleExcelUpload(event, '${_dataEditorTab}')">
       ` : ''}
+      ${isLayanan ? `<button class="de-btn" onclick="toggleFileUploadPanel()">📎 Upload File Template</button>` : ''}
       <button class="de-btn" onclick="downloadJSON()">⬇ JSON</button>
     </div>
     ${previewHtml}
+    ${pendingFilesHtml}
+    ${isLayanan ? `
+    <div id="de-file-panel" style="display:none;margin:10px 0;padding:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;">
+      <strong style="font-size:13px;display:block;margin-bottom:8px">📎 Tambah File Template</strong>
+      <select id="de-fu-layanan" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);margin-bottom:8px">
+        <option value="">Pilih layanan…</option>
+        ${layananOptions}
+      </select>
+      <input type="text" id="de-fu-nama" placeholder="Nama dokumen (mis: Formulir SKD)" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);margin-bottom:8px">
+      <input type="file" id="de-fu-file" accept=".pdf,.docx,.doc,.xlsx,.xls,.jpg,.png" style="width:100%;padding:8px 0;color:var(--text);font-size:13px">
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="de-btn" onclick="addTemplateFile()" style="flex:1">⬆ Upload & Tambah</button>
+        <button class="de-btn" onclick="toggleFileUploadPanel()" style="background:transparent;border-color:var(--border);color:var(--text-muted)">Tutup</button>
+      </div>
+    </div>
+    ` : ''}
     <p style="font-size:12px;color:var(--text-muted);margin:8px 0">
       Edit langsung di JSON di bawah. Format harus valid (tanda kutip ganda, koma antar item). Untuk field array (seperti <code>syarat</code>), pakai array JSON <code>["item 1", "item 2"]</code>.
     </p>
@@ -1323,6 +1352,50 @@ function renderDataEditorTab() {
 
   const ta = document.getElementById('de-json-editor');
   ta.addEventListener('input', validateAndApplyJSON);
+}
+
+function toggleFileUploadPanel() {
+  const panel = document.getElementById('de-file-panel');
+  if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+function addTemplateFile() {
+  const layananId = document.getElementById('de-fu-layanan')?.value;
+  const nama = document.getElementById('de-fu-nama')?.value.trim();
+  const fileInput = document.getElementById('de-fu-file');
+  const file = fileInput?.files[0];
+
+  if (!layananId) { showToast('❌ Pilih layanan dulu.'); return; }
+  if (!nama) { showToast('❌ Isi nama dokumen.'); return; }
+  if (!file) { showToast('❌ Pilih file dulu.'); return; }
+
+  const safeName = nama.replace(/[^a-zA-Z0-9\s.-]/g, '').replace(/\s+/g, '-').toLowerCase();
+  const ext = file.name.match(/\.[^.]+$/)?.[0] || '.pdf';
+  const filename = `${safeName}${ext}`;
+  const path = `dokumen/${filename}`;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    const base64 = reader.result.split(',')[1];
+    _pendingFileUploads.push({ path, content: base64, layananId, nama });
+
+    // Update draft JSON: add dokumenUnduh entry
+    const layanan = _dataEditorDraft.layanan.find(l => l.id === layananId);
+    if (layanan) {
+      if (!Array.isArray(layanan.dokumenUnduh)) layanan.dokumenUnduh = [];
+      layanan.dokumenUnduh.push({ nama, url: path });
+    }
+
+    // Reset form
+    document.getElementById('de-fu-layanan').value = '';
+    document.getElementById('de-fu-nama').value = '';
+    fileInput.value = '';
+
+    renderDataEditorTab();
+    showToast('📎 File ditambahkan. Klik Simpan untuk upload ke server.');
+  };
+  reader.onerror = () => showToast('❌ Gagal membaca file.');
+  reader.readAsDataURL(file);
 }
 
 function deleteDataItem(index) {
@@ -1716,7 +1789,7 @@ async function saveDataEditor() {
     let res = await fetch('/api/save-data', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': secret },
-      body: JSON.stringify({ data: _dataEditorDraft, message: commitMessage })
+      body: JSON.stringify({ data: _dataEditorDraft, message: commitMessage, files: _pendingFileUploads })
     });
 
     // Auto-retry sekali kalau secret invalid (misal user ganti env baru)
@@ -1728,7 +1801,7 @@ async function saveDataEditor() {
       res = await fetch('/api/save-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': secret },
-        body: JSON.stringify({ data: _dataEditorDraft, message: commitMessage })
+        body: JSON.stringify({ data: _dataEditorDraft, message: commitMessage, files: _pendingFileUploads })
       });
     }
 
@@ -1738,6 +1811,7 @@ async function saveDataEditor() {
       return;
     }
     showToast('✅ Tersimpan! Vercel auto-deploy ~1-2 menit.');
+    _pendingFileUploads = []; // clear after successful upload
     if (out.url) {
       setTimeout(() => {
         if (confirm('Buka commit di GitHub?')) window.open(out.url, '_blank');

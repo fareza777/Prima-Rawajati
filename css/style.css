@@ -1494,6 +1494,11 @@ a.download-btn, .download-btn {
 [data-theme="dark"] .de-preview-item { background: var(--surface-2); border-color: var(--border); }
 [data-theme="dark"] .de-preview-item:hover { border-color: var(--gold); }
 
+.de-pending-files { margin: 8px 0; padding: 10px 12px; background: var(--surface); border: 1px dashed var(--border); border-radius: 8px; font-size: 12px; }
+.de-pf-tag { display: inline-block; padding: 3px 8px; background: var(--primary-light); border: 1px solid var(--border); border-radius: 6px; margin: 3px 3px 0 0; color: var(--text); font-size: 11.5px; }
+[data-theme="dark"] .de-pending-files { background: var(--surface-2); border-color: var(--border); }
+[data-theme="dark"] .de-pf-tag { background: #1E2940; border-color: #2A3650; }
+
 .de-actions {
   display: flex;
   gap: 10px;

@@ -48,6 +48,27 @@ function toBase64(str) {
   return btoa(binary);
 }
 
+async function putGitHubFile(repo, token, branch, path, base64Content, message, ghHeaders) {
+  const apiBase = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(path)}`;
+  // Get sha if exists
+  let sha;
+  try {
+    const getRes = await fetch(`${apiBase}?ref=${encodeURIComponent(branch)}`, { headers: ghHeaders });
+    if (getRes.status === 200) {
+      const existing = await getRes.json();
+      sha = existing.sha;
+    }
+  } catch {}
+  const putBody = { message, content: base64Content, branch };
+  if (sha) putBody.sha = sha;
+  const putRes = await fetch(apiBase, {
+    method: 'PUT',
+    headers: { ...ghHeaders, 'Content-Type': 'application/json' },
+    body: JSON.stringify(putBody)
+  });
+  return { ok: putRes.ok, status: putRes.status, json: await putRes.json().catch(() => ({})) };
+}
+
 export default async function handler(req) {
   if (req.method !== 'POST') {
     return json(405, { error: 'Method not allowed. Pakai POST.' });
@@ -80,6 +101,7 @@ export default async function handler(req) {
 
   const newData = body.data;
   const commitMessage = body.message || 'chore(data): admin update via Panel';
+  const files = body.files || []; // [{ path, content: base64 }]
 
   const validationError = validateData(newData);
   if (validationError) {
@@ -91,7 +113,6 @@ export default async function handler(req) {
     newData.meta.terakhirUpdate = new Date().toISOString();
   }
 
-  const apiBase = `https://api.github.com/repos/${repo}/contents/${FILE_PATH}`;
   const ghHeaders = {
     'Authorization': `Bearer ${token}`,
     'Accept': 'application/vnd.github+json',
@@ -99,52 +120,34 @@ export default async function handler(req) {
     'User-Agent': 'prima-rawajati-admin'
   };
 
-  // Step 1: get current file sha (kalau ada) — diperlukan PUT GitHub Contents API
-  let currentSha;
-  try {
-    const getRes = await fetch(`${apiBase}?ref=${encodeURIComponent(branch)}`, {
-      headers: ghHeaders
-    });
-    if (getRes.status === 200) {
-      const existing = await getRes.json();
-      currentSha = existing.sha;
-    } else if (getRes.status !== 404) {
-      const txt = await getRes.text();
-      return json(502, { error: `GitHub GET error ${getRes.status}: ${txt.slice(0, 200)}` });
+  // Upload files first (if any)
+  const fileResults = [];
+  if (Array.isArray(files) && files.length > 0) {
+    for (const f of files) {
+      if (!f.path || !f.content) continue;
+      const res = await putGitHubFile(repo, token, branch, f.path, f.content, `chore(dokumen): upload ${f.path}`, ghHeaders);
+      fileResults.push({ path: f.path, ok: res.ok, status: res.status });
     }
-  } catch (e) {
-    return json(502, { error: 'Gagal cek file existing: ' + e.message });
   }
 
-  // Step 2: PUT new content
+  // Commit data JSON
+  const dataPath = 'data/prima-data.json';
   const newContent = JSON.stringify(newData, null, 2) + '\n';
-  const putBody = {
-    message: commitMessage,
-    content: toBase64(newContent),
-    branch
-  };
-  if (currentSha) putBody.sha = currentSha;
+  const dataRes = await putGitHubFile(repo, token, branch, dataPath, toBase64(newContent), commitMessage, ghHeaders);
 
-  try {
-    const putRes = await fetch(apiBase, {
-      method: 'PUT',
-      headers: { ...ghHeaders, 'Content-Type': 'application/json' },
-      body: JSON.stringify(putBody)
+  if (!dataRes.ok) {
+    return json(502, {
+      error: `GitHub PUT error ${dataRes.status}: ${dataRes.json.message || 'unknown'}`,
+      github: dataRes.json,
+      files: fileResults
     });
-    const putJson = await putRes.json().catch(() => ({}));
-    if (!putRes.ok) {
-      return json(502, {
-        error: `GitHub PUT error ${putRes.status}: ${putJson.message || 'unknown'}`,
-        github: putJson
-      });
-    }
-    return json(200, {
-      ok: true,
-      commit: putJson.commit?.sha,
-      url: putJson.commit?.html_url,
-      message: 'Data tersimpan. Vercel akan auto-deploy ~1-2 menit.'
-    });
-  } catch (e) {
-    return json(502, { error: 'Gagal commit ke GitHub: ' + e.message });
   }
+
+  return json(200, {
+    ok: true,
+    commit: dataRes.json.commit?.sha,
+    url: dataRes.json.commit?.html_url,
+    files: fileResults,
+    message: 'Data tersimpan. Vercel akan auto-deploy ~1-2 menit.'
+  });
 }
