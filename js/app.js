@@ -1252,6 +1252,25 @@ function renderDataEditorTab() {
   const data = getCategoryArray(_dataEditorTab);
   const count = schema.singleObject ? 1 : (data || []).length;
 
+  // Build preview list (non-singleObject only)
+  let previewHtml = '';
+  if (!schema.singleObject && Array.isArray(data) && data.length > 0) {
+    previewHtml = `
+      <div class="de-preview">
+        ${data.map((item, i) => `
+          <div class="de-preview-item" data-idx="${i}">
+            <span class="de-pv-emoji">${item.emoji || item.icon || '📄'}</span>
+            <div class="de-pv-body">
+              <strong>${escapeHtml(item.nama || item.id || 'Item ' + (i+1))}</strong>
+              <span class="de-pv-id">${escapeHtml(item.id || '')}</span>
+            </div>
+            <button class="de-pv-del" onclick="deleteDataItem(${i})" title="Hapus item ini">🗑️</button>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
   container.innerHTML = `
     <div class="de-toolbar">
       <span class="de-count">${count} ${schema.singleObject ? 'object' : 'baris'}</span>
@@ -1264,6 +1283,7 @@ function renderDataEditorTab() {
       ` : ''}
       <button class="de-btn" onclick="downloadJSON()">⬇ JSON</button>
     </div>
+    ${previewHtml}
     <p style="font-size:12px;color:var(--text-muted);margin:8px 0">
       Edit langsung di JSON di bawah. Format harus valid (tanda kutip ganda, koma antar item). Untuk field array (seperti <code>syarat</code>), pakai array JSON <code>["item 1", "item 2"]</code>.
     </p>
@@ -1273,6 +1293,16 @@ function renderDataEditorTab() {
 
   const ta = document.getElementById('de-json-editor');
   ta.addEventListener('input', validateAndApplyJSON);
+}
+
+function deleteDataItem(index) {
+  if (!confirm('Yakin hapus item ini? Tindakan tidak bisa di-undo sebelum simpan.')) return;
+  const data = getCategoryArray(_dataEditorTab);
+  if (!Array.isArray(data) || index < 0 || index >= data.length) return;
+  data.splice(index, 1);
+  setCategoryArray(_dataEditorTab, data);
+  renderDataEditorTab();
+  showToast('🗑️ Item dihapus. Klik Simpan untuk publish.');
 }
 
 function validateAndApplyJSON() {
