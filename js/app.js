@@ -1777,16 +1777,22 @@ function deleteDataItem(index) {
 
 function validateAndApplyJSON() {
   const ta = document.getElementById('de-json-editor');
+  // Form-based editors don't have a JSON textarea; _dataEditorDraft is already valid
+  if (!ta) return true;
   const errEl = document.getElementById('de-json-error');
   try {
     const parsed = JSON.parse(ta.value);
     setCategoryArray(_dataEditorTab, parsed);
-    errEl.textContent = '✓ JSON valid';
-    errEl.style.color = 'var(--success,#2e7d32)';
+    if (errEl) {
+      errEl.textContent = '✓ JSON valid';
+      errEl.style.color = 'var(--success,#2e7d32)';
+    }
     return true;
   } catch (e) {
-    errEl.textContent = '✗ ' + e.message;
-    errEl.style.color = 'var(--danger,#c1272d)';
+    if (errEl) {
+      errEl.textContent = '✗ ' + e.message;
+      errEl.style.color = 'var(--danger,#c1272d)';
+    }
     return false;
   }
 }
