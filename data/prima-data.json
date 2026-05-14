@@ -13,7 +13,7 @@
       "lng": 106.849
     },
     "versi": "1.0.0",
-    "terakhirUpdate": "2026-05-14T05:42:58.839Z"
+    "terakhirUpdate": "2026-05-14T05:47:33.110Z"
   },
   "layanan": [
     {
@@ -91,10 +91,6 @@
         {
           "nama": "Formulir Permohonan Surat Ahli Waris",
           "url": "#form-saw2"
-        },
-        {
-          "nama": "Dokumen Waris",
-          "url": "dokumen/dokumen-waris.docx"
         }
       ],
       "tags": [
