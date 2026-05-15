@@ -12,7 +12,7 @@ const PRIMA_AI = (() => {
     { id: 'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free', label: 'Nemotron 3 Nano 30B (Reasoning)', short: 'Nemotron Nano' },
     { id: 'nvidia/nemotron-3-super-120b-a12b:free', label: 'Nemotron 3 Super 120B', short: 'Nemotron Super' },
     { id: 'qwen/qwen3.6-flash', label: 'Qwen 3.6 Flash (Alibaba)', short: 'Qwen 3.6' },
-    { id: 'deepseek/deepseek-v4-flash', label: 'DeepSeek V4 Flash', short: 'DeepSeek V4' },
+    { id: 'deepseek/deepseek-chat-v3.1:free', label: 'DeepSeek V3.1 (Free)', short: 'DeepSeek V3.1' },
     // Fallback yang sudah pasti tersedia di OpenRouter free tier:
     { id: 'google/gemma-2-9b-it:free', label: 'Gemma 2 9B (Fallback)', short: 'Gemma 2' },
     { id: 'meta-llama/llama-3.1-8b-instruct:free', label: 'Llama 3.1 8B (Fallback)', short: 'Llama 3.1' },
