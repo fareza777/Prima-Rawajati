@@ -2,15 +2,12 @@
 // Keeps OPENROUTER_API_KEY server-side. Streams response back to client.
 export const config = { runtime: 'edge' };
 
-const ALLOWED_MODELS = new Set([
-  'google/gemma-4-26b-a4b-it:free',
-  'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free',
-  'nvidia/nemotron-3-super-120b-a12b:free',
-  // Reliable fallbacks (in case the names above are unavailable on OpenRouter):
-  'google/gemma-2-9b-it:free',
-  'meta-llama/llama-3.1-8b-instruct:free',
-  'mistralai/mistral-7b-instruct:free'
-]);
+// Validasi minimal: model harus format vendor/model (OpenRouter style).
+// OpenRouter sendiri yang akan reject kalau model tidak tersedia atau
+// API key tidak punya credits.
+function isValidModelId(id) {
+  return typeof id === 'string' && /^[a-z0-9_-]+\/[a-z0-9._-]+$/i.test(id);
+}
 
 export default async function handler(req) {
   if (req.method === 'OPTIONS') {
@@ -36,8 +33,8 @@ export default async function handler(req) {
   if (!model || !Array.isArray(messages) || !messages.length) {
     return json({ error: 'Missing model or messages' }, 400, req);
   }
-  if (!ALLOWED_MODELS.has(model)) {
-    return json({ error: `Model not allowed: ${model}` }, 400, req);
+  if (!isValidModelId(model)) {
+    return json({ error: `Model ID tidak valid: ${model}` }, 400, req);
   }
 
   const origin = req.headers.get('origin') || 'https://prima-rawajati.vercel.app';
