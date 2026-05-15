@@ -654,9 +654,12 @@ function _titleCase(str) {
 function _autoLabelFromId(id) {
   const parts = id.split('/');
   if (parts.length < 2) return _titleCase(id);
-  const vendor = _titleCase(parts[0]);
-  const model = _titleCase(parts.slice(1).join(' '));
-  return vendor + ' ' + model;
+  const vendor = parts[0];
+  let model = parts.slice(1).join(' ');
+  // Hapus prefix vendor dari model name kalau dobel (contoh: qwen/qwen3.6 -> qwen 3.6)
+  const vendorRe = new RegExp('^' + vendor.replace(/[-_.]/g, '[-_.]?') + '[-_.]?', 'i');
+  model = model.replace(vendorRe, '');
+  return _titleCase(vendor) + ' ' + _titleCase(model);
 }
 function _autoShortFromId(id) {
   const parts = id.split('/');
