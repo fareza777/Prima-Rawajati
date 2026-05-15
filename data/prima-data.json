@@ -13,7 +13,7 @@
       "lng": 106.849
     },
     "versi": "1.0.0",
-    "terakhirUpdate": "2026-05-15T05:48:22.782Z"
+    "terakhirUpdate": "2026-05-15T05:50:28.949Z"
   },
   "layanan": [
     {
@@ -1131,7 +1131,7 @@
     },
     {
       "id": "qwen/qwen3.5-flash-02-23",
-      "label": "Qwen Qwen3.5 Flash 02 23",
+      "label": "Qwen 3.5 Flash 02 23",
       "short": "Qwen3.5 Flash 02 2"
     }
   ]
