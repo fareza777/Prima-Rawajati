@@ -1203,6 +1203,22 @@ a.download-btn, .download-btn {
 .admin-login .admin-icon { font-size: 48px; margin-bottom: 12px; }
 .admin-login h3 { font-family: var(--font-display); font-size: 19px; font-weight: 700; margin-bottom: 4px; }
 .admin-login p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+.admin-login .pw-wrap { position: relative; display: flex; align-items: center; }
+.admin-login .pw-wrap input { width: 100%; padding-right: 40px; }
+.admin-login .pw-toggle {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--text-muted);
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .admin-panel { margin-top: 12px; }
 .admin-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
 .admin-stat-card {

@@ -1120,6 +1120,18 @@ function renderAdminPage() {
       document.getElementById('admin-password').value = '';
     }
   });
+
+  // Eye toggle for password visibility
+  const pwToggle = document.getElementById('admin-pw-toggle');
+  const pwInput = document.getElementById('admin-password');
+  if (pwToggle && pwInput) {
+    pwToggle.addEventListener('click', () => {
+      const isHidden = pwInput.type === 'password';
+      pwInput.type = isHidden ? 'text' : 'password';
+      pwToggle.textContent = isHidden ? '🙈' : '👁';
+      pwToggle.title = isHidden ? 'Sembunyikan password' : 'Tampilkan password';
+    });
+  }
 }
 
 let _feedbacksCache = null;

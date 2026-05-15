@@ -388,7 +388,10 @@
         <form id="admin-login-form">
           <div class="form-group" style="margin-bottom:12px;text-align:left">
             <label>Password Admin</label>
-            <input type="password" id="admin-password" placeholder="Masukkan password…" required>
+            <div class="pw-wrap">
+              <input type="password" id="admin-password" placeholder="Masukkan password…" required>
+              <button type="button" class="pw-toggle" id="admin-pw-toggle" title="Tampilkan / sembunyikan password">👁</button>
+            </div>
           </div>
           <button type="submit" class="submit-btn">🔓 Masuk ke Panel Admin</button>
         </form>
