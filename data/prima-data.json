@@ -13,7 +13,7 @@
       "lng": 106.849
     },
     "versi": "1.0.0",
-    "terakhirUpdate": "2026-05-15T05:54:21.753Z"
+    "terakhirUpdate": "2026-05-15T05:55:25.320Z"
   },
   "layanan": [
     {
@@ -1111,7 +1111,7 @@
   ],
   "aiSettings": {
     "enabled": true,
-    "model": "openai/gpt-5.1-codex-mini"
+    "model": "inclusionai/ling-2.6-flash"
   },
   "aiModels": [
     {
