@@ -383,6 +383,21 @@ input:focus, textarea:focus, select:focus {
 }
 .hero-stat .stat-label { font-size: 10.5px; opacity: .82; line-height: 1.2; margin-top: 3px; letter-spacing: .2px; }
 
+/* Dark mode: hero lebih gelap */
+[data-theme="dark"] .hero-banner {
+  background: linear-gradient(135deg, #0a1228 0%, #060e22 40%, #030812 100%);
+}
+[data-theme="dark"] .hero-banner::before {
+  background:
+    radial-gradient(30% 20% at 85% 15%, rgba(212,175,55,.08), transparent 60%),
+    radial-gradient(40% 30% at 10% 90%, rgba(244,201,93,.06), transparent 60%);
+}
+[data-theme="dark"] .hero-stat {
+  background: rgba(0,0,0,.25);
+  border-color: rgba(255,255,255,.08);
+}
+[data-theme="dark"] .hero-stat:hover { border-color: rgba(212,175,55,.35); }
+
 /* ── QUICK SEARCH ── */
 .quick-search {
   padding: 16px 16px 6px;
