@@ -37,6 +37,16 @@ function validateData(d) {
       return 'aiSettings.model harus string format "vendor/model".';
     }
   }
+  if (d.aiModels !== undefined) {
+    if (!Array.isArray(d.aiModels)) return 'Field "aiModels" harus array.';
+    for (let i = 0; i < d.aiModels.length; i++) {
+      const m = d.aiModels[i];
+      if (!m || typeof m !== 'object') return `aiModels[${i}] harus object.`;
+      if (typeof m.id !== 'string' || !m.id.includes('/')) return `aiModels[${i}].id harus string format "vendor/model".`;
+      if (typeof m.label !== 'string') return `aiModels[${i}].label harus string.`;
+      if (typeof m.short !== 'string') return `aiModels[${i}].short harus string.`;
+    }
+  }
   return null;
 }
 

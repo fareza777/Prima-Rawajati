@@ -15,6 +15,10 @@ function bootApp() {
   if (window.PRIMA_DATA_LOAD_ERROR) {
     showToast('⚠️ Gagal memuat data PRIMA: ' + window.PRIMA_DATA_LOAD_ERROR);
   }
+  // Sync admin-managed model presets dari prima-data.json ke AI module
+  if (window.PRIMA_DATA?.aiModels && typeof PRIMA_AI !== 'undefined') {
+    PRIMA_AI.setModels(window.PRIMA_DATA.aiModels);
+  }
   chatbot = new PRIMAChatbot(PRIMA_DATA.faqChatbot);
   initNav();
   renderHome();
@@ -523,12 +527,20 @@ function initAISettings() {
 
   if (!panel || !aiToggle || !modelSelect || typeof PRIMA_AI === 'undefined') return;
 
-  // Populate model dropdown (idempotent) + listener setup
-  if (!modelSelect.dataset.populated) {
-    modelSelect.innerHTML = PRIMA_AI.MODELS.map(m =>
-      `<option value="${m.id}">${m.label}</option>`
+  // Populate model dropdown from current presets (re-populate each init)
+  const _populateSelect = () => {
+    const currentVal = modelSelect.value;
+    const models = PRIMA_AI.getModels();
+    modelSelect.innerHTML = models.map(m =>
+      `<option value="${m.id}">${escapeHtml(m.label)}</option>`
     ).join('') + '<option value="__custom__">— Custom (isi di bawah) —</option>';
-    modelSelect.dataset.populated = '1';
+    // Restore selection if still valid
+    if (currentVal && (models.find(m => m.id === currentVal) || currentVal === '__custom__')) {
+      modelSelect.value = currentVal;
+    }
+    if (!modelSelect.dataset.populated) modelSelect.dataset.populated = '1';
+  };
+  _populateSelect();
 
     modelSelect.addEventListener('change', () => {
       if (modelSelect.value === '__custom__') {
@@ -568,7 +580,6 @@ function initAISettings() {
         if (e.key === 'Enter') { e.preventDefault(); saveCustom(); }
       });
     }
-  }
 
   // Sync UI dengan state dari PRIMA_DATA (source of truth)
   const currentModel = PRIMA_AI.getSelectedModel();
@@ -580,6 +591,9 @@ function initAISettings() {
     if (customInput) customInput.value = '';
   }
   aiToggle.checked = isAIEnabled();
+
+  // Render preset list CRUD UI
+  renderAIModelList();
 
   // Render status indikator + tombol Simpan
   renderAISettingsStatus();
@@ -617,6 +631,83 @@ function renderAISettingsStatus() {
   if (btn) btn.addEventListener('click', saveAISettingsToGitHub);
 }
 
+// ── AI MODEL PRESET CRUD UI ────────────────────────────────────
+function renderAIModelList() {
+  const container = document.getElementById('ai-preset-list');
+  if (!container) return;
+  const models = PRIMA_AI.getModels();
+  if (!models.length) {
+    container.innerHTML = '<span style="font-size:12px;color:var(--text-muted)">Belum ada preset. Default model akan dipakai.</span>';
+    return;
+  }
+  container.innerHTML = models.map(m => `
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:var(--surface);border:1px solid var(--border);border-radius:6px;font-size:13px">
+      <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><strong>${escapeHtml(m.label)}</strong> <span style="color:var(--text-muted);font-size:11px">${escapeHtml(m.id)}</span></span>
+      <button type="button" class="de-pv-del" onclick="removeAIModelPreset('${escapeHtml(m.id)}')" title="Hapus preset" style="width:24px;height:24px;font-size:12px">✕</button>
+    </div>
+  `).join('');
+}
+
+function addAIModelPreset() {
+  const idEl = document.getElementById('ai-add-id');
+  const labelEl = document.getElementById('ai-add-label');
+  const shortEl = document.getElementById('ai-add-short');
+  if (!idEl || !labelEl) return;
+  const id = idEl.value.trim();
+  const label = labelEl.value.trim();
+  const short = shortEl ? shortEl.value.trim() : '';
+  if (!id || !label) {
+    showToast('❌ ID dan Label wajib diisi');
+    return;
+  }
+  if (!id.includes('/')) {
+    showToast('❌ ID harus format vendor/model (contoh: qwen/qwen3.6-flash)');
+    return;
+  }
+  const ok = PRIMA_AI.addModel({ id, label, short });
+  if (!ok) {
+    showToast('❌ Model sudah ada atau ID tidak valid');
+    return;
+  }
+  // Refresh UI
+  const modelSelect = document.getElementById('ai-model');
+  if (modelSelect) {
+    const currentVal = modelSelect.value;
+    const models = PRIMA_AI.getModels();
+    modelSelect.innerHTML = models.map(m => `<option value="${m.id}">${escapeHtml(m.label)}</option>`).join('') + '<option value="__custom__">— Custom (isi di bawah) —</option>';
+    if (currentVal) modelSelect.value = currentVal;
+  }
+  renderAIModelList();
+  markAISettingsDirty();
+  showToast('✅ Model ditambahkan (draft) — klik "Simpan ke GitHub"');
+  idEl.value = '';
+  labelEl.value = '';
+  if (shortEl) shortEl.value = '';
+}
+
+function removeAIModelPreset(id) {
+  if (!confirm('Hapus preset model ini?')) return;
+  PRIMA_AI.removeModel(id);
+  // Refresh dropdown
+  const modelSelect = document.getElementById('ai-model');
+  if (modelSelect) {
+    const models = PRIMA_AI.getModels();
+    modelSelect.innerHTML = models.map(m => `<option value="${m.id}">${escapeHtml(m.label)}</option>`).join('') + '<option value="__custom__">— Custom (isi di bawah) —</option>';
+    // Kalau model yang dihapus sedang dipilih, fallback ke default
+    const current = PRIMA_AI.getSelectedModel();
+    if (current === id) {
+      PRIMA_AI.setSelectedModel(PRIMA_AI.DEFAULT_MODEL);
+      modelSelect.value = PRIMA_AI.DEFAULT_MODEL;
+    } else {
+      modelSelect.value = current;
+    }
+  }
+  renderAIModelList();
+  markAISettingsDirty();
+  refreshChatModeLabel();
+  showToast('🗑️ Model dihapus (draft) — klik "Simpan ke GitHub"');
+}
+
 // Commit PRIMA_DATA (yang sudah memuat aiSettings terbaru) ke GitHub.
 async function saveAISettingsToGitHub() {
   if (!window.PRIMA_DATA) {
@@ -630,8 +721,12 @@ async function saveAISettingsToGitHub() {
   let secret = await ensureAdminSecret();
   if (!secret) return;
 
+  // Ensure aiModels is synced from current presets before commit
+  const models = PRIMA_AI.getModels();
+  window.PRIMA_DATA.aiModels = models;
+
   const ai = window.PRIMA_DATA.aiSettings || {};
-  const commitMessage = `chore(ai): set model=${ai.model || '?'} enabled=${ai.enabled ? 'on' : 'off'}`;
+  const commitMessage = `chore(ai): set model=${ai.model || '?'} enabled=${ai.enabled ? 'on' : 'off'} presets=${models.length}`;
 
   showToast('⏳ Publish setting AI ke GitHub…');
 
@@ -2169,10 +2264,13 @@ async function saveDataEditor() {
   let secret = await ensureAdminSecret();
   if (!secret) return;
 
-  // Sync aiSettings dari PRIMA_DATA terbaru sebelum push, supaya save dari Data
-  // Editor tidak overwrite perubahan AI settings yang baru saja di-publish.
+  // Sync aiSettings dan aiModels dari PRIMA_DATA terbaru sebelum push, supaya
+  // save dari Data Editor tidak overwrite perubahan AI settings & model presets.
   if (window.PRIMA_DATA?.aiSettings) {
     _dataEditorDraft.aiSettings = JSON.parse(JSON.stringify(window.PRIMA_DATA.aiSettings));
+  }
+  if (window.PRIMA_DATA?.aiModels) {
+    _dataEditorDraft.aiModels = JSON.parse(JSON.stringify(window.PRIMA_DATA.aiModels));
   }
 
   // Commit message default tanpa prompt — cepat. Admin advanced bisa edit via input.

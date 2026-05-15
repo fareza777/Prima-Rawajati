@@ -7,7 +7,7 @@
 const PRIMA_AI = (() => {
   const ENDPOINT = '/api/chat';
 
-  const MODELS = [
+  const DEFAULT_MODELS = [
     { id: 'google/gemma-4-26b-a4b-it:free', label: 'Gemma 4 26B (Google)', short: 'Gemma 4' },
     { id: 'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free', label: 'Nemotron 3 Nano 30B (Reasoning)', short: 'Nemotron Nano' },
     { id: 'nvidia/nemotron-3-super-120b-a12b:free', label: 'Nemotron 3 Super 120B', short: 'Nemotron Super' },
@@ -19,7 +19,46 @@ const PRIMA_AI = (() => {
     { id: 'mistralai/mistral-7b-instruct:free', label: 'Mistral 7B (Fallback)', short: 'Mistral 7B' }
   ];
 
-  const DEFAULT_MODEL = MODELS[0].id;
+  let _models = null; // null = belum di-load dari PRIMA_DATA
+
+  function _getDefaultModels() {
+    return JSON.parse(JSON.stringify(DEFAULT_MODELS));
+  }
+
+  function getModels() {
+    // Prefer models dari PRIMA_DATA (admin-managed), fallback ke defaults
+    const fromData = window.PRIMA_DATA?.aiModels;
+    if (Array.isArray(fromData) && fromData.length > 0) return fromData;
+    return _models || _getDefaultModels();
+  }
+
+  function setModels(arr) {
+    if (!Array.isArray(arr)) return;
+    _models = arr.map(m => ({
+      id: String(m.id || m.model || '').trim(),
+      label: String(m.label || m.id || '').trim(),
+      short: String(m.short || m.label || '').trim()
+    })).filter(m => m.id && m.id.includes('/'));
+  }
+
+  function addModel(m) {
+    const clean = { id: String(m.id).trim(), label: String(m.label || m.id).trim(), short: String(m.short || m.label).trim() };
+    if (!clean.id.includes('/')) return false;
+    const list = getModels().slice();
+    if (list.find(x => x.id === clean.id)) return false; // already exists
+    list.push(clean);
+    _models = list;
+    if (window.PRIMA_DATA) window.PRIMA_DATA.aiModels = list;
+    return true;
+  }
+
+  function removeModel(id) {
+    const list = getModels().filter(m => m.id !== id);
+    _models = list;
+    if (window.PRIMA_DATA) window.PRIMA_DATA.aiModels = list;
+  }
+
+  const DEFAULT_MODEL = DEFAULT_MODELS[0].id;
 
   // ── BASIC RAG ──────────────────────────────────────────────────
   // Indeks sederhana: tokenize semua dokumen sekali, lalu skor TF terhadap query.
@@ -237,7 +276,7 @@ KONTAK KELURAHAN:
     return true;
   }
   function isCustomModel(id) {
-    return !MODELS.find(m => m.id === id);
+    return !getModels().find(m => m.id === id);
   }
 
   // ── AVAILABILITY CHECK ─────────────────────────────────────────
@@ -253,7 +292,11 @@ KONTAK KELURAHAN:
   }
 
   return {
-    MODELS,
+    MODELS: getModels(), // backward-compat: expose current snapshot
+    getModels,
+    setModels,
+    addModel,
+    removeModel,
     DEFAULT_MODEL,
     streamChat,
     retrieveContext,

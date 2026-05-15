@@ -500,6 +500,17 @@
             <input type="text" id="ai-model-custom" class="cs-select" style="flex:1;min-width:0" placeholder="contoh: anthropic/claude-3.5-sonnet atau biarkan kosong untuk pakai preset">
             <button type="button" id="ai-model-custom-save" class="submit-btn" style="padding:8px 14px;font-size:13px;flex:0 0 auto">Simpan</button>
           </div>
+          <div style="margin:12px 0;padding:12px;background:var(--surface-2);border:1px dashed var(--border);border-radius:var(--radius-sm)">
+            <strong style="font-size:13px;display:block;margin-bottom:8px">📋 Preset Model (CRUD)</strong>
+            <div id="ai-preset-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px"></div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <input type="text" id="ai-add-id" class="cs-select" style="flex:1;min-width:120px" placeholder="vendor/model (contoh: qwen/qwen3.6-flash)">
+              <input type="text" id="ai-add-label" class="cs-select" style="flex:1;min-width:100px" placeholder="Label (contoh: Qwen 3.6 Flash)">
+              <input type="text" id="ai-add-short" class="cs-select" style="flex:0 0 80px;min-width:80px" placeholder="Short">
+              <button type="button" class="submit-btn" style="padding:8px 14px;font-size:13px" onclick="addAIModelPreset()">➕ Tambah</button>
+            </div>
+            <p style="font-size:11px;color:var(--text-muted);margin-top:6px">Tambah/hapus model di atas, lalu klik "💾 Simpan ke GitHub".</p>
+          </div>
           <div class="cs-hint">💡 Daftar model lengkap: <a href="https://openrouter.ai/models" target="_blank" rel="noopener" style="color:var(--gold-deep);text-decoration:underline">openrouter.ai/models</a>. Saat AI mati, chatbot pakai mesin keyword bawaan (offline). Riwayat percakapan: <span id="chat-count">0</span> sesi.</div>
         </div>
       </div>
