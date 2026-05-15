@@ -342,13 +342,8 @@ input:focus, textarea:focus, select:focus {
   margin-bottom: 8px;
 }
 .hero-banner h2 span {
-  background: linear-gradient(135deg, var(--gold-light) 10%, #FBE89A 50%, var(--gold) 90%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--gold-light);
   font-style: italic;
-  display: inline-block;
-  padding: 4px 0 2px;
 }
 .hero-banner p {
   position: relative;
