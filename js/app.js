@@ -480,9 +480,6 @@ function initChatbot() {
     getCurrentTime()
   );
 
-  // Suggestions
-  renderSuggestions();
-
   // Event listeners
   sendBtn.addEventListener('click', sendMessage);
   input.addEventListener('keydown', e => {
@@ -779,19 +776,6 @@ async function saveAISettingsToGitHub() {
   }
 }
 
-function renderSuggestions() {
-  const container = document.getElementById('chat-suggestions');
-  const suggestions = chatbot.getSuggestedQuestions();
-  container.innerHTML = suggestions.map(s =>
-    `<button class="suggestion-chip" onclick="sendSuggestion('${escapeHtml(s)}')">${s}</button>`
-  ).join('');
-}
-
-function sendSuggestion(text) {
-  document.getElementById('chat-input').value = text;
-  sendMessage();
-}
-
 async function sendMessage() {
   const input = document.getElementById('chat-input');
   const text = input.value.trim();
@@ -904,15 +888,7 @@ function startStreamingBotMessage() {
 function finalizeBotMessage(msgEl, opts) {
   if (!msgEl) return;
   const wrap = msgEl.querySelector('div[style*="flex:1"]') || msgEl.children[1];
-  // Add sources chips
-  if (opts.sources && opts.sources.length) {
-    const srcDiv = document.createElement('div');
-    srcDiv.className = 'msg-sources';
-    srcDiv.innerHTML = opts.sources.slice(0, 4).map(d =>
-      `<span class="msg-source-chip">${escapeHtml(d.title)}</span>`
-    ).join('');
-    wrap.appendChild(srcDiv);
-  }
+  // Source chips removed per user request
   // Time + actions
   const meta = document.createElement('div');
   meta.className = 'msg-time';

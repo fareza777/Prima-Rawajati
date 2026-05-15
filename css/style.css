@@ -1091,6 +1091,7 @@ a.download-btn, .download-btn {
   scrollbar-width: none;
 }
 .chat-suggestions::-webkit-scrollbar { display: none; }
+.chat-suggestions { display: none !important; }
 .suggestion-chip {
   flex-shrink: 0;
   padding: 7px 14px;
