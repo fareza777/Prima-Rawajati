@@ -1681,6 +1681,55 @@ a.download-btn, .download-btn {
   color: var(--text-muted);
   border-color: var(--border);
 }
+
+/* ── ADMIN ANALYTICS CHART ── */
+.analytics-chart-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+}
+.analytics-chart-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.analytics-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 120px;
+}
+.analytics-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.analytics-bar-fill {
+  width: 100%;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(180deg, var(--gold-light), var(--gold));
+  transition: height .4s ease;
+  min-height: 4px;
+}
+.analytics-bar-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.analytics-bar-val {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text);
+}
+[data-theme="dark"] .analytics-chart-wrap {
+  background: var(--surface);
+  border-color: var(--border);
+}
 [data-theme="dark"] .msg-act-btn {
   background: var(--surface-2);
   border-color: var(--border);

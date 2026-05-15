@@ -20,6 +20,7 @@ function bootApp() {
     PRIMA_AI.setModels(window.PRIMA_DATA.aiModels);
   }
   chatbot = new PRIMAChatbot(PRIMA_DATA.faqChatbot);
+  if (typeof PRIMA_ANALYTICS !== 'undefined') PRIMA_ANALYTICS.trackPageView();
   initNav();
   renderHome();
   renderLayananQuick();
@@ -65,6 +66,13 @@ function navigateTo(pageId) {
   // Lazy init map
   if (pageId === 'peta' && !map) {
     setTimeout(initMap, 100);
+  }
+
+  // Analytics
+  if (typeof PRIMA_ANALYTICS !== 'undefined') {
+    PRIMA_ANALYTICS.trackPageView();
+    if (pageId === 'peta') PRIMA_ANALYTICS.trackPetaView();
+    if (pageId === 'tanya') PRIMA_ANALYTICS.trackChatSession();
   }
 
   localStorage.setItem('prima_last_page', pageId);
@@ -228,6 +236,7 @@ function renderLayanan(data) {
 function showLayananDetail(id) {
   const layanan = PRIMA_DATA.layanan.find(l => l.id === id);
   if (!layanan) return;
+  if (typeof PRIMA_ANALYTICS !== 'undefined') PRIMA_ANALYTICS.trackLayananClick();
 
   const modal = document.getElementById('modal-overlay');
   const body  = document.getElementById('modal-body-content');
@@ -1168,7 +1177,32 @@ async function updateAdminStats() {
   if (el('admin-stat-kepuasan'))   el('admin-stat-kepuasan').textContent   = satisfactionRate + '%';
   if (el('chat-count'))            el('chat-count').textContent            = chatStats.totalConversations || 0;
 
+  // Analytics totals
+  const aTotals = typeof PRIMA_ANALYTICS !== 'undefined' ? PRIMA_ANALYTICS.getTotals() : {};
+  if (el('admin-stat-pageviews')) el('admin-stat-pageviews').textContent = aTotals.pageViews || 0;
+  if (el('admin-stat-chats'))     el('admin-stat-chats').textContent     = aTotals.chatSessions || 0;
+  if (el('admin-stat-layanan'))   el('admin-stat-layanan').textContent   = aTotals.layananClicks || 0;
+  if (el('admin-stat-peta'))      el('admin-stat-peta').textContent      = aTotals.petaViews || 0;
+
+  _renderAnalyticsChart();
   _renderFeedbackList(feedbacks);
+}
+
+function _renderAnalyticsChart() {
+  const container = document.getElementById('admin-analytics-chart');
+  if (!container || typeof PRIMA_ANALYTICS === 'undefined') return;
+  const data = PRIMA_ANALYTICS.getDaily(7);
+  const maxVal = Math.max(1, ...data.map(d => d.pageViews + d.chatSessions));
+  container.innerHTML = data.map(d => {
+    const h = Math.round(((d.pageViews + d.chatSessions) / maxVal) * 100);
+    return `
+      <div class="analytics-bar">
+        <div class="analytics-bar-val">${d.pageViews + d.chatSessions}</div>
+        <div class="analytics-bar-fill" style="height:${h}%"></div>
+        <div class="analytics-bar-label">${d.label}</div>
+      </div>
+    `;
+  }).join('');
 }
 
 async function showAdminFeedback() {

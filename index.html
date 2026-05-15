@@ -422,6 +422,35 @@
         </div>
       </div>
 
+      <!-- Analytics Dashboard -->
+      <div class="admin-section" style="margin-top:14px">
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px">
+          📊 Analytics Pengguna <span style="font-size:11px;color:var(--text-muted);font-weight:400">(perangkat ini)</span>
+        </h3>
+        <div class="admin-stats" style="margin-bottom:12px">
+          <div class="admin-stat-card">
+            <div class="astat-num" id="admin-stat-pageviews">0</div>
+            <div class="astat-label">👀 Akses Halaman</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="astat-num" id="admin-stat-chats">0</div>
+            <div class="astat-label">💬 Chat Dibuka</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="astat-num" id="admin-stat-layanan">0</div>
+            <div class="astat-label">📋 Layanan Diklik</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="astat-num" id="admin-stat-peta">0</div>
+            <div class="astat-label">🗺️ Peta Dilihat</div>
+          </div>
+        </div>
+        <div class="analytics-chart-wrap">
+          <div class="analytics-chart-title">Trafik 7 Hari Terakhir</div>
+          <div class="analytics-chart" id="admin-analytics-chart"></div>
+        </div>
+      </div>
+
       <!-- Action Buttons -->
       <div class="admin-action-list">
         <div class="admin-action" onclick="updateAdminStats(); showAdminFeedback()">
@@ -584,6 +613,8 @@
 <script src="js/ai.js"></script>
 <!-- Chatbot Engine -->
 <script src="js/chatbot.js"></script>
+<!-- Analytics -->
+<script src="js/analytics.js"></script>
 <!-- Main App -->
 <script src="js/app.js"></script>
 
