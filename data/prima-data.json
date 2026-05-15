@@ -13,7 +13,7 @@
       "lng": 106.849
     },
     "versi": "1.0.0",
-    "terakhirUpdate": "2026-05-15T05:50:28.949Z"
+    "terakhirUpdate": "2026-05-15T05:54:21.753Z"
   },
   "layanan": [
     {
@@ -1111,7 +1111,7 @@
   ],
   "aiSettings": {
     "enabled": true,
-    "model": "qwen/qwen3.5-flash-02-23"
+    "model": "openai/gpt-5.1-codex-mini"
   },
   "aiModels": [
     {
@@ -1131,8 +1131,28 @@
     },
     {
       "id": "qwen/qwen3.5-flash-02-23",
-      "label": "Qwen 3.5 Flash 02 23",
+      "label": "Qwen Qwen3.5 Flash 02 23",
       "short": "Qwen3.5 Flash 02 2"
+    },
+    {
+      "id": "deepseek/deepseek-v4-flash",
+      "label": "Deepseek V4 Flash",
+      "short": "Deepseek V4 Flash"
+    },
+    {
+      "id": "qwen/qwen3.6-flash",
+      "label": "Qwen 3.6 Flash",
+      "short": "Qwen3.6 Flash"
+    },
+    {
+      "id": "openai/gpt-5.1-codex-mini",
+      "label": "Openai Gpt 5.1 Codex Mini",
+      "short": "Gpt 5.1 Codex Mini"
+    },
+    {
+      "id": "inclusionai/ling-2.6-flash",
+      "label": "Inclusionai Ling 2.6 Flash",
+      "short": "Ling 2.6 Flash"
     }
   ]
 }
