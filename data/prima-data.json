@@ -13,7 +13,7 @@
       "lng": 106.849
     },
     "versi": "1.0.0",
-    "terakhirUpdate": "2026-05-15T05:55:25.320Z"
+    "terakhirUpdate": "2026-05-15T05:56:27.683Z"
   },
   "layanan": [
     {
@@ -1111,7 +1111,7 @@
   ],
   "aiSettings": {
     "enabled": true,
-    "model": "inclusionai/ling-2.6-flash"
+    "model": "qwen/qwen3.6-flash"
   },
   "aiModels": [
     {
