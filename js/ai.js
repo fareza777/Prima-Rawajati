@@ -172,6 +172,16 @@ KONTAK KELURAHAN:
 - Jam Kerja: ${meta.jamKerja || 'Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB'}`;
   }
 
+  // ── PROVIDER / ENDPOINT SETTINGS ─────────────────────────────
+  function getProviderSettings() {
+    const s = window.PRIMA_DATA?.aiSettings || {};
+    return {
+      provider: s.provider || 'openrouter',
+      baseUrl: s.baseUrl || '',
+      apiKey: s.apiKey || ''
+    };
+  }
+
   // ── STREAMING CHAT ─────────────────────────────────────────────
   /**
    * @param {Array<{role:'user'|'assistant', content:string}>} history
@@ -182,6 +192,7 @@ KONTAK KELURAHAN:
     const model = opts.model || getSelectedModel();
     const docs = retrieveContext(userMessage);
     const systemPrompt = buildSystemPrompt(docs);
+    const { provider, baseUrl, apiKey } = getProviderSettings();
 
     const messages = [
       { role: 'system', content: systemPrompt },
@@ -197,7 +208,7 @@ KONTAK KELURAHAN:
       response = await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model, messages, stream: true, temperature: 0.4, max_tokens: 800 }),
+        body: JSON.stringify({ model, messages, stream: true, temperature: 0.4, max_tokens: 800, provider, baseUrl, apiKey }),
         signal: opts.signal
       });
     } catch (e) {

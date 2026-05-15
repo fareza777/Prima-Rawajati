@@ -514,17 +514,46 @@
       <!-- AI / LLM Settings -->
       <div style="margin-top:16px;background:var(--surface);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm);border:1px solid var(--border)">
         <h3 style="font-size:15px;font-weight:700;margin-bottom:4px">🤖 Pengaturan AI Chatbot</h3>
-        <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Atur mode AI dan pilih model LLM yang dipakai chatbot. Berlaku untuk semua pengunjung.</p>
+        <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">Atur provider, endpoint, dan model LLM yang dipakai chatbot. Berlaku untuk semua pengunjung.</p>
         <div class="chat-settings" id="chat-settings" style="position:static;box-shadow:none;border:none;padding:0;margin:0">
           <div class="cs-row">
             <label class="cs-toggle">
               <input type="checkbox" id="ai-enabled" checked>
               <span class="cs-toggle-track"><span class="cs-toggle-thumb"></span></span>
-              <span class="cs-toggle-label">Mode AI (OpenRouter)</span>
+              <span class="cs-toggle-label">Aktifkan Mode AI</span>
             </label>
           </div>
+
+          <!-- Provider -->
           <div class="cs-row">
-            <label class="cs-label" for="ai-model">Preset</label>
+            <label class="cs-label" for="ai-provider">Provider AI</label>
+            <select id="ai-provider" class="cs-select">
+              <option value="openrouter">OpenRouter (multi-provider, free tier)</option>
+              <option value="openai">OpenAI (GPT-4o / GPT-3.5)</option>
+              <option value="anthropic">Anthropic (Claude 3.5 Sonnet)</option>
+              <option value="gemini">Google Gemini</option>
+              <option value="custom">Custom / Self-hosted</option>
+            </select>
+          </div>
+
+          <!-- Base URL -->
+          <div class="cs-row" style="flex-wrap:wrap;gap:6px">
+            <label class="cs-label" for="ai-baseurl" style="flex:0 0 100%">Base URL / Endpoint</label>
+            <input type="text" id="ai-baseurl" class="cs-select" style="flex:1;min-width:0" placeholder="https://openrouter.ai/api/v1/chat/completions">
+            <button type="button" id="ai-baseurl-save" class="submit-btn" style="padding:8px 14px;font-size:13px;flex:0 0 auto">Simpan</button>
+          </div>
+
+          <!-- API Key (info only, server-side) -->
+          <div class="cs-row" style="flex-wrap:wrap;gap:6px">
+            <label class="cs-label" for="ai-apikey" style="flex:0 0 100%">API Key <span style="font-size:11px;color:var(--text-muted)">(server-side, tidak disimpan di browser)</span></label>
+            <input type="password" id="ai-apikey" class="cs-select" style="flex:1;min-width:0" placeholder="Isi kalau mau tes langsung dari browser (opsional)">
+            <button type="button" id="ai-apikey-eye" class="submit-btn" style="padding:8px 12px;font-size:13px;flex:0 0 auto;background:var(--surface-2);color:var(--text)" onclick="toggleAiApiKeyEye()">👁</button>
+          </div>
+          <p style="font-size:11px;color:var(--text-muted);margin:-4px 0 8px 0">ℹ️ Untuk production, API key diatur di <strong>Environment Variable</strong> server (Vercel/Dashboard). Hubungi developer untuk mengganti key.</p>
+
+          <!-- Model -->
+          <div class="cs-row">
+            <label class="cs-label" for="ai-model">Preset Model</label>
             <select id="ai-model" class="cs-select"></select>
           </div>
           <div class="cs-row" style="flex-wrap:wrap;gap:6px">
@@ -541,7 +570,7 @@
             </div>
             <p style="font-size:11px;color:var(--text-muted);margin-top:6px">Label otomatis dari ID. Klik "💾 Simpan ke GitHub" setelah selesai edit.</p>
           </div>
-          <div class="cs-hint">💡 Daftar model lengkap: <a href="https://openrouter.ai/models" target="_blank" rel="noopener" style="color:var(--gold-deep);text-decoration:underline">openrouter.ai/models</a>. Saat AI mati, chatbot pakai mesin keyword bawaan (offline). Riwayat percakapan: <span id="chat-count">0</span> sesi.</div>
+          <div class="cs-hint">💡 <strong>Provider aktif:</strong> <span id="ai-provider-label">OpenRouter</span>. Daftar model: <a href="https://openrouter.ai/models" target="_blank" rel="noopener" style="color:var(--gold-deep);text-decoration:underline" id="ai-provider-link">openrouter.ai/models</a>. Saat AI mati, chatbot pakai mesin keyword bawaan (offline). Riwayat percakapan: <span id="chat-count">0</span> sesi.</div>
         </div>
       </div>
 

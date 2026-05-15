@@ -509,6 +509,19 @@ function initChatbot() {
 }
 
 // Render label "Online · ✨ AI …" di header chat berdasarkan state localStorage.
+function toggleAiApiKeyEye() {
+  const input = document.getElementById('ai-apikey');
+  const btn = document.getElementById('ai-apikey-eye');
+  if (!input || !btn) return;
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    btn.textContent = '👁';
+  }
+}
+
 function refreshChatModeLabel() {
   const modeLabel = document.getElementById('chat-mode-label');
   if (!modeLabel || typeof PRIMA_AI === 'undefined') return;
@@ -523,15 +536,39 @@ function refreshChatModeLabel() {
   }
 }
 
-// Wire up kontrol AI di Panel Admin (toggle + model selector + custom ID).
+// Wire up kontrol AI di Panel Admin (toggle + provider + endpoint + model + custom ID).
 function initAISettings() {
   const panel = document.getElementById('chat-settings');
   const aiToggle = document.getElementById('ai-enabled');
+  const providerSelect = document.getElementById('ai-provider');
+  const baseUrlInput = document.getElementById('ai-baseurl');
+  const baseUrlSaveBtn = document.getElementById('ai-baseurl-save');
+  const apiKeyInput = document.getElementById('ai-apikey');
   const modelSelect = document.getElementById('ai-model');
   const customInput = document.getElementById('ai-model-custom');
   const customSaveBtn = document.getElementById('ai-model-custom-save');
 
   if (!panel || !aiToggle || !modelSelect || typeof PRIMA_AI === 'undefined') return;
+
+  // Default provider / baseUrl lookup
+  const PROVIDER_DEFAULTS = {
+    openrouter: { label: 'OpenRouter', base: 'https://openrouter.ai/api/v1/chat/completions', link: 'https://openrouter.ai/models' },
+    openai:     { label: 'OpenAI',     base: 'https://api.openai.com/v1/chat/completions',     link: 'https://platform.openai.com/docs/models' },
+    anthropic:  { label: 'Anthropic',  base: 'https://api.anthropic.com/v1/messages',            link: 'https://docs.anthropic.com/en/docs/models-overview' },
+    gemini:     { label: 'Google Gemini', base: 'https://generativelanguage.googleapis.com/v1beta/models', link: 'https://ai.google.dev/models' },
+    custom:     { label: 'Custom',     base: '',                                                 link: '#' }
+  };
+  function _updateProviderUI(provider) {
+    const info = PROVIDER_DEFAULTS[provider] || PROVIDER_DEFAULTS.openrouter;
+    const labelEl = document.getElementById('ai-provider-label');
+    const linkEl = document.getElementById('ai-provider-link');
+    if (labelEl) labelEl.textContent = info.label;
+    if (linkEl) { linkEl.textContent = info.link.replace(/^https?:\/\//, ''); linkEl.href = info.link; }
+  }
+  function _getAiSettings() {
+    if (!window.PRIMA_DATA.aiSettings) window.PRIMA_DATA.aiSettings = {};
+    return window.PRIMA_DATA.aiSettings;
+  }
 
   // Populate model dropdown from current presets (re-populate each init)
   const _populateSelect = () => {
@@ -540,7 +577,6 @@ function initAISettings() {
     modelSelect.innerHTML = models.map(m =>
       `<option value="${m.id}">${escapeHtml(m.label)}</option>`
     ).join('') + '<option value="__custom__">— Custom (isi di bawah) —</option>';
-    // Restore selection if still valid
     if (currentVal && (models.find(m => m.id === currentVal) || currentVal === '__custom__')) {
       modelSelect.value = currentVal;
     }
@@ -548,46 +584,76 @@ function initAISettings() {
   };
   _populateSelect();
 
-    modelSelect.addEventListener('change', () => {
-      if (modelSelect.value === '__custom__') {
-        if (customInput) customInput.focus();
+  // Provider change
+  if (providerSelect) {
+    providerSelect.addEventListener('change', () => {
+      const s = _getAiSettings();
+      s.provider = providerSelect.value;
+      const def = PROVIDER_DEFAULTS[providerSelect.value];
+      if (def && def.base && baseUrlInput) {
+        baseUrlInput.value = def.base;
+        s.baseUrl = def.base;
+      }
+      _updateProviderUI(providerSelect.value);
+      showToast('🤖 Provider diubah (draft) — klik "Simpan ke GitHub"');
+      markAISettingsDirty();
+    });
+  }
+
+  // Base URL save
+  if (baseUrlSaveBtn && baseUrlInput) {
+    const saveBase = () => {
+      const val = baseUrlInput.value.trim();
+      _getAiSettings().baseUrl = val;
+      showToast('🌐 Endpoint diubah (draft) — klik "Simpan ke GitHub"');
+      markAISettingsDirty();
+    };
+    baseUrlSaveBtn.addEventListener('click', saveBase);
+    baseUrlInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); saveBase(); } });
+  }
+
+  // Model select
+  modelSelect.addEventListener('change', () => {
+    if (modelSelect.value === '__custom__') {
+      if (customInput) customInput.focus();
+      return;
+    }
+    PRIMA_AI.setSelectedModel(modelSelect.value);
+    if (customInput) customInput.value = '';
+    showToast('🤖 Model diubah (draft) — klik "Simpan ke GitHub" supaya berlaku global');
+    markAISettingsDirty();
+    refreshChatModeLabel();
+  });
+
+  // Toggle
+  aiToggle.addEventListener('change', () => {
+    _getAiSettings().enabled = aiToggle.checked;
+    try { localStorage.setItem('prima_ai_enabled', aiToggle.checked ? '1' : '0'); } catch {}
+    markAISettingsDirty();
+    refreshChatModeLabel();
+  });
+
+  // Custom model save
+  if (customSaveBtn && customInput) {
+    const saveCustom = () => {
+      const ok = PRIMA_AI.setSelectedModel(customInput.value);
+      if (!ok) {
+        showToast('❌ Format model ID tidak valid. Contoh: vendor/model-name');
         return;
       }
-      PRIMA_AI.setSelectedModel(modelSelect.value);
-      if (customInput) customInput.value = '';
-      showToast('🤖 Model diubah (draft) — klik "Simpan ke GitHub" supaya berlaku global');
+      showToast('🤖 Model custom diubah (draft) — klik "Simpan ke GitHub"');
+      modelSelect.value = '__custom__';
       markAISettingsDirty();
       refreshChatModeLabel();
+    };
+    customSaveBtn.addEventListener('click', saveCustom);
+    customInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); saveCustom(); }
     });
-
-    aiToggle.addEventListener('change', () => {
-      // Mutate PRIMA_DATA.aiSettings (source of truth) + cache di localStorage
-      if (!window.PRIMA_DATA.aiSettings) window.PRIMA_DATA.aiSettings = {};
-      window.PRIMA_DATA.aiSettings.enabled = aiToggle.checked;
-      try { localStorage.setItem('prima_ai_enabled', aiToggle.checked ? '1' : '0'); } catch {}
-      markAISettingsDirty();
-      refreshChatModeLabel();
-    });
-
-    if (customSaveBtn && customInput) {
-      const saveCustom = () => {
-        const ok = PRIMA_AI.setSelectedModel(customInput.value);
-        if (!ok) {
-          showToast('❌ Format model ID tidak valid. Contoh: vendor/model-name');
-          return;
-        }
-        showToast('🤖 Model custom diubah (draft) — klik "Simpan ke GitHub"');
-        modelSelect.value = '__custom__';
-        markAISettingsDirty();
-        refreshChatModeLabel();
-      };
-      customSaveBtn.addEventListener('click', saveCustom);
-      customInput.addEventListener('keydown', e => {
-        if (e.key === 'Enter') { e.preventDefault(); saveCustom(); }
-      });
-    }
+  }
 
   // Sync UI dengan state dari PRIMA_DATA (source of truth)
+  const s = _getAiSettings();
   const currentModel = PRIMA_AI.getSelectedModel();
   if (PRIMA_AI.isCustomModel(currentModel)) {
     modelSelect.value = '__custom__';
@@ -597,6 +663,11 @@ function initAISettings() {
     if (customInput) customInput.value = '';
   }
   aiToggle.checked = isAIEnabled();
+  if (providerSelect) {
+    providerSelect.value = s.provider || 'openrouter';
+    _updateProviderUI(providerSelect.value);
+  }
+  if (baseUrlInput) baseUrlInput.value = s.baseUrl || (PROVIDER_DEFAULTS[s.provider || 'openrouter']?.base || '');
 
   // Render preset list CRUD UI
   renderAIModelList();
@@ -748,7 +819,7 @@ async function saveAISettingsToGitHub() {
   window.PRIMA_DATA.aiModels = models;
 
   const ai = window.PRIMA_DATA.aiSettings || {};
-  const commitMessage = `chore(ai): set model=${ai.model || '?'} enabled=${ai.enabled ? 'on' : 'off'} presets=${models.length}`;
+  const commitMessage = `chore(ai): provider=${ai.provider || 'openrouter'} model=${ai.model || '?'} enabled=${ai.enabled ? 'on' : 'off'} presets=${models.length}`;
 
   showToast('⏳ Publish setting AI ke GitHub…');
 
