@@ -13,7 +13,7 @@
       "lng": 106.849
     },
     "versi": "1.0.0",
-    "terakhirUpdate": "2026-05-15T05:47:18.557Z"
+    "terakhirUpdate": "2026-05-15T05:48:22.782Z"
   },
   "layanan": [
     {
@@ -1111,7 +1111,7 @@
   ],
   "aiSettings": {
     "enabled": true,
-    "model": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free"
+    "model": "qwen/qwen3.5-flash-02-23"
   },
   "aiModels": [
     {
@@ -1131,7 +1131,7 @@
     },
     {
       "id": "qwen/qwen3.5-flash-02-23",
-      "label": "Qwen 3.5 Flash 02 23",
+      "label": "Qwen Qwen3.5 Flash 02 23",
       "short": "Qwen3.5 Flash 02 2"
     }
   ]
