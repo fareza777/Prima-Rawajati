@@ -504,12 +504,10 @@
             <strong style="font-size:13px;display:block;margin-bottom:8px">📋 Preset Model (CRUD)</strong>
             <div id="ai-preset-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px"></div>
             <div style="display:flex;flex-wrap:wrap;gap:6px">
-              <input type="text" id="ai-add-id" class="cs-select" style="flex:1;min-width:120px" placeholder="vendor/model (contoh: qwen/qwen3.6-flash)">
-              <input type="text" id="ai-add-label" class="cs-select" style="flex:1;min-width:100px" placeholder="Label (contoh: Qwen 3.6 Flash)">
-              <input type="text" id="ai-add-short" class="cs-select" style="flex:0 0 80px;min-width:80px" placeholder="Short">
+              <input type="text" id="ai-add-id" class="cs-select" style="flex:1;min-width:0" placeholder="vendor/model (contoh: qwen/qwen3.6-flash)">
               <button type="button" class="submit-btn" style="padding:8px 14px;font-size:13px" onclick="addAIModelPreset()">➕ Tambah</button>
             </div>
-            <p style="font-size:11px;color:var(--text-muted);margin-top:6px">Tambah/hapus model di atas, lalu klik "💾 Simpan ke GitHub".</p>
+            <p style="font-size:11px;color:var(--text-muted);margin-top:6px">Label otomatis dari ID. Klik "💾 Simpan ke GitHub" setelah selesai edit.</p>
           </div>
           <div class="cs-hint">💡 Daftar model lengkap: <a href="https://openrouter.ai/models" target="_blank" rel="noopener" style="color:var(--gold-deep);text-decoration:underline">openrouter.ai/models</a>. Saat AI mati, chatbot pakai mesin keyword bawaan (offline). Riwayat percakapan: <span id="chat-count">0</span> sesi.</div>
         </div>

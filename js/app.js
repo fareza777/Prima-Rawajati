@@ -648,22 +648,37 @@ function renderAIModelList() {
   `).join('');
 }
 
+function _titleCase(str) {
+  return str.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+function _autoLabelFromId(id) {
+  const parts = id.split('/');
+  if (parts.length < 2) return _titleCase(id);
+  const vendor = _titleCase(parts[0]);
+  const model = _titleCase(parts.slice(1).join(' '));
+  return vendor + ' ' + model;
+}
+function _autoShortFromId(id) {
+  const parts = id.split('/');
+  const model = parts[parts.length - 1] || '';
+  const cleaned = model.replace(/[-_]/g, ' ').replace(/:free$|:paid$/i, '').trim();
+  return _titleCase(cleaned).slice(0, 18);
+}
+
 function addAIModelPreset() {
   const idEl = document.getElementById('ai-add-id');
-  const labelEl = document.getElementById('ai-add-label');
-  const shortEl = document.getElementById('ai-add-short');
-  if (!idEl || !labelEl) return;
+  if (!idEl) return;
   const id = idEl.value.trim();
-  const label = labelEl.value.trim();
-  const short = shortEl ? shortEl.value.trim() : '';
-  if (!id || !label) {
-    showToast('❌ ID dan Label wajib diisi');
+  if (!id) {
+    showToast('❌ ID model wajib diisi');
     return;
   }
   if (!id.includes('/')) {
     showToast('❌ ID harus format vendor/model (contoh: qwen/qwen3.6-flash)');
     return;
   }
+  const label = _autoLabelFromId(id);
+  const short = _autoShortFromId(id);
   const ok = PRIMA_AI.addModel({ id, label, short });
   if (!ok) {
     showToast('❌ Model sudah ada atau ID tidak valid');
@@ -681,8 +696,6 @@ function addAIModelPreset() {
   markAISettingsDirty();
   showToast('✅ Model ditambahkan (draft) — klik "Simpan ke GitHub"');
   idEl.value = '';
-  labelEl.value = '';
-  if (shortEl) shortEl.value = '';
 }
 
 function removeAIModelPreset(id) {
