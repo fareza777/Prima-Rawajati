@@ -13,7 +13,7 @@
       "lng": 106.849
     },
     "versi": "1.0.0",
-    "terakhirUpdate": "2026-05-14T23:43:33.686Z"
+    "terakhirUpdate": "2026-05-15T02:34:40.771Z"
   },
   "layanan": [
     {
@@ -1111,6 +1111,6 @@
   ],
   "aiSettings": {
     "enabled": true,
-    "model": "qwen/qwen3.5-flash-02-23"
+    "model": "deepseek/deepseek-v4-flash"
   }
 }
