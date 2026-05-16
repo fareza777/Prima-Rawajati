@@ -88,22 +88,28 @@
 
   <!-- Hero Banner -->
   <div class="hero-banner">
-    <div class="hero-badge"><i data-lucide="sparkles"></i> Akses 24/7 · Gratis</div>
-    <h2>Layanan Kelurahan <span>Rawajati</span></h2>
-    <p>Informasi lengkap syarat surat, peta wilayah, dan info warga. Kapan saja, di mana saja — tanpa perlu bolak-balik ke kelurahan!</p>
+    <div class="hero-badge"><i data-lucide="sparkles"></i> Akses 24/7 · Bebas Biaya</div>
+    <div class="hero-greeting" id="hero-greeting">Selamat datang 👋</div>
+    <h2>Pelayanan Kelurahan <span>Rawajati</span> dalam Genggaman</h2>
+    <p>Asisten cerdas warga — cek persyaratan, jelajahi peta wilayah, sampaikan suara Anda. Kapan saja, di mana saja.</p>
     <div class="hero-stats">
       <div class="hero-stat">
-        <div class="stat-num" id="stat-layanan">12+</div>
+        <div class="stat-num" id="stat-layanan" data-target="12" data-suffix="+">0</div>
         <div class="stat-label">Jenis Layanan</div>
       </div>
       <div class="hero-stat">
-        <div class="stat-num" id="stat-lokasi">20+</div>
-        <div class="stat-label">Lokasi Dipeta</div>
+        <div class="stat-num" id="stat-lokasi" data-target="20" data-suffix="+">0</div>
+        <div class="stat-label">Titik di Peta</div>
       </div>
       <div class="hero-stat">
         <div class="stat-num" id="stat-always">24/7</div>
-        <div class="stat-label">Dapat Diakses</div>
+        <div class="stat-label">Selalu Hadir</div>
       </div>
+    </div>
+    <!-- Live activity ticker — agregat dari counter sesi lokal -->
+    <div class="hero-ticker" id="hero-ticker" aria-live="polite">
+      <span class="ticker-dot"></span>
+      <span class="ticker-text">PRIMA siap melayani Anda hari ini.</span>
     </div>
   </div>
 
@@ -157,13 +163,64 @@
   </div>
 
   <!-- Layanan Cepat -->
-  <div class="section-header">
-    <h2><i data-lucide="zap" class="sh-icon"></i> Layanan Sering Diakses</h2>
+  <div class="section-header section-header-with-badge">
+    <h2><i data-lucide="zap" class="sh-icon"></i> Layanan Sering Diakses
+      <span class="sh-badge">🔥 Paling Dicari</span>
+    </h2>
     <p>Klik untuk lihat syarat & prosedur lengkap</p>
   </div>
   <div class="layanan-grid" id="quick-layanan">
     <!-- Rendered by JS via renderLayananQuick() -->
   </div>
+
+  <!-- Trust Signals Belt -->
+  <section class="trust-belt" aria-label="Penanda kepercayaan">
+    <div class="trust-row">
+      <div class="trust-badge">
+        <span class="trust-icon"><i data-lucide="building-2"></i></span>
+        <div class="trust-text">
+          <strong>Resmi Kelurahan</strong>
+          <small>Rawajati, Pancoran</small>
+        </div>
+      </div>
+      <div class="trust-badge">
+        <span class="trust-icon"><i data-lucide="shield-check"></i></span>
+        <div class="trust-text">
+          <strong>Data Aman</strong>
+          <small>Tanpa registrasi</small>
+        </div>
+      </div>
+      <div class="trust-badge">
+        <span class="trust-icon"><i data-lucide="clock-4"></i></span>
+        <div class="trust-text">
+          <strong>Akses 24 Jam</strong>
+          <small>Tanpa antri</small>
+        </div>
+      </div>
+    </div>
+    <div class="trust-foot">
+      <!-- Lambang DKI Jakarta — versi simplified inline SVG. Bisa diganti dengan
+           SVG resmi dari Wikimedia Commons di iterasi berikutnya. -->
+      <svg class="lambang-dki" viewBox="0 0 64 64" aria-label="Lambang DKI Jakarta" role="img" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="dkiShield" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#D4AF37"/>
+            <stop offset="1" stop-color="#A8821F"/>
+          </linearGradient>
+        </defs>
+        <path d="M32 4 L56 14 V32 C56 46 45 56 32 60 C19 56 8 46 8 32 V14 Z"
+              fill="url(#dkiShield)" stroke="#0A1F44" stroke-width="2"/>
+        <path d="M32 14 L46 20 V32 C46 41 39 48 32 50 C25 48 18 41 18 32 V20 Z"
+              fill="#0A1F44"/>
+        <text x="32" y="38" text-anchor="middle" font-family="Georgia, serif" font-weight="700"
+              font-size="14" fill="#D4AF37">DKI</text>
+      </svg>
+      <div class="trust-foot-text">
+        <strong>Pemerintah Provinsi DKI Jakarta</strong>
+        <small>Kelurahan Rawajati · Kecamatan Pancoran · Jakarta Selatan</small>
+      </div>
+    </div>
+  </section>
 
 </main>
 

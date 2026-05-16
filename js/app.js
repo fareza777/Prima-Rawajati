@@ -80,10 +80,17 @@ function navigateTo(pageId) {
 
 // ── HOME PAGE ────────────────────────────────────────────────────
 function renderHome() {
-  // Stats in hero (real numbers from survey)
-  document.getElementById('stat-layanan').textContent = PRIMA_DATA.layanan.length + '+';
-  document.getElementById('stat-lokasi').textContent = PRIMA_DATA.petaMarkers.length + '+';
-  document.getElementById('stat-always').textContent = '24/7';
+  // Time-aware greeting (pagi / siang / sore / malam)
+  renderHeroGreeting();
+
+  // Track session visit + render live activity ticker
+  incrementVisitCounter();
+  renderHeroTicker();
+
+  // Animated counters di hero (angka real dari data)
+  setStatTarget('stat-layanan', PRIMA_DATA.layanan.length);
+  setStatTarget('stat-lokasi', PRIMA_DATA.petaMarkers.length);
+  animateHeroCounters();
 
   // Search
   const searchInput = document.getElementById('home-search');
@@ -99,6 +106,140 @@ function renderHome() {
   searchInput.addEventListener('keydown', e => {
     if (e.key === 'Enter') { e.target.blur(); }
   });
+}
+
+// ── HOME HERO HELPERS (A.1) ──────────────────────────────────────
+
+/**
+ * Sapaan dinamis berdasar jam lokal device.
+ * @returns {string}
+ */
+function getTimeBasedGreeting() {
+  const h = new Date().getHours();
+  if (h >= 5 && h < 11)  return 'Selamat pagi, Warga Rawajati ☀️';
+  if (h >= 11 && h < 15) return 'Selamat siang, Warga Rawajati 🌤️';
+  if (h >= 15 && h < 18) return 'Selamat sore, Warga Rawajati 🌇';
+  return 'Selamat malam, Warga Rawajati 🌙';
+}
+
+function renderHeroGreeting() {
+  const el = document.getElementById('hero-greeting');
+  if (el) el.textContent = getTimeBasedGreeting();
+}
+
+/**
+ * Set data-target attribute pada stat counter dan reset nilai awal ke 0.
+ * @param {string} id - element id
+ * @param {number} target - angka final
+ */
+function setStatTarget(id, target) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.dataset.target = String(target);
+  el.textContent = '0';
+}
+
+/**
+ * Animate counter dari 0 ke target dengan easing cubic-out.
+ * Aman re-call: hanya animate elemen yang punya data-target dan belum di-animate.
+ */
+function animateHeroCounters() {
+  const els = document.querySelectorAll('.hero-stat .stat-num[data-target]');
+  els.forEach(el => {
+    if (el.dataset.animated === '1') return;
+    el.dataset.animated = '1';
+    const target = parseInt(el.dataset.target, 10) || 0;
+    const suffix = el.dataset.suffix || '';
+    const duration = 1100; // ms
+    const start = performance.now();
+    el.parentElement?.classList.add('counting');
+
+    function tick(now) {
+      const elapsed = now - start;
+      const t = Math.min(elapsed / duration, 1);
+      // cubic ease-out
+      const eased = 1 - Math.pow(1 - t, 3);
+      const current = Math.round(target * eased);
+      el.textContent = current + suffix;
+      if (t < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        el.parentElement?.classList.remove('counting');
+      }
+    }
+    requestAnimationFrame(tick);
+  });
+}
+
+/**
+ * Hitung kunjungan harian via localStorage. Bukan analytics server-side,
+ * hanya counter per-device — cukup untuk ticker yang "hidup".
+ * @returns {{today: number, total: number}}
+ */
+function incrementVisitCounter() {
+  const KEY = 'prima_visit_counter';
+  const today = new Date().toISOString().slice(0, 10);
+  let state = { date: today, today: 0, total: 0 };
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) state = { ...state, ...JSON.parse(raw) };
+  } catch {}
+  if (state.date !== today) {
+    state.date = today;
+    state.today = 0;
+  }
+  state.today += 1;
+  state.total += 1;
+  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
+  return { today: state.today, total: state.total };
+}
+
+function getVisitCounter() {
+  try {
+    const raw = localStorage.getItem('prima_visit_counter');
+    if (raw) return JSON.parse(raw);
+  } catch {}
+  return { today: 1, total: 1 };
+}
+
+/**
+ * Render rotating ticker dengan pesan yang relevan konteks.
+ * Pesan rotasi tiap 6 detik untuk hindari hambar.
+ */
+function renderHeroTicker() {
+  const el = document.getElementById('hero-ticker');
+  if (!el) return;
+  const textEl = el.querySelector('.ticker-text');
+  if (!textEl) return;
+
+  const stats = getVisitCounter();
+  const hour = new Date().getHours();
+  const isOfficeHour = hour >= 7 && hour < 17;
+
+  const messages = [
+    `PRIMA siap melayani Anda hari ini.`,
+    `Anda kunjungan ke-${stats.total} dari perangkat ini · terima kasih telah menggunakan PRIMA.`,
+    isOfficeHour
+      ? 'Petugas kelurahan sedang on duty. Selamat berurusan!'
+      : 'Di luar jam kerja — gunakan Tanya Kami untuk respons instan.',
+    'Tips: scan QR Code di kantor kelurahan untuk akses cepat.',
+    'Saran & masukan Anda menentukan arah PRIMA — kunjungi Suara Warga.'
+  ];
+
+  let idx = 0;
+  textEl.textContent = messages[0];
+
+  // Stop existing rotation kalau renderHome dipanggil ulang (mis. setelah save admin)
+  if (window._primaTickerInterval) clearInterval(window._primaTickerInterval);
+  window._primaTickerInterval = setInterval(() => {
+    idx = (idx + 1) % messages.length;
+    textEl.style.opacity = '0';
+    setTimeout(() => {
+      textEl.textContent = messages[idx];
+      textEl.style.transition = 'opacity .35s ease';
+      textEl.style.opacity = '1';
+    }, 350);
+  }, 6000);
 }
 
 function searchAll(query) {
