@@ -2028,11 +2028,17 @@ a.download-btn, .download-btn {
   padding-top: 14px;
   border-top: 1px dashed rgba(212,175,55,.28);
 }
-.lambang-dki {
-  width: 44px;
-  height: 44px;
+/* Logo Pemerintah Kota Administrasi Jakarta Selatan (versi putih) */
+.lambang-jaksel {
+  width: 200px;
+  height: auto;
+  max-height: 50px;
+  object-fit: contain;
   flex-shrink: 0;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,.35));
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.4));
+}
+@media (max-width: 400px) {
+  .lambang-jaksel { width: 160px; max-height: 40px; }
 }
 .trust-foot-text { display: flex; flex-direction: column; min-width: 0; }
 .trust-foot-text strong {
