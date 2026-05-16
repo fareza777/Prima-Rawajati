@@ -1948,7 +1948,7 @@ a.download-btn, .download-btn {
 .trust-belt {
   position: relative;
   margin: 32px 0 0;
-  padding: 28px 16px calc(28px + 70px); /* bottom padding cukup untuk clear bottom-nav fixed */
+  padding: 28px 16px; /* body sudah punya padding-bottom untuk clear bottom-nav fixed */
   color: #fff;
   background:
     radial-gradient(120% 90% at 0% 0%, #1E3A8A 0%, transparent 55%),
