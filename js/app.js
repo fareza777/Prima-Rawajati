@@ -246,35 +246,42 @@ function renderHeroTicker() {
 }
 
 /**
- * Isi href dinamis pada footer contact bar dari PRIMA_DATA.meta.
- * Telepon → tel:, email → mailto:, alamat → Google Maps dengan koordinat.
+ * Isi href + label dinamis pada 3 link footer (alamat → Maps, email → mailto,
+ * Instagram → profil) dari PRIMA_DATA.meta. Dipanggil di renderHome() supaya
+ * kalau admin update meta lewat Editor, footer auto-update tanpa reload.
  */
 function renderFooterContact() {
   const meta = (window.PRIMA_DATA && PRIMA_DATA.meta) || {};
-  const telp = (meta.telepon || '').replace(/[^\d+]/g, ''); // tel: format butuh digit only
   const email = meta.email || '';
   const lat = meta.koordinat?.lat;
   const lng = meta.koordinat?.lng;
+  // Instagram handle bisa "@kelrawajati" atau "kelrawajati" — normalize ke versi tanpa @
+  const igRaw = (meta.instagram || '').trim().replace(/^@/, '');
 
-  const telpEl = document.getElementById('fc-telp');
-  const emailEl = document.getElementById('fc-email');
-  const mapsEl = document.getElementById('fc-maps');
+  // Alamat → Google Maps via koordinat resmi
+  const alamatEl = document.getElementById('fl-alamat');
+  if (alamatEl && lat && lng) {
+    alamatEl.setAttribute('href', `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`);
+  }
 
-  if (telpEl && telp) telpEl.setAttribute('href', `tel:${telp.startsWith('+') ? telp : '+62' + telp.replace(/^0/, '')}`);
+  // Email
+  const emailEl = document.getElementById('fl-email');
+  const emailText = document.getElementById('fl-email-text');
   if (emailEl && email) emailEl.setAttribute('href', `mailto:${email}`);
-  if (mapsEl && lat && lng) {
-    mapsEl.setAttribute('href', `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`);
-  }
+  if (emailText && email) emailText.textContent = email;
 
-  // Update text label kalau meta berubah (mis. admin edit alamat)
-  if (telpEl) {
-    const strong = telpEl.querySelector('.fc-text strong');
-    if (strong && meta.telepon) strong.textContent = meta.telepon;
+  // Instagram
+  const igEl = document.getElementById('fl-ig');
+  const igText = document.getElementById('fl-ig-text');
+  if (igEl) {
+    if (igRaw) {
+      igEl.setAttribute('href', `https://www.instagram.com/${igRaw}/`);
+      igEl.style.display = '';
+    } else {
+      igEl.style.display = 'none'; // hide kalau handle belum diisi
+    }
   }
-  if (emailEl) {
-    const strong = emailEl.querySelector('.fc-text strong');
-    if (strong && meta.email) strong.textContent = meta.email;
-  }
+  if (igText && igRaw) igText.textContent = '@' + igRaw;
 }
 
 function searchAll(query) {

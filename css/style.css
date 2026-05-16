@@ -1974,57 +1974,6 @@ a.download-btn, .download-btn {
     radial-gradient(40% 30% at 0% 100%, rgba(244,201,93,.10), transparent 60%);
   pointer-events: none;
 }
-.trust-row {
-  position: relative;
-  display: flex;
-  gap: 10px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-}
-.trust-badge {
-  flex: 1 1 calc(33.333% - 7px);
-  min-width: 110px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: 12px;
-  backdrop-filter: blur(8px);
-  transition: transform var(--transition), border-color var(--transition), background var(--transition);
-}
-.trust-badge:hover {
-  transform: translateY(-2px);
-  border-color: rgba(212,175,55,.45);
-  background: rgba(255,255,255,.12);
-}
-.trust-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
-  color: var(--navy-900);
-  flex-shrink: 0;
-}
-.trust-icon [data-lucide],
-.trust-icon svg { width: 16px; height: 16px; stroke-width: 2.2; color: inherit; }
-.trust-text { display: flex; flex-direction: column; min-width: 0; }
-.trust-text strong {
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: .1px;
-}
-.trust-text small {
-  font-size: 10.5px;
-  color: rgba(255,255,255,.72);
-  margin-top: 1px;
-}
-
 .trust-foot {
   position: relative;
   display: flex;
@@ -2058,70 +2007,51 @@ a.download-btn, .download-btn {
   margin-top: 1px;
 }
 
-/* Footer Contact — quick action links (telepon, email, peta) */
-.footer-contact {
+/* Footer Links — kontak inline (tanpa kotak), separator dot */
+.footer-links {
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px dashed rgba(212,175,55,.22);
-}
-.fc-link {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.10);
-  border-radius: 12px;
-  color: #fff;
-  text-decoration: none;
-  transition: transform var(--transition), border-color var(--transition), background var(--transition);
-  min-width: 0;
-}
-.fc-link:hover,
-.fc-link:focus-visible {
-  transform: translateY(-2px);
-  border-color: rgba(212,175,55,.5);
-  background: rgba(255,255,255,.10);
-  outline: none;
-}
-.fc-icon {
-  display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
-  color: var(--navy-900);
+  gap: 8px 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(212,175,55,.22);
+  font-size: 12.5px;
+}
+.fl-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 2px;
+  color: rgba(255,255,255,.85);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color var(--transition), border-color var(--transition);
+}
+.fl-link:hover,
+.fl-link:focus-visible {
+  color: var(--gold-light);
+  border-bottom-color: rgba(212,175,55,.5);
+  outline: none;
+}
+.fl-link [data-lucide],
+.fl-link svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2;
+  color: var(--gold);
   flex-shrink: 0;
 }
-.fc-icon [data-lucide],
-.fc-icon svg { width: 17px; height: 17px; stroke-width: 2.2; color: inherit; }
-.fc-text {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  overflow: hidden;
-}
-.fc-text small {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: .8px;
-  color: rgba(255,255,255,.55);
+.fl-sep {
+  color: rgba(212,175,55,.4);
   font-weight: 600;
+  user-select: none;
 }
-.fc-text strong {
-  font-size: 12.5px;
-  font-weight: 700;
-  color: #fff;
-  margin-top: 1px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+@media (max-width: 480px) {
+  .footer-links { gap: 6px 8px; font-size: 12px; }
+  .fl-link [data-lucide], .fl-link svg { width: 13px; height: 13px; }
 }
 
 /* Footnote RAP — credit institusional di paling bawah */
@@ -2150,12 +2080,7 @@ a.download-btn, .download-btn {
 .fm-dot { color: rgba(212,175,55,.45); }
 
 /* Mobile-tight */
-@media (max-width: 480px) {
-  .footer-contact { grid-template-columns: 1fr; gap: 8px; }
-  .fc-text strong { white-space: normal; }
-}
 @media (max-width: 380px) {
-  .trust-badge { flex: 1 1 100%; }
   .hero-greeting { font-size: 15px; }
 }
 

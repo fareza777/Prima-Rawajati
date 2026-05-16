@@ -173,34 +173,11 @@
     <!-- Rendered by JS via renderLayananQuick() -->
   </div>
 
-  <!-- Trust Signals Belt — full-width navy footer area -->
-  <section class="trust-belt" aria-label="Penanda kepercayaan">
+  <!-- Footer Navy — logo + kontak link inline + credit RAP -->
+  <section class="trust-belt" aria-label="Footer kelurahan">
     <div class="trust-belt-inner">
-      <div class="trust-row">
-        <div class="trust-badge">
-          <span class="trust-icon"><i data-lucide="building-2"></i></span>
-          <div class="trust-text">
-            <strong>Resmi Kelurahan</strong>
-            <small>Rawajati, Pancoran</small>
-          </div>
-        </div>
-        <div class="trust-badge">
-          <span class="trust-icon"><i data-lucide="shield-check"></i></span>
-          <div class="trust-text">
-            <strong>Data Aman</strong>
-            <small>Tanpa registrasi</small>
-          </div>
-        </div>
-        <div class="trust-badge">
-          <span class="trust-icon"><i data-lucide="clock-4"></i></span>
-          <div class="trust-text">
-            <strong>Akses 24 Jam</strong>
-            <small>Tanpa antri</small>
-          </div>
-        </div>
-      </div>
       <div class="trust-foot">
-        <!-- Logo resmi Kota Administrasi Jakarta Selatan (lambang Rambutan Rapiah)
+        <!-- Logo resmi Kota Administrasi Jakarta Selatan (Rambutan Rapiah)
              — sumber: https://selatan.jakarta.go.id/, varian putih untuk latar gelap. -->
         <img class="lambang-jaksel" src="img/jaksel-logo-putih.png"
              alt="Logo Pemerintah Kota Administrasi Jakarta Selatan"
@@ -211,28 +188,21 @@
         </div>
       </div>
 
-      <!-- Contact action bar — link clickable ke telepon, email, peta -->
-      <div class="footer-contact" id="footer-contact">
-        <a class="fc-link" id="fc-telp" href="tel:" aria-label="Telepon Kelurahan">
-          <span class="fc-icon"><i data-lucide="phone"></i></span>
-          <span class="fc-text">
-            <small>Telepon</small>
-            <strong>(021) 7994427</strong>
-          </span>
+      <!-- Link kontak inline (tanpa kotak) — href di-render dinamis dari meta -->
+      <div class="footer-links" id="footer-links">
+        <a class="fl-link" id="fl-alamat" href="#" target="_blank" rel="noopener">
+          <i data-lucide="map-pin"></i>
+          <span id="fl-alamat-text">Lihat di peta</span>
         </a>
-        <a class="fc-link" id="fc-email" href="mailto:" aria-label="Email Kelurahan">
-          <span class="fc-icon"><i data-lucide="mail"></i></span>
-          <span class="fc-text">
-            <small>Email</small>
-            <strong>kel.rawajati@jakarta.go.id</strong>
-          </span>
+        <span class="fl-sep" aria-hidden="true">·</span>
+        <a class="fl-link" id="fl-email" href="mailto:">
+          <i data-lucide="mail"></i>
+          <span id="fl-email-text">kel.rawajati@jakarta.go.id</span>
         </a>
-        <a class="fc-link" id="fc-maps" href="#" target="_blank" rel="noopener" aria-label="Lihat di Peta">
-          <span class="fc-icon"><i data-lucide="map-pin"></i></span>
-          <span class="fc-text">
-            <small>Alamat</small>
-            <strong>Jl. Rawajati Timur No.1</strong>
-          </span>
+        <span class="fl-sep" aria-hidden="true">·</span>
+        <a class="fl-link" id="fl-ig" href="#" target="_blank" rel="noopener">
+          <i data-lucide="instagram"></i>
+          <span id="fl-ig-text">@kelrawajati</span>
         </a>
       </div>
 
