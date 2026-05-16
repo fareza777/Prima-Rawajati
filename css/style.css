@@ -2054,31 +2054,6 @@ a.download-btn, .download-btn {
   .fl-link [data-lucide], .fl-link svg { width: 13px; height: 13px; }
 }
 
-/* Footnote RAP — credit institusional di paling bawah */
-.footer-meta {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px dashed rgba(212,175,55,.18);
-  text-align: center;
-  font-size: 11px;
-  color: rgba(255,255,255,.62);
-  letter-spacing: .15px;
-}
-.fm-brand {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 12px;
-  color: var(--gold-light);
-  letter-spacing: .5px;
-}
-.fm-dot { color: rgba(212,175,55,.45); }
-
 /* Mobile-tight */
 @media (max-width: 380px) {
   .hero-greeting { font-size: 15px; }
