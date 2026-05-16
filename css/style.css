@@ -1942,23 +1942,28 @@ a.download-btn, .download-btn {
 }
 
 /* Trust signals belt — area di bawah Layanan Sering Diakses */
-/* Trust signals belt — navy gradient supaya senada dengan hero-banner */
+/* Trust signals belt — full-width navy footer.
+   Membentang dari edge ke edge dan extend ke bawah supaya bagian bawah halaman
+   home semuanya navy (senada dengan hero-banner di atas). */
 .trust-belt {
   position: relative;
-  margin: 28px 16px 24px;
-  padding: 20px 18px;
+  margin: 32px 0 0;
+  padding: 28px 16px calc(28px + 80px); /* extra bottom padding biar mengisi area di atas bottom-nav */
   color: #fff;
   background:
     radial-gradient(120% 90% at 0% 0%, #1E3A8A 0%, transparent 55%),
     radial-gradient(120% 100% at 100% 100%, #2B4BB0 0%, transparent 50%),
     linear-gradient(145deg, #0A1F44 0%, #13306E 55%, #05122E 100%);
-  border: 1px solid rgba(212,175,55,.32);
-  border-radius: 18px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  border-top: 1px solid rgba(212,175,55,.32);
+  border-radius: 24px 24px 0 0;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(10,31,68,.18);
+  box-shadow: 0 -8px 24px rgba(10,31,68,.12);
+}
+/* Content tetap ter-center di tengah layar */
+.trust-belt-inner {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
 }
 /* Subtle gold shimmer accent, mirror dari hero-banner::before */
 .trust-belt::before {
