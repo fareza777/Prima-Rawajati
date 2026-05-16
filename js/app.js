@@ -92,6 +92,9 @@ function renderHome() {
   setStatTarget('stat-lokasi', PRIMA_DATA.petaMarkers.length);
   animateHeroCounters();
 
+  // Render footer contact links dari meta kelurahan
+  renderFooterContact();
+
   // Search
   const searchInput = document.getElementById('home-search');
   searchInput.addEventListener('input', e => {
@@ -240,6 +243,38 @@ function renderHeroTicker() {
       textEl.style.opacity = '1';
     }, 350);
   }, 6000);
+}
+
+/**
+ * Isi href dinamis pada footer contact bar dari PRIMA_DATA.meta.
+ * Telepon → tel:, email → mailto:, alamat → Google Maps dengan koordinat.
+ */
+function renderFooterContact() {
+  const meta = (window.PRIMA_DATA && PRIMA_DATA.meta) || {};
+  const telp = (meta.telepon || '').replace(/[^\d+]/g, ''); // tel: format butuh digit only
+  const email = meta.email || '';
+  const lat = meta.koordinat?.lat;
+  const lng = meta.koordinat?.lng;
+
+  const telpEl = document.getElementById('fc-telp');
+  const emailEl = document.getElementById('fc-email');
+  const mapsEl = document.getElementById('fc-maps');
+
+  if (telpEl && telp) telpEl.setAttribute('href', `tel:${telp.startsWith('+') ? telp : '+62' + telp.replace(/^0/, '')}`);
+  if (emailEl && email) emailEl.setAttribute('href', `mailto:${email}`);
+  if (mapsEl && lat && lng) {
+    mapsEl.setAttribute('href', `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`);
+  }
+
+  // Update text label kalau meta berubah (mis. admin edit alamat)
+  if (telpEl) {
+    const strong = telpEl.querySelector('.fc-text strong');
+    if (strong && meta.telepon) strong.textContent = meta.telepon;
+  }
+  if (emailEl) {
+    const strong = emailEl.querySelector('.fc-text strong');
+    if (strong && meta.email) strong.textContent = meta.email;
+  }
 }
 
 function searchAll(query) {

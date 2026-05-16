@@ -1948,7 +1948,7 @@ a.download-btn, .download-btn {
 .trust-belt {
   position: relative;
   margin: 32px 0 0;
-  padding: 28px 16px calc(28px + 80px); /* extra bottom padding biar mengisi area di atas bottom-nav */
+  padding: 28px 16px calc(28px + 70px); /* bottom padding cukup untuk clear bottom-nav fixed */
   color: #fff;
   background:
     radial-gradient(120% 90% at 0% 0%, #1E3A8A 0%, transparent 55%),
@@ -2058,7 +2058,102 @@ a.download-btn, .download-btn {
   margin-top: 1px;
 }
 
+/* Footer Contact — quick action links (telepon, email, peta) */
+.footer-contact {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(212,175,55,.22);
+}
+.fc-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 12px;
+  color: #fff;
+  text-decoration: none;
+  transition: transform var(--transition), border-color var(--transition), background var(--transition);
+  min-width: 0;
+}
+.fc-link:hover,
+.fc-link:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(212,175,55,.5);
+  background: rgba(255,255,255,.10);
+  outline: none;
+}
+.fc-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
+  color: var(--navy-900);
+  flex-shrink: 0;
+}
+.fc-icon [data-lucide],
+.fc-icon svg { width: 17px; height: 17px; stroke-width: 2.2; color: inherit; }
+.fc-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+.fc-text small {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: rgba(255,255,255,.55);
+  font-weight: 600;
+}
+.fc-text strong {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Footnote RAP — credit institusional di paling bawah */
+.footer-meta {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(212,175,55,.18);
+  text-align: center;
+  font-size: 11px;
+  color: rgba(255,255,255,.62);
+  letter-spacing: .15px;
+}
+.fm-brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--gold-light);
+  letter-spacing: .5px;
+}
+.fm-dot { color: rgba(212,175,55,.45); }
+
 /* Mobile-tight */
+@media (max-width: 480px) {
+  .footer-contact { grid-template-columns: 1fr; gap: 8px; }
+  .fc-text strong { white-space: normal; }
+}
 @media (max-width: 380px) {
   .trust-badge { flex: 1 1 100%; }
   .hero-greeting { font-size: 15px; }
