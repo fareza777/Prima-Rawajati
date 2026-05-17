@@ -6,6 +6,8 @@ let map = null;
 let chatbot = null;
 let mapMarkers = [];
 let activeFilter = 'Semua';
+let activeLayananFilter = 'Semua';
+let layananSearchQuery = '';
 
 // ── INIT ─────────────────────────────────────────────────────────
 // Data dimuat async dari data/prima-data.json oleh js/data.js.
@@ -24,7 +26,8 @@ function bootApp() {
   initNav();
   renderHome();
   renderLayananQuick();
-  renderLayanan(PRIMA_DATA.layanan);
+  renderLayananFilters();
+  renderLayanan();
   renderInfoWarga();
   renderSuaraWarga();
   renderAdminPage();
@@ -384,36 +387,95 @@ function renderLayananQuick() {
 }
 
 // ── LAYANAN PAGE ─────────────────────────────────────────────────
-function renderLayanan(data) {
+
+// Difficulty derived dari jumlah syarat — bantu warga set ekspektasi sebelum klik.
+// ≤3 syarat: ringkas; 4-5: sedang; ≥6: perlu persiapan lengkap.
+function difficultyOf(layanan) {
+  const n = (layanan.syarat || []).length;
+  if (n <= 3) return { emoji: '🟢', label: 'Mudah', tone: 'green' };
+  if (n <= 5) return { emoji: '🟡', label: 'Sedang', tone: 'amber' };
+  return { emoji: '🟠', label: 'Perlu lengkap', tone: 'orange' };
+}
+
+function getLayananFiltered() {
+  const q = layananSearchQuery.trim().toLowerCase();
+  return PRIMA_DATA.layanan.filter(l => {
+    const matchKategori = activeLayananFilter === 'Semua' || l.kategori === activeLayananFilter;
+    if (!matchKategori) return false;
+    if (!q) return true;
+    return l.nama.toLowerCase().includes(q)
+      || (l.tags || []).some(t => t.toLowerCase().includes(q))
+      || l.kategori.toLowerCase().includes(q);
+  });
+}
+
+function renderLayananFilters() {
+  const container = document.getElementById('layanan-filters');
+  if (!container) return;
+  // Ambil kategori unik dari data (dynamic, ikut update kalau admin tambah kategori baru)
+  const kategoriUnik = Array.from(new Set(PRIMA_DATA.layanan.map(l => l.kategori)));
+  const chips = ['Semua', ...kategoriUnik];
+  container.innerHTML = chips.map(k => {
+    const count = k === 'Semua' ? PRIMA_DATA.layanan.length : PRIMA_DATA.layanan.filter(l => l.kategori === k).length;
+    const active = k === activeLayananFilter ? ' active' : '';
+    return `<button type="button" class="layanan-chip${active}" role="tab" data-kategori="${escapeHtml(k)}" aria-selected="${k === activeLayananFilter}">
+      ${escapeHtml(k)} <span class="chip-count">${count}</span>
+    </button>`;
+  }).join('');
+
+  container.querySelectorAll('.layanan-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeLayananFilter = btn.dataset.kategori;
+      renderLayananFilters();
+      renderLayanan();
+      // Smooth scroll chip aktif ke tengah
+      btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    });
+  });
+}
+
+function renderLayanan() {
   const container = document.getElementById('layanan-list');
-  container.innerHTML = data.map(l => `
-    <div class="layanan-card" onclick="showLayananDetail('${l.id}')">
+  if (!container) return;
+
+  // Idempotent setup search listener (sekali saja)
+  const searchInput = document.getElementById('layanan-search');
+  if (searchInput && !searchInput.dataset.bound) {
+    searchInput.dataset.bound = '1';
+    searchInput.addEventListener('input', e => {
+      layananSearchQuery = e.target.value;
+      renderLayanan();
+    });
+  }
+
+  const data = getLayananFiltered();
+
+  if (!data.length) {
+    container.innerHTML = `
+      <div class="empty-state" style="text-align:center;padding:40px 20px;color:var(--text-muted)">
+        <div style="font-size:42px;margin-bottom:8px">🔍</div>
+        <p style="margin:0 0 4px;font-weight:600">Layanan tidak ditemukan</p>
+        <p style="margin:0;font-size:13px">Coba kata kunci lain atau pilih kategori "Semua".</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = data.map(l => {
+    const d = difficultyOf(l);
+    return `
+    <div class="layanan-card" onclick="showLayananDetail('${l.id}')" role="button" tabindex="0">
       <span class="lcard-emoji">${l.emoji}</span>
       <div class="lcard-body">
-        <h3>${l.nama}</h3>
+        <h3>${escapeHtml(l.nama)}</h3>
         <div class="lcard-meta">
-          <span class="badge badge-blue">${l.kategori}</span>
-          <span class="badge badge-green">⏱ ${l.waktuProses}</span>
-          <span class="badge badge-gray">${l.biaya}</span>
+          <span class="badge badge-blue">${escapeHtml(l.kategori)}</span>
+          <span class="badge badge-green">⏱ ${escapeHtml(l.waktuProses || '-')}</span>
+          <span class="badge badge-${d.tone}" title="${d.label} — ${(l.syarat || []).length} berkas">${d.emoji} ${d.label}</span>
         </div>
       </div>
       <span class="lcard-arrow">›</span>
-    </div>
-  `).join('');
-
-  // Search filter
-  const searchInput = document.getElementById('layanan-search');
-  searchInput.addEventListener('input', e => {
-    const q = e.target.value.toLowerCase();
-    const filtered = q
-      ? PRIMA_DATA.layanan.filter(l =>
-          l.nama.toLowerCase().includes(q) ||
-          l.tags.some(t => t.includes(q)) ||
-          l.kategori.toLowerCase().includes(q)
-        )
-      : PRIMA_DATA.layanan;
-    renderLayanan(filtered);
-  });
+    </div>`;
+  }).join('');
 }
 
 function showLayananDetail(id) {
@@ -423,26 +485,73 @@ function showLayananDetail(id) {
 
   const modal = document.getElementById('modal-overlay');
   const body  = document.getElementById('modal-body-content');
+  const diff = difficultyOf(layanan);
+
+  // Load cached readiness checklist progress (per layanan)
+  const storageKey = `prima_readiness_${layanan.id}`;
+  let checked;
+  try { checked = JSON.parse(localStorage.getItem(storageKey) || '[]'); }
+  catch { checked = []; }
+  if (!Array.isArray(checked)) checked = [];
 
   body.innerHTML = `
     <div class="modal-handle"></div>
     <div class="modal-header">
       <span class="modal-emoji">${layanan.emoji}</span>
       <div class="modal-title">
-        <h3>${layanan.nama}</h3>
-        <p>${layanan.deskripsi}</p>
+        <h3>${escapeHtml(layanan.nama)}</h3>
+        <p>${escapeHtml(layanan.deskripsi || '')}</p>
       </div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+      <button class="modal-close" onclick="closeModal()" aria-label="Tutup">✕</button>
     </div>
     <div class="modal-body">
       <div class="meta-grid mb-8">
         <div class="meta-item">
           <div class="meta-label">⏱ Waktu Proses</div>
-          <div class="meta-val">${layanan.waktuProses}</div>
+          <div class="meta-val">${escapeHtml(layanan.waktuProses || '-')}</div>
         </div>
         <div class="meta-item">
           <div class="meta-label">💰 Biaya</div>
-          <div class="meta-val text-green">${layanan.biaya}</div>
+          <div class="meta-val text-green">${escapeHtml(layanan.biaya || 'Gratis')}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">${diff.emoji} Tingkat</div>
+          <div class="meta-val">${diff.label}</div>
+        </div>
+      </div>
+
+      <!-- Quick actions: Cek Kesiapan + Tanyakan ke PRIMA -->
+      <div class="layanan-actions mb-8">
+        <button class="la-btn la-btn-primary" onclick="toggleReadinessChecker('${layanan.id}')">
+          📋 Cek Kesiapan Saya
+        </button>
+        <button class="la-btn la-btn-ghost" onclick="askPrimaAboutLayanan('${layanan.id}')">
+          💬 Tanyakan ke PRIMA
+        </button>
+      </div>
+
+      <!-- Readiness checker (collapsed by default) -->
+      <div class="readiness-panel" id="readiness-panel" hidden>
+        <div class="rp-header">
+          <strong>📋 Cek Kesiapan Dokumen</strong>
+          <p>Centang yang sudah Anda siapkan. Bawa yang masih kurang sebelum ke kelurahan.</p>
+        </div>
+        <ul class="rp-list">
+          ${layanan.syarat.map((s, i) => {
+            const id = `rp-${layanan.id}-${i}`;
+            const isChecked = checked.includes(i);
+            return `
+              <li>
+                <label for="${id}" class="rp-row${isChecked ? ' rp-row--done' : ''}">
+                  <input type="checkbox" id="${id}" data-idx="${i}" ${isChecked ? 'checked' : ''}>
+                  <span class="rp-text">${escapeHtml(s)}</span>
+                </label>
+              </li>`;
+          }).join('')}
+        </ul>
+        <div class="rp-progress">
+          <div class="rp-bar"><div class="rp-bar-fill" id="rp-bar-fill"></div></div>
+          <div class="rp-status" id="rp-status"></div>
         </div>
       </div>
 
@@ -452,7 +561,7 @@ function showLayananDetail(id) {
           ${layanan.syarat.map((s, i) => `
             <li>
               <span class="req-num">${i + 1}</span>
-              <span>${s}</span>
+              <span>${escapeHtml(s)}</span>
             </li>
           `).join('')}
         </ul>
@@ -460,14 +569,14 @@ function showLayananDetail(id) {
 
       <div class="modal-section">
         <h4>📌 Prosedur</h4>
-        <div class="step-list">
+        <ol class="stepper">
           ${layanan.prosedur.map((p, i) => `
-            <div class="step-item">
-              <div class="step-num">${i + 1}</div>
-              <div class="step-body">${p}</div>
-            </div>
+            <li class="stepper-item">
+              <div class="stepper-dot">${i + 1}</div>
+              <div class="stepper-body">${escapeHtml(p)}</div>
+            </li>
           `).join('')}
-        </div>
+        </ol>
       </div>
 
       ${layanan.dokumenUnduh.length > 0 ? `
@@ -503,6 +612,82 @@ function showLayananDetail(id) {
 
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
+
+  // Wire up checkbox readiness setelah DOM rendered
+  bindReadinessChecker(layanan.id, storageKey, layanan.syarat.length);
+  // Re-render lucide icons baru
+  if (window.lucide && typeof lucide.createIcons === 'function') {
+    try { lucide.createIcons(); } catch {}
+  }
+}
+
+/**
+ * Bind checkbox change listeners untuk readiness checklist, update progress bar
+ * + status text. State persisted ke localStorage per-layanan supaya warga bisa
+ * kembali ke modal beberapa hari kemudian dan checklist masih ingat.
+ */
+function bindReadinessChecker(layananId, storageKey, totalSyarat) {
+  const panel = document.getElementById('readiness-panel');
+  if (!panel) return;
+
+  const update = () => {
+    const boxes = panel.querySelectorAll('input[type="checkbox"]');
+    const checkedIdx = [];
+    boxes.forEach(b => {
+      const idx = parseInt(b.dataset.idx, 10);
+      const row = b.closest('.rp-row');
+      if (b.checked) {
+        checkedIdx.push(idx);
+        row?.classList.add('rp-row--done');
+      } else {
+        row?.classList.remove('rp-row--done');
+      }
+    });
+    try { localStorage.setItem(storageKey, JSON.stringify(checkedIdx)); } catch {}
+
+    const pct = totalSyarat ? Math.round((checkedIdx.length / totalSyarat) * 100) : 0;
+    const fill = document.getElementById('rp-bar-fill');
+    const status = document.getElementById('rp-status');
+    if (fill) fill.style.width = pct + '%';
+    if (status) {
+      if (pct === 0) status.innerHTML = '<span>0% siap — silakan centang dokumen yang sudah ada</span>';
+      else if (pct === 100) status.innerHTML = '<span style="color:var(--success,#2e7d32);font-weight:700">✅ Lengkap! Anda siap ke kelurahan.</span>';
+      else status.innerHTML = `<span><strong>${pct}%</strong> siap — ${totalSyarat - checkedIdx.length} berkas masih kurang</span>`;
+    }
+  };
+
+  panel.querySelectorAll('input[type="checkbox"]').forEach(b => {
+    b.addEventListener('change', update);
+  });
+  update();
+}
+
+// Show/hide readiness panel
+function toggleReadinessChecker(_layananId) {
+  const panel = document.getElementById('readiness-panel');
+  if (!panel) return;
+  const hidden = panel.hasAttribute('hidden');
+  if (hidden) {
+    panel.removeAttribute('hidden');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } else {
+    panel.setAttribute('hidden', '');
+  }
+}
+
+// Pre-fill chat dengan pertanyaan tentang layanan, lalu auto-send
+function askPrimaAboutLayanan(layananId) {
+  const layanan = PRIMA_DATA.layanan.find(l => l.id === layananId);
+  if (!layanan) return;
+  closeModal();
+  navigateTo('chat');
+  // Tunggu page transition selesai sebelum fill + send
+  setTimeout(() => {
+    const input = document.getElementById('chat-input');
+    if (!input) return;
+    input.value = `Tolong jelaskan lebih detail tentang ${layanan.nama} — syarat lengkap, prosedur, dan tips supaya cepat.`;
+    if (typeof sendMessage === 'function') sendMessage();
+  }, 280);
 }
 
 function closeModal() {
