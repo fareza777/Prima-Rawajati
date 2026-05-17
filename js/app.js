@@ -1104,11 +1104,22 @@ function initChatbot() {
   const input = document.getElementById('chat-input');
   const sendBtn = document.getElementById('chat-send');
 
-  // Welcome message
+  // Welcome message — time-aware salam
+  const hour = new Date().getHours();
+  const sapaan = hour >= 5 && hour < 11 ? 'Selamat pagi'
+               : hour >= 11 && hour < 15 ? 'Selamat siang'
+               : hour >= 15 && hour < 18 ? 'Selamat sore'
+               : 'Selamat malam';
   addBotMessage(
-    'Halo! 👋 Selamat datang di <strong>PRIMA – Kelurahan Rawajati</strong>!\n\nSaya asisten virtual yang siap membantu Anda 24 jam. Tanya saja tentang syarat surat, jadwal layanan, info wilayah, dan lainnya! 😊',
+    `${sapaan}! 👋 Selamat datang di <strong>PRIMA – Kelurahan Rawajati</strong>.\n\nSaya asisten virtual yang siap membantu Anda 24 jam. Pilih topik di bawah, atau ketik pertanyaan Anda sendiri di kolom chat. 😊`,
     getCurrentTime()
   );
+
+  // Render time-aware suggested questions sebagai chip di bawah welcome
+  renderTimeAwareSuggestions();
+
+  // Wire voice input button (B.2)
+  initVoiceInput();
 
   // Event listeners
   sendBtn.addEventListener('click', sendMessage);
@@ -1127,6 +1138,156 @@ function initChatbot() {
 
   // Refresh mode label di chat header (tidak butuh UI admin)
   refreshChatModeLabel();
+}
+
+/**
+ * Render suggested questions time-aware sebagai chip horizontal scroll
+ * di bawah welcome message. Klik chip → isi input + auto-send.
+ * Suggestions hilang setelah user kirim pesan pertama (auto-cleanup).
+ */
+function renderTimeAwareSuggestions() {
+  const container = document.getElementById('chat-suggestions');
+  if (!container || !chatbot) return;
+  const suggestions = chatbot.getSuggestedQuestions();
+  container.innerHTML = `
+    <div class="cs-header">💡 <span>Pertanyaan Populer Saat Ini</span></div>
+    <div class="cs-chips">
+      ${suggestions.map(q => `<button type="button" class="suggestion-chip" onclick="sendSuggestion('${escapeHtml(q).replace(/'/g, "\\'")}')">${escapeHtml(q)}</button>`).join('')}
+    </div>
+  `;
+  container.style.display = 'flex';
+}
+
+function hideSuggestions() {
+  const container = document.getElementById('chat-suggestions');
+  if (container) container.style.display = 'none';
+}
+
+function sendSuggestion(text) {
+  const input = document.getElementById('chat-input');
+  if (!input) return;
+  input.value = text;
+  hideSuggestions();
+  if (typeof sendMessage === 'function') sendMessage();
+}
+
+/**
+ * B.2 — Voice input via Web Speech API (id-ID).
+ * Klik mic → minta izin mic browser → rekam → transkripsi langsung
+ * masuk ke chat-input. User tinggal cek + kirim (atau auto-send kalau
+ * interim final). Mendukung Chrome, Edge, Safari mobile.
+ *
+ * Fallback graceful: kalau browser tidak punya SpeechRecognition,
+ * tombol mic disable + tooltip jelaskan.
+ */
+let _speechRecognition = null;
+let _isListening = false;
+
+function initVoiceInput() {
+  const micBtn = document.getElementById('chat-mic');
+  if (!micBtn) return;
+
+  // Re-render lucide icon
+  if (window.lucide && typeof lucide.createIcons === 'function') {
+    try { lucide.createIcons(); } catch {}
+  }
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    micBtn.disabled = true;
+    micBtn.title = 'Browser Anda belum mendukung input suara. Gunakan Chrome / Edge / Safari.';
+    micBtn.style.opacity = '.4';
+    micBtn.style.cursor = 'not-allowed';
+    return;
+  }
+
+  if (micBtn.dataset.bound) return;
+  micBtn.dataset.bound = '1';
+
+  micBtn.addEventListener('click', () => {
+    if (_isListening) {
+      stopVoiceInput();
+    } else {
+      startVoiceInput();
+    }
+  });
+}
+
+function startVoiceInput() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) return;
+
+  const input = document.getElementById('chat-input');
+  const micBtn = document.getElementById('chat-mic');
+  if (!input || !micBtn) return;
+
+  _speechRecognition = new SpeechRecognition();
+  _speechRecognition.lang = 'id-ID';
+  _speechRecognition.interimResults = true;
+  _speechRecognition.continuous = false;
+  _speechRecognition.maxAlternatives = 1;
+
+  let finalTranscript = '';
+
+  _speechRecognition.onstart = () => {
+    _isListening = true;
+    micBtn.classList.add('chat-mic-active');
+    micBtn.setAttribute('aria-label', 'Hentikan rekaman');
+    showToast('🎙️ Mendengarkan… bicara sekarang');
+  };
+
+  _speechRecognition.onresult = (event) => {
+    let interim = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const transcript = event.results[i][0].transcript;
+      if (event.results[i].isFinal) {
+        finalTranscript += transcript;
+      } else {
+        interim += transcript;
+      }
+    }
+    input.value = (finalTranscript + interim).trim();
+    // Auto-resize textarea
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 100) + 'px';
+  };
+
+  _speechRecognition.onerror = (event) => {
+    _isListening = false;
+    micBtn.classList.remove('chat-mic-active');
+    const msg = event.error === 'not-allowed' || event.error === 'permission-denied'
+      ? '❌ Izin mikrofon ditolak. Aktifkan di pengaturan browser.'
+      : event.error === 'no-speech'
+      ? '🤫 Tidak ada suara terdeteksi. Coba lagi.'
+      : '❌ Voice input error: ' + event.error;
+    showToast(msg);
+  };
+
+  _speechRecognition.onend = () => {
+    _isListening = false;
+    micBtn.classList.remove('chat-mic-active');
+    micBtn.setAttribute('aria-label', 'Bicara dengan PRIMA');
+    if (finalTranscript.trim()) {
+      showToast('✓ Transkrip siap. Tekan ➤ untuk kirim.');
+    }
+  };
+
+  try {
+    _speechRecognition.start();
+  } catch (e) {
+    showToast('❌ Gagal mulai rekaman: ' + e.message);
+    _isListening = false;
+    micBtn.classList.remove('chat-mic-active');
+  }
+}
+
+function stopVoiceInput() {
+  if (_speechRecognition) {
+    try { _speechRecognition.stop(); } catch {}
+  }
+  _isListening = false;
+  const micBtn = document.getElementById('chat-mic');
+  if (micBtn) micBtn.classList.remove('chat-mic-active');
 }
 
 // Render label "Online · ✨ AI …" di header chat berdasarkan state localStorage.
@@ -1485,6 +1646,8 @@ async function sendMessage() {
   addUserMessage(text, getCurrentTime());
   input.value = '';
   input.style.height = 'auto';
+  // Hide time-aware suggestions setelah user mulai bertanya
+  if (typeof hideSuggestions === 'function') hideSuggestions();
 
   const aiEnabled = isAIEnabled();
 
@@ -1669,33 +1832,64 @@ function addBotMessage(html, time, opts = {}) {
 /**
  * Quick-action chips per intent: arahkan warga ke action lanjutan yang
  * relevan dengan jawaban bot, tanpa harus ketik ulang.
+ *
+ * Prioritas urutan:
+ *   1. Detail layanan (kalau ada match) — most specific
+ *   2. Download form template (kalau layanan punya dokumenUnduh)
+ *   3. Lokasi loket kelurahan (kalau bicara surat/dokumen)
+ *   4. Tanya lebih lanjut (refocus chat input)
+ *   5. Cross-section navigation (peta/suara/beranda)
+ * Max 4 chip per pesan supaya tidak crowded.
  */
 function renderBotQuickActions(intent, rawText = '') {
   const chips = [];
   const text = String(rawText).toLowerCase();
 
-  // Detect mention layanan via id atau nama → chip "Lihat Detail"
+  // Detect mention layanan via id atau nama → chip "Lihat Detail" + actions
   const matchedLayanan = PRIMA_DATA?.layanan?.find(l =>
-    text.includes(l.nama.toLowerCase()) || text.includes(l.id.toLowerCase())
+    text.includes(l.nama.toLowerCase()) ||
+    text.includes(l.id.toLowerCase()) ||
+    (l.tags || []).some(t => text.includes(t.toLowerCase()))
   );
+
   if (matchedLayanan) {
     chips.push(`<button class="chat-chip" onclick="closeChatThenShowLayanan('${matchedLayanan.id}')">📋 Detail ${escapeHtml(matchedLayanan.nama)}</button>`);
+
+    // Kalau layanan punya dokumen yang bisa diunduh, tambahkan chip download
+    const downloadable = (matchedLayanan.dokumenUnduh || []).find(d => d.url && !d.url.startsWith('#'));
+    if (downloadable) {
+      const safeUrl = escapeHtml(downloadable.url).replace(/'/g, "\\'");
+      const safeName = escapeHtml(downloadable.nama).replace(/'/g, "\\'");
+      chips.push(`<button class="chat-chip" onclick="handleDownload('${safeName}', '${safeUrl}')">⬇️ Download Form</button>`);
+    }
+
+    // Chip "Lokasi Loket Kelurahan" — pindah ke peta + auto-buka kantor kelurahan
+    chips.push(`<button class="chat-chip" onclick="showOnMap('Kantor Kelurahan')">🗺️ Lokasi Loket</button>`);
+
+    // Chip "Cek Kesiapan Saya" — buka modal langsung di checklist
+    chips.push(`<button class="chat-chip" onclick="closeChatThenShowLayanan('${matchedLayanan.id}'); setTimeout(() => toggleReadinessChecker('${matchedLayanan.id}'), 300)">✅ Cek Kesiapan</button>`);
+
+    return chips.slice(0, 4).join('');
   }
 
+  // Tidak ada layanan match — pakai navigation chips umum
   if (/peta|lokasi|alamat|kantor|puskesmas|posyandu|bank sampah/.test(text)) {
     chips.push(`<button class="chat-chip" onclick="navigateTo('peta')">🗺️ Buka Peta</button>`);
   }
-  if (/syarat|prosedur|berkas|dokumen|persyaratan/.test(text)) {
+  if (/syarat|prosedur|berkas|dokumen|persyaratan|surat/.test(text)) {
     chips.push(`<button class="chat-chip" onclick="navigateTo('layanan')">📋 Semua Layanan</button>`);
   }
   if (/feedback|saran|masukan|keluhan|pengaduan/.test(text)) {
     chips.push(`<button class="chat-chip" onclick="navigateTo('suara')">💬 Suara Warga</button>`);
   }
   if (/jam|kerja|buka|operasional/.test(text)) {
-    chips.push(`<button class="chat-chip" onclick="navigateTo('home')">🏠 Beranda</button>`);
+    chips.push(`<button class="chat-chip" onclick="showOnMap('Kantor Kelurahan')">📍 Lokasi Kantor</button>`);
+  }
+  if (/kuliner|kuliner|warung|makanan|umkm|usaha|kegiatan/.test(text)) {
+    chips.push(`<button class="chat-chip" onclick="navigateTo('info')">🍜 Info Warga</button>`);
   }
 
-  return chips.slice(0, 3).join('');
+  return chips.slice(0, 4).join('');
 }
 
 function closeChatThenShowLayanan(id) {

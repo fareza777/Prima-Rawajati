@@ -165,16 +165,76 @@ class PRIMAChatbot {
     return this.stats;
   }
 
+  /**
+   * Suggestions berubah berdasar konteks waktu — bantu warga ketemu pertanyaan
+   * relevan tanpa harus mikir keras. Hari kerja vs weekend juga di-handle.
+   *
+   * Konsep:
+   *   - Pagi (06-11): orientasi mulai aktivitas → layanan rutin, jam kerja
+   *   - Siang (11-15): pemanfaatan maksimal → SKTM, puskesmas
+   *   - Sore-malam (15-22): refleksi & rencana → pengaduan, posyandu, info acara
+   *   - Weekend: fokus akhir pekan → layanan tetap buka, bank sampah, posyandu
+   */
   getSuggestedQuestions() {
+    const now = new Date();
+    const hour = now.getHours();
+    const day = now.getDay(); // 0 = Minggu, 6 = Sabtu
+    const isWeekend = day === 0 || day === 6;
+
+    if (isWeekend) {
+      return [
+        "Layanan apa yang tetap buka akhir pekan?",
+        "Jadwal bank sampah Sabtu/Minggu?",
+        "Posyandu hari ini buka tidak?",
+        "Nomor darurat kelurahan?",
+        "Acara warga akhir pekan?",
+        "Cara lapor masalah di luar jam kerja?"
+      ];
+    }
+
+    if (hour >= 6 && hour < 11) {
+      // Pagi — warga baru mulai aktivitas, fokus orientasi layanan harian
+      return [
+        "Jam kerja kelurahan hari ini?",
+        "Apa saja syarat KTP / KK baru?",
+        "Cara urus surat domisili?",
+        "Daftar layanan paling populer?",
+        "Lokasi kantor kelurahan?",
+        "Petugas yang bisa dihubungi pagi ini?"
+      ];
+    }
+
+    if (hour >= 11 && hour < 15) {
+      // Siang — peak hour pemanfaatan, fokus pengurusan dokumen
+      return [
+        "Cara urus SKTM?",
+        "Syarat surat ahli waris?",
+        "Lokasi Puskesmas Rawajati?",
+        "Berapa lama proses surat keterangan domisili?",
+        "Biaya layanan kelurahan?",
+        "Cara dapat surat pengantar RT/RW?"
+      ];
+    }
+
+    if (hour >= 15 && hour < 22) {
+      // Sore-malam — refleksi & rencana esok
+      return [
+        "Bagaimana cara menyampaikan pengaduan?",
+        "Info posyandu minggu ini?",
+        "Jadwal kegiatan warga?",
+        "Cara lapor kerusakan fasilitas umum?",
+        "Bank sampah hari Sabtu buka?",
+        "Nomor darurat kelurahan?"
+      ];
+    }
+
+    // Tengah malam / dini hari — fallback aman + nomor darurat
     return [
-      "Syarat surat keterangan domisili?",
-      "Syarat surat ahli waris?",
-      "Jam buka kelurahan?",
-      "Syarat PM-1 pecah PBB?",
-      "Lokasi bank sampah?",
-      "Syarat pengantar SKCK?",
-      "Jadwal posyandu?",
-      "Cara buat surat keterangan usaha?"
+      "Nomor darurat kelurahan?",
+      "Apa saja layanan PRIMA?",
+      "Jam kerja kelurahan besok?",
+      "Cara hubungi RT/RW di luar jam kerja?",
+      "Layanan mandiri 24 jam?"
     ];
   }
 }
