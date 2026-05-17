@@ -363,14 +363,19 @@
 <main id="page-suara" class="page">
   <div class="section-header">
     <h2>✏️ Suara Warga</h2>
-    <p>Masukan dan saran Anda membantu kami meningkatkan PRIMA</p>
+    <p>Suara Anda menentukan arah pelayanan kami. Sampaikan, kami mendengarkan.</p>
   </div>
 
   <div class="suara-page">
-    <form id="suara-form">
+    <form id="suara-form" class="wizard">
+      <!-- Wizard progress bar -->
+      <div class="wiz-progress">
+        <div class="wiz-bar"><div class="wiz-bar-fill" id="wiz-bar-fill"></div></div>
+        <div class="wiz-step-label" id="wiz-step-label">Langkah 1 dari 4</div>
+      </div>
 
-      <!-- Rating -->
-      <div class="survey-card">
+      <!-- Step 1: Rating -->
+      <div class="survey-card wiz-step active" data-step="1">
         <h3>⭐ Bagaimana pengalaman Anda dengan PRIMA?</h3>
         <div class="star-rating">
           <button type="button" class="star-btn" data-val="1">⭐</button>
@@ -382,8 +387,8 @@
         <div class="rating-label" id="rating-label">Pilih bintang di atas</div>
       </div>
 
-      <!-- Fitur Favorit -->
-      <div class="survey-card">
+      <!-- Step 2: Fitur Favorit -->
+      <div class="survey-card wiz-step" data-step="2" hidden>
         <h3>💡 Fitur mana yang paling berguna?</h3>
         <div class="option-grid">
           <button type="button" class="option-btn" data-group="fitur">📋 Layanan & Surat</button>
@@ -393,8 +398,8 @@
         </div>
       </div>
 
-      <!-- Akses Info -->
-      <div class="survey-card">
+      <!-- Step 3: Akses Info -->
+      <div class="survey-card wiz-step" data-step="3" hidden>
         <h3>📱 Apakah PRIMA membantu Anda mendapat info layanan di luar jam kerja?</h3>
         <div class="option-grid">
           <button type="button" class="option-btn" data-group="akses">✅ Ya, sangat membantu</button>
@@ -404,9 +409,9 @@
         </div>
       </div>
 
-      <!-- Masukan -->
-      <div class="survey-card">
-        <h3>💬 Masukan & Saran Konten</h3>
+      <!-- Step 4: Masukan -->
+      <div class="survey-card wiz-step" data-step="4" hidden>
+        <h3>💬 Masukan & Saran (opsional)</h3>
         <div class="form-group">
           <label for="masukan-text">Ada informasi yang kurang atau perlu diperbaiki?</label>
           <textarea id="masukan-text" placeholder="Contoh: Tolong tambahkan info syarat surat nikah…" rows="3"></textarea>
@@ -414,20 +419,24 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
           <div class="form-group" style="margin-bottom:0">
             <label for="nama-warga">Nama (opsional)</label>
-            <input type="text" id="nama-warga" placeholder="Nama Anda">
+            <input type="text" id="nama-warga" placeholder="Anonim jika kosong">
           </div>
           <div class="form-group" style="margin-bottom:0">
-            <label for="rt-warga">RT/RW</label>
+            <label for="rt-warga">RT/RW (opsional)</label>
             <input type="text" id="rt-warga" placeholder="Contoh: RT 02/RW 05">
           </div>
         </div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:8px;text-align:center">
+          🔒 Anonim secara default. Kontak hanya dipakai bila Anda ingin follow-up.
+        </p>
       </div>
 
-      <button type="submit" class="submit-btn">✉️ Kirim Masukan Saya</button>
-      <p style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:10px">
-        Masukan Anda bersifat anonim dan hanya digunakan untuk pengembangan PRIMA.
-      </p>
-
+      <!-- Wizard navigation -->
+      <div class="wiz-nav">
+        <button type="button" class="wiz-btn wiz-btn-ghost" id="wiz-back" hidden>← Sebelumnya</button>
+        <button type="button" class="wiz-btn wiz-btn-primary" id="wiz-next">Lanjut →</button>
+        <button type="submit" class="wiz-btn wiz-btn-primary" id="wiz-submit" hidden>✉️ Kirim Masukan</button>
+      </div>
     </form>
   </div>
 </main>

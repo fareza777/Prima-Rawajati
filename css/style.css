@@ -2706,3 +2706,116 @@ a.download-btn, .download-btn {
   color: rgba(255,255,255,.9);
   border-color: rgba(212,175,55,.35);
 }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   A.6 — SUARA WARGA: wizard 4-step + progress bar + thanks screen
+   ══════════════════════════════════════════════════════════════════ */
+
+.wizard { display: flex; flex-direction: column; gap: 14px; }
+.wiz-progress {
+  padding: 0 4px;
+}
+.wiz-bar {
+  height: 6px;
+  background: rgba(10,31,68,.1);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+.wiz-bar-fill {
+  height: 100%;
+  width: 25%;
+  background: linear-gradient(90deg, var(--gold, #D4AF37) 0%, var(--gold-deep, #B8941F) 100%);
+  border-radius: 999px;
+  transition: width .35s cubic-bezier(.4, 0, .2, 1);
+}
+.wiz-step-label {
+  font-size: 11.5px;
+  color: var(--text-muted, #5B6478);
+  font-weight: 700;
+  letter-spacing: .3px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.wiz-step {
+  animation: wizSlideIn .3s cubic-bezier(.4, 0, .2, 1);
+}
+@keyframes wizSlideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.wiz-nav {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+.wiz-btn {
+  flex: 1;
+  padding: 13px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.wiz-btn:active { transform: scale(.97); }
+.wiz-btn-primary {
+  background: linear-gradient(135deg, var(--gold, #D4AF37) 0%, var(--gold-deep, #B8941F) 100%);
+  color: var(--navy-900, #0A1F44);
+  box-shadow: 0 3px 10px rgba(212,175,55,.4);
+  border: none;
+}
+.wiz-btn-primary:hover { box-shadow: 0 5px 14px rgba(212,175,55,.55); }
+.wiz-btn-ghost {
+  background: rgba(10,31,68,.05);
+  color: var(--navy-900, var(--primary));
+  border: 1.5px solid rgba(10,31,68,.12);
+}
+.wiz-btn-ghost:hover { background: rgba(10,31,68,.1); }
+
+/* Thanks screen — animated entrance */
+.thanks-screen {
+  text-align: center;
+  padding: 50px 24px 30px;
+  animation: thanksIn .5s cubic-bezier(.34, 1.56, .64, 1);
+}
+@keyframes thanksIn {
+  from { opacity: 0; transform: scale(.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.thanks-icon {
+  font-size: 72px;
+  margin-bottom: 12px;
+  animation: thanksWobble .8s ease-in-out;
+}
+@keyframes thanksWobble {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-10deg) scale(1.1); }
+  75% { transform: rotate(10deg) scale(1.1); }
+}
+.thanks-screen h3 {
+  font-family: var(--font-display, serif);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--navy-900, var(--primary));
+  margin-bottom: 8px;
+}
+.thanks-screen p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  line-height: 1.55;
+}
+.thanks-screen .wiz-btn { display: inline-block; padding: 12px 28px; flex: none; }
+
+[data-theme="dark"] .wiz-step-label { color: rgba(255,255,255,.6); }
+[data-theme="dark"] .wiz-bar { background: rgba(255,255,255,.1); }
+[data-theme="dark"] .wiz-btn-ghost {
+  background: rgba(255,255,255,.05);
+  border-color: rgba(255,255,255,.15);
+  color: rgba(255,255,255,.9);
+}
+[data-theme="dark"] .thanks-screen h3 { color: var(--gold-light, #F4C95D); }

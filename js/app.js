@@ -1758,11 +1758,55 @@ function updateChatStats() {
   if (el) el.textContent = stats.totalConversations;
 }
 
-// ── SUARA WARGA ──────────────────────────────────────────────────
+// ── SUARA WARGA (Wizard 4 langkah) ───────────────────────────────
 function renderSuaraWarga() {
   let selectedRating = 0;
   let selectedFitur = '';
   let selectedAksesInfo = '';
+  let currentStep = 1;
+  const totalSteps = 4;
+
+  const stepEls = document.querySelectorAll('.wiz-step');
+  const barFill = document.getElementById('wiz-bar-fill');
+  const stepLabel = document.getElementById('wiz-step-label');
+  const btnBack = document.getElementById('wiz-back');
+  const btnNext = document.getElementById('wiz-next');
+  const btnSubmit = document.getElementById('wiz-submit');
+
+  function goTo(step) {
+    currentStep = Math.max(1, Math.min(totalSteps, step));
+    stepEls.forEach(el => {
+      const s = parseInt(el.dataset.step, 10);
+      if (s === currentStep) {
+        el.removeAttribute('hidden');
+        el.classList.add('active');
+      } else {
+        el.setAttribute('hidden', '');
+        el.classList.remove('active');
+      }
+    });
+    if (barFill) barFill.style.width = (currentStep / totalSteps) * 100 + '%';
+    if (stepLabel) stepLabel.textContent = `Langkah ${currentStep} dari ${totalSteps}`;
+    if (btnBack) btnBack.hidden = currentStep === 1;
+    if (btnNext) btnNext.hidden = currentStep === totalSteps;
+    if (btnSubmit) btnSubmit.hidden = currentStep !== totalSteps;
+  }
+
+  function validateStep(step) {
+    if (step === 1 && !selectedRating) {
+      showToast('⭐ Pilih bintang terlebih dahulu');
+      return false;
+    }
+    if (step === 2 && !selectedFitur) {
+      showToast('💡 Pilih salah satu fitur');
+      return false;
+    }
+    if (step === 3 && !selectedAksesInfo) {
+      showToast('📱 Pilih salah satu jawaban');
+      return false;
+    }
+    return true;
+  }
 
   // Star rating
   document.querySelectorAll('.star-btn').forEach((btn, i) => {
@@ -1784,7 +1828,6 @@ function renderSuaraWarga() {
       selectedFitur = btn.textContent;
     });
   });
-
   document.querySelectorAll('.option-btn[data-group="akses"]').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.option-btn[data-group="akses"]').forEach(b => b.classList.remove('selected'));
@@ -1793,17 +1836,23 @@ function renderSuaraWarga() {
     });
   });
 
+  // Wizard nav
+  if (btnNext) btnNext.addEventListener('click', () => {
+    if (!validateStep(currentStep)) return;
+    goTo(currentStep + 1);
+  });
+  if (btnBack) btnBack.addEventListener('click', () => goTo(currentStep - 1));
+
   // Submit
   document.getElementById('suara-form').addEventListener('submit', e => {
     e.preventDefault();
+    if (!validateStep(1)) { goTo(1); return; }
+    if (!validateStep(2)) { goTo(2); return; }
+    if (!validateStep(3)) { goTo(3); return; }
+
     const masukan = document.getElementById('masukan-text').value.trim();
     const nama = document.getElementById('nama-warga').value.trim() || 'Anonim';
     const rt  = document.getElementById('rt-warga').value.trim() || '-';
-
-    if (!selectedRating) {
-      showToast('⭐ Mohon berikan rating terlebih dahulu');
-      return;
-    }
 
     const newFeedback = {
       id: Date.now(),
@@ -1811,37 +1860,107 @@ function renderSuaraWarga() {
       rating: selectedRating,
       fiturFavorit: selectedFitur,
       aksesInfo: selectedAksesInfo,
-      masukan,
-      nama,
-      rt
+      masukan, nama, rt
     };
 
-    // Local backup (in case server unavailable)
     const localFbs = JSON.parse(localStorage.getItem('prima_feedbacks') || '[]');
     localFbs.push(newFeedback);
     localStorage.setItem('prima_feedbacks', JSON.stringify(localFbs));
 
-    // Async send to server
     fetch('/api/feedback', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ feedback: newFeedback })
     }).catch(() => {});
 
-    // Update admin stats
     updateAdminStats();
 
-    // Reset form
-    e.target.reset();
-    selectedRating = 0;
-    selectedFitur = '';
-    selectedAksesInfo = '';
-    document.querySelectorAll('.star-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('rating-label').textContent = 'Pilih bintang di atas';
-    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+    // Confetti + thank-you screen — ganti form
+    fireConfetti();
+    showThankYou(nama);
 
-    showToast('✅ Terima kasih! Masukan Anda tersimpan.');
+    // Reset state (kalau warga mau submit lagi nanti)
+    setTimeout(() => {
+      e.target.reset();
+      selectedRating = 0;
+      selectedFitur = '';
+      selectedAksesInfo = '';
+      document.querySelectorAll('.star-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      const rl = document.getElementById('rating-label');
+      if (rl) rl.textContent = 'Pilih bintang di atas';
+    }, 100);
   });
+
+  goTo(1);
+}
+
+/**
+ * Ganti form dengan thank-you screen + tombol "Kirim Lagi".
+ */
+function showThankYou(nama) {
+  const wrap = document.querySelector('.suara-page');
+  const form = document.getElementById('suara-form');
+  if (!wrap || !form) return;
+  const sapaan = (nama && nama !== 'Anonim') ? `Terima kasih, ${escapeHtml(nama)}!` : 'Terima kasih!';
+  const thanks = document.createElement('div');
+  thanks.className = 'thanks-screen';
+  thanks.innerHTML = `
+    <div class="thanks-icon">🎉</div>
+    <h3>${sapaan}</h3>
+    <p>Masukan Anda telah kami terima dan menjadi bahan kami terus berbenah.</p>
+    <button type="button" class="wiz-btn wiz-btn-primary" onclick="location.reload()">↻ Kirim Masukan Lagi</button>
+  `;
+  form.style.display = 'none';
+  wrap.appendChild(thanks);
+}
+
+/**
+ * Confetti minimal — canvas-based, ~50 partikel jatuh dengan rotasi.
+ * Tanpa library eksternal: ~30 baris JS pure.
+ */
+function fireConfetti() {
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999';
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const W = window.innerWidth, H = window.innerHeight;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.scale(dpr, dpr);
+
+  const colors = ['#D4AF37', '#F4C95D', '#13306E', '#1E3A8A', '#2E7D32', '#C62828'];
+  const particles = Array.from({ length: 80 }, () => ({
+    x: Math.random() * W,
+    y: -20 - Math.random() * 200,
+    w: 6 + Math.random() * 6,
+    h: 10 + Math.random() * 8,
+    vy: 2 + Math.random() * 3,
+    vx: -1 + Math.random() * 2,
+    rot: Math.random() * Math.PI,
+    vrot: -0.1 + Math.random() * 0.2,
+    color: colors[Math.floor(Math.random() * colors.length)]
+  }));
+
+  let frame = 0;
+  const maxFrames = 180;
+  function tick() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.rot += p.vrot;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+    frame++;
+    if (frame < maxFrames) requestAnimationFrame(tick);
+    else canvas.remove();
+  }
+  requestAnimationFrame(tick);
 }
 
 // ── ADMIN PAGE ───────────────────────────────────────────────────
