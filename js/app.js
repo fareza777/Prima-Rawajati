@@ -860,8 +860,8 @@ function openMapSheet(marker) {
         const mapSize = map.getSize();
         const sheetHeight = sheet.offsetHeight || 240;
         const visibleAreaH = mapSize.y - sheetHeight;
-        // Target Y = 35% dari atas area peta yang terlihat (lebih atas dari sebelum)
-        const targetPxY = Math.max(60, visibleAreaH * 0.35);
+        // Target Y = 15% dari atas area peta yang terlihat (marker diposisikan tinggi)
+        const targetPxY = Math.max(40, visibleAreaH * 0.15);
         const currentPx = map.latLngToContainerPoint([marker.lat, marker.lng]);
         const offsetY = currentPx.y - targetPxY;
         if (Math.abs(offsetY) > 10) {
