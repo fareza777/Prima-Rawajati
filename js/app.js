@@ -61,14 +61,22 @@ function navigateTo(pageId) {
   const target = document.getElementById('page-' + pageId);
   if (target) target.classList.add('active');
 
+  // Each tab is a separate screen. Reset scroll so fixed headers do not cover
+  // the new page title when users switch from a scrolled page.
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+
   // Nav
   document.querySelectorAll('.nav-item').forEach(n => {
     n.classList.toggle('active', n.dataset.page === pageId);
   });
 
+  if (pageId !== 'peta') closeMapSheet();
+
   // Lazy init map
   if (pageId === 'peta' && !map) {
     setTimeout(initMap, 100);
+  } else if (pageId === 'peta' && map) {
+    setTimeout(() => map.invalidateSize(), 80);
   }
 
   // Analytics
