@@ -895,63 +895,199 @@ function locateMe() {
 }
 
 // ── INFO WARGA ───────────────────────────────────────────────────
+
+/**
+ * Sederhanakan nomor WA Indonesia ke format wa.me:
+ * "0812-xxx" → "62812xxx" (E.164 tanpa +). Skip kalau bukan nomor valid.
+ */
+function waLink(kontak) {
+  if (!kontak) return null;
+  const digits = String(kontak).replace(/[^\d]/g, '');
+  if (digits.length < 9) return null;
+  const phone = digits.startsWith('62') ? digits : digits.startsWith('0') ? '62' + digits.slice(1) : '62' + digits;
+  return `https://wa.me/${phone}`;
+}
+
+/**
+ * Cari marker peta yang nama-nya match item info warga, lalu navigate
+ * ke peta + auto-open bottom sheet untuk marker itu.
+ */
+function showOnMap(nama) {
+  const target = PRIMA_DATA.petaMarkers.find(m =>
+    m.nama.toLowerCase().includes((nama || '').toLowerCase()) ||
+    (nama || '').toLowerCase().includes(m.nama.toLowerCase())
+  );
+  if (!target) {
+    showToast('📍 Lokasi tidak ditemukan di peta. Coba cari manual.');
+    navigateTo('peta');
+    return;
+  }
+  navigateTo('peta');
+  setTimeout(() => {
+    if (map) {
+      map.setView([target.lat, target.lng], 17, { animate: true });
+      openMapSheet(target);
+    }
+  }, 350);
+}
+
+/**
+ * Cek apakah jadwal kegiatan mengandung hari minggu ini.
+ * Untuk demo sidang, sederhana: kalau jadwal mengandung nama hari Indonesia
+ * yang match dengan 7 hari ke depan, dianggap "minggu ini".
+ */
+function isThisWeek(jadwal) {
+  if (!jadwal) return false;
+  const today = new Date();
+  const dayNamesId = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+  const j = jadwal.toLowerCase();
+  // Kalau ada keyword 'setiap' atau nama hari → asumsi rutin tiap minggu
+  if (j.includes('setiap')) return true;
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    if (j.includes(dayNamesId[d.getDay()].toLowerCase())) return true;
+  }
+  return false;
+}
+
+/**
+ * Render gradient placeholder foto — variasi warna deterministik dari nama
+ * (sama nama selalu sama warna) supaya UI stabil tanpa butuh upload foto.
+ */
+function photoPlaceholder(name, emoji) {
+  // Hash nama → 2 warna dari palette navy/gold
+  let hash = 0;
+  for (let i = 0; i < (name || '').length; i++) hash = (hash * 31 + name.charCodeAt(i)) | 0;
+  const palettes = [
+    ['#0A1F44', '#13306E'],
+    ['#13306E', '#1E3A8A'],
+    ['#A37D12', '#D4AF37'],
+    ['#0D2658', '#2B4BB0'],
+    ['#1E3A8A', '#0A1F44'],
+  ];
+  const [a, b] = palettes[Math.abs(hash) % palettes.length];
+  return `<div class="info-photo" style="background:linear-gradient(135deg, ${a} 0%, ${b} 100%)"><span class="info-photo-emoji">${emoji || '📍'}</span></div>`;
+}
+
 function renderInfoWarga() {
-  // Kuliner
+  // ─ Section "Kegiatan Minggu Ini" (di atas tab, hanya kalau ada) ─
+  const kegiatanThisWeek = (PRIMA_DATA.infoWarga.kegiatanRTRW || [])
+    .filter(g => isThisWeek(g.jadwal));
+  const banner = document.getElementById('kegiatan-this-week');
+  if (banner) {
+    if (kegiatanThisWeek.length > 0) {
+      banner.hidden = false;
+      banner.innerHTML = `
+        <div class="ktw-header">
+          <span class="ktw-icon">🎉</span>
+          <div>
+            <strong>Kegiatan Minggu Ini</strong>
+            <small>${kegiatanThisWeek.length} acara · jadwalkan dari sekarang</small>
+          </div>
+        </div>
+        <div class="ktw-list">
+          ${kegiatanThisWeek.map(g => `
+            <div class="ktw-item">
+              <span class="ktw-emoji">${g.emoji || '📅'}</span>
+              <div class="ktw-body">
+                <strong>${escapeHtml(g.nama)}</strong>
+                <small>${escapeHtml(g.jadwal || '')} · ${escapeHtml(g.lokasi || '')}</small>
+              </div>
+            </div>
+          `).join('')}
+        </div>`;
+    } else {
+      banner.hidden = true;
+    }
+  }
+
+  // ─ Kuliner ─
   const kulinerContainer = document.getElementById('kuliner-list');
-  kulinerContainer.innerHTML = PRIMA_DATA.infoWarga.kuliner.map(k => `
-    <div class="info-card">
-      <div class="info-card-header">
-        <span class="ic-emoji">${k.emoji}</span>
-        <h3>${k.nama}</h3>
-        <span class="badge badge-gray ic-badge">⭐ Favorit</span>
-      </div>
-      <p>${k.deskripsi}</p>
-      <div class="ic-details">
-        <div class="ic-row"><span class="ic-label">📍</span><span class="ic-val">${k.lokasi}</span></div>
-        <div class="ic-row"><span class="ic-label">⏰</span><span class="ic-val">${k.jam}</span></div>
-        <div class="ic-row"><span class="ic-label">⭐</span><span class="ic-val">${k.favorit}</span></div>
-      </div>
-    </div>
-  `).join('');
+  if (kulinerContainer) {
+    kulinerContainer.innerHTML = PRIMA_DATA.infoWarga.kuliner.map(k => {
+      const wa = waLink(k.kontak);
+      return `
+      <div class="info-card">
+        ${photoPlaceholder(k.nama, k.emoji)}
+        <div class="info-card-body">
+          <div class="info-card-header">
+            <h3>${escapeHtml(k.nama)}</h3>
+            <span class="badge badge-amber ic-badge">⭐ Favorit warga</span>
+          </div>
+          <p>${escapeHtml(k.deskripsi || '')}</p>
+          <div class="ic-details">
+            <div class="ic-row"><span class="ic-label">📍</span><span class="ic-val">${escapeHtml(k.lokasi || '-')}</span></div>
+            <div class="ic-row"><span class="ic-label">⏰</span><span class="ic-val">${escapeHtml(k.jam || '-')}</span></div>
+            ${k.favorit ? `<div class="ic-row"><span class="ic-label">🍴</span><span class="ic-val">${escapeHtml(k.favorit)}</span></div>` : ''}
+          </div>
+          <div class="info-actions">
+            <button class="ia-btn ia-btn-ghost" onclick="showOnMap('${escapeHtml(k.nama).replace(/'/g, "\\'")}')">🗺️ Di Peta</button>
+            ${wa ? `<a class="ia-btn ia-btn-primary" href="${wa}" target="_blank" rel="noopener">💬 Chat WA</a>` : ''}
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
 
-  // Usaha Binaan
+  // ─ Usaha Binaan ─
   const usahaContainer = document.getElementById('usaha-list');
-  usahaContainer.innerHTML = PRIMA_DATA.infoWarga.usahaBinaan.map(u => `
-    <div class="info-card">
-      <div class="info-card-header">
-        <span class="ic-emoji">${u.emoji}</span>
-        <h3>${u.nama}</h3>
-        <span class="badge badge-blue ic-badge">${u.kategori}</span>
-      </div>
-      <p>${u.deskripsi}</p>
-      <div class="ic-details">
-        <div class="ic-row"><span class="ic-label">👤</span><span class="ic-val">${u.pemilik}</span></div>
-        <div class="ic-row"><span class="ic-label">📍</span><span class="ic-val">${u.lokasi}</span></div>
-        <div class="ic-row"><span class="ic-label">📞</span><span class="ic-val">${u.kontak}</span></div>
-        <div class="ic-row"><span class="ic-label">🏛️</span><span class="ic-val">${u.binaan}</span></div>
-      </div>
-    </div>
-  `).join('');
+  if (usahaContainer) {
+    usahaContainer.innerHTML = PRIMA_DATA.infoWarga.usahaBinaan.map(u => {
+      const wa = waLink(u.kontak);
+      return `
+      <div class="info-card">
+        ${photoPlaceholder(u.nama, u.emoji)}
+        <div class="info-card-body">
+          <div class="info-card-header">
+            <h3>${escapeHtml(u.nama)}</h3>
+            <span class="badge badge-blue ic-badge">${escapeHtml(u.kategori || '')}</span>
+          </div>
+          <p>${escapeHtml(u.deskripsi || '')}</p>
+          <div class="ic-details">
+            <div class="ic-row"><span class="ic-label">👤</span><span class="ic-val">${escapeHtml(u.pemilik || '-')}</span></div>
+            <div class="ic-row"><span class="ic-label">📍</span><span class="ic-val">${escapeHtml(u.lokasi || '-')}</span></div>
+            ${u.binaan ? `<div class="ic-row"><span class="ic-label">🏛️</span><span class="ic-val">${escapeHtml(u.binaan)}</span></div>` : ''}
+          </div>
+          <div class="info-actions">
+            <button class="ia-btn ia-btn-ghost" onclick="showOnMap('${escapeHtml(u.nama).replace(/'/g, "\\'")}')">🗺️ Di Peta</button>
+            ${wa ? `<a class="ia-btn ia-btn-primary" href="${wa}" target="_blank" rel="noopener">💬 Chat WA</a>` : ''}
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
 
-  // Kegiatan RT/RW
+  // ─ Kegiatan RT/RW ─
   const kegiatanContainer = document.getElementById('kegiatan-list');
-  kegiatanContainer.innerHTML = PRIMA_DATA.infoWarga.kegiatanRTRW.map(g => `
-    <div class="info-card">
-      <div class="info-card-header">
-        <span class="ic-emoji">${g.emoji}</span>
-        <h3>${g.nama}</h3>
-      </div>
-      <p>${g.deskripsi}</p>
-      <div class="ic-details">
-        <div class="ic-row"><span class="ic-label">📅</span><span class="ic-val">${g.jadwal}</span></div>
-        <div class="ic-row"><span class="ic-label">📍</span><span class="ic-val">${g.lokasi}</span></div>
-        <div class="ic-row"><span class="ic-label">📞</span><span class="ic-val">${g.kontak}</span></div>
-      </div>
-    </div>
-  `).join('');
+  if (kegiatanContainer) {
+    kegiatanContainer.innerHTML = PRIMA_DATA.infoWarga.kegiatanRTRW.map(g => {
+      const wa = waLink(g.kontak);
+      const thisWeek = isThisWeek(g.jadwal);
+      return `
+      <div class="info-card">
+        ${photoPlaceholder(g.nama, g.emoji)}
+        <div class="info-card-body">
+          <div class="info-card-header">
+            <h3>${escapeHtml(g.nama)}</h3>
+            ${thisWeek ? '<span class="badge badge-green ic-badge">📅 Minggu Ini</span>' : ''}
+          </div>
+          <p>${escapeHtml(g.deskripsi || '')}</p>
+          <div class="ic-details">
+            <div class="ic-row"><span class="ic-label">📅</span><span class="ic-val">${escapeHtml(g.jadwal || '-')}</span></div>
+            <div class="ic-row"><span class="ic-label">📍</span><span class="ic-val">${escapeHtml(g.lokasi || '-')}</span></div>
+            ${g.kontak ? `<div class="ic-row"><span class="ic-label">📞</span><span class="ic-val">${escapeHtml(g.kontak)}</span></div>` : ''}
+          </div>
+          ${wa ? `<div class="info-actions"><a class="ia-btn ia-btn-primary" href="${wa}" target="_blank" rel="noopener">💬 Chat WA</a></div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  }
 
-  // Tab switching
+  // Tab switching (idempotent)
   document.querySelectorAll('.tab-btn').forEach(btn => {
+    if (btn.dataset.bound) return;
+    btn.dataset.bound = '1';
     btn.addEventListener('click', () => {
       const tab = btn.dataset.tab;
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

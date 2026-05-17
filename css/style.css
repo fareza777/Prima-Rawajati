@@ -2469,3 +2469,171 @@ a.download-btn, .download-btn {
   border-color: rgba(255,255,255,.15);
   color: rgba(255,255,255,.9);
 }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   A.4 — INFO WARGA: photo placeholder, action buttons, kegiatan banner
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Banner "Kegiatan Minggu Ini" — di atas tab */
+.kegiatan-this-week {
+  margin: 0 16px 16px;
+  max-width: 568px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(212,175,55,.18) 0%, rgba(212,175,55,.06) 100%);
+  border: 1px solid rgba(212,175,55,.35);
+  border-radius: 16px;
+}
+.ktw-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed rgba(212,175,55,.3);
+}
+.ktw-icon { font-size: 24px; flex-shrink: 0; }
+.ktw-header strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy-900, var(--primary));
+}
+.ktw-header small {
+  display: block;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+.ktw-list { display: flex; flex-direction: column; gap: 8px; }
+.ktw-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  background: rgba(255,255,255,.6);
+  border-radius: 10px;
+}
+.ktw-emoji { font-size: 18px; flex-shrink: 0; }
+.ktw-body strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy-900, var(--primary));
+  line-height: 1.25;
+}
+.ktw-body small {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+/* Info card: refactor jadi punya photo placeholder top */
+.info-card {
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--surface, #fff);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 14px;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.info-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+.info-photo {
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.info-photo::after {
+  /* subtle gold gloss di pojok */
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(40% 40% at 100% 0%, rgba(212,175,55,.25), transparent 60%);
+  pointer-events: none;
+}
+.info-photo-emoji {
+  font-size: 44px;
+  filter: drop-shadow(0 3px 8px rgba(0,0,0,.4));
+  z-index: 1;
+}
+.info-card-body {
+  padding: 14px 14px 12px;
+}
+.info-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.info-card-header h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy-900, var(--primary));
+  flex: 1;
+  min-width: 0;
+}
+.ic-badge { flex-shrink: 0; }
+
+/* Action buttons: WA + Tampilkan di Peta */
+.info-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+.ia-btn {
+  flex: 1;
+  padding: 9px 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .15s ease, background .15s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.ia-btn:active { transform: scale(.97); }
+.ia-btn-primary {
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(37,211,102,.35);
+}
+.ia-btn-primary:hover { box-shadow: 0 4px 12px rgba(37,211,102,.5); }
+.ia-btn-ghost {
+  background: rgba(10,31,68,.05);
+  color: var(--navy-900, var(--primary));
+  border: 1.5px solid rgba(10,31,68,.12);
+}
+.ia-btn-ghost:hover { background: rgba(10,31,68,.1); }
+
+[data-theme="dark"] .info-card {
+  background: rgba(255,255,255,.04);
+  border-color: rgba(255,255,255,.08);
+}
+[data-theme="dark"] .info-card-header h3 { color: var(--gold-light, #F4C95D); }
+[data-theme="dark"] .info-actions { border-top-color: rgba(255,255,255,.1); }
+[data-theme="dark"] .ia-btn-ghost {
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.15);
+  color: rgba(255,255,255,.9);
+}
+[data-theme="dark"] .kegiatan-this-week {
+  background: linear-gradient(135deg, rgba(212,175,55,.1) 0%, rgba(212,175,55,.03) 100%);
+}
+[data-theme="dark"] .ktw-item {
+  background: rgba(255,255,255,.04);
+}
