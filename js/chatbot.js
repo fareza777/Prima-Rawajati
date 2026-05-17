@@ -133,7 +133,7 @@ class PRIMAChatbot {
       ? '\n\n💡 **Mungkin Anda mencari:**\n' + suggestions.join('\n')
       : '';
 
-    return `Maaf, saya belum memahami pertanyaan tersebut. 🙏${sugestText}\n\n**Saya bisa membantu dengan:**\n📋 Syarat surat (domisili, ahli waris, SKCK, dll)\n⏰ Jam kerja & lokasi Kelurahan\n♻️ Info bank sampah & posyandu\n📢 Cara pengaduan\n\n*Coba ketik lebih spesifik, ya!*`;
+    return `Mohon maaf, saya belum menemukan jawaban yang sesuai. 🙏${sugestText}\n\n**Saya dapat membantu untuk:**\n📋 Syarat & prosedur surat (domisili, ahli waris, SKCK, dll)\n⏰ Jam kerja & lokasi Kelurahan\n♻️ Info bank sampah & posyandu\n📢 Cara penyampaian pengaduan\n\n*Silakan tanyakan dengan lebih spesifik agar saya dapat membantu lebih akurat.*`;
   }
 
   _persistConversation(userMsg, botMsg) {

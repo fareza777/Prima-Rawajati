@@ -2637,3 +2637,72 @@ a.download-btn, .download-btn {
 [data-theme="dark"] .ktw-item {
   background: rgba(255,255,255,.04);
 }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   A.5 — CHATBOT: quick-action chips + message toolbar (copy/share)
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Toolbar di bawah bubble bot — copy + share buttons */
+.msg-toolbar {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+  margin-left: 2px;
+}
+.mt-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(10,31,68,.06);
+  color: var(--text-muted, #5B6478);
+  border: 1px solid rgba(10,31,68,.08);
+  transition: all .15s ease;
+}
+.mt-btn:hover {
+  background: rgba(212,175,55,.15);
+  color: var(--navy-900, var(--primary));
+  border-color: rgba(212,175,55,.3);
+}
+
+/* Quick-action chips di bawah bot response — navigate ke section relevan */
+.msg-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  margin-left: 2px;
+}
+.chat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--navy-900, var(--primary));
+  border: 1.5px solid rgba(212,175,55,.4);
+  transition: all .15s ease;
+  cursor: pointer;
+}
+.chat-chip:hover {
+  background: linear-gradient(135deg, var(--gold, #D4AF37) 0%, var(--gold-deep, #B8941F) 100%);
+  color: var(--navy-900, #0A1F44);
+  border-color: var(--gold-deep, #B8941F);
+  box-shadow: 0 2px 8px rgba(212,175,55,.35);
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .mt-btn {
+  background: rgba(255,255,255,.05);
+  border-color: rgba(255,255,255,.1);
+  color: rgba(255,255,255,.7);
+}
+[data-theme="dark"] .chat-chip {
+  background: rgba(255,255,255,.05);
+  color: rgba(255,255,255,.9);
+  border-color: rgba(212,175,55,.35);
+}

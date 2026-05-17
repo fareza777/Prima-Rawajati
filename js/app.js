@@ -1546,7 +1546,7 @@ async function sendMessage() {
   setTimeout(() => {
     removeTyping(typingId2);
     const response = chatbot.processMessage(text);
-    addBotMessage(response.text, response.timestamp, { intent: response.intent });
+    addBotMessage(response.text, response.timestamp, { intent: response.intent, rawText: response.text });
     updateChatStats();
   }, 500 + Math.random() * 300);
 }
@@ -1643,16 +1643,82 @@ function addBotMessage(html, time, opts = {}) {
   const container = document.getElementById('chat-messages');
   const div = document.createElement('div');
   div.className = 'chat-msg bot';
+  const msgId = 'bot-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6);
+  div.id = msgId;
   const tag = opts.intent ? ` · ${escapeHtml(opts.intent)}` : '';
+
+  // Quick-action chips derived dari intent yang baru dijawab
+  const chips = renderBotQuickActions(opts.intent, opts.rawText || html);
+
   div.innerHTML = `
     <div class="msg-avatar">🤖</div>
     <div style="flex:1;min-width:0">
       <div class="msg-bubble">${html}</div>
+      <div class="msg-toolbar">
+        <button class="mt-btn" type="button" onclick="copyBotMessage('${msgId}')" title="Salin">📋 Salin</button>
+        <button class="mt-btn" type="button" onclick="shareBotMessage('${msgId}')" title="Bagikan via WhatsApp">🔗 Bagikan</button>
+      </div>
+      ${chips ? `<div class="msg-chips">${chips}</div>` : ''}
       <div class="msg-time">PRIMA Bot${tag} · ${time}</div>
     </div>
   `;
   container.appendChild(div);
   scrollToBottom();
+}
+
+/**
+ * Quick-action chips per intent: arahkan warga ke action lanjutan yang
+ * relevan dengan jawaban bot, tanpa harus ketik ulang.
+ */
+function renderBotQuickActions(intent, rawText = '') {
+  const chips = [];
+  const text = String(rawText).toLowerCase();
+
+  // Detect mention layanan via id atau nama → chip "Lihat Detail"
+  const matchedLayanan = PRIMA_DATA?.layanan?.find(l =>
+    text.includes(l.nama.toLowerCase()) || text.includes(l.id.toLowerCase())
+  );
+  if (matchedLayanan) {
+    chips.push(`<button class="chat-chip" onclick="closeChatThenShowLayanan('${matchedLayanan.id}')">📋 Detail ${escapeHtml(matchedLayanan.nama)}</button>`);
+  }
+
+  if (/peta|lokasi|alamat|kantor|puskesmas|posyandu|bank sampah/.test(text)) {
+    chips.push(`<button class="chat-chip" onclick="navigateTo('peta')">🗺️ Buka Peta</button>`);
+  }
+  if (/syarat|prosedur|berkas|dokumen|persyaratan/.test(text)) {
+    chips.push(`<button class="chat-chip" onclick="navigateTo('layanan')">📋 Semua Layanan</button>`);
+  }
+  if (/feedback|saran|masukan|keluhan|pengaduan/.test(text)) {
+    chips.push(`<button class="chat-chip" onclick="navigateTo('suara')">💬 Suara Warga</button>`);
+  }
+  if (/jam|kerja|buka|operasional/.test(text)) {
+    chips.push(`<button class="chat-chip" onclick="navigateTo('home')">🏠 Beranda</button>`);
+  }
+
+  return chips.slice(0, 3).join('');
+}
+
+function closeChatThenShowLayanan(id) {
+  showLayananDetail(id);
+}
+
+function copyBotMessage(msgId) {
+  const el = document.getElementById(msgId);
+  if (!el) return;
+  const text = el.querySelector('.msg-bubble')?.innerText || '';
+  if (!text) return;
+  navigator.clipboard?.writeText(text).then(
+    () => showToast('📋 Jawaban disalin'),
+    () => showToast('❌ Gagal menyalin')
+  );
+}
+
+function shareBotMessage(msgId) {
+  const el = document.getElementById(msgId);
+  if (!el) return;
+  const text = el.querySelector('.msg-bubble')?.innerText || '';
+  const url = `https://wa.me/?text=${encodeURIComponent(text + '\n\n— via PRIMA Kelurahan Rawajati')}`;
+  window.open(url, '_blank', 'noopener');
 }
 
 function showTyping() {
