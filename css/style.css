@@ -2819,3 +2819,149 @@ a.download-btn, .download-btn {
   color: rgba(255,255,255,.9);
 }
 [data-theme="dark"] .thanks-screen h3 { color: var(--gold-light, #F4C95D); }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   A.7 — ADMIN KPI TRACKER RAP — Showcase dashboard untuk sidang
+   6 indikator capaian dengan progress bar dan status badge
+   ══════════════════════════════════════════════════════════════════ */
+
+.kpi-rap {
+  background: linear-gradient(135deg, rgba(10,31,68,.04) 0%, rgba(212,175,55,.04) 100%);
+  border: 1px solid rgba(212,175,55,.25);
+  border-radius: 16px;
+  padding: 16px;
+}
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+@media (min-width: 700px) {
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.kpi-card {
+  position: relative;
+  padding: 14px;
+  background: var(--surface, #fff);
+  border-radius: 12px;
+  border: 1px solid var(--border, #E7E3D6);
+  border-left: 4px solid var(--gold, #D4AF37);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.kpi-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+.kpi-card--success { border-left-color: var(--accent, #2E7D32); }
+.kpi-card--progress { border-left-color: var(--gold-deep, #B8941F); }
+.kpi-card--warning  { border-left-color: #B45309; }
+.kpi-card--danger   { border-left-color: var(--danger, #C62828); }
+
+.kpi-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.kpi-num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy-700, #13306E) 0%, var(--navy-900, #0A1F44) 100%);
+  color: var(--gold-light, #F4C95D);
+  font-weight: 800;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display, serif);
+}
+.kpi-title {
+  flex: 1;
+  min-width: 0;
+}
+.kpi-title strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--navy-900, var(--primary));
+  line-height: 1.3;
+  margin-bottom: 1px;
+}
+.kpi-title small {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.kpi-badge {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
+  letter-spacing: .3px;
+}
+.kpi-badge-success { background: rgba(46,125,50,.15); color: var(--accent, #2E7D32); }
+.kpi-badge-progress { background: rgba(212,175,55,.18); color: var(--gold-deep, #B8941F); }
+.kpi-badge-danger { background: rgba(198,40,40,.15); color: var(--danger, #C62828); }
+
+.kpi-metrics {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.kpi-current {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy-900, var(--primary));
+  font-family: var(--font-display, serif);
+  letter-spacing: -.2px;
+}
+.kpi-target {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+.kpi-target strong { color: var(--gold-deep, #B8941F); }
+
+.kpi-bar {
+  height: 8px;
+  background: rgba(10,31,68,.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.kpi-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width .6s cubic-bezier(.4, 0, .2, 1);
+}
+.kpi-bar-fill--success { background: linear-gradient(90deg, var(--accent, #2E7D32), #43A047); }
+.kpi-bar-fill--progress { background: linear-gradient(90deg, var(--gold, #D4AF37), var(--gold-deep, #B8941F)); }
+.kpi-bar-fill--warning { background: linear-gradient(90deg, #F59E0B, #B45309); }
+.kpi-bar-fill--danger { background: linear-gradient(90deg, #EF4444, var(--danger, #C62828)); }
+
+.kpi-note {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+  line-height: 1.5;
+}
+
+[data-theme="dark"] .kpi-rap {
+  background: rgba(255,255,255,.02);
+  border-color: rgba(212,175,55,.2);
+}
+[data-theme="dark"] .kpi-card {
+  background: rgba(255,255,255,.04);
+  border-color: rgba(255,255,255,.08);
+}
+[data-theme="dark"] .kpi-title strong { color: var(--gold-light, #F4C95D); }
+[data-theme="dark"] .kpi-current { color: var(--gold-light, #F4C95D); }
+[data-theme="dark"] .kpi-bar { background: rgba(255,255,255,.1); }
