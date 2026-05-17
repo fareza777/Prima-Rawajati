@@ -847,6 +847,27 @@ function openMapSheet(marker) {
   sheet.removeAttribute('hidden');
   // Smooth slide-up via class toggle (CSS handles transition)
   requestAnimationFrame(() => sheet.classList.add('open'));
+
+  // Pan map sehingga marker yang diklik tetap kelihatan di atas sheet.
+  // Sheet kira-kira menutupi 40% layar bawah → kita pindahkan marker ke
+  // posisi vertikal sekitar 30% dari atas (di area peta yang masih tampak).
+  if (map) {
+    setTimeout(() => {
+      try {
+        const mapSize = map.getSize();
+        const sheetHeight = sheet.offsetHeight || 280;
+        const visibleAreaH = mapSize.y - sheetHeight;
+        // Posisi target vertikal marker = 45% dari atas area peta yang terlihat
+        const targetPxY = Math.max(80, visibleAreaH * 0.45);
+        const currentPx = map.latLngToContainerPoint([marker.lat, marker.lng]);
+        // panBy positif Y = scroll konten ke bawah (marker bergerak ke atas)
+        const offsetY = currentPx.y - targetPxY;
+        if (Math.abs(offsetY) > 20) {
+          map.panBy([0, offsetY], { animate: true, duration: 0.35 });
+        }
+      } catch (e) { /* silent — pan optional */ }
+    }, 50);
+  }
 }
 
 function closeMapSheet() {
