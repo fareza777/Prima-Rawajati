@@ -2324,6 +2324,7 @@ a.download-btn, .download-btn {
 /* Wrap container biar FAB bisa absolute */
 .map-wrap {
   position: relative;
+  z-index: 1;
 }
 
 /* FAB Lokasi Saya — pojok kanan bawah peta */
@@ -2394,7 +2395,7 @@ a.download-btn, .download-btn {
   left: 8px; right: 8px;
   bottom: calc(var(--bottom-h, 74px) + 14px);
   margin: 0 auto;
-  z-index: 300;
+  z-index: 900;
   max-width: 460px;
   background: var(--surface, #fff);
   border-radius: 18px;
