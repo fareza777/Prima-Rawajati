@@ -828,15 +828,20 @@ function openMapSheet(marker) {
   if (!sheet || !body) return;
 
   const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${marker.lat},${marker.lng}`;
+  // Kompak: header 1 baris (icon mini + nama), info dipendekkan, actions inline
+  const infoShort = (marker.info || '').length > 130
+    ? (marker.info || '').slice(0, 127).trim() + '…'
+    : (marker.info || '');
   body.innerHTML = `
+    <div class="ms-drag-handle"></div>
     <div class="ms-head">
-      <span class="ms-icon" style="background:${marker.warna}">${marker.icon}</span>
+      <span class="ms-icon-mini" style="background:${marker.warna}">${marker.icon}</span>
       <div class="ms-title">
-        <h3>${escapeHtml(marker.nama)}</h3>
+        <strong>${escapeHtml(marker.nama)}</strong>
         <small>${escapeHtml(marker.kategori || '')}</small>
       </div>
     </div>
-    <p class="ms-info">${escapeHtml(marker.info || '')}</p>
+    <p class="ms-info">${escapeHtml(infoShort)}</p>
     <div class="ms-actions">
       <a class="ms-btn ms-btn-primary" href="${gmapsUrl}" target="_blank" rel="noopener">
         🧭 Arahkan ke Sini
@@ -845,28 +850,25 @@ function openMapSheet(marker) {
     </div>
   `;
   sheet.removeAttribute('hidden');
-  // Smooth slide-up via class toggle (CSS handles transition)
   requestAnimationFrame(() => sheet.classList.add('open'));
 
-  // Pan map sehingga marker yang diklik tetap kelihatan di atas sheet.
-  // Sheet kira-kira menutupi 40% layar bawah → kita pindahkan marker ke
-  // posisi vertikal sekitar 30% dari atas (di area peta yang masih tampak).
+  // Pan map: marker dipindahkan ke 28% dari atas viewport map supaya
+  // selalu terlihat jelas di atas sheet, bukan setengah ke-cover.
   if (map) {
     setTimeout(() => {
       try {
         const mapSize = map.getSize();
-        const sheetHeight = sheet.offsetHeight || 280;
+        const sheetHeight = sheet.offsetHeight || 240;
         const visibleAreaH = mapSize.y - sheetHeight;
-        // Posisi target vertikal marker = 45% dari atas area peta yang terlihat
-        const targetPxY = Math.max(80, visibleAreaH * 0.45);
+        // Target Y = 35% dari atas area peta yang terlihat (lebih atas dari sebelum)
+        const targetPxY = Math.max(60, visibleAreaH * 0.35);
         const currentPx = map.latLngToContainerPoint([marker.lat, marker.lng]);
-        // panBy positif Y = scroll konten ke bawah (marker bergerak ke atas)
         const offsetY = currentPx.y - targetPxY;
-        if (Math.abs(offsetY) > 20) {
-          map.panBy([0, offsetY], { animate: true, duration: 0.35 });
+        if (Math.abs(offsetY) > 10) {
+          map.panBy([0, offsetY], { animate: true, duration: 0.4 });
         }
       } catch (e) { /* silent — pan optional */ }
-    }, 50);
+    }, 60);
   }
 }
 
