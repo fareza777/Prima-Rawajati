@@ -2396,8 +2396,6 @@ a.download-btn, .download-btn {
   margin: 0 auto;
   z-index: 300;
   max-width: 460px;
-  max-height: 220px;
-  overflow-y: auto;
   background: var(--surface, #fff);
   border-radius: 18px;
   box-shadow: 0 -8px 28px rgba(10,31,68,.25), 0 2px 6px rgba(10,31,68,.1);
@@ -2478,6 +2476,10 @@ a.download-btn, .download-btn {
   color: var(--text, var(--navy-900));
   line-height: 1.5;
   margin: 2px 0 10px;
+}
+.ms-body {
+  max-height: 190px;
+  overflow-y: auto;
 }
 .ms-actions {
   display: flex;
