@@ -2401,7 +2401,7 @@ a.download-btn, .download-btn {
   background: var(--surface, #fff);
   border-radius: 18px;
   box-shadow: 0 -8px 28px rgba(10,31,68,.25), 0 2px 6px rgba(10,31,68,.1);
-  padding: 8px 14px 16px;
+  padding: 18px 14px 16px;
   transform: translateY(calc(100% + 30px));
   transition: transform .3s cubic-bezier(.4, 0, .2, 1);
 }
@@ -2413,7 +2413,7 @@ a.download-btn, .download-btn {
   height: 4px;
   border-radius: 999px;
   background: rgba(10,31,68,.2);
-  margin: 0 auto 8px;
+  margin: 0 auto 10px;
 }
 
 .ms-close {
@@ -2435,7 +2435,7 @@ a.download-btn, .download-btn {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   padding-right: 30px;
 }
 .ms-icon-mini {
