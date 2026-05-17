@@ -723,6 +723,11 @@ function handleDownload(docName, url) {
 }
 
 // ── MAP PAGE ─────────────────────────────────────────────────────
+// Cluster layer container — markers ditaruh di sini supaya yang berdekatan
+// auto-grouped jadi badge bernomor. Lebih clean di kelurahan padat marker.
+let markerCluster = null;
+let userLocationMarker = null;
+
 function initMap() {
   const { lat, lng } = PRIMA_DATA.meta.koordinat;
   map = L.map('map-container', {
@@ -737,9 +742,34 @@ function initMap() {
     maxZoom: 19
   }).addTo(map);
 
-  // Add all markers
+  // Marker clustering — pakai plugin leaflet.markercluster (sudah di-load di HTML)
+  if (typeof L.markerClusterGroup === 'function') {
+    markerCluster = L.markerClusterGroup({
+      maxClusterRadius: 45,
+      spiderfyOnMaxZoom: true,
+      showCoverageOnHover: false,
+      iconCreateFunction: (cluster) => {
+        const count = cluster.getChildCount();
+        const size = count < 5 ? 36 : count < 15 ? 42 : 50;
+        return L.divIcon({
+          html: `<div class="cluster-badge" style="width:${size}px;height:${size}px">${count}</div>`,
+          className: 'cluster-icon-wrapper',
+          iconSize: [size, size]
+        });
+      }
+    });
+    map.addLayer(markerCluster);
+  }
+
   PRIMA_DATA.petaMarkers.forEach(m => addMapMarker(m));
   updateMapFilter('Semua');
+
+  // Wire up "Lokasi Saya" FAB (sekali saja)
+  const fab = document.getElementById('btn-locate-me');
+  if (fab && !fab.dataset.bound) {
+    fab.dataset.bound = '1';
+    fab.addEventListener('click', locateMe);
+  }
 }
 
 function addMapMarker(marker) {
@@ -753,12 +783,15 @@ function addMapMarker(marker) {
     popupAnchor: [0, -36]
   });
 
-  const leafletMarker = L.marker([marker.lat, marker.lng], { icon })
-    .bindPopup(`<strong>${marker.nama}</strong><br><small style="color:#666">${marker.kategori}</small><br><br>${marker.info}`, {
-      maxWidth: 260
-    });
+  // Bottom sheet menggantikan popup default Leaflet — info lebih leluasa
+  const leafletMarker = L.marker([marker.lat, marker.lng], { icon });
+  leafletMarker.on('click', () => openMapSheet(marker));
 
-  leafletMarker.addTo(map);
+  if (markerCluster) {
+    markerCluster.addLayer(leafletMarker);
+  } else {
+    leafletMarker.addTo(map);
+  }
   mapMarkers.push({ data: marker, leaflet: leafletMarker });
 }
 
@@ -768,13 +801,97 @@ function updateMapFilter(kategori) {
     c.classList.toggle('active', c.dataset.filter === kategori);
   });
 
-  mapMarkers.forEach(({ data, leaflet }) => {
-    if (kategori === 'Semua' || data.kategori === kategori) {
-      leaflet.addTo(map);
-    } else {
-      map.removeLayer(leaflet);
-    }
-  });
+  // Bila pakai cluster: clearLayers lalu re-add yang lolos filter.
+  if (markerCluster) {
+    markerCluster.clearLayers();
+    mapMarkers.forEach(({ data, leaflet }) => {
+      if (kategori === 'Semua' || data.kategori === kategori) {
+        markerCluster.addLayer(leaflet);
+      }
+    });
+  } else {
+    // Fallback kalau plugin gagal load
+    mapMarkers.forEach(({ data, leaflet }) => {
+      if (kategori === 'Semua' || data.kategori === kategori) leaflet.addTo(map);
+      else map.removeLayer(leaflet);
+    });
+  }
+}
+
+/**
+ * Bottom sheet detail lokasi — ganti popup default Leaflet supaya info lebih
+ * leluasa: tombol "Buka di Google Maps" (deeplink) + ringkasan info.
+ */
+function openMapSheet(marker) {
+  const sheet = document.getElementById('map-sheet');
+  const body = document.getElementById('map-sheet-body');
+  if (!sheet || !body) return;
+
+  const gmapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${marker.lat},${marker.lng}`;
+  body.innerHTML = `
+    <div class="ms-head">
+      <span class="ms-icon" style="background:${marker.warna}">${marker.icon}</span>
+      <div class="ms-title">
+        <h3>${escapeHtml(marker.nama)}</h3>
+        <small>${escapeHtml(marker.kategori || '')}</small>
+      </div>
+    </div>
+    <p class="ms-info">${escapeHtml(marker.info || '')}</p>
+    <div class="ms-actions">
+      <a class="ms-btn ms-btn-primary" href="${gmapsUrl}" target="_blank" rel="noopener">
+        🧭 Arahkan ke Sini
+      </a>
+      <button class="ms-btn ms-btn-ghost" type="button" onclick="closeMapSheet()">Tutup</button>
+    </div>
+  `;
+  sheet.removeAttribute('hidden');
+  // Smooth slide-up via class toggle (CSS handles transition)
+  requestAnimationFrame(() => sheet.classList.add('open'));
+}
+
+function closeMapSheet() {
+  const sheet = document.getElementById('map-sheet');
+  if (!sheet) return;
+  sheet.classList.remove('open');
+  // Tunggu transisi selesai sebelum hide (300ms sync dengan CSS)
+  setTimeout(() => sheet.setAttribute('hidden', ''), 320);
+}
+
+/**
+ * Geolocation API → zoom peta ke posisi user + marker biru pulsing.
+ * Disclaimer privasi: koordinat dipakai sebentar, tidak disimpan.
+ */
+function locateMe() {
+  if (!('geolocation' in navigator)) {
+    showToast('❌ Browser tidak mendukung geolocation.');
+    return;
+  }
+  showToast('📍 Mencari lokasi Anda…');
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      const { latitude, longitude, accuracy } = pos.coords;
+      // Remove marker lama bila ada
+      if (userLocationMarker) {
+        map.removeLayer(userLocationMarker);
+      }
+      const userIcon = L.divIcon({
+        html: '<div class="user-loc-dot"><span class="user-loc-pulse"></span></div>',
+        className: '',
+        iconSize: [22, 22],
+        iconAnchor: [11, 11]
+      });
+      userLocationMarker = L.marker([latitude, longitude], { icon: userIcon, interactive: false }).addTo(map);
+      map.setView([latitude, longitude], 17, { animate: true });
+      showToast(`✅ Lokasi terdeteksi (akurasi ±${Math.round(accuracy)} m)`);
+    },
+    err => {
+      const msg = err.code === 1
+        ? '❌ Izin lokasi ditolak. Aktifkan di pengaturan browser.'
+        : '❌ Gagal mendeteksi lokasi: ' + err.message;
+      showToast(msg);
+    },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+  );
 }
 
 // ── INFO WARGA ───────────────────────────────────────────────────

@@ -17,6 +17,9 @@
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <!-- Leaflet.markercluster CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 
   <!-- App CSS (v4 – Royal Government Theme) -->
   <link rel="stylesheet" href="css/style.css?v=4">
@@ -264,8 +267,19 @@
     <button class="filter-chip" data-filter="Peringatan" onclick="updateMapFilter('Peringatan')">⚠️ Rawan Banjir</button>
   </div>
 
-  <!-- Map Container -->
-  <div id="map-container"></div>
+  <!-- Map Container + Lokasi Saya FAB -->
+  <div class="map-wrap">
+    <div id="map-container"></div>
+    <button class="map-fab" id="btn-locate-me" type="button" aria-label="Tampilkan lokasi saya" title="Tampilkan lokasi saya">
+      <i data-lucide="locate-fixed"></i>
+    </button>
+  </div>
+
+  <!-- Bottom sheet detail marker — dipopulate JS saat warga tap marker -->
+  <div class="map-sheet" id="map-sheet" hidden aria-live="polite">
+    <button class="ms-close" onclick="closeMapSheet()" aria-label="Tutup">✕</button>
+    <div class="ms-body" id="map-sheet-body"></div>
+  </div>
 
   <!-- Legend -->
   <div class="map-legend">
@@ -677,6 +691,8 @@
 <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 <!-- Leaflet.js -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Leaflet.markercluster JS — cluster marker padat menjadi badge "N" agar peta tidak berantakan -->
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <!-- QRCode.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <!-- SheetJS (untuk import/export Excel di Panel Admin) -->

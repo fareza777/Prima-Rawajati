@@ -2285,3 +2285,187 @@ a.download-btn, .download-btn {
 [data-theme="dark"] .stepper-body {
   color: rgba(255,255,255,.85);
 }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   A.3 — PETA WILAYAH: cluster badge, bottom sheet, locate-me FAB
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Wrap container biar FAB bisa absolute */
+.map-wrap {
+  position: relative;
+}
+
+/* FAB Lokasi Saya — pojok kanan bawah peta */
+.map-fab {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 500;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold, #D4AF37) 0%, var(--gold-deep, #B8941F) 100%);
+  color: var(--navy-900, #0A1F44);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(212,175,55,.5), 0 2px 6px rgba(10,31,68,.2);
+  border: 2px solid #fff;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.map-fab:hover { transform: scale(1.06); box-shadow: 0 8px 22px rgba(212,175,55,.65); }
+.map-fab:active { transform: scale(.94); }
+.map-fab [data-lucide],
+.map-fab svg { width: 22px; height: 22px; stroke-width: 2.2; }
+
+/* Cluster badge — gantikan default cluster Leaflet supaya match tema */
+.cluster-icon-wrapper { background: transparent; border: none; }
+.cluster-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy-700, #13306E) 0%, var(--navy-900, #0A1F44) 100%);
+  color: var(--gold-light, #F4C95D);
+  font-weight: 800;
+  font-size: 14px;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 12px rgba(10,31,68,.4);
+  font-family: var(--font-display, serif);
+}
+
+/* User location marker — dot biru pulsing */
+.user-loc-dot {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #1E88E5;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(30,136,229,.6);
+}
+.user-loc-pulse {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: rgba(30,136,229,.35);
+  animation: userPulse 1.8s ease-out infinite;
+}
+@keyframes userPulse {
+  0%   { transform: scale(.4); opacity: .9; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Bottom sheet detail lokasi */
+.map-sheet {
+  position: fixed;
+  left: 0; right: 0;
+  bottom: calc(var(--bottom-h, 74px) + 18px);
+  margin: 0 auto;
+  z-index: 250;
+  max-width: 480px;
+  background: var(--surface, #fff);
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -12px 36px rgba(10,31,68,.28);
+  padding: 16px 18px 18px;
+  transform: translateY(calc(100% + 30px));
+  transition: transform .3s cubic-bezier(.4, 0, .2, 1);
+}
+.map-sheet.open { transform: translateY(0); }
+.ms-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(10,31,68,.08);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-muted, #64748B);
+}
+.ms-close:hover { background: rgba(10,31,68,.15); }
+.ms-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding-right: 38px;
+}
+.ms-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.ms-title h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy-900, var(--primary));
+  line-height: 1.25;
+}
+.ms-title small {
+  display: block;
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .3px;
+}
+.ms-info {
+  font-size: 13.5px;
+  color: var(--text, var(--navy-900));
+  line-height: 1.55;
+  margin: 0 0 14px;
+}
+.ms-actions {
+  display: flex;
+  gap: 8px;
+}
+.ms-btn {
+  flex: 1;
+  padding: 11px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.ms-btn:active { transform: scale(.97); }
+.ms-btn-primary {
+  background: linear-gradient(135deg, var(--gold, #D4AF37) 0%, var(--gold-deep, #B8941F) 100%);
+  color: var(--navy-900, #0A1F44);
+  box-shadow: 0 3px 10px rgba(212,175,55,.35);
+}
+.ms-btn-primary:hover { box-shadow: 0 5px 14px rgba(212,175,55,.5); }
+.ms-btn-ghost {
+  background: rgba(10,31,68,.05);
+  color: var(--navy-900, var(--primary));
+  border: 1.5px solid rgba(10,31,68,.12);
+}
+.ms-btn-ghost:hover { background: rgba(10,31,68,.1); }
+
+[data-theme="dark"] .map-sheet {
+  background: var(--navy-900, #0A1F44);
+  color: #fff;
+}
+[data-theme="dark"] .ms-title h3 { color: var(--gold-light, #F4C95D); }
+[data-theme="dark"] .ms-info { color: rgba(255,255,255,.85); }
+[data-theme="dark"] .ms-btn-ghost {
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.15);
+  color: rgba(255,255,255,.9);
+}
