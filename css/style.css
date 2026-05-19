@@ -1987,7 +1987,7 @@ a.download-btn, .download-btn {
     radial-gradient(120% 100% at 100% 100%, #2B4BB0 0%, transparent 50%),
     linear-gradient(145deg, #0A1F44 0%, #13306E 55%, #05122E 100%);
   border-top: 1px solid rgba(212,175,55,.32);
-  border-radius: 24px 24px 0 0;
+  border-radius: 0;
   overflow: hidden;
   box-shadow: 0 -8px 24px rgba(10,31,68,.12);
 }
@@ -2091,10 +2091,19 @@ a.download-btn, .download-btn {
   .hero-greeting { font-size: 15px; }
 }
 
-/* Dark theme override — trust-belt selalu navy, jadi hampir tidak ada override
-   yang dibutuhkan. Hanya perkuat shadow supaya tetap terlihat di latar gelap. */
+/* Dark theme override — trust-belt ikut dark theme */
 [data-theme="dark"] .trust-belt {
+  background:
+    radial-gradient(120% 90% at 0% 0%, #0f172a 0%, transparent 55%),
+    radial-gradient(120% 100% at 100% 100%, #1e293b 0%, transparent 50%),
+    linear-gradient(145deg, #020617 0%, #0f172a 55%, #000000 100%);
   box-shadow: 0 8px 24px rgba(0,0,0,.45);
+}
+[data-theme="dark"] .trust-foot-text small {
+  color: rgba(255,255,255,.55);
+}
+[data-theme="dark"] .fl-link {
+  color: rgba(255,255,255,.7);
 }
 
 
