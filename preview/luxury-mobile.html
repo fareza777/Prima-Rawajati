@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0A1F44">
+<title>PRIMA — Luxury Preview (Mobile)</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+
+<style>
+  :root{
+    --navy-900:#0A1F44; --navy-800:#0E2855; --navy-700:#13306E;
+    --gold:#D4AF37; --gold-deep:#B8941F; --gold-light:#F4C95D;
+    --cream:#FAF7EE;
+    --bg:#FAF7EE;
+    --surface:#ffffff; --surface-2:#F8F6F0;
+    --text:#0A1F44; --text-muted:#5A6B85;
+    --border:rgba(10,31,68,.08);
+    --shadow-md: 0 8px 24px rgba(10,31,68,.08), 0 2px 6px rgba(10,31,68,.04);
+    --shadow-lg: 0 20px 50px rgba(10,31,68,.14), 0 8px 16px rgba(10,31,68,.06);
+    --bottom-h:74px;
+  }
+  [data-theme="dark"]{
+    --navy-900:#020617; --navy-800:#0A0F1F; --navy-700:#0F172A;
+    --surface:#0E1428; --surface-2:#141B33;
+    --bg:#0A0F1F;
+    --cream:#0A0F1F;
+    --text:#F2F0E8; --text-muted:#94A0B8;
+    --border:rgba(255,255,255,.08);
+    --gold:#F4C95D;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{min-height:100%}
+  body{
+    font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom: calc(var(--bottom-h) + 24px);
+  }
+
+  /* Noise texture overlay */
+  body::before{
+    content:'';
+    position:fixed;inset:0;
+    pointer-events:none;z-index:9999;
+    opacity:.025;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  [data-theme="dark"] body::before{opacity:.05}
+
+  h1,h2,h3,.display{font-family:'Cormorant Garamond',serif;font-weight:600;letter-spacing:.3px;line-height:1.15}
+  .cinzel{font-family:'Cinzel',serif;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;font-size:10.5px}
+
+  /* ─── DESKTOP APP-FRAME (sama seperti app utama) ─── */
+  @media (min-width: 640px){
+    html{
+      background:
+        radial-gradient(ellipse at 20% 0%, #1E3A8A 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, #7C2D12 0%, transparent 45%),
+        linear-gradient(145deg,#05122E 0%,#0A1F44 45%,#0D2658 75%,#0A1F44 100%);
+    }
+    body{
+      max-width:430px;
+      min-height:100vh;
+      margin:0 auto;
+      box-shadow:0 0 0 1px rgba(212,175,55,.15),0 8px 40px rgba(0,0,0,.5),0 32px 80px rgba(0,0,0,.4);
+    }
+    body::after{
+      content:'PRIMA · Kelurahan Rawajati · Optimal di HP via QR';
+      position:fixed;bottom:12px;left:50%;transform:translateX(-50%);
+      background:rgba(0,0,0,.35);color:rgba(244,201,93,.85);
+      font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;
+      padding:6px 14px;border-radius:999px;border:1px solid rgba(212,175,55,.2);
+      z-index:1100;pointer-events:none;
+    }
+    [data-theme="dark"] html{
+      background:
+        radial-gradient(ellipse at 20% 0%, #1E3A8A 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, #7C2D12 0%, transparent 45%),
+        linear-gradient(145deg,#02050D 0%,#0A0F1A 45%,#0D1424 75%,#0A0F1A 100%);
+    }
+  }
+
+  /* ─── TOP HEADER ─── */
+  .top-header{
+    position:sticky;top:0;z-index:50;
+    padding:14px 16px;
+    background:linear-gradient(180deg,rgba(10,31,68,.97) 0%,rgba(10,31,68,.85) 100%);
+    backdrop-filter:blur(14px);
+    color:#fff;
+    border-bottom:1px solid rgba(212,175,55,.25);
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+  }
+  .logo-wrap{display:flex;align-items:center;gap:10px}
+  .logo-badge{
+    width:38px;height:38px;border-radius:10px;
+    background:linear-gradient(135deg,#D4AF37 0%,#B8941F 100%);
+    display:inline-flex;align-items:center;justify-content:center;
+    color:#0A1F44;font-family:'Cinzel',serif;font-weight:700;font-size:11px;
+    box-shadow:0 4px 12px rgba(212,175,55,.4);
+  }
+  .logo-text strong{display:block;font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:#F4C95D;line-height:1.1}
+  .logo-text small{display:block;font-size:10.5px;color:rgba(255,255,255,.7);margin-top:1px;letter-spacing:.3px}
+  .header-actions{display:flex;gap:6px}
+  .icon-btn{
+    width:36px;height:36px;border-radius:50%;border:1px solid rgba(212,175,55,.3);
+    background:rgba(255,255,255,.06);color:#fff;cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;
+    transition:all .2s;
+  }
+  .icon-btn:hover{background:rgba(212,175,55,.15);border-color:rgba(212,175,55,.6)}
+  .icon-btn [data-lucide]{width:16px;height:16px}
+
+  /* ─── HERO compact mobile ─── */
+  .hero{
+    position:relative;
+    padding:28px 18px 36px;
+    color:#fff;
+    overflow:hidden;
+    background:
+      radial-gradient(at 20% 20%, #1E3A8A 0, transparent 50%),
+      radial-gradient(at 80% 30%, #2B4BB0 0, transparent 50%),
+      radial-gradient(at 70% 90%, #5A1C7A 0, transparent 45%),
+      linear-gradient(145deg,#0A1F44 0%,#13306E 50%,#05122E 100%);
+  }
+  .hero::before,.hero::after{
+    content:'';position:absolute;border-radius:50%;
+    filter:blur(60px);opacity:.5;pointer-events:none;
+    animation:blob 14s ease-in-out infinite;
+  }
+  .hero::before{width:280px;height:280px;background:radial-gradient(circle,#D4AF37 0%,transparent 65%);top:-100px;right:-80px}
+  .hero::after{width:240px;height:240px;background:radial-gradient(circle,#7C2D8C 0%,transparent 65%);bottom:-80px;left:-60px;animation-delay:-7s}
+  @keyframes blob{
+    0%,100%{transform:translate(0,0) scale(1)}
+    33%{transform:translate(20px,-15px) scale(1.08)}
+    66%{transform:translate(-15px,15px) scale(.95)}
+  }
+  .hero-inner{position:relative;z-index:2}
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:5px 11px;border-radius:999px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(212,175,55,.4);
+    backdrop-filter:blur(10px);
+    color:var(--gold-light);
+    margin-bottom:14px;
+  }
+  .hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 0 3px rgba(52,211,153,.2);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(52,211,153,.2)}50%{box-shadow:0 0 0 6px rgba(52,211,153,0)}}
+  .hero h1{
+    font-size:32px;line-height:1.1;margin:0 0 10px;
+    background:linear-gradient(135deg,#fff 0%,#F4C95D 70%,#D4AF37 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p.lead{
+    font-size:13.5px;color:rgba(255,255,255,.82);margin:0 0 18px;line-height:1.55;
+  }
+  .hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+  .hero-stat{
+    padding:12px 14px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(212,175,55,.22);
+    border-radius:14px;
+    backdrop-filter:blur(12px);
+    position:relative;overflow:hidden;
+  }
+  .hero-stat::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(212,175,55,.7),transparent);
+  }
+  .hero-stat .num{
+    font-family:'Cormorant Garamond',serif;
+    font-size:26px;font-weight:600;
+    color:var(--gold-light);line-height:1;
+    font-variant-numeric:tabular-nums;
+  }
+  .hero-stat .lbl{display:block;margin-top:3px;color:rgba(255,255,255,.7);font-size:10.5px}
+
+  /* ─── SECTION mobile ─── */
+  section.s{padding:28px 16px 8px}
+  .section-head{margin-bottom:20px;text-align:left}
+  .section-head .cinzel{color:var(--gold-deep);display:block;margin-bottom:4px}
+  [data-theme="dark"] .section-head .cinzel{color:var(--gold-light)}
+  .section-head h2{font-size:26px;margin:0 0 4px}
+  .section-head p{color:var(--text-muted);margin:0;font-size:13px}
+
+  /* ─── Card stack mobile ─── */
+  .card-stack{display:flex;flex-direction:column;gap:14px}
+  .card{
+    position:relative;
+    background:rgba(255,255,255,.85);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:18px 18px 16px;
+    backdrop-filter:blur(12px);
+    box-shadow:var(--shadow-md);
+    transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;
+    overflow:hidden;
+    cursor:pointer;
+  }
+  [data-theme="dark"] .card{background:rgba(20,27,51,.7)}
+  .card::before{
+    content:'';position:absolute;top:0;left:18px;right:18px;height:1px;
+    background:linear-gradient(90deg,transparent,var(--gold) 30%,var(--gold-light) 50%,var(--gold) 70%,transparent);
+    opacity:.55;
+  }
+  .card:active{transform:scale(.98)}
+  .card-row{display:flex;align-items:flex-start;gap:14px}
+  .icon-box{
+    width:44px;height:44px;border-radius:12px;flex-shrink:0;
+    display:inline-flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,var(--gold) 0%,var(--gold-deep) 100%);
+    color:var(--navy-900);
+    box-shadow:0 4px 12px rgba(212,175,55,.3);
+  }
+  .icon-box [data-lucide]{width:20px;height:20px}
+  .card h3{font-size:18px;margin:0 0 3px;color:var(--text)}
+  .card p{color:var(--text-muted);font-size:12.5px;margin:0 0 8px;line-height:1.45}
+  .meta-row{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--text-muted)}
+  .meta-row strong{color:var(--gold-deep)}
+  [data-theme="dark"] .meta-row strong{color:var(--gold-light)}
+  .meta-row [data-lucide]{width:13px;height:13px}
+  .card .arr{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--gold-deep);opacity:.5}
+  .card .arr [data-lucide]{width:18px;height:18px}
+
+  /* Featured card */
+  .card.featured{
+    background:linear-gradient(145deg,var(--navy-800) 0%,var(--navy-900) 100%);
+    color:#fff;
+    border:1px solid rgba(212,175,55,.4);
+    padding:22px;
+  }
+  .card.featured::before{opacity:1;background:linear-gradient(90deg,transparent,var(--gold-light),transparent)}
+  .card.featured h3{color:#fff;font-size:22px}
+  .card.featured p{color:rgba(255,255,255,.75);font-size:13px;margin-bottom:14px}
+  .card.featured .icon-box{background:rgba(212,175,55,.15);color:var(--gold-light);border:1px solid rgba(212,175,55,.35);box-shadow:none}
+  .card.featured .arr{color:var(--gold-light);opacity:.9}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:10px 16px;
+    font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;
+    border-radius:11px;border:none;cursor:pointer;
+    background:linear-gradient(135deg,var(--gold) 0%,var(--gold-deep) 100%);
+    color:var(--navy-900);
+    box-shadow:0 4px 12px rgba(212,175,55,.35);
+    transition:transform .2s;
+  }
+  .btn [data-lucide]{width:14px;height:14px}
+  .btn:active{transform:scale(.96)}
+
+  /* Skeleton shimmer */
+  .skeleton-row{display:flex;gap:12px;padding:14px;background:var(--surface);border-radius:14px;border:1px solid var(--border);margin-bottom:10px}
+  .skel{
+    background:linear-gradient(90deg,rgba(212,175,55,.05) 0%,rgba(212,175,55,.25) 50%,rgba(212,175,55,.05) 100%);
+    background-size:200% 100%;animation:shimmer 1.6s infinite;border-radius:6px;
+  }
+  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .skel-circle{width:40px;height:40px;border-radius:50%;flex-shrink:0}
+  .skel-line{flex:1}
+  .skel-line .l1{height:12px;width:75%;margin-bottom:6px}
+  .skel-line .l2{height:9px;width:50%}
+
+  /* Typography quote box */
+  .quote-box{
+    margin:20px 0 6px;padding:22px 18px 18px;
+    background:var(--surface);border-radius:18px;border:1px solid var(--border);
+    box-shadow:var(--shadow-md);position:relative;
+  }
+  .quote-box::before{
+    content:'';position:absolute;top:0;left:18px;right:18px;height:1px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  }
+  .quote-text{
+    font-family:'Cormorant Garamond',serif;font-size:19px;line-height:1.45;color:var(--text);margin:0 0 12px;
+  }
+  .quote-text .dc{
+    font-size:46px;float:left;line-height:.85;color:var(--gold-deep);margin:5px 8px 0 0;font-weight:700;
+  }
+  [data-theme="dark"] .quote-text .dc{color:var(--gold-light)}
+  .quote-attr{font-size:11.5px;color:var(--text-muted);margin:0;clear:both;padding-top:8px;border-top:1px dashed var(--border)}
+
+  /* ─── BOTTOM NAV ─── */
+  .bottom-nav{
+    position:fixed;left:8px;right:8px;bottom:8px;
+    height:64px;
+    background:linear-gradient(180deg,rgba(10,31,68,.95),rgba(5,18,46,.98));
+    backdrop-filter:blur(20px);
+    border:1px solid rgba(212,175,55,.3);
+    border-radius:20px;
+    display:flex;align-items:center;justify-content:space-around;
+    box-shadow:0 -8px 28px rgba(10,31,68,.4),0 0 0 1px rgba(212,175,55,.1);
+    z-index:100;
+  }
+  @media(min-width:640px){
+    .bottom-nav{left:50%;right:auto;transform:translateX(-50%);width:402px;max-width:402px}
+  }
+  .bn-item{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+    color:rgba(255,255,255,.6);font-size:10.5px;font-weight:500;
+    background:none;border:none;cursor:pointer;padding:8px 4px;
+    transition:color .2s;
+  }
+  .bn-item [data-lucide]{width:20px;height:20px}
+  .bn-item.active{color:var(--gold-light)}
+  .bn-item.active [data-lucide]{filter:drop-shadow(0 0 8px rgba(244,201,93,.5))}
+
+  /* Theme toggle FAB */
+  .theme-fab{
+    position:fixed;top:14px;right:62px;z-index:60;
+    width:36px;height:36px;border-radius:50%;
+    background:rgba(255,255,255,.1);border:1px solid rgba(212,175,55,.3);
+    color:#fff;cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;
+    backdrop-filter:blur(10px);
+  }
+  .theme-fab [data-lucide]{width:16px;height:16px}
+
+  /* Preview tag */
+  .preview-tag{
+    position:fixed;bottom:84px;left:50%;transform:translateX(-50%);z-index:1000;
+    padding:6px 12px;border-radius:999px;
+    background:linear-gradient(135deg,#D4AF37,#B8941F);color:#0A1F44;
+    font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+    box-shadow:0 6px 18px rgba(212,175,55,.4);
+  }
+  @media(min-width:640px){
+    .preview-tag{bottom:88px}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP HEADER -->
+<header class="top-header">
+  <div class="logo-wrap">
+    <div class="logo-badge">PRIMA</div>
+    <div class="logo-text">
+      <strong>Kelurahan Rawajati</strong>
+      <small>Platform Ringkas Interaktif</small>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="theme-fab" onclick="toggleTheme()" aria-label="Tema"><i data-lucide="moon" id="theme-icon"></i></button>
+    <button class="icon-btn" aria-label="Cari"><i data-lucide="search"></i></button>
+  </div>
+</header>
+
+<!-- HERO compact -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-eyebrow"><span class="dot"></span><span class="cinzel">Selamat Datang</span></span>
+    <h1>Pelayanan yang<br>Berkelas & Cepat.</h1>
+    <p class="lead">Akses layanan kelurahan, pantau pengumuman, dan tanya AI Asisten kapan saja.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num" data-target="12450">0</span><span class="lbl">Warga Terdaftar</span></div>
+      <div class="hero-stat"><span class="num" data-target="48">0</span><span class="lbl">Layanan Online</span></div>
+      <div class="hero-stat"><span class="num" data-target="98">0</span><span class="lbl">% Kepuasan</span></div>
+      <div class="hero-stat"><span class="num" data-target="24">0</span><span class="lbl">Jam / Hari</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- LAYANAN UNGGULAN -->
+<section class="s">
+  <div class="section-head">
+    <span class="cinzel">Layanan Unggulan</span>
+    <h2>Paling Sering Diakses</h2>
+    <p>Pilih layanan untuk mulai pengajuan online.</p>
+  </div>
+  <div class="card-stack">
+    <article class="card featured">
+      <div class="card-row">
+        <div class="icon-box"><i data-lucide="file-badge"></i></div>
+        <div style="flex:1">
+          <h3>Surat Keterangan Domisili</h3>
+          <p>Tanda tangan digital terenkripsi. Selesai 1×24 jam.</p>
+          <button class="btn"><i data-lucide="arrow-right"></i> Ajukan Sekarang</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-row">
+        <div class="icon-box"><i data-lucide="heart-handshake"></i></div>
+        <div style="flex:1">
+          <h3>Bantuan Sosial</h3>
+          <p>Periksa kelayakan & jadwal distribusi terdekat.</p>
+          <div class="meta-row"><i data-lucide="users"></i><strong>340</strong> KPM aktif</div>
+        </div>
+        <span class="arr"><i data-lucide="chevron-right"></i></span>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-row">
+        <div class="icon-box"><i data-lucide="map-pin"></i></div>
+        <div style="flex:1">
+          <h3>Peta Wilayah</h3>
+          <p>Eksplorasi fasilitas publik & batas RT/RW interaktif.</p>
+          <div class="meta-row"><i data-lucide="layers"></i><strong>12</strong> RW · <strong>74</strong> RT</div>
+        </div>
+        <span class="arr"><i data-lucide="chevron-right"></i></span>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-row">
+        <div class="icon-box"><i data-lucide="megaphone"></i></div>
+        <div style="flex:1">
+          <h3>Pengumuman Terbaru</h3>
+          <p>Kerja bakti & jadwal pelayanan minggu ini.</p>
+          <div class="meta-row"><i data-lucide="clock"></i>Update <strong>2 jam lalu</strong></div>
+        </div>
+        <span class="arr"><i data-lucide="chevron-right"></i></span>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-row">
+        <div class="icon-box"><i data-lucide="message-circle-question"></i></div>
+        <div style="flex:1">
+          <h3>Tanya AI Asisten</h3>
+          <p>Chatbot AI menjawab pertanyaan administrasi 24/7.</p>
+          <div class="meta-row"><i data-lucide="zap"></i>Respons <strong>&lt;2 detik</strong></div>
+        </div>
+        <span class="arr"><i data-lucide="chevron-right"></i></span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- LOADING STATE -->
+<section class="s">
+  <div class="section-head">
+    <span class="cinzel">Detail</span>
+    <h2>Loading Premium</h2>
+    <p>Skeleton shimmer ber-aksen emas.</p>
+  </div>
+  <div class="skeleton-row"><div class="skel skel-circle"></div><div class="skel-line"><div class="skel l1"></div><div class="skel l2"></div></div></div>
+  <div class="skeleton-row"><div class="skel skel-circle"></div><div class="skel-line"><div class="skel l1"></div><div class="skel l2"></div></div></div>
+</section>
+
+<!-- TYPOGRAPHY QUOTE -->
+<section class="s">
+  <div class="section-head">
+    <span class="cinzel">Visi</span>
+    <h2>Tipografi Berkelas</h2>
+  </div>
+  <div class="quote-box">
+    <p class="quote-text"><span class="dc">P</span>elayanan publik yang elegan adalah cerminan kebudayaan suatu bangsa. PRIMA membawa kearifan tata kelola ke wujud digital yang berkelas.</p>
+    <p class="quote-attr">— Visi Kelurahan Rawajati, 2026</p>
+  </div>
+</section>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav" aria-label="Navigasi utama">
+  <button class="bn-item active"><i data-lucide="home"></i><span>Beranda</span></button>
+  <button class="bn-item"><i data-lucide="layers"></i><span>Layanan</span></button>
+  <button class="bn-item"><i data-lucide="map"></i><span>Peta</span></button>
+  <button class="bn-item"><i data-lucide="info"></i><span>Info</span></button>
+  <button class="bn-item"><i data-lucide="message-circle"></i><span>Tanya</span></button>
+</nav>
+
+<div class="preview-tag">★ Luxury Preview</div>
+
+<script>
+  function toggleTheme(){
+    const isDark = document.documentElement.dataset.theme === 'dark';
+    document.documentElement.dataset.theme = isDark ? 'light' : 'dark';
+    const icon = document.getElementById('theme-icon');
+    icon.setAttribute('data-lucide', isDark ? 'moon' : 'sun');
+    if (window.lucide) window.lucide.createIcons();
+  }
+  function animateCount(el){
+    const target = parseInt(el.dataset.target, 10) || 0;
+    const duration = 1600;
+    const start = performance.now();
+    function step(now){
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.floor(eased * target).toLocaleString('id-ID');
+      if (t < 1) requestAnimationFrame(step);
+      else el.textContent = target.toLocaleString('id-ID');
+    }
+    requestAnimationFrame(step);
+  }
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){animateCount(e.target);io.unobserve(e.target)} });
+  },{threshold:.4});
+  document.querySelectorAll('[data-target]').forEach(el=>io.observe(el));
+
+  window.addEventListener('load',()=>{ if(window.lucide) window.lucide.createIcons(); });
+</script>
+</body>
+</html>
