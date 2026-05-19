@@ -396,15 +396,6 @@ function renderLayananQuick() {
 
 // ── LAYANAN PAGE ─────────────────────────────────────────────────
 
-// Difficulty derived dari jumlah syarat — bantu warga set ekspektasi sebelum klik.
-// ≤3 syarat: ringkas; 4-5: sedang; ≥6: perlu persiapan lengkap.
-function difficultyOf(layanan) {
-  const n = (layanan.syarat || []).length;
-  if (n <= 3) return { emoji: '🟢', label: 'Mudah', tone: 'green' };
-  if (n <= 5) return { emoji: '🟡', label: 'Sedang', tone: 'amber' };
-  return { emoji: '🟠', label: 'Perlu lengkap', tone: 'orange' };
-}
-
 function getLayananFiltered() {
   const q = layananSearchQuery.trim().toLowerCase();
   return PRIMA_DATA.layanan.filter(l => {
@@ -469,7 +460,6 @@ function renderLayanan() {
   }
 
   container.innerHTML = data.map(l => {
-    const d = difficultyOf(l);
     return `
     <div class="layanan-card" onclick="showLayananDetail('${l.id}')" role="button" tabindex="0">
       <span class="lcard-emoji">${l.emoji}</span>
@@ -478,12 +468,11 @@ function renderLayanan() {
         <div class="lcard-meta">
           <span class="badge badge-blue">${escapeHtml(l.kategori)}</span>
           <span class="badge badge-green">⏱ ${escapeHtml(l.waktuProses || '-')}</span>
-          <span class="badge badge-${d.tone}" title="${d.label} — ${(l.syarat || []).length} berkas">${d.emoji} ${d.label}</span>
         </div>
       </div>
       <span class="lcard-arrow">›</span>
-    </div>`;
-  }).join('');
+    </div>
+  `}).join('');
 }
 
 function showLayananDetail(id) {
@@ -493,7 +482,6 @@ function showLayananDetail(id) {
 
   const modal = document.getElementById('modal-overlay');
   const body  = document.getElementById('modal-body-content');
-  const diff = difficultyOf(layanan);
 
   // Load cached readiness checklist progress (per layanan)
   const storageKey = `prima_readiness_${layanan.id}`;
@@ -521,10 +509,6 @@ function showLayananDetail(id) {
         <div class="meta-item">
           <div class="meta-label">💰 Biaya</div>
           <div class="meta-val text-green">${escapeHtml(layanan.biaya || 'Gratis')}</div>
-        </div>
-        <div class="meta-item">
-          <div class="meta-label">${diff.emoji} Tingkat</div>
-          <div class="meta-val">${diff.label}</div>
         </div>
       </div>
 
