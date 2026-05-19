@@ -2702,7 +2702,10 @@ a.download-btn, .download-btn {
 [data-theme="dark"] .ktw-item {
   background: rgba(255,255,255,.04);
 }
-
+[data-theme="dark"] .ktw-header strong { color: var(--gold-light, #F4C95D); }
+[data-theme="dark"] .ktw-header small { color: var(--text-muted); }
+[data-theme="dark"] .ktw-body strong { color: #fff; }
+[data-theme="dark"] .ktw-body small { color: var(--text-muted); }
 
 /* ══════════════════════════════════════════════════════════════════
    A.5 — CHATBOT: quick-action chips + message toolbar (copy/share)
