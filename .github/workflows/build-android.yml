@@ -16,6 +16,7 @@ on:
     paths:
       - 'manifest.json'
       - 'twa-manifest.json'
+      - '.github/workflows/build-android.yml'
 
 permissions:
   contents: write
