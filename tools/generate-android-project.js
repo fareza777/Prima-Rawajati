@@ -260,16 +260,18 @@ write('app/src/main/res/values/colors.xml', `<?xml version="1.0" encoding="utf-8
     <color name="colorPrimary">#${hex(COLOR)}</color>
     <color name="colorPrimaryDark">#${hex(COLOR)}</color>
     <color name="colorBackground">#${hex(BG_COLOR)}</color>
-    <color name="colorAccent">#D4AF37</color>
 </resources>
 `);
 
+// Theme.AppCompat requires appcompat library which is NOT a transitive dep of androidbrowserhelper.
+// Use android:Theme.Material.Light.NoActionBar instead — built into the Android SDK (API 21+).
 write('app/src/main/res/values/styles.xml', `<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:windowBackground">@color/colorBackground</item>
     </style>
 </resources>
