@@ -55,6 +55,8 @@ jobs:
         run: |
           SDK="${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}"
           echo "Android SDK: $SDK"
+          echo "ANDROID_HOME=${SDK}" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=${SDK}" >> "$GITHUB_ENV"
           yes | "$SDK/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
           "$SDK/cmdline-tools/latest/bin/sdkmanager" \
             "build-tools;34.0.0" "platforms;android-34" 2>&1 | tail -3
@@ -138,15 +140,18 @@ jobs:
           KEY_PASS="${{ steps.keystore.outputs.key_pass }}"
           KS_PATH="$(pwd)/android.keystore"
 
-          echo "Building with Gradle..."
+          echo "=== Environment Check ==="
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+          echo "Gradle: $(which gradle) → $(gradle --version | head -1)"
+          echo "========================="
+
           gradle bundleRelease assembleRelease \
             -Pandroid.injected.signing.store.file="$KS_PATH" \
             -Pandroid.injected.signing.store.password="$KEY_PASS" \
             -Pandroid.injected.signing.key.alias="${{ env.KEY_ALIAS }}" \
             -Pandroid.injected.signing.key.password="$KEY_PASS" \
             --no-daemon --stacktrace 2>&1
-        env:
-          ANDROID_HOME: ${{ env.ANDROID_SDK_ROOT }}
 
       # ── 10. Find artifacts ────────────────────────────────────────
       - name: Locate build outputs
