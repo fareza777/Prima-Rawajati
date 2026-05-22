@@ -143,15 +143,34 @@ jobs:
           echo "=== Environment Check ==="
           echo "ANDROID_HOME=$ANDROID_HOME"
           echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
-          echo "Gradle: $(which gradle) → $(gradle --version | head -1)"
+          echo "Java: $(java -version 2>&1 | head -1)"
+          echo "Gradle: $(gradle --version 2>&1 | head -1)"
+          echo "Files: $(ls -la settings.gradle build.gradle 2>&1)"
           echo "========================="
 
+          # Create local.properties (AGP prefers sdk.dir over ANDROID_HOME)
+          echo "sdk.dir=${ANDROID_HOME}" > local.properties
+          echo "Wrote local.properties: $(cat local.properties)"
+
+          # Build and capture output; on failure, show last 80 lines in summary
           gradle bundleRelease assembleRelease \
             -Pandroid.injected.signing.store.file="$KS_PATH" \
             -Pandroid.injected.signing.store.password="$KEY_PASS" \
             -Pandroid.injected.signing.key.alias="${{ env.KEY_ALIAS }}" \
             -Pandroid.injected.signing.key.password="$KEY_PASS" \
-            --no-daemon --stacktrace 2>&1
+            --no-daemon --stacktrace 2>&1 | tee /tmp/gradle-build.log
+          BUILD_EXIT=${PIPESTATUS[0]}
+
+          if [ "$BUILD_EXIT" -ne 0 ]; then
+            echo "❌ Gradle build FAILED (exit $BUILD_EXIT)"
+            {
+              echo "## ❌ Gradle Build Error"
+              echo '```'
+              tail -80 /tmp/gradle-build.log
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit "$BUILD_EXIT"
+          fi
 
       # ── 10. Find artifacts ────────────────────────────────────────
       - name: Locate build outputs
