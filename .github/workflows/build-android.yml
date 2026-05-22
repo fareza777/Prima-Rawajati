@@ -1,0 +1,255 @@
+name: 🏪 Build Play Store APK/AAB
+
+# Trigger: manual (workflow_dispatch) atau push ke main yang ubah manifest
+on:
+  workflow_dispatch:
+    inputs:
+      version_code:
+        description: 'Version code (integer, misal: 1)'
+        required: false
+        default: '1'
+      version_name:
+        description: 'Version name (misal: 1.0.0)'
+        required: false
+        default: '1.0.0'
+  push:
+    branches: [main]
+    paths:
+      - 'manifest.json'
+      - 'twa-manifest.json'
+
+permissions:
+  contents: write
+
+env:
+  PACKAGE_ID: id.rawajati.prima
+  KEY_ALIAS: prima
+  APP_NAME: PRIMA – Kelurahan Rawajati
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # ── 1. Checkout ───────────────────────────────────────────────
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # ── 2. Setup Java 17 ─────────────────────────────────────────
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # ── 3. Setup Node.js ─────────────────────────────────────────
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ── 4. Install Bubblewrap CLI ────────────────────────────────
+      - name: Install Bubblewrap CLI
+        run: npm install -g @bubblewrap/cli
+
+      # ── 5. Configure Bubblewrap Android tools ────────────────────
+      - name: Configure Bubblewrap to use pre-installed Android SDK
+        run: |
+          mkdir -p ~/.bubblewrap
+          # Detect Android SDK path (pre-installed on ubuntu-latest)
+          SDK_PATH=""
+          for p in /usr/local/lib/android/sdk $ANDROID_SDK_ROOT $ANDROID_HOME; do
+            if [ -d "$p" ] && [ -n "$p" ]; then
+              SDK_PATH="$p"
+              break
+            fi
+          done
+          echo "Android SDK at: $SDK_PATH"
+          # Write Bubblewrap config
+          cat > ~/.bubblewrap/config.json <<EOF
+          {
+            "jdkPath": "$(dirname $(dirname $(readlink -f $(which java))))",
+            "androidSdkPath": "$SDK_PATH"
+          }
+          EOF
+          cat ~/.bubblewrap/config.json
+
+      # ── 6. Install required Android SDK components ────────────────
+      - name: Install Android SDK build-tools & platform
+        run: |
+          SDK_PATH=$ANDROID_SDK_ROOT
+          # Accept licenses
+          yes | $SDK_PATH/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null 2>&1 || true
+          # Install needed components
+          $SDK_PATH/cmdline-tools/latest/bin/sdkmanager \
+            "build-tools;34.0.0" \
+            "platforms;android-34" \
+            --sdk_root=$SDK_PATH 2>&1 | tail -5
+
+      # ── 7. Generate or restore keystore ──────────────────────────
+      - name: Setup signing keystore
+        id: keystore
+        run: |
+          KEY_PASS="${{ secrets.KEY_PASSWORD }}"
+          if [ -z "$KEY_PASS" ]; then
+            KEY_PASS="prima2026rawajati"
+          fi
+
+          if [ -n "${{ secrets.KEYSTORE_BASE64 }}" ]; then
+            echo "🔑 Restoring keystore from GitHub secret..."
+            echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android.keystore
+          else
+            echo "🔑 Generating new keystore (first run)..."
+            keytool -genkeypair \
+              -keystore android.keystore \
+              -alias "${{ env.KEY_ALIAS }}" \
+              -keyalg RSA -keysize 2048 \
+              -validity 10000 \
+              -dname "CN=Kelurahan Rawajati, OU=Kelurahan, O=Pemerintah DKI Jakarta, L=Jakarta Selatan, ST=DKI Jakarta, C=ID" \
+              -storepass "$KEY_PASS" \
+              -keypass "$KEY_PASS" \
+              -noprompt
+
+            echo ""
+            echo "============================================"
+            echo "⚠️  SIMPAN BASE64 INI SEBAGAI GITHUB SECRET"
+            echo "    Nama secret: KEYSTORE_BASE64"
+            echo "============================================"
+            base64 -w 0 android.keystore
+            echo ""
+            echo "============================================"
+          fi
+
+          # Extract SHA-256 fingerprint
+          FINGERPRINT=$(keytool -list -v \
+            -keystore android.keystore \
+            -alias "${{ env.KEY_ALIAS }}" \
+            -storepass "$KEY_PASS" 2>/dev/null \
+            | grep "SHA256:" | head -1 | awk '{print $2}')
+
+          echo "sha256=$FINGERPRINT" >> $GITHUB_OUTPUT
+          echo "key_pass=$KEY_PASS" >> $GITHUB_OUTPUT
+          echo "✅ SHA-256: $FINGERPRINT"
+        env:
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      # ── 8. Inject version + passwords ke twa-manifest ────────────
+      - name: Prepare twa-manifest for build
+        run: |
+          VERSION_CODE="${{ github.event.inputs.version_code || '1' }}"
+          VERSION_NAME="${{ github.event.inputs.version_name || '1.0.0' }}"
+          KEY_PASS="${{ steps.keystore.outputs.key_pass }}"
+
+          # Inject signing credentials & version ke manifest
+          cat twa-manifest.json | \
+            python3 -c "
+          import json, sys
+          m = json.load(sys.stdin)
+          m['appVersion'] = '$VERSION_CODE'
+          m['appVersionName'] = '$VERSION_NAME'
+          m['signingKey']['path'] = 'android.keystore'
+          m['signingKey']['storePassword'] = '$KEY_PASS'
+          m['signingKey']['keyPassword'] = '$KEY_PASS'
+          print(json.dumps(m, indent=2))
+          " > twa-manifest-ci.json
+
+          echo "✅ twa-manifest-ci.json ready"
+
+      # ── 9. Build APK + AAB ────────────────────────────────────────
+      - name: Build TWA (APK + AAB)
+        run: |
+          bubblewrap build --manifest ./twa-manifest-ci.json --skipPwaValidation
+        env:
+          ANDROID_HOME: ${{ env.ANDROID_SDK_ROOT }}
+
+      # ── 10. Find output files ─────────────────────────────────────
+      - name: Locate build outputs
+        id: outputs
+        run: |
+          echo "=== Build output files ==="
+          find . -name "*.aab" -o -name "*.apk" 2>/dev/null | grep -v node_modules | grep -v ".gradle"
+          AAB=$(find . -name "*release*.aab" 2>/dev/null | grep -v node_modules | head -1)
+          APK=$(find . -name "*release*.apk" 2>/dev/null | grep -v node_modules | head -1)
+          echo "aab_path=$AAB" >> $GITHUB_OUTPUT
+          echo "apk_path=$APK" >> $GITHUB_OUTPUT
+          echo "AAB: $AAB"
+          echo "APK: $APK"
+
+      # ── 11. Upload artifacts ──────────────────────────────────────
+      - name: Upload AAB (for Play Store)
+        if: steps.outputs.outputs.aab_path != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: prima-playstore-aab-v${{ github.run_number }}
+          path: ${{ steps.outputs.outputs.aab_path }}
+          retention-days: 60
+
+      - name: Upload APK (for direct install/testing)
+        if: steps.outputs.outputs.apk_path != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: prima-playstore-apk-v${{ github.run_number }}
+          path: ${{ steps.outputs.outputs.apk_path }}
+          retention-days: 60
+
+      # ── 12. Update assetlinks.json dengan real fingerprint ────────
+      - name: Update assetlinks.json with real SHA-256
+        run: |
+          SHA256="${{ steps.keystore.outputs.sha256 }}"
+          if [ -z "$SHA256" ]; then
+            echo "⚠️ Fingerprint tidak ditemukan, skip update assetlinks.json"
+            exit 0
+          fi
+
+          cat > .well-known/assetlinks.json <<EOF
+          [
+            {
+              "relation": ["delegate_permission/common.handle_all_urls"],
+              "target": {
+                "namespace": "android_app",
+                "package_name": "${{ env.PACKAGE_ID }}",
+                "sha256_cert_fingerprints": [
+                  "$SHA256"
+                ]
+              }
+            }
+          ]
+          EOF
+
+          echo "✅ assetlinks.json updated with: $SHA256"
+          cat .well-known/assetlinks.json
+
+      # ── 13. Commit assetlinks.json update ─────────────────────────
+      - name: Commit updated assetlinks.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .well-known/assetlinks.json
+          git diff --staged --quiet && echo "No changes" || \
+            git commit -m "chore: update assetlinks.json SHA-256 fingerprint [skip ci]"
+          git push || echo "Nothing to push"
+
+      # ── 14. Build Summary ─────────────────────────────────────────
+      - name: Job Summary
+        run: |
+          SHA256="${{ steps.keystore.outputs.sha256 }}"
+          echo "## ✅ Build PRIMA Play Store Berhasil!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Info | Nilai |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **Package ID** | \`${{ env.PACKAGE_ID }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **App Name** | ${{ env.APP_NAME }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **SHA-256 Upload Key** | \`$SHA256\` |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📦 Download Artifact" >> $GITHUB_STEP_SUMMARY
+          echo "Klik tab **Artifacts** di atas untuk download file **.aab** (Play Store) atau **.apk** (test langsung)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ⏭️ Langkah Selanjutnya" >> $GITHUB_STEP_SUMMARY
+          echo "1. Download file **.aab** dari artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "2. Buka [Google Play Console](https://play.google.com/console) → **Create app**" >> $GITHUB_STEP_SUMMARY
+          echo "3. Upload **.aab** ke **Internal Testing** dulu" >> $GITHUB_STEP_SUMMARY
+          echo "4. Setelah upload, buka **Setup → App integrity** → copy SHA-256 **distribution key** Google Play" >> $GITHUB_STEP_SUMMARY
+          echo "5. Tambahkan SHA-256 distribution key ke \`.well-known/assetlinks.json\` (opsional, untuk TWA verified link)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "> **Note:** Jika ini build pertama, simpan \`KEYSTORE_BASE64\` dari log di atas sebagai GitHub secret!" >> $GITHUB_STEP_SUMMARY

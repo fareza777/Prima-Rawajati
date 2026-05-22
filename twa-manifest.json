@@ -1,0 +1,50 @@
+{
+  "packageId": "id.rawajati.prima",
+  "host": "prima-rawajati.vercel.app",
+  "name": "PRIMA – Kelurahan Rawajati",
+  "launcherName": "PRIMA",
+  "display": "standalone",
+  "themeColor": "#0A1F44",
+  "navigationColor": "#0A1F44",
+  "navigationColorDark": "#0A1F44",
+  "navigationDividerColor": "#0A1F44",
+  "navigationDividerColorDark": "#0A1F44",
+  "backgroundColor": "#0A1F44",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "iconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512.png",
+  "maskableIconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512-maskable.png",
+  "monochromeIconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512.png",
+  "appVersion": "1",
+  "appVersionName": "1.0.0",
+  "signingKey": {
+    "path": "android.keystore",
+    "alias": "prima"
+  },
+  "splashScreenFadeOutDuration": 300,
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://prima-rawajati.vercel.app/",
+  "minSdkVersion": 21,
+  "fingerprints": [],
+  "webManifestUrl": "https://prima-rawajati.vercel.app/manifest.json",
+  "generatorApp": "bubblewrap-cli",
+  "features": {},
+  "alphaDependencies": { "enabled": false },
+  "orientation": "portrait",
+  "shortcuts": [
+    {
+      "name": "Layanan Surat",
+      "short_name": "Layanan",
+      "url": "/?s=layanan",
+      "icons": [{ "src": "https://prima-rawajati.vercel.app/img/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Tanya PRIMA",
+      "short_name": "Chatbot",
+      "url": "/?s=chat",
+      "icons": [{ "src": "https://prima-rawajati.vercel.app/img/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
