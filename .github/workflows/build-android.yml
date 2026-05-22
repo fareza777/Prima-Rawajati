@@ -8,7 +8,7 @@ on:
         required: false
         default: '1'
       version_name:
-        description: 'Version name (e.g. 1.0.0)'
+        description: 'Version name'
         required: false
         default: '1.0.0'
   push:
@@ -23,8 +23,9 @@ permissions:
   contents: write
 
 env:
-  PACKAGE_ID: id.rawajati.prima
-  KEY_ALIAS:  prima
+  PACKAGE_ID:    id.rawajati.prima
+  KEY_ALIAS:     prima
+  GRADLE_VER:    8.4
 
 jobs:
   build-android:
@@ -43,17 +44,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # ── 3. Node.js 20 ────────────────────────────────────────────
+      # ── 3. Node.js (for generate script) ─────────────────────────
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # ── 4. Install Bubblewrap (provides @bubblewrap/core) ─────────
-      - name: Install Bubblewrap CLI
-        run: npm install -g @bubblewrap/cli@latest
-
-      # ── 5. Android SDK licenses + build-tools ────────────────────
+      # ── 4. Android SDK build-tools ────────────────────────────────
       - name: Accept Android SDK licenses & install build-tools
         run: |
           SDK="${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}"
@@ -62,7 +59,7 @@ jobs:
           "$SDK/cmdline-tools/latest/bin/sdkmanager" \
             "build-tools;34.0.0" "platforms;android-34" 2>&1 | tail -3
 
-      # ── 6. Keystore: restore or generate ─────────────────────────
+      # ── 5. Keystore ───────────────────────────────────────────────
       - name: Setup signing keystore
         id: keystore
         run: |
@@ -80,9 +77,8 @@ jobs:
               -dname "CN=Kelurahan Rawajati,OU=Kelurahan,O=Pemerintah DKI Jakarta,L=Jakarta Selatan,ST=DKI Jakarta,C=ID" \
               -storepass "$KEY_PASS" -keypass "$KEY_PASS" -noprompt
 
-            echo ""
             echo "========================================================"
-            echo "⚠️  SALIN BASE64 INI → simpan sebagai GitHub secret KEYSTORE_BASE64"
+            echo "⚠️  SALIN BASE64 INI → GitHub secret: KEYSTORE_BASE64"
             echo "========================================================"
             base64 -w 0 android.keystore
             echo ""
@@ -90,65 +86,67 @@ jobs:
           fi
 
           FP=$(keytool -list -v -keystore android.keystore \
-            -alias "${{ env.KEY_ALIAS }}" -storepass "$KEY_PASS" 2>/dev/null \
-            | grep "SHA256:" | head -1 | awk '{print $2}')
-          echo "sha256=${FP}"  >> "$GITHUB_OUTPUT"
+                 -alias "${{ env.KEY_ALIAS }}" -storepass "$KEY_PASS" 2>/dev/null \
+                 | grep "SHA256:" | head -1 | awk '{print $2}')
+          echo "sha256=${FP}"     >> "$GITHUB_OUTPUT"
           echo "key_pass=${KEY_PASS}" >> "$GITHUB_OUTPUT"
           echo "✅ SHA-256: ${FP}"
         env:
           KEYSTORE_B64:  ${{ secrets.KEYSTORE_BASE64 }}
           KEY_PASSWORD:  ${{ secrets.KEY_PASSWORD }}
 
-      # ── 7. Inject credentials + version into twa-manifest.json ───
+      # ── 6. Inject credentials into twa-manifest.json ─────────────
       - name: Inject signing credentials
         run: |
           python3 - << 'PYEOF'
           import json, os
-
           with open('twa-manifest.json') as f:
               m = json.load(f)
-
-          m['appVersion']    = os.environ['VERSION_CODE']
-          m['appVersionName']= os.environ['VERSION_NAME']
+          m['appVersion']     = os.environ['VERSION_CODE']
+          m['appVersionName'] = os.environ['VERSION_NAME']
           m['signingKey']['path']          = os.path.abspath('android.keystore')
           m['signingKey']['storePassword'] = os.environ['KEY_PASS']
           m['signingKey']['keyPassword']   = os.environ['KEY_PASS']
-
           with open('twa-manifest.json', 'w') as f:
               json.dump(m, f, indent=2)
-          print('✅ twa-manifest.json: credentials + version injected')
+          print('✅ twa-manifest.json updated')
           PYEOF
         env:
           VERSION_CODE: ${{ github.event.inputs.version_code || '1' }}
           VERSION_NAME: ${{ github.event.inputs.version_name || '1.0.0' }}
           KEY_PASS:     ${{ steps.keystore.outputs.key_pass }}
 
-      # ── 8. Generate Android project (non-interactive) ─────────────
-      # Uses @bubblewrap/core programmatically — bypasses CLI prompts
-      - name: Generate Android project
-        run: |
-          # Resolve @bubblewrap/core from global npm
-          export NODE_PATH=$(npm root -g)
-          echo "NODE_PATH: $NODE_PATH"
-          node tools/generate-android-project.js 2>&1
+      # ── 7. Generate Android project (zero-dependency template) ────
+      # Pure Node.js stdlib — no @bubblewrap/core dependency
+      - name: Generate Android project from template
+        run: node tools/generate-android-project.js 2>&1
 
-      # ── 9. Build APK + AAB via Gradle (direct, no bubblewrap build) ─
-      - name: Build release APK + AAB (Gradle)
+      # ── 8. Download Gradle ${{ env.GRADLE_VER }} ──────────────────
+      - name: Download Gradle ${{ env.GRADLE_VER }}
+        run: |
+          GRADLE_ZIP="gradle-${{ env.GRADLE_VER }}-bin.zip"
+          echo "Downloading Gradle ${{ env.GRADLE_VER }}..."
+          wget -q "https://services.gradle.org/distributions/${GRADLE_ZIP}"
+          unzip -q "${GRADLE_ZIP}"
+          echo "GRADLE_HOME=$(pwd)/gradle-${{ env.GRADLE_VER }}" >> "$GITHUB_ENV"
+          echo "$(pwd)/gradle-${{ env.GRADLE_VER }}/bin" >> "$GITHUB_PATH"
+          gradle --version
+
+      # ── 9. Build release APK + AAB ────────────────────────────────
+      - name: Build release APK + AAB
         run: |
           KEY_PASS="${{ steps.keystore.outputs.key_pass }}"
           KS_PATH="$(pwd)/android.keystore"
 
-          chmod +x gradlew 2>/dev/null || true
-
-          ./gradlew bundleRelease assembleRelease \
+          echo "Building with Gradle..."
+          gradle bundleRelease assembleRelease \
             -Pandroid.injected.signing.store.file="$KS_PATH" \
             -Pandroid.injected.signing.store.password="$KEY_PASS" \
             -Pandroid.injected.signing.key.alias="${{ env.KEY_ALIAS }}" \
             -Pandroid.injected.signing.key.password="$KEY_PASS" \
-            --no-daemon 2>&1
+            --no-daemon --stacktrace 2>&1
         env:
           ANDROID_HOME: ${{ env.ANDROID_SDK_ROOT }}
-          JAVA_HOME:    ${{ env.JAVA_HOME }}
 
       # ── 10. Find artifacts ────────────────────────────────────────
       - name: Locate build outputs
@@ -156,13 +154,16 @@ jobs:
         run: |
           echo "=== APK/AAB files ==="
           find . \( -name "*.aab" -o -name "*.apk" \) \
-            ! -path "*/node_modules/*" ! -path "*/.gradle/*" ! -path "*/debug/*"
-          AAB=$(find . -name "*release*.aab" ! -path "*/node_modules/*" ! -path "*/.gradle/*" | head -1)
-          APK=$(find . -name "*release*.apk" ! -path "*/node_modules/*" ! -path "*/.gradle/*" | head -1)
+            ! -path "*/node_modules/*" ! -path "*/.gradle/*" ! -path "*/debug/*" \
+            ! -path "*/gradle-*/*"
+          AAB=$(find . -path "*/release/*.aab" | head -1)
+          APK=$(find . -path "*/release/*.apk" | head -1)
           echo "aab=${AAB}" >> "$GITHUB_OUTPUT"
           echo "apk=${APK}" >> "$GITHUB_OUTPUT"
+          echo "AAB: ${AAB:-not found}"
+          echo "APK: ${APK:-not found}"
 
-      # ── 11. Upload AAB ────────────────────────────────────────────
+      # ── 11. Upload ────────────────────────────────────────────────
       - name: Upload AAB (Play Store)
         if: ${{ steps.outputs.outputs.aab != '' }}
         uses: actions/upload-artifact@v4
@@ -180,16 +181,15 @@ jobs:
           retention-days: 60
 
       # ── 12. Update assetlinks.json ────────────────────────────────
-      - name: Update assetlinks.json with SHA-256
+      - name: Update assetlinks.json
+        if: ${{ steps.keystore.outputs.sha256 != '' }}
         run: |
           SHA="${{ steps.keystore.outputs.sha256 }}"
-          [ -z "$SHA" ] && echo "No SHA-256, skip" && exit 0
           printf '[{"relation":["delegate_permission/common.handle_all_urls"],"target":{"namespace":"android_app","package_name":"%s","sha256_cert_fingerprints":["%s"]}}]\n' \
             "${{ env.PACKAGE_ID }}" "$SHA" \
             | python3 -m json.tool > .well-known/assetlinks.json
           echo "✅ assetlinks.json → $SHA"
 
-      # ── 13. Commit assetlinks ─────────────────────────────────────
       - name: Commit assetlinks.json
         run: |
           git config user.name  "github-actions[bot]"
@@ -200,7 +200,7 @@ jobs:
             || git commit -m "chore: update assetlinks.json SHA-256 [skip ci]"
           git push || echo "Nothing to push"
 
-      # ── 14. Summary ───────────────────────────────────────────────
+      # ── 13. Summary ───────────────────────────────────────────────
       - name: Summary
         if: always()
         run: |
@@ -218,5 +218,5 @@ jobs:
             echo "### Langkah selanjutnya"
             echo "1. Download artifact **.aab** dari tab **Artifacts**"
             echo "2. Upload ke [Google Play Console](https://play.google.com/console)"
-            echo "3. Simpan \`KEYSTORE_BASE64\` dari log step 6 sebagai GitHub secret"
+            echo "3. Simpan \`KEYSTORE_BASE64\` dari log step 5 sebagai GitHub secret"
           } >> "$GITHUB_STEP_SUMMARY"
