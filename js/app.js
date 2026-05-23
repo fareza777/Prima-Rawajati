@@ -944,24 +944,21 @@ function isThisWeek(jadwal) {
   return false;
 }
 
-/**
- * Render gradient placeholder foto — variasi warna deterministik dari nama
- * (sama nama selalu sama warna) supaya UI stabil tanpa butuh upload foto.
- */
-function photoPlaceholder(name, emoji) {
-  // Hash nama → 2 warna dari palette navy/gold
-  let hash = 0;
-  for (let i = 0; i < (name || '').length; i++) hash = (hash * 31 + name.charCodeAt(i)) | 0;
-  const palettes = [
-    ['#0A1F44', '#13306E'],
-    ['#13306E', '#1E3A8A'],
-    ['#A37D12', '#D4AF37'],
-    ['#0D2658', '#2B4BB0'],
-    ['#1E3A8A', '#0A1F44'],
-  ];
-  const [a, b] = palettes[Math.abs(hash) % palettes.length];
-  return `<div class="info-photo" style="background:linear-gradient(135deg, ${a} 0%, ${b} 100%)"><span class="info-photo-emoji">${emoji || '📍'}</span></div>`;
-}
+const SUARA_TOPIK = {
+  pelayanan: ['SKD / Domisili', 'KTP / KK', 'Surat Nikah', 'SKTM', 'SKCK / Pengantar', 'Antrian & jam pelayanan', 'Lainnya'],
+  fasilitas: ['Kebersihan lingkungan', 'Jalan & drainase', 'Taman / ruang publik', 'Keamanan', 'Sampah & TPST', 'Lainnya'],
+  kegiatan: ['Kegiatan RT/RW', 'Sosial kemasyarakatan', 'Pelatihan warga', 'Pengumuman kegiatan', 'Lainnya'],
+  prima: ['Layanan & Surat', 'Peta Wilayah', 'AI Chatbot', 'Info Warga', 'Kecepatan aplikasi', 'Lainnya'],
+  umum: ['Informasi kurang jelas', 'Jam operasional', 'Saran pelayanan', 'Apresiasi', 'Lainnya'],
+};
+
+const SUARA_JENIS_LABEL = {
+  pelayanan: 'Pelayanan Kelurahan',
+  fasilitas: 'Fasilitas & Lingkungan',
+  kegiatan: 'Kegiatan Warga',
+  prima: 'Aplikasi PRIMA',
+  umum: 'Saran Umum',
+};
 
 function renderInfoWarga() {
   // ─ Section "Kegiatan Minggu Ini" (di atas tab, hanya kalau ada) ─
@@ -1002,9 +999,9 @@ function renderInfoWarga() {
       const wa = waLink(k.kontak);
       return `
       <div class="info-card">
-        ${photoPlaceholder(k.nama, k.emoji)}
         <div class="info-card-body">
           <div class="info-card-header">
+            <span class="ic-emoji" aria-hidden="true">${k.emoji || '🍜'}</span>
             <h3>${escapeHtml(k.nama)}</h3>
             <span class="badge badge-amber ic-badge">⭐ Favorit warga</span>
           </div>
@@ -1030,9 +1027,9 @@ function renderInfoWarga() {
       const wa = waLink(u.kontak);
       return `
       <div class="info-card">
-        ${photoPlaceholder(u.nama, u.emoji)}
         <div class="info-card-body">
           <div class="info-card-header">
+            <span class="ic-emoji" aria-hidden="true">${u.emoji || '🏪'}</span>
             <h3>${escapeHtml(u.nama)}</h3>
             <span class="badge badge-blue ic-badge">${escapeHtml(u.kategori || '')}</span>
           </div>
@@ -1059,9 +1056,9 @@ function renderInfoWarga() {
       const thisWeek = isThisWeek(g.jadwal);
       return `
       <div class="info-card">
-        ${photoPlaceholder(g.nama, g.emoji)}
         <div class="info-card-body">
           <div class="info-card-header">
+            <span class="ic-emoji" aria-hidden="true">${g.emoji || '📅'}</span>
             <h3>${escapeHtml(g.nama)}</h3>
             ${thisWeek ? '<span class="badge badge-green ic-badge">📅 Minggu Ini</span>' : ''}
           </div>
@@ -1078,15 +1075,19 @@ function renderInfoWarga() {
   }
 
   // Tab switching (idempotent)
-  document.querySelectorAll('.tab-btn').forEach(btn => {
+  document.querySelectorAll('.info-tab').forEach(btn => {
     if (btn.dataset.bound) return;
     btn.dataset.bound = '1';
     btn.addEventListener('click', () => {
       const tab = btn.dataset.tab;
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.info-tab').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       btn.classList.add('active');
-      document.getElementById('tab-' + tab).classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      document.getElementById('tab-' + tab)?.classList.add('active');
     });
   });
 }
@@ -1945,13 +1946,14 @@ function updateChatStats() {
   if (el) el.textContent = stats.totalConversations;
 }
 
-// ── SUARA WARGA (Wizard 4 langkah) ───────────────────────────────
+// ── SUARA WARGA (Wizard 5 langkah — masukan pelayanan, bukan hanya rating app) ──
 function renderSuaraWarga() {
+  let selectedJenis = '';
+  let selectedTopik = '';
   let selectedRating = 0;
-  let selectedFitur = '';
-  let selectedAksesInfo = '';
-  let currentStep = 1;
-  const totalSteps = 4;
+  let selectedUrgensi = '';
+  let stepIndex = 0;
+  let stepSequence = [1, 2, 3, 4, 5];
 
   const stepEls = document.querySelectorAll('.wiz-step');
   const barFill = document.getElementById('wiz-bar-fill');
@@ -1959,12 +1961,46 @@ function renderSuaraWarga() {
   const btnBack = document.getElementById('wiz-back');
   const btnNext = document.getElementById('wiz-next');
   const btnSubmit = document.getElementById('wiz-submit');
+  const topikContainer = document.getElementById('topik-options');
+  const ratingTitle = document.getElementById('rating-step-title');
 
-  function goTo(step) {
-    currentStep = Math.max(1, Math.min(totalSteps, step));
+  function buildSequence(jenis) {
+    if (jenis === 'pelayanan' || jenis === 'fasilitas') return [1, 2, 3, 4, 5];
+    return [1, 2, 3, 5];
+  }
+
+  function currentLogicalStep() {
+    return stepSequence[stepIndex] || 1;
+  }
+
+  function renderTopikOptions(jenis) {
+    if (!topikContainer) return;
+    const items = SUARA_TOPIK[jenis] || SUARA_TOPIK.umum;
+    selectedTopik = '';
+    topikContainer.innerHTML = items.map(t =>
+      `<button type="button" class="option-btn" data-group="topik">${escapeHtml(t)}</button>`
+    ).join('');
+    topikContainer.querySelectorAll('.option-btn[data-group="topik"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        topikContainer.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedTopik = btn.textContent.trim();
+      });
+    });
+  }
+
+  function updateRatingTitle() {
+    if (!ratingTitle) return;
+    const label = SUARA_JENIS_LABEL[selectedJenis] || 'layanan';
+    ratingTitle.textContent = `⭐ Seberapa puas dengan ${label}?`;
+  }
+
+  function goToIndex(idx) {
+    stepIndex = Math.max(0, Math.min(stepSequence.length - 1, idx));
+    const logical = currentLogicalStep();
     stepEls.forEach(el => {
       const s = parseInt(el.dataset.step, 10);
-      if (s === currentStep) {
+      if (s === logical) {
         el.removeAttribute('hidden');
         el.classList.add('active');
       } else {
@@ -1972,82 +2008,108 @@ function renderSuaraWarga() {
         el.classList.remove('active');
       }
     });
-    if (barFill) barFill.style.width = (currentStep / totalSteps) * 100 + '%';
-    if (stepLabel) stepLabel.textContent = `Langkah ${currentStep} dari ${totalSteps}`;
-    if (btnBack) btnBack.hidden = currentStep === 1;
-    if (btnNext) btnNext.hidden = currentStep === totalSteps;
-    if (btnSubmit) btnSubmit.hidden = currentStep !== totalSteps;
+    const pct = ((stepIndex + 1) / stepSequence.length) * 100;
+    if (barFill) barFill.style.width = pct + '%';
+    if (stepLabel) stepLabel.textContent = `Langkah ${stepIndex + 1} dari ${stepSequence.length}`;
+    if (btnBack) btnBack.hidden = stepIndex === 0;
+    if (btnNext) btnNext.hidden = stepIndex === stepSequence.length - 1;
+    if (btnSubmit) btnSubmit.hidden = stepIndex !== stepSequence.length - 1;
   }
 
-  function validateStep(step) {
-    if (step === 1 && !selectedRating) {
-      showToast('⭐ Pilih bintang terlebih dahulu');
+  function validateLogical(step) {
+    if (step === 1 && !selectedJenis) {
+      showToast('📣 Pilih kategori masukan');
       return false;
     }
-    if (step === 2 && !selectedFitur) {
-      showToast('💡 Pilih salah satu fitur');
+    if (step === 2 && !selectedTopik) {
+      showToast('🎯 Pilih topik masukan');
       return false;
     }
-    if (step === 3 && !selectedAksesInfo) {
-      showToast('📱 Pilih salah satu jawaban');
+    if (step === 3 && !selectedRating) {
+      showToast('⭐ Pilih tingkat kepuasan');
       return false;
+    }
+    if (step === 4 && !selectedUrgensi) {
+      showToast('⏱️ Pilih tingkat urgensi');
+      return false;
+    }
+    if (step === 5) {
+      const masukan = document.getElementById('masukan-text')?.value.trim() || '';
+      if (masukan.length < 10) {
+        showToast('💬 Tulis masukan minimal 10 karakter');
+        return false;
+      }
     }
     return true;
   }
 
-  // Star rating
+  document.querySelectorAll('.option-btn[data-group="jenis"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.option-btn[data-group="jenis"]').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedJenis = btn.dataset.jenis || '';
+      selectedTopik = '';
+      selectedUrgensi = '';
+      stepSequence = buildSequence(selectedJenis);
+      renderTopikOptions(selectedJenis);
+      updateRatingTitle();
+    });
+  });
+
   document.querySelectorAll('.star-btn').forEach((btn, i) => {
     btn.addEventListener('click', () => {
       selectedRating = i + 1;
-      document.querySelectorAll('.star-btn').forEach((b, j) => {
-        b.classList.toggle('active', j < selectedRating);
-      });
-      const labels = ['', 'Sangat Buruk 😞', 'Buruk 😕', 'Cukup 😐', 'Baik 😊', 'Sangat Baik 😍'];
-      document.getElementById('rating-label').textContent = labels[selectedRating];
+      document.querySelectorAll('.star-btn').forEach((b, j) => b.classList.toggle('active', j < selectedRating));
+      const labels = ['', 'Sangat tidak puas 😞', 'Kurang puas 😕', 'Cukup 😐', 'Puas 😊', 'Sangat puas 😍'];
+      const rl = document.getElementById('rating-label');
+      if (rl) rl.textContent = labels[selectedRating];
     });
   });
 
-  // Option buttons
-  document.querySelectorAll('.option-btn[data-group="fitur"]').forEach(btn => {
+  document.querySelectorAll('.option-btn[data-group="urgensi"]').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.option-btn[data-group="fitur"]').forEach(b => b.classList.remove('selected'));
+      document.querySelectorAll('.option-btn[data-group="urgensi"]').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
-      selectedFitur = btn.textContent;
-    });
-  });
-  document.querySelectorAll('.option-btn[data-group="akses"]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.option-btn[data-group="akses"]').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      selectedAksesInfo = btn.textContent;
+      selectedUrgensi = btn.textContent.trim();
     });
   });
 
-  // Wizard nav
   if (btnNext) btnNext.addEventListener('click', () => {
-    if (!validateStep(currentStep)) return;
-    goTo(currentStep + 1);
+    if (!validateLogical(currentLogicalStep())) return;
+    goToIndex(stepIndex + 1);
   });
-  if (btnBack) btnBack.addEventListener('click', () => goTo(currentStep - 1));
+  if (btnBack) btnBack.addEventListener('click', () => goToIndex(stepIndex - 1));
 
-  // Submit
   document.getElementById('suara-form').addEventListener('submit', e => {
     e.preventDefault();
-    if (!validateStep(1)) { goTo(1); return; }
-    if (!validateStep(2)) { goTo(2); return; }
-    if (!validateStep(3)) { goTo(3); return; }
+    for (let i = 0; i < stepSequence.length; i++) {
+      const logical = stepSequence[i];
+      if (!validateLogical(logical)) {
+        goToIndex(i);
+        return;
+      }
+    }
 
     const masukan = document.getElementById('masukan-text').value.trim();
     const nama = document.getElementById('nama-warga').value.trim() || 'Anonim';
-    const rt  = document.getElementById('rt-warga').value.trim() || '-';
+    const rt = document.getElementById('rt-warga').value.trim() || '-';
+    const hp = document.getElementById('hp-warga')?.value.trim() || '';
 
+    const jenisLabel = SUARA_JENIS_LABEL[selectedJenis] || selectedJenis;
     const newFeedback = {
       id: Date.now(),
       timestamp: new Date().toISOString(),
+      jenisSuara: jenisLabel,
+      jenisKey: selectedJenis,
+      topik: selectedTopik,
       rating: selectedRating,
-      fiturFavorit: selectedFitur,
-      aksesInfo: selectedAksesInfo,
-      masukan, nama, rt
+      urgensi: selectedUrgensi || '-',
+      masukan,
+      nama,
+      rt,
+      hp,
+      fiturFavorit: selectedTopik,
+      aksesInfo: selectedUrgensi || '-',
     };
 
     const localFbs = JSON.parse(localStorage.getItem('prima_feedbacks') || '[]');
@@ -2057,29 +2119,31 @@ function renderSuaraWarga() {
     fetch('/api/feedback', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ feedback: newFeedback })
+      body: JSON.stringify({ feedback: newFeedback }),
     }).catch(() => {});
 
     updateAdminStats();
-
-    // Confetti + thank-you screen — ganti form
     fireConfetti();
     showThankYou(nama);
 
-    // Reset state (kalau warga mau submit lagi nanti)
     setTimeout(() => {
       e.target.reset();
+      selectedJenis = '';
+      selectedTopik = '';
       selectedRating = 0;
-      selectedFitur = '';
-      selectedAksesInfo = '';
+      selectedUrgensi = '';
+      stepSequence = [1, 2, 3, 4, 5];
+      stepIndex = 0;
       document.querySelectorAll('.star-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
       const rl = document.getElementById('rating-label');
       if (rl) rl.textContent = 'Pilih bintang di atas';
+      if (topikContainer) topikContainer.innerHTML = '';
+      goToIndex(0);
     }, 100);
   });
 
-  goTo(1);
+  goToIndex(0);
 }
 
 /**
@@ -2213,8 +2277,11 @@ function _renderFeedbackList(feedbacks) {
         <span style="font-size:12px;color:var(--text-muted)">RT ${escapeHtml(f.rt)}</span>
         <span style="margin-left:auto;font-size:12px">${'⭐'.repeat(f.rating)}</span>
       </div>
-      ${f.fiturFavorit ? `<p style="font-size:11px;color:var(--text-muted)">Fitur favorit: ${escapeHtml(f.fiturFavorit)}</p>` : ''}
-      ${f.aksesInfo ? `<p style="font-size:11px;color:var(--text-muted)">Akses info: ${escapeHtml(f.aksesInfo)}</p>` : ''}
+      ${f.jenisSuara ? `<p style="font-size:11px;color:var(--text-muted)">Kategori: <strong>${escapeHtml(f.jenisSuara)}</strong>${f.topik ? ' · ' + escapeHtml(f.topik) : ''}</p>` : ''}
+      ${!f.jenisSuara && f.fiturFavorit ? `<p style="font-size:11px;color:var(--text-muted)">Topik: ${escapeHtml(f.fiturFavorit)}</p>` : ''}
+      ${f.urgensi && f.urgensi !== '-' ? `<p style="font-size:11px;color:var(--text-muted)">Urgensi: ${escapeHtml(f.urgensi)}</p>` : ''}
+      ${!f.urgensi && f.aksesInfo && f.aksesInfo !== '-' ? `<p style="font-size:11px;color:var(--text-muted)">Catatan: ${escapeHtml(f.aksesInfo)}</p>` : ''}
+      ${f.hp ? `<p style="font-size:11px;color:var(--text-muted)">Kontak: ${escapeHtml(f.hp)}</p>` : ''}
       ${f.masukan ? `<p style="font-size:13px;color:var(--text)">"${escapeHtml(f.masukan)}"</p>` : ''}
       <p style="font-size:11px;color:var(--text-muted);margin-top:4px">${new Date(f.timestamp).toLocaleString('id-ID')}</p>
     </div>

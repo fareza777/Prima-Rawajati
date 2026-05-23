@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 
   <!-- App CSS (v4 – Royal Government Theme) -->
-  <link rel="stylesheet" href="css/style.css?v=6">
+  <link rel="stylesheet" href="css/style.css?v=8">
 
   <!-- Desktop fix: inline override agar tidak terkena cache -->
   <style>
@@ -288,29 +288,29 @@
      PAGE: INFO WARGA
 ═══════════════════════════════════════════ -->
 <main id="page-info" class="page">
-  <div class="section-header">
-    <h2>🍜 Info Warga Rawajati</h2>
-    <p>Kenali tetangga Anda lebih dekat — kuliner andalan, UMKM binaan, dan agenda warga.</p>
+  <div class="page-hero">
+    <div class="page-hero-head section-header">
+      <h2>🍜 Info Warga Rawajati</h2>
+      <p>Kenali tetangga Anda lebih dekat — kuliner andalan, UMKM binaan, dan agenda warga.</p>
+    </div>
+    <div class="info-tab-bar" role="tablist" aria-label="Kategori info warga">
+      <button type="button" class="info-tab active" data-tab="kuliner" role="tab" aria-selected="true">Kuliner</button>
+      <button type="button" class="info-tab" data-tab="usaha" role="tab" aria-selected="false">Usaha Binaan</button>
+      <button type="button" class="info-tab" data-tab="kegiatan" role="tab" aria-selected="false">Kegiatan</button>
+    </div>
   </div>
 
   <!-- Banner Kegiatan Minggu Ini — auto-populated kalau ada kegiatan jadwalnya minggu ini -->
   <div class="kegiatan-this-week" id="kegiatan-this-week" hidden></div>
 
-  <!-- Tab Bar -->
-  <div class="tab-bar">
-    <button class="tab-btn active" data-tab="kuliner">🍜 Kuliner</button>
-    <button class="tab-btn" data-tab="usaha">🏪 Usaha Binaan</button>
-    <button class="tab-btn" data-tab="kegiatan">📅 Kegiatan</button>
-  </div>
-
   <!-- Tab Content -->
-  <div class="tab-content active" id="tab-kuliner" style="padding-top:12px">
+  <div class="tab-content active" id="tab-kuliner">
     <div id="kuliner-list"></div>
   </div>
-  <div class="tab-content" id="tab-usaha" style="padding-top:12px">
+  <div class="tab-content" id="tab-usaha">
     <div id="usaha-list"></div>
   </div>
-  <div class="tab-content" id="tab-kegiatan" style="padding-top:12px">
+  <div class="tab-content" id="tab-kegiatan">
     <div id="kegiatan-list"></div>
   </div>
 </main>
@@ -354,9 +354,11 @@
      PAGE: SUARA WARGA
 ═══════════════════════════════════════════ -->
 <main id="page-suara" class="page">
-  <div class="section-header">
-    <h2>✏️ Suara Warga</h2>
-    <p>Suara Anda menentukan arah pelayanan kami. Sampaikan, kami mendengarkan.</p>
+  <div class="page-hero page-hero-compact">
+    <div class="page-hero-head section-header">
+      <h2>✏️ Suara Warga</h2>
+      <p>Sampaikan masukan tentang pelayanan kelurahan, lingkungan, kegiatan warga, atau aplikasi PRIMA.</p>
+    </div>
   </div>
 
   <div class="suara-page">
@@ -364,12 +366,32 @@
       <!-- Wizard progress bar -->
       <div class="wiz-progress">
         <div class="wiz-bar"><div class="wiz-bar-fill" id="wiz-bar-fill"></div></div>
-        <div class="wiz-step-label" id="wiz-step-label">Langkah 1 dari 4</div>
+        <div class="wiz-step-label" id="wiz-step-label">Langkah 1 dari 5</div>
       </div>
 
-      <!-- Step 1: Rating -->
+      <!-- Step 1: Jenis suara -->
       <div class="survey-card wiz-step active" data-step="1">
-        <h3>⭐ Bagaimana pengalaman Anda dengan PRIMA?</h3>
+        <h3>📣 Masukan Anda tentang apa?</h3>
+        <p class="wiz-hint">Pilih kategori yang paling sesuai</p>
+        <div class="option-grid option-grid-tall">
+          <button type="button" class="option-btn" data-group="jenis" data-jenis="pelayanan">🏛️ Pelayanan Kelurahan</button>
+          <button type="button" class="option-btn" data-group="jenis" data-jenis="fasilitas">🌿 Fasilitas &amp; Lingkungan</button>
+          <button type="button" class="option-btn" data-group="jenis" data-jenis="kegiatan">📅 Kegiatan Warga</button>
+          <button type="button" class="option-btn" data-group="jenis" data-jenis="prima">📱 Aplikasi PRIMA</button>
+          <button type="button" class="option-btn option-btn-wide" data-group="jenis" data-jenis="umum">💬 Saran Umum</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Topik -->
+      <div class="survey-card wiz-step" data-step="2" hidden>
+        <h3 id="topik-step-title">🎯 Topik masukan</h3>
+        <p class="wiz-hint" id="topik-step-hint">Pilih yang paling mendekati</p>
+        <div class="option-grid" id="topik-options"></div>
+      </div>
+
+      <!-- Step 3: Kepuasan -->
+      <div class="survey-card wiz-step" data-step="3" hidden>
+        <h3 id="rating-step-title">⭐ Tingkat kepuasan Anda</h3>
         <div class="star-rating">
           <button type="button" class="star-btn" data-val="1">⭐</button>
           <button type="button" class="star-btn" data-val="2">⭐</button>
@@ -380,48 +402,32 @@
         <div class="rating-label" id="rating-label">Pilih bintang di atas</div>
       </div>
 
-      <!-- Step 2: Fitur Favorit -->
-      <div class="survey-card wiz-step" data-step="2" hidden>
-        <h3>💡 Fitur mana yang paling berguna?</h3>
-        <div class="option-grid">
-          <button type="button" class="option-btn" data-group="fitur">📋 Layanan & Surat</button>
-          <button type="button" class="option-btn" data-group="fitur">🗺️ Peta Wilayah</button>
-          <button type="button" class="option-btn" data-group="fitur">💬 AI Chatbot</button>
-          <button type="button" class="option-btn" data-group="fitur">🍜 Info Warga</button>
-        </div>
-      </div>
-
-      <!-- Step 3: Akses Info -->
-      <div class="survey-card wiz-step" data-step="3" hidden>
-        <h3>📱 Apakah PRIMA membantu Anda mendapat info layanan di luar jam kerja?</h3>
-        <div class="option-grid">
-          <button type="button" class="option-btn" data-group="akses">✅ Ya, sangat membantu</button>
-          <button type="button" class="option-btn" data-group="akses">🙂 Cukup membantu</button>
-          <button type="button" class="option-btn" data-group="akses">😐 Biasa saja</button>
-          <button type="button" class="option-btn" data-group="akses">❌ Belum membantu</button>
-        </div>
-      </div>
-
-      <!-- Step 4: Masukan -->
+      <!-- Step 4: Urgensi (hanya pelayanan/fasilitas) -->
       <div class="survey-card wiz-step" data-step="4" hidden>
-        <h3>💬 Masukan & Saran (opsional)</h3>
+        <h3>⏱️ Seberapa mendesak?</h3>
+        <div class="option-grid option-grid-3">
+          <button type="button" class="option-btn" data-group="urgensi">🟢 Biasa</button>
+          <button type="button" class="option-btn" data-group="urgensi">🟡 Perlu ditindaklanjuti</button>
+          <button type="button" class="option-btn" data-group="urgensi">🔴 Mendesak</button>
+        </div>
+      </div>
+
+      <!-- Step 5: Detail + kontak -->
+      <div class="survey-card wiz-step" data-step="5" hidden>
+        <h3>💬 Ceritakan lebih detail</h3>
         <div class="form-group">
-          <label for="masukan-text">Ada informasi yang kurang atau perlu diperbaiki?</label>
-          <textarea id="masukan-text" placeholder="Contoh: Tolong tambahkan info syarat surat nikah…" rows="3"></textarea>
+          <label for="masukan-text">Masukan, saran, atau keluhan</label>
+          <textarea id="masukan-text" placeholder="Contoh: Proses SKD di loket masih lama, mohon ditambah petugas di jam sibuk…" rows="4" required minlength="10"></textarea>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="form-group" style="margin-bottom:0">
-            <label for="nama-warga">Nama (opsional)</label>
-            <input type="text" id="nama-warga" placeholder="Anonim jika kosong">
-          </div>
-          <div class="form-group" style="margin-bottom:0">
-            <label for="rt-warga">RT/RW (opsional)</label>
-            <input type="text" id="rt-warga" placeholder="Contoh: RT 02/RW 05">
+        <div class="form-group">
+          <label>Hubungi Anda kembali? (opsional)</label>
+          <div class="suara-contact-row">
+            <input type="text" id="nama-warga" placeholder="Nama">
+            <input type="text" id="rt-warga" placeholder="RT/RW">
+            <input type="tel" id="hp-warga" placeholder="No. HP / WA">
           </div>
         </div>
-        <p style="font-size:12px;color:var(--text-muted);margin-top:8px;text-align:center">
-          🔒 Anonim secara default. Kontak hanya dipakai bila Anda ingin follow-up.
-        </p>
+        <p class="wiz-privacy">🔒 Default anonim jika kontak dikosongkan. Data hanya untuk perbaikan pelayanan kelurahan.</p>
       </div>
 
       <!-- Wizard navigation -->
