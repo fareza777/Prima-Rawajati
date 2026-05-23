@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 
   <!-- App CSS (v4 – Royal Government Theme) -->
-  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/style.css?v=6">
 
   <!-- Desktop fix: inline override agar tidak terkena cache -->
   <style>
@@ -95,20 +95,6 @@
     <div class="hero-greeting" id="hero-greeting">Selamat datang 👋</div>
     <h2>Pelayanan Kelurahan <span>Rawajati</span> dalam Genggaman</h2>
     <p>Asisten cerdas warga — cek persyaratan, jelajahi peta wilayah, sampaikan suara Anda. Kapan saja, di mana saja.</p>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="stat-num" id="stat-layanan" data-target="12" data-suffix="+">0</div>
-        <div class="stat-label">Jenis Layanan</div>
-      </div>
-      <div class="hero-stat">
-        <div class="stat-num" id="stat-lokasi" data-target="20" data-suffix="+">0</div>
-        <div class="stat-label">Titik di Peta</div>
-      </div>
-      <div class="hero-stat">
-        <div class="stat-num" id="stat-always">24/7</div>
-        <div class="stat-label">Selalu Hadir</div>
-      </div>
-    </div>
     <!-- Live activity ticker — agregat dari counter sesi lokal -->
     <div class="hero-ticker" id="hero-ticker" aria-live="polite">
       <span class="ticker-dot"></span>
@@ -158,7 +144,7 @@
       <h3>Suara Warga</h3>
       <p>Masukan & saran untuk PRIMA</p>
     </div>
-    <div class="menu-card gold" onclick="navigateTo('admin')">
+    <div class="menu-card gold menu-card-admin" onclick="navigateTo('admin')" hidden aria-hidden="true">
       <span class="card-icon"><i data-lucide="shield-check"></i></span>
       <h3>Admin</h3>
       <p>Panel pengelola konten</p>
@@ -187,7 +173,10 @@
              width="220" height="48" loading="lazy">
         <div class="trust-foot-text">
           <strong>Kelurahan Rawajati</strong>
-          <small>Kecamatan Pancoran · Kota Administrasi Jakarta Selatan</small>
+          <small id="trust-lokasi">
+            <span id="trust-kecamatan">Kecamatan Pancoran</span><br>
+            <span id="trust-kota">Kota Administrasi Jakarta Selatan</span>
+          </small>
         </div>
       </div>
 
@@ -217,21 +206,21 @@
      PAGE: LAYANAN & SURAT
 ═══════════════════════════════════════════ -->
 <main id="page-layanan" class="page">
-  <div class="section-header">
-    <h2>📋 Layanan & Surat</h2>
-    <p>Lengkap dengan syarat, prosedur, dan template dokumen yang dapat diunduh</p>
-  </div>
-
-  <div style="padding:0 16px 12px;max-width:600px;margin:0 auto">
-    <div class="search-box">
-      <span class="search-icon">🔍</span>
-      <input type="search" id="layanan-search" placeholder="Cari jenis layanan…" autocomplete="off">
+  <div class="page-hero">
+    <div class="page-hero-head section-header">
+      <h2>📋 Layanan & Surat</h2>
+      <p>Lengkap dengan syarat, prosedur, dan template dokumen yang dapat diunduh</p>
     </div>
-  </div>
-
-  <!-- Filter chip horizontal scroll — di-populate oleh renderLayananFilters() -->
-  <div class="layanan-filters" id="layanan-filters" role="tablist" aria-label="Filter kategori layanan">
-    <!-- Rendered by JS -->
+    <div class="page-hero-toolbar">
+      <div class="search-box">
+        <span class="search-icon"><i data-lucide="search"></i></span>
+        <input type="search" id="layanan-search" placeholder="Cari jenis layanan…" autocomplete="off">
+      </div>
+      <!-- Filter chip horizontal scroll — di-populate oleh renderLayananFilters() -->
+      <div class="layanan-filters" id="layanan-filters" role="tablist" aria-label="Filter kategori layanan">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
   </div>
 
   <div class="info-banner" style="margin:0 16px 12px;max-width:568px;margin-left:auto;margin-right:auto;display:flex">
@@ -249,13 +238,13 @@
      PAGE: PETA WILAYAH
 ═══════════════════════════════════════════ -->
 <main id="page-peta" class="page">
-  <div class="section-header">
-    <h2>🗺️ Peta Wilayah Rawajati</h2>
-    <p>Fasilitas, lokasi RW, masjid, bank sampah, dan area penting lainnya</p>
-  </div>
-
-  <!-- Filter Chips -->
-  <div class="map-filter-bar">
+  <div class="page-hero">
+    <div class="page-hero-head section-header">
+      <h2>🗺️ Peta Wilayah Rawajati</h2>
+      <p>Fasilitas, lokasi RW, masjid, bank sampah, dan area penting lainnya</p>
+    </div>
+    <!-- Filter Chips -->
+    <div class="map-filter-bar">
     <button class="filter-chip active" data-filter="Semua" onclick="updateMapFilter('Semua')">🔍 Semua</button>
     <button class="filter-chip" data-filter="Pemerintahan" onclick="updateMapFilter('Pemerintahan')">🏛️ Pemerintahan</button>
     <button class="filter-chip" data-filter="RW" onclick="updateMapFilter('RW')">🏘️ Sekretariat RW</button>
@@ -265,6 +254,7 @@
     <button class="filter-chip" data-filter="Kesehatan" onclick="updateMapFilter('Kesehatan')">🏥 Kesehatan</button>
     <button class="filter-chip" data-filter="Fasilitas Umum" onclick="updateMapFilter('Fasilitas Umum')">⚽ Fasilitas</button>
     <button class="filter-chip" data-filter="Peringatan" onclick="updateMapFilter('Peringatan')">⚠️ Rawan Banjir</button>
+    </div>
   </div>
 
   <!-- Map Container + Lokasi Saya FAB -->

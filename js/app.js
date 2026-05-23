@@ -35,7 +35,8 @@ function bootApp() {
   // Handle shortcut deep link: ?s=layanan atau ?s=chat (dari manifest.json shortcuts)
   const urlParams = new URLSearchParams(window.location.search);
   const shortcut  = urlParams.get('s');
-  const pageMap   = { layanan: 'layanan', chat: 'chatbot', peta: 'peta', info: 'info', suara: 'suara' };
+  const pageMap   = { layanan: 'layanan', chat: 'chatbot', peta: 'peta', info: 'info', suara: 'suara', admin: 'admin' };
+  initAdminSecretAccess();
   const startPage = (shortcut && pageMap[shortcut]) || localStorage.getItem('prima_last_page') || 'home';
   navigateTo(startPage);
 }
@@ -101,11 +102,6 @@ function renderHome() {
   incrementVisitCounter();
   renderHeroTicker();
 
-  // Animated counters di hero (angka real dari data)
-  setStatTarget('stat-layanan', PRIMA_DATA.layanan.length);
-  setStatTarget('stat-lokasi', PRIMA_DATA.petaMarkers.length);
-  animateHeroCounters();
-
   // Render footer contact links dari meta kelurahan
   renderFooterContact();
 
@@ -142,50 +138,6 @@ function getTimeBasedGreeting() {
 function renderHeroGreeting() {
   const el = document.getElementById('hero-greeting');
   if (el) el.textContent = getTimeBasedGreeting();
-}
-
-/**
- * Set data-target attribute pada stat counter dan reset nilai awal ke 0.
- * @param {string} id - element id
- * @param {number} target - angka final
- */
-function setStatTarget(id, target) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.dataset.target = String(target);
-  el.textContent = '0';
-}
-
-/**
- * Animate counter dari 0 ke target dengan easing cubic-out.
- * Aman re-call: hanya animate elemen yang punya data-target dan belum di-animate.
- */
-function animateHeroCounters() {
-  const els = document.querySelectorAll('.hero-stat .stat-num[data-target]');
-  els.forEach(el => {
-    if (el.dataset.animated === '1') return;
-    el.dataset.animated = '1';
-    const target = parseInt(el.dataset.target, 10) || 0;
-    const suffix = el.dataset.suffix || '';
-    const duration = 1100; // ms
-    const start = performance.now();
-    el.parentElement?.classList.add('counting');
-
-    function tick(now) {
-      const elapsed = now - start;
-      const t = Math.min(elapsed / duration, 1);
-      // cubic ease-out
-      const eased = 1 - Math.pow(1 - t, 3);
-      const current = Math.round(target * eased);
-      el.textContent = current + suffix;
-      if (t < 1) {
-        requestAnimationFrame(tick);
-      } else {
-        el.parentElement?.classList.remove('counting');
-      }
-    }
-    requestAnimationFrame(tick);
-  });
 }
 
 /**
@@ -296,6 +248,29 @@ function renderFooterContact() {
     }
   }
   if (igText && igRaw) igText.textContent = '@' + igRaw;
+
+  const kecEl = document.getElementById('trust-kecamatan');
+  const kotaEl = document.getElementById('trust-kota');
+  if (kecEl && meta.kecamatan) kecEl.textContent = 'Kecamatan ' + meta.kecamatan;
+  if (kotaEl && meta.kota) kotaEl.textContent = 'Kota Administrasi ' + meta.kota;
+}
+
+/** Akses panel admin tersembunyi: ketuk badge PRIMA 5× dalam 3 detik, atau ?s=admin */
+function initAdminSecretAccess() {
+  const badge = document.querySelector('.logo-badge');
+  if (!badge) return;
+  let taps = 0;
+  let timer = null;
+  badge.addEventListener('click', () => {
+    taps += 1;
+    clearTimeout(timer);
+    timer = setTimeout(() => { taps = 0; }, 3000);
+    if (taps >= 5) {
+      taps = 0;
+      navigateTo('admin');
+      showToast('🔐 Panel Admin');
+    }
+  });
 }
 
 function searchAll(query) {
