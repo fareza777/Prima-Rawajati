@@ -442,7 +442,7 @@ input:focus, textarea:focus, select:focus {
   font-weight: 700;
   line-height: 1.35;
   letter-spacing: -.5px;
-  margin-bottom: 8px;
+  margin-bottom: 14px;
 }
 .hero-banner h2 span {
   color: var(--gold-light);
@@ -457,14 +457,22 @@ input:focus, textarea:focus, select:focus {
   max-width: 38ch;
 }
 
-/* Dark mode: hero lebih gelap */
+/* Dark mode: hero selaras dengan header & body gelap */
 [data-theme="dark"] .hero-banner {
-  background: linear-gradient(135deg, #0a1228 0%, #060e22 40%, #030812 100%);
+  background:
+    radial-gradient(130% 90% at 0% 0%, #1a2744 0%, transparent 55%),
+    radial-gradient(130% 100% at 100% 100%, #152238 0%, transparent 50%),
+    linear-gradient(145deg, #0B1021 0%, #121A2E 55%, #080d18 100%);
+  border-bottom-color: rgba(212,175,55,.15);
 }
 [data-theme="dark"] .hero-banner::before {
   background:
     radial-gradient(30% 20% at 85% 15%, rgba(212,175,55,.08), transparent 60%),
-    radial-gradient(40% 30% at 10% 90%, rgba(244,201,93,.06), transparent 60%);
+    radial-gradient(40% 30% at 10% 90%, rgba(244,201,93,.05), transparent 60%);
+}
+[data-theme="dark"] .hero-ticker {
+  background: rgba(0,0,0,.22);
+  border-color: rgba(212,175,55,.2);
 }
 
 /* ── QUICK SEARCH ── */
@@ -1761,6 +1769,24 @@ a.download-btn, .download-btn {
 }
 [data-theme="dark"] .menu-card .card-icon {
   box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 4px 10px rgba(0,0,0,.15);
+}
+
+[data-theme="dark"] .top-header {
+  background:
+    linear-gradient(180deg, rgba(11,16,33,.94), rgba(11,16,33,.94)),
+    radial-gradient(120% 100% at 0% 0%, #1a2744 0%, transparent 55%),
+    linear-gradient(135deg, #0B1021 0%, #121A2E 55%, #080d18 100%);
+  box-shadow: 0 8px 24px rgba(0,0,0,.45), inset 0 -1px 0 rgba(212,175,55,.18);
+}
+[data-theme="dark"] .top-header::after {
+  opacity: .55;
+}
+[data-theme="dark"] .header-btn {
+  background: rgba(0,0,0,.28);
+  border-color: rgba(255,255,255,.1);
+}
+[data-theme="dark"] .header-btn:hover {
+  background: rgba(0,0,0,.4);
 }
 
 [data-theme="dark"] .menu-card.blue  { --mc-from: #1E293B; --mc-to: #172033; --mc-ink: #93C5FD; }
