@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       version_code:
-        description: 'Version code (integer)'
+        description: 'Version code (kosong = pakai twa-manifest.json)'
         required: false
-        default: '1'
+        default: ''
       version_name:
-        description: 'Version name'
+        description: 'Version name (kosong = pakai twa-manifest.json)'
         required: false
-        default: '1.0.0'
+        default: ''
   push:
     branches: [main]
     paths:
@@ -104,8 +104,11 @@ jobs:
           import json, os
           with open('twa-manifest.json') as f:
               m = json.load(f)
-          m['appVersion']     = os.environ['VERSION_CODE']
-          m['appVersionName'] = os.environ['VERSION_NAME']
+          if os.environ.get('VERSION_CODE'):
+              m['appVersion'] = os.environ['VERSION_CODE']
+          if os.environ.get('VERSION_NAME'):
+              m['appVersionName'] = os.environ['VERSION_NAME']
+          print(f"versionCode={m['appVersion']} versionName={m['appVersionName']}")
           m['signingKey']['path']          = os.path.abspath('android.keystore')
           m['signingKey']['storePassword'] = os.environ['KEY_PASS']
           m['signingKey']['keyPassword']   = os.environ['KEY_PASS']
@@ -114,8 +117,8 @@ jobs:
           print('✅ twa-manifest.json updated')
           PYEOF
         env:
-          VERSION_CODE: ${{ github.event.inputs.version_code || '1' }}
-          VERSION_NAME: ${{ github.event.inputs.version_name || '1.0.0' }}
+          VERSION_CODE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version_code || '' }}
+          VERSION_NAME: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version_name || '' }}
           KEY_PASS:     ${{ steps.keystore.outputs.key_pass }}
 
       # ── 7. Generate Android project (zero-dependency template) ────
