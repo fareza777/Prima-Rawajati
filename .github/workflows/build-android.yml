@@ -265,9 +265,9 @@ jobs:
               "target": {
                   "namespace": "android_app",
                   "package_name": os.environ["PACKAGE_ID"],
-                  "sha256_cert_fingerprints": fps,
+                  "sha256_cert_fingerprints": [fp],
               },
-          }]
+          } for fp in fps]
           with open(".well-known/assetlinks.json", "w", encoding="utf-8") as f:
               json.dump(doc, f, indent=4)
               f.write("\n")

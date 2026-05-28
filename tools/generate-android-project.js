@@ -218,6 +218,10 @@ write('app/src/main/AndroidManifest.xml', `<?xml version="1.0" encoding="utf-8"?
                 android:name="android.support.customtabs.trusted.FALLBACK_STRATEGY"
                 android:value="customtabs" />
 
+            <meta-data
+                android:name="asset_statements"
+                android:resource="@string/assetStatements" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -229,7 +233,8 @@ write('app/src/main/AndroidManifest.xml', `<?xml version="1.0" encoding="utf-8"?
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:scheme="https"
-                    android:host="${HOST}" />
+                    android:host="${HOST}"
+                    android:pathPrefix="/" />
             </intent-filter>
         </activity>
 
@@ -248,10 +253,17 @@ write('app/src/main/AndroidManifest.xml', `<?xml version="1.0" encoding="utf-8"?
 `);
 
 // ── 9. res/values ────────────────────────────────────────────────
+// Bidirectional Digital Asset Links (app → web); required for TWA fullscreen
+const assetStatementsJson = JSON.stringify([{
+  relation: ['delegate_permission/common.handle_all_urls'],
+  target: { namespace: 'web', site: `https://${HOST}/` },
+}]);
+
 write('app/src/main/res/values/strings.xml', `<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">${APP_NAME}</string>
     <string name="launcher_name">${LAUNCHER}</string>
+    <string name="assetStatements" translatable="false">${assetStatementsJson.replace(/"/g, '\\"')}</string>
 </resources>
 `);
 

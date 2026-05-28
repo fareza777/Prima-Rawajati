@@ -56,7 +56,7 @@ Cek juga: https://digitalassetlinks.googleapis.com/v1/statements:list?source.web
 2. Install lagi dari link internal testing
 3. Buka app — URL bar seharusnya hilang (layar penuh navy)
 
-Tidak perlu upload AAB baru hanya untuk `assetlinks` — cukup deploy Vercel + reinstall app.
+Jika sudah menambahkan SHA Play tapi URL bar masih ada: upload **AAB baru** (versi terbaru) — APK harus berisi `asset_statements` (tautan app → web). Cukup reinstall saja **tidak** cukup untuk build lama.
 
 ## Masih ada URL bar?
 
