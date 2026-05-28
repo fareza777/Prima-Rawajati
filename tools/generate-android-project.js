@@ -155,7 +155,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.6.2'
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.5.0'
 }
 `);
 
