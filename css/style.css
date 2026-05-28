@@ -3374,47 +3374,74 @@ body.splash-active {
               opacity 0.95s cubic-bezier(.4, 0, .2, 1);
 }
 
-.splash-emblem {
+/* Lambang PRIMA — pill emas horizontal (utuh, tidak terpotong) */
+.splash-brand {
   position: relative;
-  width: 118px;
-  height: 118px;
-  margin: 0 auto 22px;
-  animation: splashEmblemIn 1.5s cubic-bezier(.22, 1, .36, 1) 0.25s both;
-}
-.splash-ring {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 1px solid rgba(212, 175, 55, .35);
-}
-.splash-ring--outer {
-  animation: splashRingRotate 14s linear infinite;
-  border-style: dashed;
-  opacity: .7;
-}
-.splash-ring--mid {
-  inset: 10px;
-  border-color: rgba(255,255,255,.15);
-  animation: splashRingRotate 20s linear infinite reverse;
-}
-.splash-logo {
-  position: absolute;
-  inset: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 18px;
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: 3px;
-  color: var(--navy-900);
-  background: linear-gradient(145deg, #FBE89A 0%, var(--gold-light) 40%, var(--gold) 75%, var(--gold-deep) 100%);
+  margin: 0 auto 26px;
+  min-height: 88px;
+  animation: splashBrandIn 1.45s cubic-bezier(.22, 1, .36, 1) 0.2s both;
+}
+.splash-badge-halo {
+  position: absolute;
+  width: min(100%, 320px);
+  height: 100px;
+  border-radius: 999px;
+  background: radial-gradient(ellipse 70% 55% at 50% 50%, rgba(212, 175, 55, .42) 0%, transparent 72%);
+  filter: blur(8px);
+  animation: splashHaloPulse 4s ease-in-out 1.4s infinite;
+}
+.splash-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 44px 17px;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, #FFF4C4 0%, #FBE89A 12%, #F4C95D 45%, #D4AF37 78%, #B8942E 100%);
+  border: 1px solid rgba(255, 255, 255, .35);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.65),
-    0 8px 28px rgba(212, 175, 55, .45),
-    0 0 0 1px rgba(255,255,255,.08);
-  animation: splashLogoPulse 3.2s ease-in-out 1.2s infinite;
+    inset 0 2px 0 rgba(255, 255, 255, .7),
+    inset 0 -4px 10px rgba(120, 85, 10, .18),
+    0 4px 0 rgba(163, 125, 18, .55),
+    0 14px 36px rgba(212, 175, 55, .4),
+    0 0 0 1px rgba(212, 175, 55, .25);
+  overflow: hidden;
+  animation: splashBadgeFloat 4.5s ease-in-out 1.5s infinite;
+}
+.splash-badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, .35) 48%,
+    transparent 62%
+  );
+  animation: splashBadgeSheen 5s ease-in-out 2s infinite;
+  pointer-events: none;
+}
+.splash-badge-text {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 8.5vw, 36px);
+  font-weight: 800;
+  font-style: normal;
+  letter-spacing: 0.14em;
+  padding-left: 0.14em;
+  white-space: nowrap;
+  color: var(--navy-900);
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, .55),
+    0 2px 0 rgba(255, 255, 255, .2),
+    0 -1px 2px rgba(0, 0, 0, .15);
+  -webkit-font-smoothing: antialiased;
 }
 
 .splash-tagline {
@@ -3502,21 +3529,26 @@ body.app-ready #page-home.active .menu-grid {
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes splashEmblemIn {
-  from { opacity: 0; transform: scale(0.82); }
-  to   { opacity: 1; transform: scale(1); }
+@keyframes splashBrandIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.9); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes splashHaloPulse {
+  0%, 100% { opacity: .75; transform: scale(1); }
+  50%      { opacity: 1; transform: scale(1.06); }
+}
+@keyframes splashBadgeFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+@keyframes splashBadgeSheen {
+  0%, 100% { transform: translateX(-120%); opacity: 0; }
+  35%      { opacity: 1; }
+  65%      { transform: translateX(120%); opacity: 0; }
 }
 @keyframes splashLineIn {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes splashRingRotate {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-@keyframes splashLogoPulse {
-  0%, 100% { box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 8px 28px rgba(212,175,55,.4); transform: scale(1); }
-  50%      { box-shadow: inset 0 1px 0 rgba(255,255,255,.75), 0 10px 36px rgba(212,175,55,.55); transform: scale(1.03); }
 }
 @keyframes splashProgressFill {
   0%   { width: 0%; }
@@ -3543,6 +3575,8 @@ body.app-ready #page-home.active .menu-grid {
 @media (prefers-reduced-motion: reduce) {
   .app-splash,
   .app-splash *,
+  .splash-badge,
+  .splash-badge-halo,
   body.app-ready .top-header,
   body.app-ready #page-home.active .hero-banner,
   body.app-ready #page-home.active .quick-search,
