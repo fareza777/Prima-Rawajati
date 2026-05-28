@@ -21,7 +21,7 @@
     "path": "android.keystore",
     "alias": "prima"
   },
-  "splashScreenFadeOutDuration": 300,
+  "splashScreenFadeOutDuration": 800,
   "enableSiteSettingsShortcut": false,
   "isChromeOSOnly": false,
   "isMetaQuest": false,

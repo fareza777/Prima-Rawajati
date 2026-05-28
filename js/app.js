@@ -2,6 +2,67 @@
 // PRIMA – Main Application Logic
 // ================================================================
 
+// ── SPLASH SCREEN ────────────────────────────────────────────────
+(function initAppSplash() {
+  const splash = document.getElementById('app-splash');
+  if (!splash) return;
+
+  const MIN_SHOW_MS = 3400;
+  const EXIT_MS = 1050;
+  const MAX_WAIT_MS = 10000;
+  const startedAt = Date.now();
+
+  const statusEl = document.getElementById('splash-status');
+  const statusSteps = [
+  { at: 0,    text: 'Menyiapkan layanan…' },
+  { at: 1200, text: 'Memuat data kelurahan…' },
+  { at: 2400, text: 'Hampir siap…' },
+  ];
+  statusSteps.forEach(({ at, text }) => {
+    setTimeout(() => { if (statusEl && !splash.classList.contains('splash--exit')) statusEl.textContent = text; }, at);
+  });
+
+  let pageLoaded = document.readyState === 'complete';
+  let dataReady = !!window.PRIMA_DATA_READY;
+  let dismissScheduled = false;
+
+  function tryDismiss() {
+    if (pageLoaded && dataReady) scheduleDismiss();
+  }
+
+  function scheduleDismiss() {
+    if (dismissScheduled) return;
+    dismissScheduled = true;
+    const remain = Math.max(0, MIN_SHOW_MS - (Date.now() - startedAt));
+    setTimeout(dismissSplash, remain);
+  }
+
+  function dismissSplash() {
+    if (splash.classList.contains('splash--exit')) return;
+    splash.classList.add('splash--exit');
+    document.body.classList.remove('splash-active');
+    setTimeout(() => {
+      splash.remove();
+      document.body.classList.add('app-ready');
+    }, EXIT_MS);
+  }
+
+  if (!pageLoaded) {
+    window.addEventListener('load', () => { pageLoaded = true; tryDismiss(); }, { once: true });
+  }
+  if (!dataReady) {
+    window.addEventListener('prima:data-ready', () => { dataReady = true; tryDismiss(); }, { once: true });
+  }
+
+  setTimeout(() => {
+    if (!dismissScheduled) {
+      dismissScheduled = true;
+      dismissSplash();
+    }
+  }, MAX_WAIT_MS);
+  tryDismiss();
+})();
+
 let map = null;
 let chatbot = null;
 let mapMarkers = [];

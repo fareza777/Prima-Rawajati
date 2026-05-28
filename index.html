@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 
   <!-- App CSS (v4 – Royal Government Theme) -->
-  <link rel="stylesheet" href="css/style.css?v=13">
+  <link rel="stylesheet" href="css/style.css?v=14">
 
   <!-- Desktop fix: inline override agar tidak terkena cache -->
   <style>
@@ -65,7 +65,36 @@
   <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json">
 </head>
-<body>
+<body class="splash-active">
+
+<!-- ══════════════════════════════════════════
+     SPLASH SCREEN
+═══════════════════════════════════════════ -->
+<div id="app-splash" class="app-splash" role="presentation" aria-label="Memuat PRIMA">
+  <div class="splash-scene" aria-hidden="true">
+    <div class="splash-orb splash-orb--1"></div>
+    <div class="splash-orb splash-orb--2"></div>
+    <div class="splash-orb splash-orb--3"></div>
+    <div class="splash-grid"></div>
+    <div class="splash-shine"></div>
+  </div>
+  <div class="splash-content">
+    <div class="splash-emblem">
+      <div class="splash-ring splash-ring--outer"></div>
+      <div class="splash-ring splash-ring--mid"></div>
+      <div class="splash-logo">PRIMA</div>
+    </div>
+    <p class="splash-tagline">Platform Ringkas Interaktif Masyarakat</p>
+    <h1 class="splash-title">Kelurahan <span>Rawajati</span></h1>
+    <p class="splash-sub">Kecamatan Pancoran · Jakarta Selatan</p>
+    <div class="splash-progress" aria-hidden="true">
+      <div class="splash-progress-track">
+        <div class="splash-progress-bar"></div>
+      </div>
+    </div>
+    <p class="splash-status" id="splash-status">Menyiapkan layanan…</p>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════════
      TOP HEADER

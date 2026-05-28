@@ -217,7 +217,7 @@ write('app/src/main/AndroidManifest.xml', `<?xml version="1.0" encoding="utf-8"?
                 android:resource="@color/colorPrimary" />
             <meta-data
                 android:name="android.support.customtabs.trusted.SPLASH_SCREEN_FADE_OUT_DURATION"
-                android:value="300" />
+                android:value="800" />
             <meta-data
                 android:name="android.support.customtabs.trusted.SCREEN_ORIENTATION"
                 android:value="portrait" />
