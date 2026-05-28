@@ -85,7 +85,7 @@ def make_background(size: int) -> Image.Image:
     """Smooth navy radial — tanpa lingkaran/arc yang terlihat seperti garis."""
     img = Image.new("RGB", (size, size))
     px = img.load()
-    cx, cy = size * 0.5, size * 0.40
+    cx, cy = size * 0.5, size * 0.5
     max_r = size * 0.78
     for y in range(size):
         for x in range(size):
@@ -154,12 +154,21 @@ def render_icon(size: int, *, maskable: bool = False) -> Image.Image:
     img = make_background(size)
     draw = ImageDraw.Draw(img)
 
-    pad = 0.14 if maskable else 0.10
+    # Konten di tengah vertikal & horizontal (aman untuk crop lingkaran Android)
+    pad = 0.11 if maskable else 0.08
     zone = int(size * (1 - pad * 2))
 
-    pill_w = int(zone * 0.88)
-    pill_h = max(12, int(zone * 0.26))
-    block_top = int(size * 0.30 if maskable else 0.28)
+    pill_w = int(zone * 0.92)
+    pill_h = max(12, int(zone * 0.32))
+    gap = max(6, int(size * 0.038))
+
+    raw_font = find_font(max(9, int(size * 0.075)), serif=False)
+    tracking = max(2, int(size * 0.013))
+    raw = "RAWAJATI"
+    _, raw_h = text_size(raw_font, raw)
+
+    block_h = pill_h + gap + raw_h
+    block_top = (size - block_h) // 2
     cx = size // 2
     pill_cy = block_top + pill_h // 2
 
@@ -187,11 +196,8 @@ def render_icon(size: int, *, maskable: bool = False) -> Image.Image:
         fill=INK,
     )
 
-    raw_font = find_font(max(9, int(size * 0.068)), serif=False)
-    raw = "RAWAJATI"
-    tracking = max(2, int(size * 0.014))
     rw = tracked_width(draw, raw, raw_font, tracking)
-    raw_y = pill_cy + pill_h // 2 + int(size * 0.052)
+    raw_y = block_top + pill_h + gap
     draw_tracked(
         draw,
         raw,
