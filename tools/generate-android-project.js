@@ -155,16 +155,22 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.5.0'
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.6.2'
 }
 `);
 
 // ── 7. app/proguard-rules.pro ────────────────────────────────────
 write('app/proguard-rules.pro', '# Add project specific ProGuard rules here.\n');
 
-// ── 8. AndroidManifest.xml ────────────────────────────────────────
+// ── 8. AndroidManifest.xml (bubblewrap-compatible TWA) ─────────────
+const SITE_ORIGIN = `https://${HOST}`;
+const LAUNCH_URL  = `${SITE_ORIGIN}${START}`;
+const WEB_MANIFEST = manifest.webManifestUrl || `${SITE_ORIGIN}/manifest.json`;
+
 write('app/src/main/AndroidManifest.xml', `<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -173,54 +179,48 @@ write('app/src/main/AndroidManifest.xml', `<?xml version="1.0" encoding="utf-8"?
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <meta-data
+            android:name="asset_statements"
+            android:resource="@string/asset_statements" />
+
+        <meta-data
+            android:name="web_manifest_url"
+            android:value="${WEB_MANIFEST}" />
+
         <activity
             android:name="com.google.androidbrowserhelper.trusted.LauncherActivity"
             android:exported="true"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
 
             <meta-data
                 android:name="android.support.customtabs.trusted.DEFAULT_URL"
-                android:value="https://${HOST}${START}" />
+                android:value="${LAUNCH_URL}" />
+            <meta-data
+                android:name="androidx.browser.trusted.DEFAULT_URL"
+                android:value="${LAUNCH_URL}" />
 
             <meta-data
                 android:name="android.support.customtabs.trusted.STATUS_BAR_COLOR"
                 android:resource="@color/colorPrimary" />
-
             <meta-data
                 android:name="android.support.customtabs.trusted.NAVIGATION_BAR_COLOR"
                 android:resource="@color/colorPrimary" />
-
             <meta-data
                 android:name="android.support.customtabs.trusted.STATUS_BAR_COLOR_DARK"
                 android:resource="@color/colorPrimary" />
-
             <meta-data
                 android:name="android.support.customtabs.trusted.NAVIGATION_BAR_COLOR_DARK"
                 android:resource="@color/colorPrimary" />
-
             <meta-data
                 android:name="android.support.customtabs.trusted.SPLASH_SCREEN_BACKGROUND_COLOR"
                 android:resource="@color/colorPrimary" />
-
             <meta-data
                 android:name="android.support.customtabs.trusted.SPLASH_SCREEN_FADE_OUT_DURATION"
                 android:value="300" />
-
-            <meta-data
-                android:name="android.support.customtabs.trusted.DISPLAY_MODE"
-                android:value="standalone" />
-
             <meta-data
                 android:name="android.support.customtabs.trusted.SCREEN_ORIENTATION"
                 android:value="portrait" />
-
-            <meta-data
-                android:name="android.support.customtabs.trusted.FALLBACK_STRATEGY"
-                android:value="customtabs" />
-
-            <meta-data
-                android:name="asset_statements"
-                android:resource="@string/assetStatements" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -233,8 +233,7 @@ write('app/src/main/AndroidManifest.xml', `<?xml version="1.0" encoding="utf-8"?
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:scheme="https"
-                    android:host="${HOST}"
-                    android:pathPrefix="/" />
+                    android:host="${HOST}" />
             </intent-filter>
         </activity>
 
@@ -253,17 +252,19 @@ write('app/src/main/AndroidManifest.xml', `<?xml version="1.0" encoding="utf-8"?
 `);
 
 // ── 9. res/values ────────────────────────────────────────────────
-// Bidirectional Digital Asset Links (app → web); required for TWA fullscreen
-const assetStatementsJson = JSON.stringify([{
-  relation: ['delegate_permission/common.handle_all_urls'],
-  target: { namespace: 'web', site: `https://${HOST}/` },
-}]);
-
 write('app/src/main/res/values/strings.xml', `<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">${APP_NAME}</string>
     <string name="launcher_name">${LAUNCHER}</string>
-    <string name="assetStatements" translatable="false">${assetStatementsJson.replace(/"/g, '\\"')}</string>
+    <string name="asset_statements" translatable="false">
+        [{
+            \\"relation\\": [\\"delegate_permission/common.handle_all_urls\\"],
+            \\"target\\": {
+                \\"namespace\\": \\"web\\",
+                \\"site\\": \\"${SITE_ORIGIN}\\"
+            }
+        }]
+    </string>
 </resources>
 `);
 
@@ -352,9 +353,19 @@ async function downloadWrapperJar() {
   }
 }
 
+// ── 12. Mirror assetlinks.json → public/ (Vercel static) ─────────
+function syncPublicAssetLinks() {
+  const src = '.well-known/assetlinks.json';
+  if (!fs.existsSync(src)) return;
+  fs.mkdirSync('public/.well-known', { recursive: true });
+  fs.copyFileSync(src, 'public/.well-known/assetlinks.json');
+  console.log('  + public/.well-known/assetlinks.json');
+}
+
 // ── Run ───────────────────────────────────────────────────────────
 (async () => {
   try {
+    syncPublicAssetLinks();
     await setupIcons();
     await downloadWrapperJar();
 

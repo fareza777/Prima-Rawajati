@@ -2,7 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/((?!\\.well-known/).*)", "destination": "/index.html" }
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/((?!\\.well-known/|api/|css/|js/|img/|manifest\\.json|sw\\.js|favicon).*)", "destination": "/index.html" }
   ],
   "headers": [
     {

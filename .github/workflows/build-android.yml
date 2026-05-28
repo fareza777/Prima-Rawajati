@@ -241,9 +241,13 @@ jobs:
               return fp.strip().upper().replace(" ", "")
 
           fps = []
+          PLAY_DEFAULT = (
+              "43:78:0B:51:37:3F:8D:79:3D:DF:44:0A:BB:D3:8F:62:6B:1A:67:8D:EC:F2:4C:6C:F5:89:3E:21:EE:C3:77:5E"
+          )
+          play_sha = os.environ.get("PLAY_SHA", "").strip() or PLAY_DEFAULT
           for raw in (
               os.environ.get("UPLOAD_SHA", ""),
-              os.environ.get("PLAY_SHA", ""),
+              play_sha,
           ):
               if raw:
                   n = norm(raw)

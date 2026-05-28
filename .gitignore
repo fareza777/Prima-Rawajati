@@ -11,6 +11,19 @@ desktop.ini
 # Vercel
 .vercel/
 
+# Android (generated locally by tools/generate-android-project.js; built in CI)
+app/
+build.gradle
+settings.gradle
+gradle.properties
+gradle/
+gradlew
+gradlew.bat
+local.properties
+android.keystore
+*.aab
+*.apk
+
 # Claude Code worktrees / secrets
 .claude/
 .prima-admin-secrets.txt

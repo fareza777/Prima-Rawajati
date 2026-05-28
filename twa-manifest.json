@@ -15,14 +15,14 @@
   "iconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512.png",
   "maskableIconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512-maskable.png",
   "monochromeIconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512.png",
-  "appVersion": "7",
-  "appVersionName": "1.0.6",
+  "appVersion": "8",
+  "appVersionName": "1.0.7",
   "signingKey": {
     "path": "android.keystore",
     "alias": "prima"
   },
   "splashScreenFadeOutDuration": 300,
-  "enableSiteSettingsShortcut": true,
+  "enableSiteSettingsShortcut": false,
   "isChromeOSOnly": false,
   "isMetaQuest": false,
   "fullScopeUrl": "https://prima-rawajati.vercel.app/",
