@@ -9,7 +9,10 @@ AAB **tidak** disimpan di repo (file signed + besar). Dibuat otomatis oleh GitHu
 3. Tunggu status **hijau** (~3–5 menit)
 4. Buka run tersebut → scroll ke **Artifacts**
 5. Unduh **`prima-aab-v*`** (file ZIP berisi `.aab`)
-6. Upload file `.aab` ke Play Console → Internal testing
+6. Extract ZIP → upload **`app-release.aab`** (bukan `intermediary-bundle.aab`)
+7. Upload ke Play Console → Internal testing
+
+**PENTING:** Jangan upload `intermediary-bundle.aab` — file itu **belum di-sign** dan Play Console akan menolak.
 
 ## Cara 2 — Artifact build lama (jika masih ada)
 

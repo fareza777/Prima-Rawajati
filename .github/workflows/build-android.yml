@@ -172,19 +172,29 @@ jobs:
             exit "$BUILD_EXIT"
           fi
 
-      # ── 10. Find artifacts ────────────────────────────────────────
+      # ── 10. Find artifacts (signed release only — NOT intermediary-bundle.aab) ──
       - name: Locate build outputs
         id: outputs
         run: |
           echo "=== APK/AAB files ==="
           find . \( -name "*.aab" -o -name "*.apk" \) \
             ! -path "*/node_modules/*" ! -path "*/.gradle/*" ! -path "*/debug/*" \
-            ! -path "*/gradle-*/*"
-          AAB=$(find . -path "*/release/*.aab" | head -1)
-          APK=$(find . -path "*/release/*.apk" | head -1)
+            ! -path "*/gradle-*/*" ! -path "*/intermediaries/*"
+          AAB="app/build/outputs/bundle/release/app-release.aab"
+          APK="app/build/outputs/apk/release/app-release.apk"
+          if [ ! -f "$AAB" ]; then
+            AAB=$(find . -path "*/outputs/bundle/release/app-release.aab" 2>/dev/null | head -1)
+          fi
+          if [ ! -f "$APK" ]; then
+            APK=$(find . -path "*/outputs/apk/release/app-release.apk" 2>/dev/null | head -1)
+          fi
+          if [ ! -f "$AAB" ]; then
+            echo "❌ Signed app-release.aab not found"
+            exit 1
+          fi
           echo "aab=${AAB}" >> "$GITHUB_OUTPUT"
           echo "apk=${APK}" >> "$GITHUB_OUTPUT"
-          echo "AAB: ${AAB:-not found}"
+          echo "AAB: ${AAB}"
           echo "APK: ${APK:-not found}"
 
       # ── 11. Upload ────────────────────────────────────────────────
