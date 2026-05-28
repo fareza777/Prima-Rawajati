@@ -7,7 +7,7 @@ import math
 import os
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont, ImageFilter
+from PIL import Image, ImageChops, ImageDraw, ImageFont, ImageFilter
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "img" / "icons"
@@ -120,12 +120,17 @@ def make_pill(w: int, h: int) -> Image.Image:
     pill = Image.composite(grad, pill, mask)
 
     shine = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-    sd = ImageDraw.Draw(shine)
-    sd.rounded_rectangle(
-        (2, 2, w - 3, h // 2),
-        radius=radius - 2,
-        fill=(255, 255, 255, 38),
-    )
+    spx = shine.load()
+    for y in range(h):
+        t = 1.0 - (y / max(h - 1, 1))
+        alpha = int(42 * (t**1.8))
+        if alpha <= 0:
+            continue
+        for x in range(w):
+            spx[x, y] = (255, 255, 255, alpha)
+    smask = Image.new("L", (w, h), 0)
+    ImageDraw.Draw(smask).rounded_rectangle((0, 0, w - 1, h - 1), radius=radius, fill=255)
+    shine.putalpha(ImageChops.multiply(shine.split()[3], smask))
     pill = Image.alpha_composite(pill, shine)
 
     rim = Image.new("RGBA", (w, h), (0, 0, 0, 0))
