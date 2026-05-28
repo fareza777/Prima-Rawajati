@@ -59,7 +59,7 @@ jobs:
           echo "ANDROID_SDK_ROOT=${SDK}" >> "$GITHUB_ENV"
           yes | "$SDK/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
           "$SDK/cmdline-tools/latest/bin/sdkmanager" \
-            "build-tools;34.0.0" "platforms;android-34" 2>&1 | tail -3
+            "build-tools;35.0.0" "platforms;android-35" 2>&1 | tail -3
 
       # ── 5. Keystore ───────────────────────────────────────────────
       - name: Setup signing keystore

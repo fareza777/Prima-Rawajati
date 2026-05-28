@@ -131,12 +131,12 @@ write('app/build.gradle', `plugins {
 
 android {
     namespace '${PKG_ID}'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId '${PKG_ID}'
         minSdk ${MIN_SDK}
-        targetSdk 34
+        targetSdk 35
         versionCode ${V_CODE}
         versionName '${V_NAME}'
     }
