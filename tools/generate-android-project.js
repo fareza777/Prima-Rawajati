@@ -353,19 +353,9 @@ async function downloadWrapperJar() {
   }
 }
 
-// ── 12. Mirror assetlinks.json → public/ (Vercel static) ─────────
-function syncPublicAssetLinks() {
-  const src = '.well-known/assetlinks.json';
-  if (!fs.existsSync(src)) return;
-  fs.mkdirSync('public/.well-known', { recursive: true });
-  fs.copyFileSync(src, 'public/.well-known/assetlinks.json');
-  console.log('  + public/.well-known/assetlinks.json');
-}
-
 // ── Run ───────────────────────────────────────────────────────────
 (async () => {
   try {
-    syncPublicAssetLinks();
     await setupIcons();
     await downloadWrapperJar();
 
