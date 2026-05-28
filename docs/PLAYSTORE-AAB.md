@@ -9,18 +9,18 @@ AAB **tidak** disimpan di repo (file signed + besar). Dibuat otomatis oleh GitHu
 3. Tunggu status **hijau** (~3–5 menit)
 4. Buka run tersebut → scroll ke **Artifacts**
 5. Unduh **`prima-aab-v*`** (file ZIP berisi `.aab`)
-6. Extract ZIP → upload **`app-release.aab`** (bukan `intermediary-bundle.aab`)
+6. Extract ZIP → upload file bernama **`PRIMA-v1.0.4-code5-targetSdk35.aab`** (nama bisa sedikit beda jika versi naik)
 7. Upload ke Play Console → Internal testing
 
 **PENTING:** Jangan upload `intermediary-bundle.aab` — file itu **belum di-sign** dan Play Console akan menolak.
 
-## Cara 2 — Artifact build lama (jika masih ada)
+**Cek sebelum upload:** Di Play Console, bundle harus menampilkan **Target SDK 35** dan **versionName 1.0.4** (bukan 1.0.0 / SDK 34). Kalau masih 1.0.0, itu file lama di laptop — unduh ulang dari Actions.
 
-Run sukses terakhir (22 Mei 2026):
+## Build terbaru (SDK 35 + version code 5)
 
-https://github.com/fareza777/Prima-Rawajati/actions/runs/26273766821
+https://github.com/fareza777/Prima-Rawajati/actions/runs/26557809309
 
-Artifact: **prima-aab-v7** (login GitHub wajib)
+Artifact: **prima-aab-v11-sdk35** (login GitHub wajib)
 
 ## Penting — signing key
 
