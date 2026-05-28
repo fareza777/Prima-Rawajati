@@ -27,7 +27,9 @@
   "isMetaQuest": false,
   "fullScopeUrl": "https://prima-rawajati.vercel.app/",
   "minSdkVersion": 21,
-  "fingerprints": [],
+  "fingerprints": [
+    "43:78:0B:51:37:3F:8D:79:3D:DF:44:0A:BB:D3:8F:62:6B:1A:67:8D:EC:F2:4C:6C:F5:89:3E:21:EE:C3:77:5E"
+  ],
   "webManifestUrl": "https://prima-rawajati.vercel.app/manifest.json",
   "generatorApp": "bubblewrap-cli",
   "features": {},
