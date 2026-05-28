@@ -49,6 +49,33 @@ def text_size(font: ImageFont.FreeTypeFont, text: str) -> tuple[int, int]:
     return box[2] - box[0], box[3] - box[1]
 
 
+def fit_font(
+    draw: ImageDraw.ImageDraw,
+    text: str,
+    max_w: int,
+    start_size: int,
+    *,
+    serif: bool = True,
+) -> ImageFont.FreeTypeFont:
+    size = start_size
+    font = find_font(size, serif=serif)
+    while size > 8 and draw.textlength(text, font=font) > max_w:
+        size -= 1
+        font = find_font(size, serif=serif)
+    return font
+
+
+def draw_centered(
+    draw: ImageDraw.ImageDraw,
+    xy: tuple[int, int],
+    text: str,
+    font: ImageFont.FreeTypeFont,
+    fill,
+) -> None:
+    """Tengah geometris di titik xy (anchor middle-middle)."""
+    draw.text(xy, text, font=font, fill=fill, anchor="mm")
+
+
 def draw_tracked(
     draw: ImageDraw.ImageDraw,
     text: str,
@@ -186,15 +213,15 @@ def render_icon(size: int, *, maskable: bool = False) -> Image.Image:
     pill = make_pill(pill_w, pill_h)
     img.alpha_composite(pill, (cx - pill_w // 2, pill_cy - pill_h // 2))
 
-    prima_font = find_font(max(18, int(pill_h * 0.54)), serif=True)
     prima = "PRIMA"
-    pw, ph = text_size(prima_font, prima)
-    draw.text(
-        (cx - pw // 2, pill_cy - ph // 2 - 1),
+    prima_font = fit_font(
+        draw,
         prima,
-        font=prima_font,
-        fill=INK,
+        int(pill_w * 0.86),
+        max(18, int(pill_h * 0.52)),
+        serif=True,
     )
+    draw_centered(draw, (cx, pill_cy), prima, prima_font, INK)
 
     rw = tracked_width(draw, raw, raw_font, tracking)
     raw_y = block_top + pill_h + gap
