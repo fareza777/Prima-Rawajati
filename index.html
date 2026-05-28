@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 
   <!-- App CSS (v4 – Royal Government Theme) -->
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=18">
 
   <!-- Desktop fix: inline override agar tidak terkena cache -->
   <style>
@@ -83,21 +83,84 @@
     <div class="splash-shine"></div>
   </div>
   <div class="splash-content">
-    <div class="splash-brand">
-      <div class="splash-badge-halo" aria-hidden="true"></div>
-      <div class="splash-badge">
-        <span class="splash-badge-text">PRIMA</span>
-      </div>
+    <div class="splash-logo-area" aria-hidden="true">
+      <div class="splash-logo-halo"></div>
+      <img src="img/jaksel-emblem.png" alt="Lambang Jakarta Selatan — burung gelatik dan rambutan" class="splash-jaksel-logo">
     </div>
+    <h1 class="splash-prima-title">PRIMA<br><span class="splash-prima-rawajati">Rawajati</span></h1>
     <p class="splash-tagline">Platform Ringkas Interaktif Masyarakat</p>
-    <h1 class="splash-title">Kelurahan <span>Rawajati</span></h1>
-    <p class="splash-sub">Kecamatan Pancoran · Jakarta Selatan</p>
+    <div class="splash-gold-divider" aria-hidden="true"></div>
+    <div class="splash-footer-info">
+      <p class="splash-footer-kelurahan">Kelurahan Rawajati</p>
+      <p class="splash-footer-kota">Kecamatan Pancoran · Jakarta Selatan</p>
+    </div>
     <div class="splash-progress" aria-hidden="true">
       <div class="splash-progress-track">
         <div class="splash-progress-bar"></div>
       </div>
     </div>
     <p class="splash-status" id="splash-status">Menyiapkan layanan…</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ONBOARDING SCREEN
+═══════════════════════════════════════════ -->
+<div id="app-onboard" class="app-onboard" hidden aria-label="Selamat datang di PRIMA">
+  <div class="onboard-bg" aria-hidden="true">
+    <div class="onboard-orb onboard-orb--1"></div>
+    <div class="onboard-orb onboard-orb--2"></div>
+    <div class="onboard-grid"></div>
+  </div>
+  <div class="onboard-inner">
+    <div class="onboard-header">
+      <h1 class="onboard-title"><span class="onboard-prima">PRIMA</span> Rawajati</h1>
+      <p class="onboard-subtitle">Layanan Kelurahan dalam genggaman</p>
+    </div>
+    <div class="onboard-city-art" aria-hidden="true">
+      <div class="city-sky">
+        <div class="city-monas">
+          <div class="city-monas-top"></div>
+          <div class="city-monas-body"></div>
+          <div class="city-monas-base"></div>
+        </div>
+        <div class="city-bldg city-bldg--1"></div>
+        <div class="city-bldg city-bldg--2"></div>
+        <div class="city-bldg city-bldg--3"></div>
+        <div class="city-bldg city-bldg--4"></div>
+        <div class="city-bldg city-bldg--5"></div>
+        <div class="city-bldg city-bldg--6"></div>
+        <div class="city-tree city-tree--1"></div>
+        <div class="city-tree city-tree--2"></div>
+        <div class="city-ground"></div>
+      </div>
+    </div>
+    <div class="onboard-ai-card">
+      <div class="onboard-bot-wrap" aria-hidden="true">
+        <svg class="onboard-bot-svg" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="20" width="36" height="26" rx="5" fill="#1E3A8A" stroke="#60A5FA" stroke-width="1.5"/>
+          <rect x="19" y="27" width="6" height="6" rx="2" fill="#60A5FA"/>
+          <rect x="31" y="27" width="6" height="6" rx="2" fill="#60A5FA"/>
+          <rect x="21" y="37" width="14" height="3" rx="1.5" fill="#93C5FD"/>
+          <rect x="22" y="10" width="12" height="10" rx="5" fill="#1E3A8A" stroke="#60A5FA" stroke-width="1.5"/>
+          <line x1="28" y1="20" x2="28" y2="20" stroke="#60A5FA" stroke-width="1.5" stroke-linecap="round"/>
+          <rect x="4" y="26" width="6" height="12" rx="3" fill="#1E3A8A" stroke="#60A5FA" stroke-width="1.5"/>
+          <rect x="46" y="26" width="6" height="12" rx="3" fill="#1E3A8A" stroke="#60A5FA" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="onboard-ai-text">
+        <strong>Tanya AI 24 Jam</strong>
+        <p>Asisten PRIMA siap membantu informasi kapan saja.</p>
+      </div>
+    </div>
+    <div class="onboard-dots" aria-hidden="true">
+      <span class="dot dot--active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+    <button class="onboard-btn-primary" id="onboard-next">Selanjutnya</button>
+    <button class="onboard-btn-skip" id="onboard-skip">Lewati</button>
   </div>
 </div>
 
@@ -146,6 +209,28 @@
   <div class="info-banner" style="margin:0 16px 8px;max-width:568px;margin-left:auto;margin-right:auto;display:flex">
     <span class="info-icon"><i data-lucide="clock"></i></span>
     <p>Jam Kerja Kelurahan: <strong>Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB</strong>. Di luar jam kerja, gunakan <em>Tanya AI</em>.</p>
+  </div>
+
+  <!-- Tanya AI Banner -->
+  <div class="tanya-ai-banner" onclick="navigateTo('chatbot')" role="button" tabindex="0" aria-label="Mulai Tanya AI PRIMA">
+    <div class="tanya-ai-info">
+      <h3 class="tanya-ai-title">Tanya AI PRIMA</h3>
+      <p class="tanya-ai-desc">Asisten virtual siap membantu Anda 24 jam.</p>
+      <button class="tanya-ai-cta" onclick="event.stopPropagation();navigateTo('chatbot')">Mulai Tanya</button>
+    </div>
+    <div class="tanya-ai-robot" aria-hidden="true">
+      <svg class="tanya-ai-bot-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="14" y="28" width="52" height="38" rx="8" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+        <rect x="28" y="40" width="9" height="9" rx="3" fill="white"/>
+        <rect x="43" y="40" width="9" height="9" rx="3" fill="white"/>
+        <rect x="30" y="55" width="20" height="4" rx="2" fill="rgba(255,255,255,0.7)"/>
+        <rect x="32" y="14" width="16" height="14" rx="7" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+        <rect x="6" y="36" width="8" height="16" rx="4" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+        <rect x="66" y="36" width="8" height="16" rx="4" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+        <circle cx="37" cy="21" r="2" fill="rgba(255,255,255,0.6)"/>
+        <circle cx="43" cy="21" r="2" fill="rgba(255,255,255,0.6)"/>
+      </svg>
+    </div>
   </div>
 
   <!-- Menu Grid -->

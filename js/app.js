@@ -43,8 +43,31 @@
     document.body.classList.remove('splash-active');
     setTimeout(() => {
       splash.remove();
-      document.body.classList.add('app-ready');
+      if (!localStorage.getItem('prima-onboarded')) {
+        showOnboarding();
+      } else {
+        document.body.classList.add('app-ready');
+      }
     }, EXIT_MS);
+  }
+
+  function showOnboarding() {
+    const onboard = document.getElementById('app-onboard');
+    if (!onboard) { document.body.classList.add('app-ready'); return; }
+    onboard.hidden = false;
+    const btnNext = document.getElementById('onboard-next');
+    const btnSkip = document.getElementById('onboard-skip');
+    function closeOnboard() {
+      onboard.classList.add('onboard--exit');
+      localStorage.setItem('prima-onboarded', '1');
+      setTimeout(() => {
+        onboard.hidden = true;
+        onboard.classList.remove('onboard--exit');
+        document.body.classList.add('app-ready');
+      }, 500);
+    }
+    if (btnNext) btnNext.addEventListener('click', closeOnboard, { once: true });
+    if (btnSkip) btnSkip.addEventListener('click', closeOnboard, { once: true });
   }
 
   if (!pageLoaded) {
