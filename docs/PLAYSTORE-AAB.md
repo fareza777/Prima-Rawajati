@@ -27,6 +27,7 @@ Artifact: **prima-aab-v11-sdk35** (login GitHub wajib)
 - Keystore disimpan di GitHub Secret **`KEYSTORE_BASE64`**
 - Fingerprint harus cocok dengan `/.well-known/assetlinks.json`
 - **Jangan** generate keystore baru di laptop — TWA bisa gagal buka fullscreen
+- **URL bar Vercel di atas app?** → lihat [HILANGKAN-URL-BAR.md](./HILANGKAN-URL-BAR.md) (tambah SHA **App signing key** dari Play Console)
 
 Jika secret hilang, jalankan workflow sekali, salin BASE64 dari log step **Setup signing keystore**, simpan sebagai secret, lalu build ulang.
 

@@ -230,15 +230,57 @@ jobs:
           path: ${{ steps.outputs.outputs.apk }}
           retention-days: 60
 
-      # ── 12. Update assetlinks.json ────────────────────────────────
+      # ── 12. Update assetlinks.json (upload key + Play App Signing) ─
       - name: Update assetlinks.json
         if: ${{ steps.keystore.outputs.sha256 != '' }}
         run: |
-          SHA="${{ steps.keystore.outputs.sha256 }}"
-          printf '[{"relation":["delegate_permission/common.handle_all_urls"],"target":{"namespace":"android_app","package_name":"%s","sha256_cert_fingerprints":["%s"]}}]\n' \
-            "${{ env.PACKAGE_ID }}" "$SHA" \
-            | python3 -m json.tool > .well-known/assetlinks.json
-          echo "✅ assetlinks.json → $SHA"
+          python3 - << 'PYEOF'
+          import json, os
+
+          def norm(fp):
+              return fp.strip().upper().replace(" ", "")
+
+          fps = []
+          for raw in (
+              os.environ.get("UPLOAD_SHA", ""),
+              os.environ.get("PLAY_SHA", ""),
+          ):
+              if raw:
+                  n = norm(raw)
+                  if n and n not in fps:
+                      fps.append(n)
+
+          with open("twa-manifest.json", encoding="utf-8") as f:
+              for raw in json.load(f).get("fingerprints") or []:
+                  if raw:
+                      n = norm(str(raw))
+                      if n and n not in fps:
+                          fps.append(n)
+
+          if not fps:
+              raise SystemExit("No SHA-256 fingerprints for assetlinks.json")
+
+          doc = [{
+              "relation": ["delegate_permission/common.handle_all_urls"],
+              "target": {
+                  "namespace": "android_app",
+                  "package_name": os.environ["PACKAGE_ID"],
+                  "sha256_cert_fingerprints": fps,
+              },
+          }]
+          with open(".well-known/assetlinks.json", "w", encoding="utf-8") as f:
+              json.dump(doc, f, indent=4)
+              f.write("\n")
+          print("✅ assetlinks.json fingerprints:")
+          for fp in fps:
+              print(f"   - {fp}")
+          if len(fps) < 2:
+              print("⚠️  Tambahkan PLAY_APP_SIGNING_SHA256 (GitHub secret) agar TWA fullscreen dari Play Store.")
+          PYEOF
+        env:
+          PACKAGE_ID: ${{ env.PACKAGE_ID }}
+          UPLOAD_SHA: ${{ steps.keystore.outputs.sha256 }}
+          PLAY_SHA:     ${{ secrets.PLAY_APP_SIGNING_SHA256 }}
 
       - name: Commit assetlinks.json
         run: |
