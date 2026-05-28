@@ -154,16 +154,16 @@ def render_icon(size: int, *, maskable: bool = False) -> Image.Image:
     img = make_background(size)
     draw = ImageDraw.Draw(img)
 
-    # Konten di tengah vertikal & horizontal (aman untuk crop lingkaran Android)
-    pad = 0.11 if maskable else 0.08
+    # Besar & tengah — isi ~80% area (tetap aman untuk crop bulat Android)
+    pad = 0.07 if maskable else 0.05
     zone = int(size * (1 - pad * 2))
 
-    pill_w = int(zone * 0.92)
-    pill_h = max(12, int(zone * 0.32))
-    gap = max(6, int(size * 0.038))
+    pill_w = int(zone * 0.98)
+    pill_h = max(14, int(zone * 0.42))
+    gap = max(5, int(size * 0.026))
 
-    raw_font = find_font(max(9, int(size * 0.075)), serif=False)
-    tracking = max(2, int(size * 0.013))
+    raw_font = find_font(max(11, int(size * 0.095)), serif=False)
+    tracking = max(1, int(size * 0.011))
     raw = "RAWAJATI"
     _, raw_h = text_size(raw_font, raw)
 
@@ -186,7 +186,7 @@ def render_icon(size: int, *, maskable: bool = False) -> Image.Image:
     pill = make_pill(pill_w, pill_h)
     img.alpha_composite(pill, (cx - pill_w // 2, pill_cy - pill_h // 2))
 
-    prima_font = find_font(max(16, int(pill_h * 0.48)), serif=True)
+    prima_font = find_font(max(18, int(pill_h * 0.54)), serif=True)
     prima = "PRIMA"
     pw, ph = text_size(prima_font, prima)
     draw.text(
