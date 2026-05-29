@@ -279,42 +279,6 @@ function renderHeroTicker() {
  */
 function renderFooterContact() {
   const meta = (window.PRIMA_DATA && PRIMA_DATA.meta) || {};
-  const email = meta.email || '';
-  const lat = meta.koordinat?.lat;
-  const lng = meta.koordinat?.lng;
-  // Instagram handle bisa "@kelrawajati" atau "kelrawajati" — normalize ke versi tanpa @
-  const igRaw = (meta.instagram || '').trim().replace(/^@/, '');
-
-  // Alamat → Google Maps via koordinat resmi
-  const alamatEl = document.getElementById('fl-alamat');
-  if (alamatEl && lat && lng) {
-    alamatEl.setAttribute('href', `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`);
-  }
-
-  // Email
-  const emailEl = document.getElementById('fl-email');
-  const emailText = document.getElementById('fl-email-text');
-  if (emailEl && email) emailEl.setAttribute('href', `mailto:${email}`);
-  if (emailText && email) emailText.textContent = email;
-
-  // Instagram
-  const igEl = document.getElementById('fl-ig');
-  const igText = document.getElementById('fl-ig-text');
-  if (igEl) {
-    if (igRaw) {
-      igEl.setAttribute('href', `https://www.instagram.com/${igRaw}/`);
-      igEl.style.display = '';
-    } else {
-      igEl.style.display = 'none'; // hide kalau handle belum diisi
-    }
-  }
-  if (igText && igRaw) igText.textContent = '@' + igRaw;
-
-  const kecEl = document.getElementById('trust-kecamatan');
-  const kotaEl = document.getElementById('trust-kota');
-  if (kecEl && meta.kecamatan) kecEl.textContent = 'Kecamatan ' + meta.kecamatan;
-  if (kotaEl && meta.kota) kotaEl.textContent = 'Kota Administrasi ' + meta.kota;
-
   const osEl = document.getElementById('os-links');
   const sources = meta.officialSources || [];
   if (osEl && sources.length) {

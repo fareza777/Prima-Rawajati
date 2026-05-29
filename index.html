@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 
   <!-- App CSS (v4 – Royal Government Theme) -->
-  <link rel="stylesheet" href="css/style.css?v=19">
+  <link rel="stylesheet" href="css/style.css?v=20">
 
   <!-- Desktop fix: inline override agar tidak terkena cache -->
   <style>
@@ -199,48 +199,11 @@
       <p class="gov-disclaimer" role="note">
         <strong>Penting:</strong> Aplikasi ini <strong>tidak</strong> mewakili entitas pemerintah atau instansi negara.
         Informasi layanan dikompilasi untuk warga dan mengacu sumber resmi di bawah.
-        Keputusan administratif tetap mengikuti kantor kelurahan.
       </p>
-      <div class="trust-foot">
-        <!-- Logo Kota Administrasi Jakarta Selatan (visual referensi wilayah)
-             — sumber: https://selatan.jakarta.go.id/ -->
-        <img class="lambang-jaksel" src="img/jaksel-logo-putih.png"
-             alt="Logo Kota Administrasi Jakarta Selatan"
-             width="220" height="48" loading="lazy">
-        <div class="trust-foot-text">
-          <strong>Kelurahan Rawajati</strong>
-          <small id="trust-lokasi">
-            <span id="trust-kecamatan">Kecamatan Pancoran</span><br>
-            <span id="trust-kota">Kota Administrasi Jakarta Selatan</span>
-          </small>
-        </div>
-      </div>
-
-      <!-- Link kontak inline (tanpa kotak) — href di-render dinamis dari meta -->
-      <div class="footer-links" id="footer-links">
-        <a class="fl-link" id="fl-alamat" href="#" target="_blank" rel="noopener">
-          <i data-lucide="map-pin"></i>
-          <span id="fl-alamat-text">Lihat di peta</span>
-        </a>
-        <span class="fl-sep" aria-hidden="true">·</span>
-        <a class="fl-link" id="fl-email" href="mailto:">
-          <i data-lucide="mail"></i>
-          <span id="fl-email-text">kel.rawajati@jakarta.go.id</span>
-        </a>
-        <span class="fl-sep" aria-hidden="true">·</span>
-        <a class="fl-link" id="fl-ig" href="#" target="_blank" rel="noopener">
-          <i data-lucide="instagram"></i>
-          <span id="fl-ig-text">@kelrawajati</span>
-        </a>
-        <span class="fl-sep" aria-hidden="true">·</span>
-        <a class="fl-link" href="/privacy.html" target="_blank" rel="noopener">
-          <i data-lucide="shield"></i>
-          <span>Privasi</span>
-        </a>
-      </div>
       <div class="official-sources" aria-label="Sumber informasi resmi">
         <p class="os-title">Sumber informasi resmi</p>
         <div class="os-links" id="os-links"></div>
+        <a class="os-privacy" href="/privacy.html" target="_blank" rel="noopener">Kebijakan privasi</a>
       </div>
     </div>
   </section>

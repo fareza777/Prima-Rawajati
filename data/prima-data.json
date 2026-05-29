@@ -1045,7 +1045,7 @@
         "ini apa",
         "tentang"
       ],
-      "jawaban": "ℹ️ **Tentang PRIMA:**\n\n**PRIMA** (Platform Ringkas Interaktif Masyarakat) membantu warga Rawajati mengakses **informasi layanan kelurahan** kapan saja.\n\n⚠️ **PRIMA bukan aplikasi pemerintah** — bukan representasi resmi instansi negara. Informasi mengacu sumber resmi (jakarta.go.id, selatan.jakarta.go.id, kontak kelurahan).\n\n📋 **Fitur:** syarat surat, peta, info warga, Tanya AI, Suara Warga.\n\nKeputusan administratif tetap mengikuti prosedur di kantor kelurahan."
+      "jawaban": "ℹ️ **Tentang PRIMA:**\n\n**PRIMA** (Platform Ringkas Interaktif Masyarakat) membantu warga Rawajati mengakses **informasi layanan kelurahan** kapan saja.\n\n⚠️ **PRIMA bukan aplikasi pemerintah** — bukan representasi resmi instansi negara. Informasi mengacu sumber resmi (jakarta.go.id, selatan.jakarta.go.id, kontak kelurahan).\n\n📋 **Fitur:** syarat surat, peta, info warga, Tanya AI, Suara Warga."
     },
     {
       "intent": "salam",
