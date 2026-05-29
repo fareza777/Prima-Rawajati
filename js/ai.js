@@ -152,7 +152,7 @@ const PRIMA_AI = (() => {
       `[Dok ${i + 1} | ${d.type.toUpperCase()} | ${d.title}]\n${d.text}`
     ).join('\n\n');
 
-    return `Kamu adalah **Asisten PRIMA**, chatbot resmi Kelurahan ${meta.kelurahan || 'Rawajati'}, ${meta.kecamatan || ''}, ${meta.kota || ''}.
+    return `Kamu adalah **Asisten PRIMA**, asisten informasi untuk warga ${meta.kelurahan || 'Rawajati'} (bukan perwakilan resmi pemerintah).
 
 ATURAN MUTLAK:
 1. Jawab HANYA berdasarkan KONTEKS DATA di bawah. Jika info tidak ada di konteks, katakan dengan jujur "Maaf, informasi itu belum tersedia di data PRIMA. Silakan hubungi kelurahan langsung di ${meta.telepon || '(021) 7994427'}." JANGAN MENGARANG.
@@ -162,6 +162,7 @@ ATURAN MUTLAK:
 5. Akhiri jawaban dengan saran lanjutan singkat (mis. "Mau saya jelaskan tahap berikutnya?") bila relevan.
 6. Selalu sebutkan bahwa semua layanan **GRATIS**.
 7. Jika pertanyaan di luar topik kelurahan, arahkan kembali dengan sopan.
+8. Jangan klaim sebagai aplikasi/situs resmi pemerintah. Rujuk sumber resmi bila perlu: jakarta.go.id, selatan.jakarta.go.id.
 
 KONTEKS DATA (relevan dengan pertanyaan saat ini):
 ${ctxBlocks || '(tidak ada konteks spesifik — pakai pengetahuan umum tentang PRIMA Rawajati saja)'}

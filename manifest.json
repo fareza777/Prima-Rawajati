@@ -2,7 +2,7 @@
   "id": "/",
   "name": "PRIMA – Kelurahan Rawajati",
   "short_name": "PRIMA",
-  "description": "Platform Ringkas Interaktif Masyarakat Kelurahan Rawajati — akses layanan, peta, dan informasi warga 24 jam.",
+  "description": "Informasi layanan warga Rawajati (bukan app resmi pemerintah). Sumber: jakarta.go.id & selatan.jakarta.go.id.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 
   <!-- App CSS (v4 – Royal Government Theme) -->
-  <link rel="stylesheet" href="css/style.css?v=18">
+  <link rel="stylesheet" href="css/style.css?v=19">
 
   <!-- Desktop fix: inline override agar tidak terkena cache -->
   <style>
@@ -196,11 +196,16 @@
   <!-- Footer Navy — logo + kontak link inline + credit RAP -->
   <section class="trust-belt" aria-label="Footer kelurahan">
     <div class="trust-belt-inner">
+      <p class="gov-disclaimer" role="note">
+        <strong>Penting:</strong> Aplikasi ini <strong>tidak</strong> mewakili entitas pemerintah atau instansi negara.
+        Informasi layanan dikompilasi untuk warga dan mengacu sumber resmi di bawah.
+        Keputusan administratif tetap mengikuti kantor kelurahan.
+      </p>
       <div class="trust-foot">
-        <!-- Logo resmi Kota Administrasi Jakarta Selatan (Rambutan Rapiah)
-             — sumber: https://selatan.jakarta.go.id/, varian putih untuk latar gelap. -->
+        <!-- Logo Kota Administrasi Jakarta Selatan (visual referensi wilayah)
+             — sumber: https://selatan.jakarta.go.id/ -->
         <img class="lambang-jaksel" src="img/jaksel-logo-putih.png"
-             alt="Logo Pemerintah Kota Administrasi Jakarta Selatan"
+             alt="Logo Kota Administrasi Jakarta Selatan"
              width="220" height="48" loading="lazy">
         <div class="trust-foot-text">
           <strong>Kelurahan Rawajati</strong>
@@ -232,7 +237,12 @@
           <i data-lucide="shield"></i>
           <span>Privasi</span>
         </a>
-      </div>    </div>
+      </div>
+      <div class="official-sources" aria-label="Sumber informasi resmi">
+        <p class="os-title">Sumber informasi resmi</p>
+        <div class="os-links" id="os-links"></div>
+      </div>
+    </div>
   </section>
 
 </main>

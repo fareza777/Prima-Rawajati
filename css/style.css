@@ -2157,6 +2157,45 @@ a.download-btn, .download-btn {
   max-width: 600px;
   margin: 0 auto;
 }
+.gov-disclaimer {
+  position: relative;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255,255,255,.92);
+  background: rgba(0,0,0,.22);
+  border: 1px solid rgba(212,175,55,.45);
+  border-radius: 12px;
+}
+.gov-disclaimer strong { color: var(--gold-light); }
+.official-sources {
+  position: relative;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(212,175,55,.22);
+}
+.official-sources .os-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  color: var(--gold-light);
+  margin: 0 0 8px;
+}
+.os-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.os-links a {
+  font-size: 13px;
+  color: rgba(255,255,255,.9);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  word-break: break-word;
+}
+.os-links a:hover { color: var(--gold-light); }
 /* Subtle gold shimmer accent, mirror dari hero-banner::before */
 .trust-belt::before {
   content: '';

@@ -314,6 +314,14 @@ function renderFooterContact() {
   const kotaEl = document.getElementById('trust-kota');
   if (kecEl && meta.kecamatan) kecEl.textContent = 'Kecamatan ' + meta.kecamatan;
   if (kotaEl && meta.kota) kotaEl.textContent = 'Kota Administrasi ' + meta.kota;
+
+  const osEl = document.getElementById('os-links');
+  const sources = meta.officialSources || [];
+  if (osEl && sources.length) {
+    osEl.innerHTML = sources.map(s =>
+      `<a href="${escapeHtml(s.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(s.label)}</a>`
+    ).join('');
+  }
 }
 
 /** Akses panel admin tersembunyi: ketuk badge PRIMA 5× dalam 3 detik, atau ?s=admin */

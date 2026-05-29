@@ -7,6 +7,11 @@
     "alamat": "Jl. Rawajati Timur No.1, Rawajati, Pancoran, Jakarta Selatan 12750",
     "telepon": "(021) 7994427",
     "email": "kel.rawajati@jakarta.go.id",
+    "officialSources": [
+      { "label": "jakarta.go.id (Pemprov DKI)", "url": "https://jakarta.go.id/" },
+      { "label": "selatan.jakarta.go.id (Kota Jaksel)", "url": "https://selatan.jakarta.go.id/" },
+      { "label": "JAKI — pengaduan DKI", "url": "https://jaki.jakarta.go.id/" }
+    ],
     "jamKerja": "Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB",
     "koordinat": {
       "lat": -6.2605,
@@ -1040,7 +1045,7 @@
         "ini apa",
         "tentang"
       ],
-      "jawaban": "ℹ️ **Tentang PRIMA:**\n\n**PRIMA** (Platform Ringkas Interaktif Masyarakat) adalah platform digital Kelurahan Rawajati yang bisa diakses **kapan saja, di mana saja** melalui QR Code.\n\n📋 **Fitur:**\n• Informasi syarat & prosedur surat\n• Peta wilayah interaktif\n• Info kuliner & usaha warga\n• AI Chatbot 24/7\n• Kotak saran digital\n\nDibuat untuk memudahkan warga Rawajati mendapat informasi tanpa harus bolak-balik ke kelurahan! 😊"
+      "jawaban": "ℹ️ **Tentang PRIMA:**\n\n**PRIMA** (Platform Ringkas Interaktif Masyarakat) membantu warga Rawajati mengakses **informasi layanan kelurahan** kapan saja.\n\n⚠️ **PRIMA bukan aplikasi pemerintah** — bukan representasi resmi instansi negara. Informasi mengacu sumber resmi (jakarta.go.id, selatan.jakarta.go.id, kontak kelurahan).\n\n📋 **Fitur:** syarat surat, peta, info warga, Tanya AI, Suara Warga.\n\nKeputusan administratif tetap mengikuti prosedur di kantor kelurahan."
     },
     {
       "intent": "salam",
