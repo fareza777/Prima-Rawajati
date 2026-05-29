@@ -1,5 +1,5 @@
 {
-  "packageId": "id.rawajati.prima",
+  "packageId": "id.kelurahan.rawajati.prima",
   "host": "prima-rawajati.vercel.app",
   "name": "PRIMA – Kelurahan Rawajati",
   "launcherName": "PRIMA",
@@ -15,8 +15,8 @@
   "iconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512.png",
   "maskableIconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512-maskable.png",
   "monochromeIconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512.png",
-  "appVersion": "14",
-  "appVersionName": "1.1.3",
+  "appVersion": "1",
+  "appVersionName": "1.0.0",
   "signingKey": {
     "path": "android.keystore",
     "alias": "prima"

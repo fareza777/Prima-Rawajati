@@ -23,7 +23,7 @@ permissions:
   contents: write
 
 env:
-  PACKAGE_ID:    id.rawajati.prima
+  PACKAGE_ID:    id.kelurahan.rawajati.prima
   KEY_ALIAS:     prima
   GRADLE_VER:    8.4
 

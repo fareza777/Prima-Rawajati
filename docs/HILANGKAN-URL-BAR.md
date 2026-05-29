@@ -63,4 +63,4 @@ Jika sudah menambahkan SHA Play tapi URL bar masih ada: upload **AAB baru** (ver
 - Pastikan SHA yang disalin dari **App signing key**, bukan Upload key
 - Tunggu 5–15 menit setelah deploy Vercel (cache)
 - Hapus data **Chrome** → Site settings → `prima-rawajati.vercel.app` → Clear (opsional)
-- Pastikan package name di assetlinks: `id.rawajati.prima`
+- Pastikan package name di assetlinks: `id.kelurahan.rawajati.prima`

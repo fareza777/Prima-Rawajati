@@ -16,7 +16,7 @@ const http  = require('http');
 // ── Config ────────────────────────────────────────────────────────
 const manifest = JSON.parse(fs.readFileSync('twa-manifest.json', 'utf8'));
 
-const PKG_ID   = manifest.packageId   || 'id.rawajati.prima';
+const PKG_ID   = manifest.packageId   || 'id.kelurahan.rawajati.prima';
 const APP_NAME = manifest.name        || 'PRIMA';
 const LAUNCHER = manifest.launcherName|| 'PRIMA';
 const HOST     = manifest.host        || 'prima-rawajati.vercel.app';
