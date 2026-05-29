@@ -21,11 +21,12 @@ OUT_W, OUT_H = 1080, 1920
 SCALE = OUT_W / LOGICAL_W
 
 PAGES = [
-    ("01-beranda.png", "home", 1200),
-    ("02-layanan.png", "layanan", 1200),
-    ("03-peta.png", "peta", 4000),
-    ("04-info.png", "info", 1200),
-    ("05-tanya-ai.png", "chat", 1500),
+    ("01-beranda.png", "home", 1200, False),
+    ("02-layanan.png", "layanan", 1200, False),
+    ("03-peta.png", "peta", 4000, False),
+    ("04-info.png", "info", 1200, False),
+    ("05-tanya-ai.png", "chat", 1500, False),
+    ("06-footer-disclaimer.png", "home", 1200, True),
 ]
 
 
@@ -75,12 +76,21 @@ def main() -> int:
         )
         page.wait_for_timeout(400)
 
-        for filename, page_id, delay_ms in PAGES:
+        for filename, page_id, delay_ms, scroll_footer in PAGES:
             page.evaluate(
                 "(id) => { if (typeof navigateTo === 'function') navigateTo(id); }",
                 page_id,
             )
             page.wait_for_timeout(delay_ms)
+            if scroll_footer:
+                page.evaluate(
+                    """() => {
+                      const belt = document.querySelector('.trust-belt');
+                      if (belt) belt.scrollIntoView({ block: 'end', behavior: 'instant' });
+                      else window.scrollTo(0, document.body.scrollHeight);
+                    }"""
+                )
+                page.wait_for_timeout(600)
             dest = OUT / filename
             page.screenshot(path=str(dest), type="png")
 
