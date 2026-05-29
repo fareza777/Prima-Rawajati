@@ -11,14 +11,19 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "img" / "play" / "screenshots"
-VIEWPORT = {"width": 1080, "height": 1920}
 PORT = 8765
 BASE_URL = f"http://127.0.0.1:{PORT}/index.html"
+
+# App dirancang ~430px lebar; viewport lebar memicu layout desktop (strip di tengah).
+LOGICAL_W = 430
+LOGICAL_H = 765  # 9:16 portrait (430 * 16/9)
+OUT_W, OUT_H = 1080, 1920
+SCALE = OUT_W / LOGICAL_W
 
 PAGES = [
     ("01-beranda.png", "home", 1200),
     ("02-layanan.png", "layanan", 1200),
-    ("03-peta.png", "peta", 3500),
+    ("03-peta.png", "peta", 4000),
     ("04-info.png", "info", 1200),
     ("05-tanya-ai.png", "chat", 1500),
 ]
@@ -34,6 +39,7 @@ def _start_static_server() -> HTTPServer:
 def main() -> int:
     try:
         from playwright.sync_api import sync_playwright
+        from PIL import Image
     except ImportError:
         print("Install: pip install playwright pillow", file=sys.stderr)
         return 1
@@ -44,9 +50,11 @@ def main() -> int:
     with sync_playwright() as p:
         browser = p.chromium.launch(channel="msedge", headless=True)
         context = browser.new_context(
-            viewport=VIEWPORT,
-            device_scale_factor=1,
+            viewport={"width": LOGICAL_W, "height": LOGICAL_H},
+            device_scale_factor=SCALE,
             locale="id-ID",
+            is_mobile=True,
+            has_touch=True,
         )
         page = context.new_page()
         page.goto(BASE_URL, wait_until="domcontentloaded", timeout=90_000)
@@ -60,25 +68,29 @@ def main() -> int:
               document.body.classList.remove('splash-active');
               const s = document.getElementById('app-splash');
               if (s) { s.style.display = 'none'; s.remove(); }
+              document.documentElement.style.width = '430px';
+              document.body.style.maxWidth = '430px';
+              document.body.style.margin = '0';
             }"""
         )
-        page.wait_for_timeout(500)
+        page.wait_for_timeout(400)
 
         for filename, page_id, delay_ms in PAGES:
             page.evaluate(
-                f"(id) => {{ if (typeof navigateTo === 'function') navigateTo(id); }}",
+                "(id) => { if (typeof navigateTo === 'function') navigateTo(id); }",
                 page_id,
             )
             page.wait_for_timeout(delay_ms)
             dest = OUT / filename
             page.screenshot(path=str(dest), type="png")
-            from PIL import Image
 
             img = Image.open(dest)
-            if img.size != (1080, 1920):
-                img = img.resize((1080, 1920), Image.Resampling.LANCZOS)
+            w, h = img.size
+            if w != OUT_W or h != OUT_H:
+                # Crop/fit tanpa stretch horizontal
+                img = img.resize((OUT_W, OUT_H), Image.Resampling.LANCZOS)
                 img.save(dest, "PNG", optimize=True)
-            print(f"OK {dest.name} {img.size}")
+            print(f"OK {dest.name} {w}x{h} -> {OUT_W}x{OUT_H}")
 
         browser.close()
 
