@@ -24,6 +24,8 @@ permissions:
 
 env:
   PACKAGE_ID:    id.kelurahan.rawajati.prima
+  # Semua package yang masih dipakai di Play (AAB lama + app baru)
+  ASSETLINK_PACKAGES: id.rawajati.prima,id.kelurahan.rawajati.prima
   KEY_ALIAS:     prima
   GRADLE_VER:    8.4
 
@@ -264,18 +266,23 @@ jobs:
           if not fps:
               raise SystemExit("No SHA-256 fingerprints for assetlinks.json")
 
+          packages = [
+              p.strip() for p in os.environ.get("ASSETLINK_PACKAGES", os.environ["PACKAGE_ID"]).split(",")
+              if p.strip()
+          ]
           doc = [{
               "relation": ["delegate_permission/common.handle_all_urls"],
               "target": {
                   "namespace": "android_app",
-                  "package_name": os.environ["PACKAGE_ID"],
-                  "sha256_cert_fingerprints": [fp],
+                  "package_name": pkg,
+                  "sha256_cert_fingerprints": fps,
               },
-          } for fp in fps]
+          } for pkg in packages]
           with open(".well-known/assetlinks.json", "w", encoding="utf-8") as f:
               json.dump(doc, f, indent=4)
               f.write("\n")
-          print("✅ assetlinks.json fingerprints:")
+          print("✅ assetlinks.json packages:", ", ".join(packages))
+          print("✅ fingerprints:")
           for fp in fps:
               print(f"   - {fp}")
           if len(fps) < 2:
@@ -283,6 +290,7 @@ jobs:
           PYEOF
         env:
           PACKAGE_ID: ${{ env.PACKAGE_ID }}
+          ASSETLINK_PACKAGES: ${{ env.ASSETLINK_PACKAGES }}
           UPLOAD_SHA: ${{ steps.keystore.outputs.sha256 }}
           PLAY_SHA:     ${{ secrets.PLAY_APP_SIGNING_SHA256 }}
 

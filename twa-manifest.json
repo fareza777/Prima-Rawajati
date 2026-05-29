@@ -28,6 +28,7 @@
   "fullScopeUrl": "https://prima-rawajati.vercel.app/",
   "minSdkVersion": 21,
   "fingerprints": [
+    "8A:33:6F:13:8F:11:05:5B:C0:C2:BB:20:39:3C:16:E0:76:0F:C5:12:77:2C:C0:F9:8F:19:3A:69:C5:EC:76:E6",
     "43:78:0B:51:37:3F:8D:79:3D:DF:44:0A:BB:D3:8F:62:6B:1A:67:8D:EC:F2:4C:6C:F5:89:3E:21:EE:C3:77:5E"
   ],
   "webManifestUrl": "https://prima-rawajati.vercel.app/manifest.json",
