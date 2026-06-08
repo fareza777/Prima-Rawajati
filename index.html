@@ -926,13 +926,9 @@
             }
           });
         });
-        // Reload page once new SW takes control
-        let refreshing = false;
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-          if (refreshing) return;
-          refreshing = true;
-          window.location.reload();
-        });
+        // Jangan auto-reload saat service worker baru aktif. Auto-reload membuat
+        // splash screen terlihat dua kali pada refresh setelah deploy/cache bump.
+        // Versi baru tetap dipakai pada refresh/navigasi berikutnya.
       }).catch(() => {});
     });
   }
