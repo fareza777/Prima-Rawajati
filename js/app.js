@@ -1139,7 +1139,8 @@ function initChatbot() {
                : 'Selamat malam';
   addBotMessage(
     `${sapaan}! 👋 Selamat datang di <strong>PRIMA – Kelurahan Rawajati</strong>.\n\nSaya asisten virtual yang siap membantu Anda 24 jam. Pilih topik di bawah, atau ketik pertanyaan Anda sendiri di kolom chat. 😊`,
-    getCurrentTime()
+    getCurrentTime(),
+    { skipChips: true }
   );
 
   // Render time-aware suggested questions sebagai chip di bawah welcome
@@ -1676,6 +1677,20 @@ async function sendMessage() {
   // Hide time-aware suggestions setelah user mulai bertanya
   if (typeof hideSuggestions === 'function') hideSuggestions();
 
+  if (isDownloadLinkRequest(text)) {
+    const layananForDownload = findLayananFromText(text) || findRecentLayananContext();
+    if (layananForDownload) {
+      const rawAnswer = buildDownloadLinksAnswer(layananForDownload);
+      chatbot.recordExchange(text, rawAnswer, 'download-links');
+      addBotMessage(formatBotText(rawAnswer), getCurrentTime(), {
+        intent: 'link_unduhan',
+        rawText: `${rawAnswer} ${text}`
+      });
+      updateChatStats();
+      return;
+    }
+  }
+
   const aiEnabled = isAIEnabled();
 
   // AI mode: stream response from OpenRouter
@@ -1708,6 +1723,7 @@ async function sendMessage() {
         bubbleEl.classList.remove('streaming');
         finalizeBotMessage(bubbleEl.closest('.chat-msg'), {
           text: fullText,
+          userText: text,
           sources: result.retrievedDocs || [],
           time: getCurrentTime(),
           modelUsed: PRIMA_AI.getSelectedModel()
@@ -1754,11 +1770,70 @@ function isAIEnabled() {
 function formatBotText(text) {
   // Simple markdown: **bold**, *italic*, line breaks, lists
   let html = escapeHtml(text)
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|[^)\s]+?\.(?:pdf|doc|docx|xls|xlsx))\)/gi, (_m, label, url) => {
+      const safeUrl = escapeHtml(url);
+      return `<a href="${safeUrl}" target="_blank" rel="noopener" download>${label}</a>`;
+    })
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/(^|[^*])\*([^*\n]+?)\*/g, '$1<em>$2</em>')
     .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/\n/g, '<br>');
+  html = html.split(/(<a\b[^>]*>.*?<\/a>)/gi)
+    .map(part => part.startsWith('<a')
+      ? part
+      : part.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>'))
+    .join('');
   return html;
+}
+
+function isDownloadLinkRequest(text) {
+  return /\b(link|tautan|download|unduh|unduhan|blangko|blanko|form|template)\b/i.test(text || '');
+}
+
+const GENERIC_LAYANAN_TERMS = new Set([
+  'kelurahan', 'ptsp', 'dukcapil', 'layanan', 'pelayanan', 'surat',
+  'dokumen', 'berkas', 'form', 'template', 'blanko', 'blangko',
+  'surat pernyataan', 'keterangan umum'
+]);
+
+function getSearchableLayananTags(layanan) {
+  return (layanan?.tags || [])
+    .map(t => String(t || '').trim().toLowerCase())
+    .filter(t => t.length >= 4 && !GENERIC_LAYANAN_TERMS.has(t));
+}
+
+function findLayananFromText(text) {
+  const normalized = String(text || '').toLowerCase();
+  if (!normalized || !Array.isArray(PRIMA_DATA?.layanan)) return null;
+  return PRIMA_DATA.layanan.find(l =>
+    normalized.includes(String(l.nama || '').toLowerCase()) ||
+    normalized.includes(String(l.id || '').toLowerCase()) ||
+    getSearchableLayananTags(l).some(t => normalized.includes(t))
+  ) || null;
+}
+
+function findRecentLayananContext() {
+  if (!chatbot?.conversationHistory?.length) return null;
+  const recent = chatbot.conversationHistory.slice(-8).reverse();
+  for (const item of recent) {
+    const match = findLayananFromText(item.text);
+    if (match) return match;
+  }
+  return null;
+}
+
+function buildDownloadLinksAnswer(layanan) {
+  const docs = (layanan?.dokumenUnduh || []).filter(d => d.url && !d.url.startsWith('#'));
+  if (!layanan || docs.length === 0) {
+    return 'Maaf, link unduhan untuk layanan itu belum tersedia di data PRIMA saat ini. Silakan cek detail layanan atau hubungi Kelurahan Rawajati di **(021) 7994427**.';
+  }
+
+  const links = docs.map((d, i) => {
+    const absoluteUrl = d.url.startsWith('http') ? d.url : new URL(d.url, window.location.href).href;
+    return `${i + 1}. [${d.nama}](${absoluteUrl})`;
+  }).join('\n');
+
+  return `Berikut link unduhan untuk **${layanan.nama}**:\n\n${links}\n\nBisa juga buka menu **Layanan** lalu pilih **${layanan.nama}** untuk melihat syarat, prosedur, dan tombol unduh. Semua layanan **GRATIS**.`;
 }
 
 function startStreamingBotMessage() {
@@ -1780,6 +1855,13 @@ function finalizeBotMessage(msgEl, opts) {
   if (!msgEl) return;
   const wrap = msgEl.querySelector('div[style*="flex:1"]') || msgEl.children[1];
   // Source chips removed per user request
+  const chips = renderBotQuickActions('', `${opts.text || ''} ${opts.userText || ''}`);
+  if (chips) {
+    const chipWrap = document.createElement('div');
+    chipWrap.className = 'msg-chips';
+    chipWrap.innerHTML = chips;
+    wrap.appendChild(chipWrap);
+  }
   // Time + actions
   const meta = document.createElement('div');
   meta.className = 'msg-time';
@@ -1838,7 +1920,7 @@ function addBotMessage(html, time, opts = {}) {
   const tag = opts.intent ? ` · ${escapeHtml(opts.intent)}` : '';
 
   // Quick-action chips derived dari intent yang baru dijawab
-  const chips = renderBotQuickActions(opts.intent, opts.rawText || html);
+  const chips = opts.skipChips ? '' : renderBotQuickActions(opts.intent, opts.rawText || html);
 
   div.innerHTML = `
     <div class="msg-avatar">🤖</div>
@@ -1876,7 +1958,7 @@ function renderBotQuickActions(intent, rawText = '') {
   const matchedLayanan = PRIMA_DATA?.layanan?.find(l =>
     text.includes(l.nama.toLowerCase()) ||
     text.includes(l.id.toLowerCase()) ||
-    (l.tags || []).some(t => text.includes(t.toLowerCase()))
+    getSearchableLayananTags(l).some(t => text.includes(t))
   );
 
   if (matchedLayanan) {

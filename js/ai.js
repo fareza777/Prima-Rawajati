@@ -78,12 +78,15 @@ const PRIMA_AI = (() => {
 
     // Layanan
     (PRIMA_DATA.layanan || []).forEach(l => {
-      const downloads = (l.dokumenUnduh || []).map(d => d.nama).filter(Boolean).join('; ');
+      const downloads = (l.dokumenUnduh || [])
+        .map(d => d.nama && d.url ? `${d.nama}: ${d.url}` : d.nama)
+        .filter(Boolean)
+        .join('; ');
       const text = `LAYANAN ${l.nama}. Kategori: ${l.kategori}. ${l.deskripsi || ''} ` +
         `Syarat: ${(l.syarat || []).join('; ')}. ` +
         `Prosedur: ${(l.prosedur || []).join('; ')}. ` +
         `Waktu proses: ${l.waktuProses || '-'}. Biaya: ${l.biaya || 'Gratis'}. ` +
-        `Blangko/dokumen unduhan: ${downloads || 'tidak ada'}. ` +
+        `Blangko/dokumen unduhan dan link: ${downloads || 'tidak ada'}. ` +
         `Kata kunci: ${(l.tags || []).join(', ')}.`;
       docs.push({ type: 'layanan', id: l.id, title: l.nama, text, tokens: _tokenize(text) });
     });
