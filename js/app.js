@@ -1684,7 +1684,8 @@ async function sendMessage() {
       chatbot.recordExchange(text, rawAnswer, 'download-links');
       addBotMessage(formatBotText(rawAnswer), getCurrentTime(), {
         intent: 'link_unduhan',
-        rawText: `${rawAnswer} ${text}`
+        rawText: rawAnswer,
+        userText: text
       });
       updateChatStats();
       return;
@@ -1752,7 +1753,7 @@ async function sendMessage() {
   setTimeout(() => {
     removeTyping(typingId2);
     const response = chatbot.processMessage(text);
-    addBotMessage(response.text, response.timestamp, { intent: response.intent, rawText: response.text });
+    addBotMessage(response.text, response.timestamp, { intent: response.intent, rawText: response.text, userText: text });
     updateChatStats();
   }, 500 + Math.random() * 300);
 }
@@ -1802,14 +1803,54 @@ function getSearchableLayananTags(layanan) {
     .filter(t => t.length >= 4 && !GENERIC_LAYANAN_TERMS.has(t));
 }
 
-function findLayananFromText(text) {
+function hasAllWords(text, phrase) {
+  const words = String(phrase || '').split(/\s+/).filter(w => w.length >= 4);
+  return words.length > 0 && words.every(w => text.includes(w));
+}
+
+function scoreLayananMatch(text, layanan) {
   const normalized = String(text || '').toLowerCase();
-  if (!normalized || !Array.isArray(PRIMA_DATA?.layanan)) return null;
-  return PRIMA_DATA.layanan.find(l =>
-    normalized.includes(String(l.nama || '').toLowerCase()) ||
-    normalized.includes(String(l.id || '').toLowerCase()) ||
-    getSearchableLayananTags(l).some(t => normalized.includes(t))
-  ) || null;
+  if (!normalized || !layanan) return 0;
+
+  const id = String(layanan.id || '').toLowerCase();
+  const name = String(layanan.nama || '').toLowerCase();
+  const tags = getSearchableLayananTags(layanan);
+  let score = 0;
+
+  if (id && normalized.includes(id)) score += 140;
+  if (name && normalized.includes(name)) score += 130;
+
+  for (const tag of tags) {
+    if (normalized.includes(tag)) score += 70 + Math.min(tag.length, 30);
+    else if (hasAllWords(normalized, tag)) score += 40 + Math.min(tag.length, 20);
+    else {
+      const words = tag.split(/\s+/).filter(w => w.length >= 5);
+      for (const word of words) {
+        if (normalized.includes(word)) score += 12 + Math.min(word.length, 12);
+      }
+    }
+  }
+
+  const nameWords = name.split(/\s+/).filter(w => w.length >= 5 && !GENERIC_LAYANAN_TERMS.has(w));
+  for (const word of nameWords) {
+    if (normalized.includes(word)) score += 8;
+  }
+
+  const asksMarriage = /\b(nikah|menikah|kawin|perkawinan|janda|duda)\b/.test(normalized);
+  const isMarriageService = /\b(nikah|menikah|kawin|perkawinan|janda|duda)\b/.test(`${name} ${tags.join(' ')}`);
+  if (asksMarriage && isMarriageService) score += 45;
+  if (asksMarriage && layanan.id === 'WARIS') score -= 80;
+
+  return score;
+}
+
+function findLayananFromText(text) {
+  if (!Array.isArray(PRIMA_DATA?.layanan)) return null;
+  const best = PRIMA_DATA.layanan
+    .map(l => ({ layanan: l, score: scoreLayananMatch(text, l) }))
+    .filter(x => x.score >= 18)
+    .sort((a, b) => b.score - a.score)[0];
+  return best?.layanan || null;
 }
 
 function findRecentLayananContext() {
@@ -1855,7 +1896,7 @@ function finalizeBotMessage(msgEl, opts) {
   if (!msgEl) return;
   const wrap = msgEl.querySelector('div[style*="flex:1"]') || msgEl.children[1];
   // Source chips removed per user request
-  const chips = renderBotQuickActions('', `${opts.text || ''} ${opts.userText || ''}`);
+  const chips = renderBotQuickActions('', opts.text || '', opts.userText || '');
   if (chips) {
     const chipWrap = document.createElement('div');
     chipWrap.className = 'msg-chips';
@@ -1920,7 +1961,7 @@ function addBotMessage(html, time, opts = {}) {
   const tag = opts.intent ? ` · ${escapeHtml(opts.intent)}` : '';
 
   // Quick-action chips derived dari intent yang baru dijawab
-  const chips = opts.skipChips ? '' : renderBotQuickActions(opts.intent, opts.rawText || html);
+  const chips = opts.skipChips ? '' : renderBotQuickActions(opts.intent, opts.rawText || html, opts.userText || '');
 
   div.innerHTML = `
     <div class="msg-avatar">🤖</div>
@@ -1950,16 +1991,12 @@ function addBotMessage(html, time, opts = {}) {
  *   5. Cross-section navigation (peta/suara/beranda)
  * Max 4 chip per pesan supaya tidak crowded.
  */
-function renderBotQuickActions(intent, rawText = '') {
+function renderBotQuickActions(intent, rawText = '', userText = '') {
   const chips = [];
   const text = String(rawText).toLowerCase();
 
   // Detect mention layanan via id atau nama → chip "Lihat Detail" + actions
-  const matchedLayanan = PRIMA_DATA?.layanan?.find(l =>
-    text.includes(l.nama.toLowerCase()) ||
-    text.includes(l.id.toLowerCase()) ||
-    getSearchableLayananTags(l).some(t => text.includes(t))
-  );
+  const matchedLayanan = findLayananFromText(userText) || findLayananFromText(rawText);
 
   if (matchedLayanan) {
     chips.push(`<button class="chat-chip" onclick="closeChatThenShowLayanan('${matchedLayanan.id}')">📋 Detail ${escapeHtml(matchedLayanan.nama)}</button>`);
