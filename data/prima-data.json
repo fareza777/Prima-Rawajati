@@ -8,9 +8,18 @@
     "telepon": "(021) 7994427",
     "email": "kel.rawajati@jakarta.go.id",
     "officialSources": [
-      { "label": "jakarta.go.id (Pemprov DKI)", "url": "https://jakarta.go.id/" },
-      { "label": "selatan.jakarta.go.id (Kota Jaksel)", "url": "https://selatan.jakarta.go.id/" },
-      { "label": "JAKI — pengaduan DKI", "url": "https://jaki.jakarta.go.id/" }
+      {
+        "label": "jakarta.go.id (Pemprov DKI)",
+        "url": "https://jakarta.go.id/"
+      },
+      {
+        "label": "selatan.jakarta.go.id (Kota Jaksel)",
+        "url": "https://selatan.jakarta.go.id/"
+      },
+      {
+        "label": "JAKI — pengaduan DKI",
+        "url": "https://jaki.jakarta.go.id/"
+      }
     ],
     "jamKerja": "Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB",
     "koordinat": {
@@ -18,462 +27,1032 @@
       "lng": 106.849
     },
     "versi": "1.0.0",
-    "terakhirUpdate": "2026-05-29T06:52:06.483Z",
+    "terakhirUpdate": "2026-06-08T00:00:00.000Z",
     "instagram": "kelrawajati"
   },
   "layanan": [
     {
-      "id": "SKD",
-      "nama": "Surat Keterangan Domisili",
-      "emoji": "🏠",
-      "kategori": "Kependudukan",
-      "deskripsi": "Surat yang menyatakan bahwa seseorang berdomisili di wilayah Kelurahan Rawajati.",
-      "waktuProses": "1 hari kerja",
-      "biaya": "Gratis",
-      "syarat": [
-        "Fotokopi KTP (1 lembar)",
-        "Fotokopi Kartu Keluarga (1 lembar)",
-        "Surat Pengantar RT/RW",
-        "Pas foto 3×4 (2 lembar)",
-        "Formulir permohonan (tersedia di loket)"
-      ],
-      "prosedur": [
-        "Ambil surat pengantar di RT setempat",
-        "Bawa ke Sekretariat RW untuk ditandatangani Ketua RW",
-        "Datang ke loket Kelurahan dengan membawa semua berkas",
-        "Isi formulir permohonan di loket",
-        "Tunggu proses verifikasi (±30 menit)",
-        "Surat siap diambil / dicetak"
-      ],
-      "dokumenUnduh": [
-        {
-          "nama": "Formulir Permohonan SKD",
-          "url": "#form-skd"
-        },
-        {
-          "nama": "Contoh Surat Keterangan Domisili",
-          "url": "dokumen/contoh-surat-domisili.docx"
-        }
-      ],
-      "tags": [
-        "domisili",
-        "keterangan tempat tinggal",
-        "alamat",
-        "surat domisili"
-      ]
-    },
-    {
-      "id": "SAW",
-      "nama": "Surat Ahli Waris",
+      "id": "WARIS",
+      "nama": "Pencatatan Surat Pernyataan Ahli Waris",
       "emoji": "⚖️",
-      "kategori": "Hukum & Keluarga",
-      "deskripsi": "Surat keterangan yang menjelaskan siapa saja ahli waris yang sah dari almarhum/almarhumah.",
+      "kategori": "Kelurahan",
+      "deskripsi": "Pencatatan register dan/atau pembuatan draf Surat Pernyataan Ahli Waris di Kelurahan.",
       "waktuProses": "2–3 hari kerja",
       "biaya": "Gratis",
       "syarat": [
-        "Fotokopi KTP pemohon (1 lembar)",
-        "Fotokopi KTP seluruh ahli waris (1 lembar masing-masing)",
-        "Fotokopi Kartu Keluarga (1 lembar)",
-        "Fotokopi Akta Kematian (1 lembar)",
-        "Fotokopi Akta Nikah / Buku Nikah almarhum (bila ada)",
+        "Surat Pengantar RT/RW untuk ahli waris",
+        "Fotokopi Akta/Surat Kematian pewaris",
+        "Fotokopi Akta Nikah/Buku Nikah pewaris",
+        "Fotokopi KTP dan KK seluruh ahli waris",
         "Fotokopi Akta Kelahiran seluruh ahli waris",
-        "Surat Pengantar RT/RW",
-        "Surat Pernyataan Ahli Waris bermaterai (contoh dapat diunduh)"
+        "Fotokopi KIA bila ahli waris belum 17 tahun",
+        "Fotokopi KTP 2 orang saksi",
+        "Surat permohonan/pernyataan ahli waris; surat kuasa bila dikuasakan"
       ],
       "prosedur": [
-        "Siapkan seluruh dokumen persyaratan",
-        "Minta surat pengantar ke RT → RW",
-        "Datang ke loket Kelurahan",
-        "Isi formulir & serahkan berkas",
-        "Verifikasi oleh petugas (1–2 hari kerja)",
-        "Penandatanganan oleh Lurah",
-        "Surat siap diambil"
+        "Siapkan berkas asli dan fotokopi sesuai persyaratan",
+        "Minta pengantar RT/RW bila dipersyaratkan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Petugas memeriksa berkas dan mencatat register bila lengkap",
+        "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
       ],
       "dokumenUnduh": [
         {
-          "nama": "Surat Pernyataan Ahli Waris (template)",
-          "url": "#form-saw"
+          "nama": "Checklist & draf Pengurusan Waris",
+          "url": "dokumen/pelayanan/pengurusan-waris.docx"
         },
         {
-          "nama": "Formulir Permohonan Surat Ahli Waris",
-          "url": "#form-saw2"
+          "nama": "Contoh pernyataan ahli waris - salah satu meninggal",
+          "url": "dokumen/pelayanan/salah-satu-meninggal.docx"
+        },
+        {
+          "nama": "Template Surat Kuasa",
+          "url": "dokumen/pelayanan/surat-kuasa.docx"
         }
       ],
       "tags": [
         "ahli waris",
         "waris",
-        "warisan",
         "kematian",
-        "pewaris"
+        "register waris",
+        "surat pernyataan ahli waris"
       ]
     },
     {
-      "id": "PM1-PBB",
-      "nama": "PM-1 Pecah PBB",
-      "emoji": "🏗️",
-      "kategori": "Pertanahan & Properti",
-      "deskripsi": "Surat pengantar untuk pemecahan Pajak Bumi dan Bangunan (PBB) atas nama yang baru.",
+      "id": "PM1-BELUM-MENIKAH",
+      "nama": "PM.1 Keterangan Belum Pernah Menikah",
+      "emoji": "💍",
+      "kategori": "Kelurahan",
+      "deskripsi": "Pengantar PM.1 untuk menerangkan pemohon belum pernah menikah.",
       "waktuProses": "1–2 hari kerja",
       "biaya": "Gratis",
       "syarat": [
-        "Fotokopi KTP pemohon (1 lembar)",
-        "Fotokopi Kartu Keluarga (1 lembar)",
-        "Fotokopi SPPT PBB tahun berjalan",
-        "Fotokopi sertifikat tanah / bukti kepemilikan",
-        "Akta jual beli / hibah / waris (sesuai dasar pemecahan)",
+        "Fotokopi KTP dan Kartu Keluarga",
         "Surat Pengantar RT/RW",
-        "Denah/sketsa lokasi tanah"
+        "Surat Pernyataan bermeterai Rp10.000 diketahui RT/RW"
       ],
       "prosedur": [
-        "Lengkapi seluruh dokumen persyaratan",
-        "Minta surat pengantar RT → RW",
-        "Datang ke loket Kelurahan",
-        "Petugas verifikasi dokumen",
-        "Proses penerbitan surat pengantar PM-1",
-        "Bawa PM-1 ke Kantor Kecamatan / BPRD untuk proses lanjutan"
+        "Siapkan berkas asli dan fotokopi sesuai persyaratan",
+        "Minta pengantar RT/RW bila dipersyaratkan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Petugas memeriksa berkas dan mencatat register bila lengkap",
+        "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
       ],
       "dokumenUnduh": [
         {
-          "nama": "Formulir Permohonan PM-1 Pecah PBB",
-          "url": "#form-pm1-pbb"
+          "nama": "Surat Pernyataan Belum Pernah Menikah",
+          "url": "dokumen/pelayanan/surat-pernyataan-belum-pernah-menikah.docx"
+        },
+        {
+          "nama": "PM.1 Pengantar Perkawinan Pertama",
+          "url": "dokumen/pelayanan/pm-1-pengantar-perkawinan-pertama.docx"
         }
       ],
       "tags": [
-        "pbb",
-        "pecah pbb",
-        "pajak bumi bangunan",
-        "pm1",
-        "pm-1"
+        "belum menikah",
+        "perjaka",
+        "perawan",
+        "pm1 nikah",
+        "pengantar perkawinan"
       ]
     },
     {
-      "id": "PM1-OrangSama",
-      "nama": "PM-1 Keterangan Orang Sama",
-      "emoji": "👤",
-      "kategori": "Identitas",
-      "deskripsi": "Surat pengantar yang menerangkan bahwa seseorang dengan nama berbeda di beberapa dokumen adalah orang yang sama.",
-      "waktuProses": "1 hari kerja",
+      "id": "PM1-JANDA-DUDA",
+      "nama": "PM.1 Keterangan Janda/Duda Belum Menikah Lagi",
+      "emoji": "📄",
+      "kategori": "Kelurahan",
+      "deskripsi": "Pengantar PM.1 untuk janda/duda yang belum menikah kembali setelah cerai hidup/cerai mati.",
+      "waktuProses": "1–2 hari kerja",
       "biaya": "Gratis",
       "syarat": [
-        "Fotokopi KTP (1 lembar)",
-        "Fotokopi Kartu Keluarga (1 lembar)",
-        "Dokumen-dokumen yang mengandung perbedaan nama (fotokopi)",
+        "Fotokopi KTP dan Kartu Keluarga",
+        "Fotokopi Akta Cerai atau Akta/Surat Kematian pasangan",
+        "Fotokopi Surat Nikah/Buku Nikah",
         "Surat Pengantar RT/RW",
-        "Surat Pernyataan bermaterai bahwa orang tersebut adalah orang yang sama"
+        "Surat Pernyataan bermeterai Rp10.000 diketahui RT/RW"
       ],
       "prosedur": [
-        "Siapkan semua dokumen dengan perbedaan nama",
-        "Buat surat pernyataan bermaterai",
-        "Minta pengantar RT → RW",
-        "Datang ke loket Kelurahan",
-        "Verifikasi petugas",
-        "Surat diterbitkan dan ditandatangani Lurah"
+        "Siapkan berkas asli dan fotokopi sesuai persyaratan",
+        "Minta pengantar RT/RW bila dipersyaratkan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Petugas memeriksa berkas dan mencatat register bila lengkap",
+        "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
       ],
       "dokumenUnduh": [
         {
-          "nama": "Surat Pernyataan Orang Sama (template)",
-          "url": "#form-orangsama"
+          "nama": "Template Keterangan Janda/Duda",
+          "url": "dokumen/pelayanan/keterangan-janda-n-duda.docx"
         },
         {
-          "nama": "Formulir Permohonan PM-1 Orang Sama",
-          "url": "#form-pm1-os"
+          "nama": "PM.1 Pengantar Perkawinan Kedua",
+          "url": "dokumen/pelayanan/pm-1-pengantar-perkawinan-kedua.docx"
         }
       ],
       "tags": [
-        "orang sama",
-        "keterangan orang sama",
+        "janda",
+        "duda",
+        "belum menikah lagi",
+        "perkawinan kedua",
+        "pm1"
+      ]
+    },
+    {
+      "id": "PM1-PERKAWINAN-PERTAMA",
+      "nama": "PM.1 Pengantar Perkawinan Pertama",
+      "emoji": "📝",
+      "kategori": "Kelurahan",
+      "deskripsi": "Pengantar Lurah/Camat untuk permohonan perkawinan pertama melalui Jakevo.",
+      "waktuProses": "Sesuai verifikasi Jakevo",
+      "biaya": "Gratis",
+      "syarat": [
+        "KTP pemohon sebagai identitas penanggung jawab",
+        "Surat Pernyataan Belum Pernah Menikah bermeterai dan 2 saksi",
+        "Surat Pengantar RT/RW",
+        "Scan KTP dan KK pemohon serta calon",
+        "Scan Akta Kelahiran pemohon",
+        "Scan KTP 2 orang saksi",
+        "Sertifikat layak kawin dari Puskesmas Kecamatan",
+        "KTP/KK orang tua atau dokumen kematian/cerai bila diperlukan"
+      ],
+      "prosedur": [
+        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Pilih layanan sesuai jenis permohonan",
+        "Isi data pemohon dan unggah dokumen persyaratan",
+        "Submit permohonan dan pantau status di Jakevo",
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "PM.1 Pengantar Perkawinan Pertama",
+          "url": "dokumen/pelayanan/pm-1-pengantar-perkawinan-pertama.docx"
+        },
+        {
+          "nama": "Surat Pernyataan Belum Pernah Menikah",
+          "url": "dokumen/pelayanan/surat-pernyataan-belum-pernah-menikah.docx"
+        }
+      ],
+      "tags": [
+        "perkawinan pertama",
+        "nikah",
+        "kawin",
+        "jakevo",
+        "pm1"
+      ]
+    },
+    {
+      "id": "PM1-PERKAWINAN-KEDUA",
+      "nama": "PM.1 Pengantar Perkawinan Kedua dan Seterusnya",
+      "emoji": "📝",
+      "kategori": "Kelurahan",
+      "deskripsi": "Pengantar Lurah/Camat untuk perkawinan kedua dan seterusnya melalui Jakevo.",
+      "waktuProses": "Sesuai verifikasi Jakevo",
+      "biaya": "Gratis",
+      "syarat": [
+        "KTP pemohon sebagai identitas penanggung jawab",
+        "Akta Cerai/Akta Kematian/Surat Kematian/Izin Poligami dari PA sesuai kondisi",
+        "Surat Pengantar RT/RW",
+        "Surat Pernyataan belum kawin lagi bermeterai dan 2 saksi",
+        "Scan KTP dan KK pemohon serta calon",
+        "Scan Akta Kelahiran pemohon",
+        "Scan KTP 2 orang saksi",
+        "Sertifikat layak kawin pemohon dan calon dari Puskesmas Kecamatan"
+      ],
+      "prosedur": [
+        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Pilih layanan sesuai jenis permohonan",
+        "Isi data pemohon dan unggah dokumen persyaratan",
+        "Submit permohonan dan pantau status di Jakevo",
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "PM.1 Pengantar Perkawinan Kedua",
+          "url": "dokumen/pelayanan/pm-1-pengantar-perkawinan-kedua.docx"
+        },
+        {
+          "nama": "Template Keterangan Janda/Duda",
+          "url": "dokumen/pelayanan/keterangan-janda-n-duda.docx"
+        }
+      ],
+      "tags": [
+        "perkawinan kedua",
+        "janda",
+        "duda",
+        "cerai",
+        "nikah lagi",
+        "pm1"
+      ]
+    },
+    {
+      "id": "PM1-ORANG-SAMA",
+      "nama": "PM.1 Penunjukan Orang yang Sama",
+      "emoji": "👤",
+      "kategori": "Kelurahan",
+      "deskripsi": "Keterangan untuk dokumen berbeda nama yang menunjuk kepada orang yang sama.",
+      "waktuProses": "Sesuai verifikasi Jakevo",
+      "biaya": "Gratis",
+      "syarat": [
+        "KTP pemohon",
+        "Kartu Keluarga scan asli",
+        "Surat Pengantar RT/RW",
+        "Surat Pernyataan bermeterai dengan 2 saksi",
+        "Surat Pernyataan Keabsahan Dokumen bermeterai",
+        "Dokumen asli yang terdapat perbedaan nama",
+        "PBB tahun berjalan asli bila diminta",
+        "Surat kuasa dan KTP penerima kuasa bila dikuasakan"
+      ],
+      "prosedur": [
+        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Pilih layanan sesuai jenis permohonan",
+        "Isi data pemohon dan unggah dokumen persyaratan",
+        "Submit permohonan dan pantau status di Jakevo",
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "Template Pengajuan Orang yang Sama",
+          "url": "dokumen/pelayanan/pengajuan-ket-orang-yang-sama.docx"
+        }
+      ],
+      "tags": [
+        "orang yang sama",
+        "nama berbeda",
+        "beda nama",
         "pm1",
-        "perbedaan nama",
-        "nama berbeda"
+        "jakevo"
+      ]
+    },
+    {
+      "id": "PM1-ALAMAT-SAMA",
+      "nama": "PM.1 Penunjukan Alamat yang Sama",
+      "emoji": "🏠",
+      "kategori": "Kelurahan",
+      "deskripsi": "Keterangan untuk beberapa dokumen yang mencantumkan alamat berbeda tetapi menunjuk objek yang sama.",
+      "waktuProses": "Sesuai verifikasi Jakevo",
+      "biaya": "Gratis",
+      "syarat": [
+        "KTP pemohon",
+        "Kartu Keluarga scan asli",
+        "Foto lokasi objek",
+        "Surat Pernyataan bermeterai disaksikan 2 orang dan dikuatkan RT/RW",
+        "Surat Pernyataan Keabsahan Dokumen bermeterai",
+        "Dokumen asli yang terdapat perbedaan alamat",
+        "PBB tahun berjalan asli yang sudah dibayar",
+        "Surat kuasa dan KTP penerima kuasa bila dikuasakan"
+      ],
+      "prosedur": [
+        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Pilih layanan sesuai jenis permohonan",
+        "Isi data pemohon dan unggah dokumen persyaratan",
+        "Submit permohonan dan pantau status di Jakevo",
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "Template Pengajuan Alamat yang Sama",
+          "url": "dokumen/pelayanan/pengajuan-alamat-yang-sama.docx"
+        }
+      ],
+      "tags": [
+        "alamat sama",
+        "beda alamat",
+        "penunjukan alamat",
+        "pm1",
+        "jakevo"
+      ]
+    },
+    {
+      "id": "PM1-GHAIB",
+      "nama": "PM.1 Keterangan Ghaib",
+      "emoji": "🔎",
+      "kategori": "Kelurahan",
+      "deskripsi": "Keterangan pasangan tidak diketahui keberadaannya/ghaib untuk keperluan administrasi terkait.",
+      "waktuProses": "1–2 hari kerja",
+      "biaya": "Gratis",
+      "syarat": [
+        "Fotokopi KTP dan Kartu Keluarga",
+        "Fotokopi Surat Nikah/Buku Nikah",
+        "Surat Pengantar RT/RW",
+        "Surat Pernyataan bermeterai diketahui RT/RW dan 2 saksi",
+        "Fotokopi KTP 2 orang saksi"
+      ],
+      "prosedur": [
+        "Siapkan berkas asli dan fotokopi sesuai persyaratan",
+        "Minta pengantar RT/RW bila dipersyaratkan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Petugas memeriksa berkas dan mencatat register bila lengkap",
+        "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "Surat Pernyataan Ghaib",
+          "url": "dokumen/pelayanan/surat-pernyataan-ghaib.docx"
+        }
+      ],
+      "tags": [
+        "ghaib",
+        "pasangan tidak diketahui",
+        "pm1",
+        "suami ghaib",
+        "istri ghaib"
+      ]
+    },
+    {
+      "id": "PM1-UMUM",
+      "nama": "PM.1 Keterangan Umum",
+      "emoji": "📌",
+      "kategori": "Kelurahan",
+      "deskripsi": "Keterangan umum PM.1 untuk kebutuhan administrasi yang belum masuk jenis khusus.",
+      "waktuProses": "1–2 hari kerja",
+      "biaya": "Gratis",
+      "syarat": [
+        "Fotokopi KTP dan Kartu Keluarga",
+        "Surat Pengantar RT/RW",
+        "Surat Pernyataan bermeterai diketahui RT/RW",
+        "Persyaratan tambahan sesuai hasil konsultasi petugas"
+      ],
+      "prosedur": [
+        "Siapkan berkas asli dan fotokopi sesuai persyaratan",
+        "Minta pengantar RT/RW bila dipersyaratkan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Petugas memeriksa berkas dan mencatat register bila lengkap",
+        "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "Surat Pernyataan Umum",
+          "url": "dokumen/pelayanan/surat-pernyataan-umum.docx"
+        },
+        {
+          "nama": "Template Surat Kuasa",
+          "url": "dokumen/pelayanan/surat-kuasa.docx"
+        }
+      ],
+      "tags": [
+        "pm1 umum",
+        "keterangan umum",
+        "surat pernyataan",
+        "kelurahan"
+      ]
+    },
+    {
+      "id": "TANAH-NEGARA",
+      "nama": "Pengantar Hak Atas Tanah Negara/BTP",
+      "emoji": "🏛️",
+      "kategori": "Pertanahan/PBB",
+      "deskripsi": "Pengantar permohonan hak atas tanah negara/BTP disertai berita acara pengecekan lapangan.",
+      "waktuProses": "Sesuai pengecekan lapangan",
+      "biaya": "Gratis",
+      "syarat": [
+        "Surat permohonan dan pengantar RT/RW",
+        "Identitas pemohon (KTP dan KK)",
+        "Bukti penguasaan fisik/asal-usul penguasaan tanah",
+        "SPPT PBB/NOP dan bukti bayar pendukung",
+        "Surat Pernyataan Tidak Sengketa bermeterai",
+        "Surat Pernyataan Penguasaan Fisik",
+        "Batas-batas tanah dan saksi batas",
+        "Foto/dokumentasi lokasi"
+      ],
+      "prosedur": [
+        "Siapkan dokumen tanah dan identitas pemohon",
+        "Ajukan permohonan ke Kelurahan",
+        "Petugas melakukan pengecekan lapangan bersama RT/RW/saksi batas",
+        "Kelurahan membuat berita acara dan surat pengantar",
+        "Berkas dilanjutkan ke Kecamatan/Kantor Pertanahan sesuai arahan"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "Draf Pengantar Tanah Negara/BTP",
+          "url": "dokumen/pelayanan/draft-pengantar-tanah-negara-2023.doc"
+        },
+        {
+          "nama": "Berita Acara Pengecekan Lapangan",
+          "url": "dokumen/pelayanan/berita-acara-pengecekan-lapangan.docx"
+        }
+      ],
+      "tags": [
+        "tanah negara",
+        "btp",
+        "hak atas tanah",
+        "pengantar tanah",
+        "pengecekan lapangan"
+      ]
+    },
+    {
+      "id": "TANAH-PENINGKATAN-HAK",
+      "nama": "Peningkatan Hak Tanah",
+      "emoji": "📈",
+      "kategori": "Pertanahan/PBB",
+      "deskripsi": "Kelengkapan pengantar peningkatan hak tanah berdasarkan daftar persyaratan Kelurahan.",
+      "waktuProses": "Sesuai verifikasi berkas",
+      "biaya": "Gratis",
+      "syarat": [
+        "Pengantar RT/RW",
+        "Fotokopi KTP dan KK",
+        "Fotokopi sertifikat",
+        "Fotokopi PBB terakhir",
+        "Bukti bayar PBB sampai 20 tahun terakhir/seadanya di sistem",
+        "Foto rumah",
+        "BPHTB nihil",
+        "Surat pernyataan dari Kelurahan diketahui RT/RW dan 2 saksi"
+      ],
+      "prosedur": [
+        "Siapkan berkas asli dan fotokopi sesuai persyaratan",
+        "Minta pengantar RT/RW bila dipersyaratkan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Petugas memeriksa berkas dan mencatat register bila lengkap",
+        "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "Macam-macam Persyaratan Tanah",
+          "url": "dokumen/pelayanan/macam-macam-persyaratan-tentang-tanah.docx"
+        }
+      ],
+      "tags": [
+        "peningkatan hak",
+        "sertifikat",
+        "tanah",
+        "bphtb nihil"
+      ]
+    },
+    {
+      "id": "PBB-BALIK-NAMA",
+      "nama": "Balik Nama PBB",
+      "emoji": "🏷️",
+      "kategori": "Pertanahan/PBB",
+      "deskripsi": "Persyaratan balik nama PBB melalui Jakevo/layanan pajak daerah.",
+      "waktuProses": "Sesuai proses Jakevo",
+      "biaya": "Gratis",
+      "syarat": [
+        "Pengantar RT/RW",
+        "Fotokopi KTP pihak terkait",
+        "Fotokopi KK",
+        "Fotokopi sertifikat",
+        "Fotokopi PBB terakhir",
+        "Bukti bayar PBB sampai 20 tahun terakhir/seadanya di sistem",
+        "Surat pernyataan dari Kelurahan",
+        "Surat Pernyataan Penguasaan Fisik",
+        "Surat pernyataan diketahui RT/RW"
+      ],
+      "prosedur": [
+        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Pilih layanan sesuai jenis permohonan",
+        "Isi data pemohon dan unggah dokumen persyaratan",
+        "Submit permohonan dan pantau status di Jakevo",
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "Macam-macam Persyaratan Tanah",
+          "url": "dokumen/pelayanan/macam-macam-persyaratan-tentang-tanah.docx"
+        }
+      ],
+      "tags": [
+        "balik nama pbb",
+        "pbb",
+        "pajak bumi bangunan",
+        "jakevo"
+      ]
+    },
+    {
+      "id": "PBB-PECAH",
+      "nama": "Pecah PBB",
+      "emoji": "🏗️",
+      "kategori": "Pertanahan/PBB",
+      "deskripsi": "Persyaratan pecah PBB melalui Jakevo/layanan pajak daerah.",
+      "waktuProses": "Sesuai proses Jakevo",
+      "biaya": "Gratis",
+      "syarat": [
+        "Pengantar RT/RW",
+        "Fotokopi KTP dan KK",
+        "Fotokopi sertifikat",
+        "Fotokopi PBB terakhir",
+        "Bukti bayar PBB sampai 20 tahun terakhir/seadanya di sistem",
+        "Surat pernyataan dari Kelurahan",
+        "Surat Pernyataan Penguasaan Fisik",
+        "Surat pernyataan diketahui RT/RW"
+      ],
+      "prosedur": [
+        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Pilih layanan sesuai jenis permohonan",
+        "Isi data pemohon dan unggah dokumen persyaratan",
+        "Submit permohonan dan pantau status di Jakevo",
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "Macam-macam Persyaratan Tanah",
+          "url": "dokumen/pelayanan/macam-macam-persyaratan-tentang-tanah.docx"
+        }
+      ],
+      "tags": [
+        "pecah pbb",
+        "pbb",
+        "pajak",
+        "tanah",
+        "jakevo"
+      ]
+    },
+    {
+      "id": "PBB-PEMBEBASAN",
+      "nama": "Pembebasan PBB",
+      "emoji": "🧾",
+      "kategori": "Pertanahan/PBB",
+      "deskripsi": "Persyaratan pembebasan PBB, termasuk kondisi pensiunan bila berlaku.",
+      "waktuProses": "Sesuai proses Jakevo",
+      "biaya": "Gratis",
+      "syarat": [
+        "Pengantar RT/RW",
+        "Fotokopi KTP dan KK",
+        "Fotokopi sertifikat",
+        "Fotokopi SK pensiun bila pensiunan",
+        "Fotokopi PBB terakhir",
+        "Surat pembebasan pajak tahun sebelumnya dari kantor pajak",
+        "Bukti bayar PBB sampai 20 tahun terakhir/seadanya di sistem",
+        "Foto rumah",
+        "Surat pernyataan diketahui RT/RW dan 2 saksi"
+      ],
+      "prosedur": [
+        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Pilih layanan sesuai jenis permohonan",
+        "Isi data pemohon dan unggah dokumen persyaratan",
+        "Submit permohonan dan pantau status di Jakevo",
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "Macam-macam Persyaratan Tanah",
+          "url": "dokumen/pelayanan/macam-macam-persyaratan-tentang-tanah.docx"
+        }
+      ],
+      "tags": [
+        "pembebasan pbb",
+        "pensiunan",
+        "pbb",
+        "pajak"
       ]
     },
     {
       "id": "SKTM",
       "nama": "Surat Keterangan Tidak Mampu (SKTM)",
       "emoji": "📄",
-      "kategori": "Sosial",
-      "deskripsi": "Surat yang menerangkan bahwa seseorang termasuk dalam kategori kurang mampu secara ekonomi.",
-      "waktuProses": "1 hari kerja",
+      "kategori": "PTSP",
+      "deskripsi": "Surat pernyataan/keterangan tidak mampu untuk kebutuhan layanan sosial, pendidikan, kesehatan, atau administrasi lain.",
+      "waktuProses": "1–2 hari kerja",
       "biaya": "Gratis",
       "syarat": [
-        "Fotokopi KTP (1 lembar)",
-        "Fotokopi Kartu Keluarga (1 lembar)",
-        "Surat Pengantar RT/RW",
-        "Surat keterangan dari Ketua RT bahwa pemohon layak mendapat SKTM",
-        "Keterangan kebutuhan (untuk pendidikan / kesehatan / lainnya)"
+        "Pengantar RT/RW atau Surat Pernyataan Pengganti RT/RW",
+        "Fotokopi KTP dan Kartu Keluarga",
+        "Surat Pernyataan Tidak Mampu bermeterai",
+        "Data orang yang dimohonkan bila bukan untuk diri sendiri",
+        "Keperluan penggunaan SKTM"
       ],
       "prosedur": [
-        "Koordinasikan dengan Ketua RT setempat",
-        "Minta surat pengantar RT → RW",
-        "Datang ke loket Kelurahan",
-        "Serahkan berkas dan jelaskan keperluan",
-        "Verifikasi dan proses oleh petugas",
-        "Surat diterbitkan hari yang sama"
+        "Siapkan berkas asli dan fotokopi sesuai persyaratan",
+        "Minta pengantar RT/RW bila dipersyaratkan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Petugas memeriksa berkas dan mencatat register bila lengkap",
+        "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
       ],
       "dokumenUnduh": [
         {
-          "nama": "Formulir SKTM",
-          "url": "#form-sktm"
+          "nama": "Surat Pernyataan Tidak Mampu",
+          "url": "dokumen/pelayanan/surat-pernyataan-tidak-mampu.docx"
+        },
+        {
+          "nama": "Surat Pengganti Pengantar RT/RW",
+          "url": "dokumen/pelayanan/surat-pengganti-pengantar-rt-rw.docx"
         }
       ],
       "tags": [
+        "sktm",
         "tidak mampu",
         "miskin",
-        "sktm",
-        "beasiswa",
-        "kurang mampu",
-        "keringanan"
+        "sekolah",
+        "kesehatan",
+        "ptsp"
       ]
     },
     {
-      "id": "SKU",
-      "nama": "Surat Keterangan Usaha (SKU)",
+      "id": "NIB-OSS",
+      "nama": "Pendampingan Keterangan Usaha / NIB OSS RBA",
       "emoji": "🏪",
-      "kategori": "Usaha & Ekonomi",
-      "deskripsi": "Surat yang menerangkan bahwa seseorang memiliki usaha di wilayah Kelurahan Rawajati.",
-      "waktuProses": "1 hari kerja",
+      "kategori": "PTSP",
+      "deskripsi": "Formulir data usaha untuk pendampingan NIB OSS RBA bagi pelaku usaha.",
+      "waktuProses": "Sesuai pendampingan PTSP",
       "biaya": "Gratis",
       "syarat": [
-        "Fotokopi KTP (1 lembar)",
-        "Fotokopi Kartu Keluarga (1 lembar)",
-        "Surat Pengantar RT/RW",
-        "Foto tempat usaha (minimal 2 foto)",
-        "Isi formulir permohonan"
+        "KTP pemohon asli/foto",
+        "Data identitas usaha dan alamat lokasi usaha",
+        "Nomor HP dan email aktif",
+        "NPWP bila ada",
+        "Data BPJS bila ada",
+        "Foto tempat usaha",
+        "Share lokasi usaha kepada petugas AJIB/PTSP"
       ],
       "prosedur": [
-        "Siapkan foto usaha dan dokumen",
-        "Minta pengantar RT → RW",
-        "Datang ke loket Kelurahan",
-        "Isi formulir dan serahkan berkas",
-        "Petugas memverifikasi",
-        "SKU diterbitkan dan ditandatangani Lurah"
+        "Isi formulir pendampingan usaha",
+        "Siapkan foto KTP, foto usaha, dan share lokasi",
+        "Kirim/serahkan ke petugas AJIB/PTSP Kelurahan",
+        "Petugas membantu proses NIB OSS RBA sesuai kelengkapan data"
       ],
       "dokumenUnduh": [
         {
-          "nama": "Formulir Permohonan SKU",
-          "url": "#form-sku"
+          "nama": "Formulir Keterangan Usaha NIB OSS RBA",
+          "url": "dokumen/pelayanan/formulir-ket-usaha-nib-oss-rba.docx"
         }
       ],
       "tags": [
-        "usaha",
         "sku",
-        "keterangan usaha",
+        "usaha",
+        "nib",
+        "oss",
+        "rba",
         "umkm",
-        "bisnis",
-        "dagang"
+        "ptsp"
       ]
     },
     {
-      "id": "PENGANTAR-KTP",
-      "nama": "Surat Pengantar Pembuatan/Perubahan KTP & KK",
-      "emoji": "🪪",
-      "kategori": "Kependudukan",
-      "deskripsi": "Surat pengantar dari Kelurahan untuk pembuatan, perpanjangan, atau perubahan data KTP dan Kartu Keluarga.",
-      "waktuProses": "1 hari kerja (surat pengantar)",
+      "id": "PENGGANTI-RT-RW",
+      "nama": "Surat Pernyataan Pengganti Pengantar RT/RW",
+      "emoji": "✍️",
+      "kategori": "PTSP",
+      "deskripsi": "Surat pernyataan pengganti pengantar RT/RW untuk layanan perizinan/nonperizinan PTSP tertentu.",
+      "waktuProses": "Sesuai layanan tujuan",
       "biaya": "Gratis",
       "syarat": [
-        "Fotokopi KTP lama (jika ada)",
-        "Fotokopi Kartu Keluarga",
-        "Surat Pengantar RT/RW",
-        "Akta Kelahiran (untuk pembuatan pertama)",
-        "Dokumen pendukung perubahan data (jika ada)"
+        "KTP pemohon",
+        "Data alamat dan nomor HP",
+        "Keperluan layanan yang akan diurus",
+        "Pernyataan bermeterai Rp10.000"
       ],
       "prosedur": [
-        "Minta surat pengantar RT → RW",
-        "Datang ke loket Kelurahan",
-        "Serahkan berkas",
-        "Terima surat pengantar dari Kelurahan",
-        "Bawa ke Kantor Dukcapil Jakarta Selatan"
+        "Isi surat pernyataan sesuai identitas dan keperluan",
+        "Tandatangani di atas meterai",
+        "Lampirkan pada layanan PTSP yang membutuhkan pengantar",
+        "Petugas memverifikasi bersama dokumen layanan utama"
       ],
       "dokumenUnduh": [
         {
-          "nama": "Formulir Perubahan Data KTP/KK",
-          "url": "#form-ktp"
+          "nama": "Surat Pengganti Pengantar RT/RW",
+          "url": "dokumen/pelayanan/surat-pengganti-pengantar-rt-rw.docx"
+        }
+      ],
+      "tags": [
+        "pengganti rt rw",
+        "pengantar rt rw",
+        "ptsp",
+        "surat pernyataan"
+      ]
+    },
+    {
+      "id": "BELUM-PUNYA-RUMAH",
+      "nama": "Keterangan Belum Memiliki Rumah",
+      "emoji": "🏘️",
+      "kategori": "PTSP",
+      "deskripsi": "Surat pernyataan belum memiliki rumah untuk keperluan KPR/rumah susun atau layanan terkait.",
+      "waktuProses": "1–2 hari kerja",
+      "biaya": "Gratis",
+      "syarat": [
+        "Pengantar RT/RW atau Surat Pernyataan Pengganti RT/RW",
+        "Fotokopi KTP dan Kartu Keluarga",
+        "Surat Pernyataan Belum Memiliki Rumah bermeterai",
+        "Tujuan/keperluan pengajuan KPR atau rumah susun"
+      ],
+      "prosedur": [
+        "Siapkan berkas asli dan fotokopi sesuai persyaratan",
+        "Minta pengantar RT/RW bila dipersyaratkan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Petugas memeriksa berkas dan mencatat register bila lengkap",
+        "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "Surat Pernyataan Belum Memiliki Rumah",
+          "url": "dokumen/pelayanan/surat-pernyataan-belum-memiliki-rumah-jakevo.docx"
+        },
+        {
+          "nama": "Surat Pengganti Pengantar RT/RW",
+          "url": "dokumen/pelayanan/surat-pengganti-pengantar-rt-rw.docx"
+        }
+      ],
+      "tags": [
+        "belum punya rumah",
+        "belum memiliki rumah",
+        "kpr",
+        "rumah susun",
+        "ptsp"
+      ]
+    },
+    {
+      "id": "IPTM",
+      "nama": "Izin Penggunaan Tanah Makam (IPTM)",
+      "emoji": "🪦",
+      "kategori": "PTSP",
+      "deskripsi": "Permohonan IPTM baru, perpanjangan, atau tumpangan pada TPU.",
+      "waktuProses": "Sesuai verifikasi PTSP",
+      "biaya": "Gratis",
+      "syarat": [
+        "Formulir IPTM secara elektronik",
+        "KTP dan KK pemohon/penanggung jawab",
+        "Surat kuasa dan KTP penerima kuasa bila dikuasakan",
+        "KTP dan KK jenazah",
+        "Surat Keterangan Kematian dari Puskesmas/Rumah Sakit",
+        "Surat laporan kematian dari Kelurahan setempat",
+        "Surat Pengantar TPU asli",
+        "IPTM terdahulu bila perpanjangan/tumpangan"
+      ],
+      "prosedur": [
+        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Pilih layanan sesuai jenis permohonan",
+        "Isi data pemohon dan unggah dokumen persyaratan",
+        "Submit permohonan dan pantau status di Jakevo",
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "Persyaratan dan Permohonan IPTM",
+          "url": "dokumen/pelayanan/persyaratan-dan-permohonan-iptm.docx"
+        }
+      ],
+      "tags": [
+        "iptm",
+        "makam",
+        "tanah makam",
+        "tpu",
+        "kematian",
+        "ptsp"
+      ]
+    },
+    {
+      "id": "IZIN-TEBANG-POHON",
+      "nama": "Izin Penebangan Pohon",
+      "emoji": "🌳",
+      "kategori": "PTSP",
+      "deskripsi": "Izin penebangan pohon pelindung sesuai persyaratan PTSP/Jakevo.",
+      "waktuProses": "18 hari kerja setelah hasil tim teknis",
+      "biaya": "Gratis",
+      "syarat": [
+        "Formulir Izin Penebangan Pohon melalui Jakevo",
+        "Identitas pemohon: KTP-el dan NPWP perorangan atau dokumen badan usaha",
+        "Surat kuasa dan KTP penerima kuasa bila dikuasakan",
+        "Surat pernyataan kesanggupan menindaklanjuti rekomendasi teknis",
+        "Scan IMP bila pohon terkena rencana pembangunan infrastruktur/jaringan utilitas",
+        "Detail pohon: foto, nama/jenis, ukuran, jumlah, lokasi, denah, dan foto kondisi awal"
+      ],
+      "prosedur": [
+        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Pilih layanan sesuai jenis permohonan",
+        "Isi data pemohon dan unggah dokumen persyaratan",
+        "Submit permohonan dan pantau status di Jakevo",
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "Persyaratan Izin Tebang Pohon",
+          "url": "dokumen/pelayanan/persyaratan-izin-tebang-pohon.docx"
+        }
+      ],
+      "tags": [
+        "tebang pohon",
+        "pohon",
+        "izin pohon",
+        "ptsp",
+        "jakevo"
+      ]
+    },
+    {
+      "id": "GAMBAR-ARSITEK-GRATIS",
+      "nama": "Desain Gambar Arsitek Gratis",
+      "emoji": "🏡",
+      "kategori": "PTSP",
+      "deskripsi": "Fasilitasi desain gambar arsitek gratis untuk permohonan perizinan bangunan tertentu di DPMPTSP DKI Jakarta.",
+      "waktuProses": "Bertahap sesuai konsultasi/desain",
+      "biaya": "Gratis",
+      "syarat": [
+        "Objek termasuk kategori yang diperbolehkan: rumah tinggal, rumah tinggal dengan usaha mikro, rumah ibadah, PAUD binaan, taman lingkungan/gapura/pos jaga/sarana umum",
+        "Luas dan lantai sesuai ketentuan brosur",
+        "Melampirkan KRK",
+        "Tanpa lantai basement",
+        "Bukan bangunan pemugaran dan bukan kawasan real estate/cluster/kost",
+        "Kepemilikan perorangan"
+      ],
+      "prosedur": [
+        "Ajukan konsultasi ke UP PMPTSP Kecamatan/Kelurahan sesuai arahan",
+        "Petugas memeriksa administrasi",
+        "Konsultasi desain bila diperlukan",
+        "Tenaga arsitek menyiapkan gambar",
+        "Pemohon menyetujui output gambar lampiran izin"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "Brosur Desain Gambar Arsitek Gratis",
+          "url": "dokumen/pelayanan/brosur-gambar-arsitek-gratis.pdf"
+        }
+      ],
+      "tags": [
+        "gambar arsitek",
+        "arsitek gratis",
+        "bangunan",
+        "ptsp",
+        "krk"
+      ]
+    },
+    {
+      "id": "KTP-KIA",
+      "nama": "KTP-el, IKD, dan KIA",
+      "emoji": "🪪",
+      "kategori": "Dukcapil",
+      "deskripsi": "Informasi syarat pengurusan KTP hilang/rusak/perubahan data, foto KTP 17 tahun, IKD, dan KIA.",
+      "waktuProses": "Sesuai antrean Dukcapil",
+      "biaya": "Gratis",
+      "syarat": [
+        "KTP hilang: fotokopi KK dan surat kehilangan kepolisian",
+        "KTP rusak: KTP asli/fotokopi dan fotokopi KK",
+        "Perubahan data KTP: KTP asli/fotokopi dan KK terbaru yang sudah diubah",
+        "Foto KTP 17 tahun: fotokopi KK dan Akta Lahir",
+        "IKD: KTP dan HP pemohon",
+        "KIA: fotokopi KK, Akta Kelahiran, foto anak usia 5–16 tahun, surat kehilangan/KIA asli bila hilang/perpanjangan"
+      ],
+      "prosedur": [
+        "Siapkan dokumen sesuai jenis permohonan",
+        "Datang/konsultasi ke loket Dukcapil Kelurahan",
+        "Petugas memverifikasi data dan kelengkapan",
+        "Ikuti proses perekaman/aktivasi/pencetakan sesuai jenis layanan"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "Persyaratan KTP, KK, KIA",
+          "url": "dokumen/pelayanan/persyaratan-ktp-kk.pdf"
         }
       ],
       "tags": [
         "ktp",
+        "ktp-el",
+        "ikd",
+        "ktp digital",
+        "kia",
+        "dukcapil"
+      ]
+    },
+    {
+      "id": "KK",
+      "nama": "Kartu Keluarga (KK)",
+      "emoji": "👨‍👩‍👧",
+      "kategori": "Dukcapil",
+      "deskripsi": "Informasi syarat KK hilang, rusak, perubahan data, pendatang, dan tambah anak baru lahir.",
+      "waktuProses": "Sesuai antrean Dukcapil",
+      "biaya": "Gratis",
+      "syarat": [
+        "KK hilang: fotokopi KK dan surat kehilangan kepolisian",
+        "KK rusak: KK asli/fotokopi dan fotokopi KTP",
+        "Perubahan data KK: KK asli dan bukti pendukung perubahan",
+        "Bukti pendukung dapat berupa buku/akta nikah, akta cerai, ijazah, SK/keterangan kerja, kartu golongan darah, Akta Kelahiran, dan dokumen lain sesuai arahan petugas",
+        "Formulir dan meterai Rp10.000 bila diperlukan",
+        "Untuk pendatang/anak baru lahir, KK terbit mengikuti proses pindah datang atau akta kelahiran"
+      ],
+      "prosedur": [
+        "Siapkan dokumen sesuai kebutuhan perubahan KK",
+        "Konsultasi ke petugas Dukcapil bila perubahan data spesifik",
+        "Serahkan/unggah dokumen pendukung",
+        "Petugas memproses perubahan/terbit ulang KK"
+      ],
+      "dokumenUnduh": [
+        {
+          "nama": "Persyaratan KTP, KK, KIA",
+          "url": "dokumen/pelayanan/persyaratan-ktp-kk.pdf"
+        }
+      ],
+      "tags": [
         "kk",
         "kartu keluarga",
-        "dukcapil",
-        "pengantar ktp",
-        "perubahan data"
+        "perubahan kk",
+        "kk hilang",
+        "dukcapil"
       ]
     },
     {
-      "id": "PENGANTAR-SKCK",
-      "nama": "Surat Pengantar SKCK",
-      "emoji": "🔏",
-      "kategori": "Kepolisian",
-      "deskripsi": "Surat pengantar dari Kelurahan untuk pengurusan Surat Keterangan Catatan Kepolisian (SKCK).",
-      "waktuProses": "1 hari kerja",
-      "biaya": "Gratis",
-      "syarat": [
-        "Fotokopi KTP (1 lembar)",
-        "Fotokopi Kartu Keluarga (1 lembar)",
-        "Surat Pengantar RT/RW",
-        "Pas foto terbaru 4×6 (4 lembar, background merah)",
-        "Keterangan keperluan SKCK"
-      ],
-      "prosedur": [
-        "Minta surat pengantar RT → RW",
-        "Datang ke loket Kelurahan",
-        "Serahkan berkas dan isi formulir",
-        "Terima surat pengantar dari Kelurahan",
-        "Bawa ke Polsek / Polres setempat untuk penerbitan SKCK"
-      ],
-      "dokumenUnduh": [
-        {
-          "nama": "Formulir Permohonan Pengantar SKCK",
-          "url": "#form-skck"
-        }
-      ],
-      "tags": [
-        "skck",
-        "catatan kepolisian",
-        "polisi",
-        "keterangan baik",
-        "pengantar skck"
-      ]
-    },
-    {
-      "id": "SK-LAHIR",
-      "nama": "Surat Keterangan Lahir",
+      "id": "AKTA-KELAHIRAN",
+      "nama": "Akta Kelahiran",
       "emoji": "👶",
-      "kategori": "Kependudukan",
-      "deskripsi": "Surat keterangan kelahiran sebagai dokumen awal sebelum pembuatan Akta Kelahiran di Dukcapil.",
-      "waktuProses": "1 hari kerja",
+      "kategori": "Dukcapil",
+      "deskripsi": "Pencatatan kelahiran anak melalui layanan Dukcapil.",
+      "waktuProses": "Sesuai antrean Dukcapil",
       "biaya": "Gratis",
       "syarat": [
-        "Surat keterangan lahir dari Rumah Sakit / Bidan / Puskesmas",
-        "Fotokopi KTP kedua orang tua",
-        "Fotokopi Kartu Keluarga",
-        "Fotokopi Buku Nikah / Akta Perkawinan orang tua",
-        "Surat Pengantar RT/RW"
+        "Asli dan fotokopi Surat Keterangan Lahir dari RS/Bidan/Puskesmas",
+        "Asli dan fotokopi KTP dan KK orang tua",
+        "Fotokopi Akta Nikah Catatan Sipil atau Buku Nikah lengkap",
+        "Fotokopi KTP 2 orang saksi",
+        "Surat kuasa bila dikuasakan",
+        "Isi formulir permohonan"
       ],
       "prosedur": [
-        "Siapkan surat keterangan dari fasilitas kesehatan",
-        "Minta pengantar RT → RW",
-        "Datang ke loket Kelurahan",
-        "Serahkan berkas",
-        "Surat keterangan kelahiran diterbitkan",
-        "Gunakan untuk pengurusan Akta Kelahiran di Dukcapil"
+        "Siapkan dokumen asli dan fotokopi",
+        "Isi formulir Akta Kelahiran",
+        "Serahkan berkas ke loket Dukcapil/kanal resmi",
+        "Petugas memverifikasi dan memproses penerbitan akta"
       ],
       "dokumenUnduh": [
         {
-          "nama": "Formulir Surat Keterangan Lahir",
-          "url": "#form-lahir"
+          "nama": "Persyaratan Akta Kelahiran",
+          "url": "dokumen/pelayanan/persyaratan-akta-kelahiran.pdf"
+        },
+        {
+          "nama": "Surat Kuasa Dukcapil F-1.07",
+          "url": "dokumen/pelayanan/f-1-07-surat-kuasa-dukcapil.pdf"
         }
       ],
       "tags": [
-        "lahir",
+        "akta kelahiran",
         "kelahiran",
-        "akta lahir",
         "bayi",
-        "anak baru lahir"
+        "dukcapil"
       ]
     },
     {
-      "id": "SK-MATI",
-      "nama": "Surat Keterangan Kematian",
-      "emoji": "🕯️",
-      "kategori": "Kependudukan",
-      "deskripsi": "Surat keterangan kematian yang diterbitkan oleh Kelurahan berdasarkan laporan keluarga.",
-      "waktuProses": "1 hari kerja",
+      "id": "AKTA-KEMATIAN",
+      "nama": "Akta Kematian",
+      "emoji": "🕊️",
+      "kategori": "Dukcapil",
+      "deskripsi": "Pencatatan kematian melalui layanan Dukcapil.",
+      "waktuProses": "Sesuai antrean Dukcapil",
       "biaya": "Gratis",
       "syarat": [
-        "Surat keterangan kematian dari Dokter / Rumah Sakit / Puskesmas",
-        "Fotokopi KTP almarhum/almarhumah",
-        "Fotokopi Kartu Keluarga",
-        "Fotokopi KTP pemohon (keluarga)",
-        "Surat Pengantar RT/RW"
+        "Asli dan fotokopi Surat Keterangan Kematian dari RS/Puskesmas",
+        "Asli dan fotokopi KTP dan KK almarhum/almarhumah",
+        "Fotokopi KTP dan KK ahli waris/pelapor",
+        "Fotokopi KTP 2 orang saksi",
+        "Surat kuasa bila dikuasakan",
+        "Isi formulir permohonan"
       ],
       "prosedur": [
-        "Siapkan surat keterangan dari fasilitas kesehatan / dokter",
-        "Minta pengantar RT → RW",
-        "Datang ke loket Kelurahan",
-        "Serahkan berkas",
-        "Surat kematian diterbitkan",
-        "Lanjutkan ke Dukcapil untuk Akta Kematian"
+        "Siapkan dokumen kematian dan identitas pelapor",
+        "Isi formulir Akta Kematian",
+        "Serahkan berkas ke loket Dukcapil/kanal resmi",
+        "Petugas memverifikasi dan memproses penerbitan akta"
       ],
       "dokumenUnduh": [
         {
-          "nama": "Formulir Surat Keterangan Kematian",
-          "url": "#form-mati"
+          "nama": "Persyaratan Akta Kematian",
+          "url": "dokumen/pelayanan/persyaratan-akta-kematian.pdf"
+        },
+        {
+          "nama": "Formulir Akta Kematian",
+          "url": "dokumen/pelayanan/formulir-akta-kematian.pdf"
+        },
+        {
+          "nama": "Surat Kuasa Dukcapil F-1.07",
+          "url": "dokumen/pelayanan/f-1-07-surat-kuasa-dukcapil.pdf"
         }
       ],
       "tags": [
+        "akta kematian",
         "kematian",
         "meninggal",
-        "akta kematian",
-        "almarhum",
-        "almarhumah"
+        "dukcapil"
       ]
     },
     {
-      "id": "LEGALISIR",
-      "nama": "Legalisir Dokumen",
-      "emoji": "🖊️",
-      "kategori": "Umum",
-      "deskripsi": "Pengesahan fotokopi dokumen kependudukan oleh Lurah sebagai tanda keaslian.",
-      "waktuProses": "1 hari kerja",
-      "biaya": "Gratis",
-      "syarat": [
-        "Dokumen asli yang akan dilegalisir",
-        "Fotokopi dokumen yang akan dilegalisir (sesuai kebutuhan)",
-        "Fotokopi KTP pemohon",
-        "Surat Pengantar RT/RW (jika diperlukan)"
-      ],
-      "prosedur": [
-        "Bawa dokumen asli dan fotokopinya ke loket Kelurahan",
-        "Tunjukkan dokumen asli kepada petugas",
-        "Petugas memverifikasi keaslian",
-        "Dokumen distempel dan ditandatangani Lurah",
-        "Dokumen legalisir siap"
-      ],
-      "dokumenUnduh": [],
-      "tags": [
-        "legalisir",
-        "cap kelurahan",
-        "pengesahan",
-        "fotokopi",
-        "stempel"
-      ]
-    },
-    {
-      "id": "SK-PINDAH",
-      "nama": "Surat Keterangan Pindah",
+      "id": "PINDAH-PENDUDUK",
+      "nama": "Pendaftaran Perpindahan Penduduk",
       "emoji": "🚚",
-      "kategori": "Kependudukan",
-      "deskripsi": "Surat keterangan untuk proses kepindahan domisili dari Kelurahan Rawajati ke wilayah lain.",
-      "waktuProses": "1–2 hari kerja",
+      "kategori": "Dukcapil",
+      "deskripsi": "Formulir F-1.03 untuk permohonan surat keterangan pindah/perpindahan penduduk.",
+      "waktuProses": "Sesuai antrean Dukcapil",
       "biaya": "Gratis",
       "syarat": [
-        "Fotokopi KTP (1 lembar)",
-        "Fotokopi Kartu Keluarga (1 lembar)",
-        "Surat Pengantar RT/RW",
-        "Keterangan alamat tujuan pindah",
-        "Formulir permohonan pindah"
+        "Nomor KK dan NIK pemohon",
+        "Alamat asal dan alamat pindah lengkap",
+        "Klasifikasi kepindahan",
+        "Alasan pindah",
+        "Jenis kepindahan dan status KK tujuan",
+        "Daftar anggota keluarga yang pindah",
+        "Nomor HP aktif"
       ],
       "prosedur": [
-        "Beritahu RT/RW mengenai rencana pindah",
-        "Minta surat pengantar RT → RW",
-        "Datang ke loket Kelurahan dengan berkas lengkap",
-        "Verifikasi petugas",
-        "Terima Surat Keterangan Pindah",
-        "Bawa ke Dukcapil untuk proses lanjutan"
+        "Isi Formulir F-1.03 dengan huruf cetak dan tinta jelas",
+        "Lengkapi data alamat asal, alamat pindah, alasan, dan anggota keluarga",
+        "Serahkan/unggah formulir ke layanan Dukcapil",
+        "Petugas memproses surat keterangan pindah sesuai ketentuan"
       ],
       "dokumenUnduh": [
         {
-          "nama": "Formulir Permohonan Pindah",
-          "url": "#form-pindah"
+          "nama": "F-1.03 Formulir Pendaftaran Perpindahan Penduduk",
+          "url": "dokumen/pelayanan/f-1-03-formulir-pendaftaran-perpindahan-penduduk.pdf"
+        },
+        {
+          "nama": "Surat Kuasa Dukcapil F-1.07",
+          "url": "dokumen/pelayanan/f-1-07-surat-kuasa-dukcapil.pdf"
         }
       ],
       "tags": [
         "pindah",
-        "pindah domisili",
-        "pindah alamat",
-        "keterangan pindah"
+        "perpindahan penduduk",
+        "surat pindah",
+        "f-1.03",
+        "dukcapil"
       ]
     }
   ],
@@ -886,13 +1465,13 @@
     {
       "intent": "syarat_domisili",
       "keywords": [
+        "alamat sama",
         "domisili",
-        "keterangan domisili",
-        "surat domisili",
-        "tinggal",
-        "tempat tinggal"
+        "beda alamat",
+        "keterangan alamat",
+        "penunjukan alamat"
       ],
-      "jawaban": "🏠 **Syarat Surat Keterangan Domisili:**\n\n1. ✅ Fotokopi KTP (1 lembar)\n2. ✅ Fotokopi KK (1 lembar)\n3. ✅ Surat Pengantar RT/RW\n4. ✅ Pas foto 3×4 (2 lembar)\n5. ✅ Formulir permohonan (ambil di loket)\n\n⏱️ Waktu: **1 hari kerja**\n💰 Biaya: **GRATIS**\n\n📋 Lihat detail lengkap di menu **Layanan & Surat → Surat Keterangan Domisili**"
+      "jawaban": "🏠 **Keterangan alamat/penunjukan alamat yang sama:**\n\nSumber layanan terbaru PRIMA memuat PM.1 Penunjukan Alamat yang Sama. Syarat ringkas: KTP, KK, foto lokasi objek, surat pernyataan bermeterai disaksikan 2 orang dan dikuatkan RT/RW, keabsahan dokumen bermeterai, dokumen asli yang berbeda alamat, dan PBB tahun berjalan bila diminta.\n\n📋 Buka menu **Layanan → PM.1 Penunjukan Alamat yang Sama** untuk detail dan blangko."
     },
     {
       "intent": "syarat_ahli_waris",
@@ -902,7 +1481,7 @@
         "warisan",
         "pewaris"
       ],
-      "jawaban": "⚖️ **Syarat Surat Ahli Waris:**\n\n1. ✅ Fotokopi KTP pemohon & semua ahli waris\n2. ✅ Fotokopi KK\n3. ✅ Fotokopi Akta Kematian\n4. ✅ Fotokopi Akta Nikah almarhum\n5. ✅ Fotokopi Akta Kelahiran semua ahli waris\n6. ✅ Surat Pengantar RT/RW\n7. ✅ Surat Pernyataan Ahli Waris bermaterai\n\n⏱️ Waktu: **2–3 hari kerja**\n💰 Biaya: **GRATIS**"
+      "jawaban": "⚖️ **Syarat Pencatatan Surat Pernyataan Ahli Waris:**\n\n1. Surat Pengantar RT/RW\n2. Fotokopi Akta/Surat Kematian pewaris\n3. Fotokopi Akta Nikah/Buku Nikah pewaris\n4. Fotokopi KTP dan KK seluruh ahli waris\n5. Fotokopi Akta Kelahiran ahli waris\n6. Fotokopi KIA bila ahli waris belum 17 tahun\n7. Fotokopi KTP 2 saksi\n8. Surat permohonan/pernyataan; surat kuasa bila dikuasakan\n\n📥 Template tersedia di menu Layanan."
     },
     {
       "intent": "syarat_pbb",
@@ -914,18 +1493,16 @@
         "pm1",
         "pm-1"
       ],
-      "jawaban": "🏗️ **Syarat PM-1 Pecah PBB:**\n\n1. ✅ Fotokopi KTP & KK\n2. ✅ Fotokopi SPPT PBB tahun berjalan\n3. ✅ Fotokopi sertifikat tanah\n4. ✅ Akta jual beli / hibah / waris\n5. ✅ Surat Pengantar RT/RW\n6. ✅ Denah/sketsa lokasi tanah\n\n⏱️ Waktu: **1–2 hari kerja** | 💰 **GRATIS**\n\nSetelah dapat PM-1 dari Kelurahan, bawa ke Kantor Kecamatan atau BPRD Jakarta."
+      "jawaban": "🏗️ **Layanan Pertanahan/PBB:**\n\nPRIMA sekarang memuat Pecah PBB, Balik Nama PBB, Pembebasan PBB, Peningkatan Hak Tanah, dan Pengantar Hak Atas Tanah Negara/BTP. Syarat umum yang sering diminta: pengantar RT/RW, KTP, KK, sertifikat, PBB terakhir, bukti bayar PBB, surat pernyataan terkait tanah, dan dokumen pendukung sesuai jenis layanan.\n\n📋 Lihat kategori **Pertanahan/PBB** di menu Layanan untuk detail per jenis."
     },
     {
       "intent": "syarat_skck",
       "keywords": [
         "skck",
-        "catatan kepolisian",
-        "keterangan baik",
-        "polisi",
-        "surat kepolisian"
+        "kepolisian",
+        "catatan kepolisian"
       ],
-      "jawaban": "🔏 **Syarat Pengantar SKCK dari Kelurahan:**\n\n1. ✅ Fotokopi KTP & KK\n2. ✅ Surat Pengantar RT/RW\n3. ✅ Pas foto 4×6 background merah (4 lembar)\n\n⏱️ **1 hari kerja** | 💰 **GRATIS** (surat pengantar Kelurahan)\n\nSetelah dapat surat pengantar, bawa ke **Polsek Pancoran** atau **Polres Jakarta Selatan** untuk penerbitan SKCK."
+      "jawaban": "Untuk SKCK, sumber dokumen layanan terbaru yang dipakai PRIMA tidak memuat blangko/persyaratan khusus SKCK. Silakan konsultasikan ke loket Kelurahan atau Polsek/Polres tujuan agar persyaratan tidak keliru."
     },
     {
       "intent": "syarat_sktm",
@@ -937,7 +1514,7 @@
         "keringanan",
         "beasiswa"
       ],
-      "jawaban": "📄 **Syarat SKTM (Surat Keterangan Tidak Mampu):**\n\n1. ✅ Fotokopi KTP & KK\n2. ✅ Surat Pengantar RT/RW\n3. ✅ Surat dari Ketua RT bahwa layak mendapat SKTM\n4. ✅ Keterangan keperluan (pendidikan/kesehatan/dll)\n\n⏱️ **1 hari kerja** | 💰 **GRATIS**\n\nKoordinasikan dulu dengan Ketua RT sebelum datang ke Kelurahan ya! 🙏"
+      "jawaban": "📄 **Syarat SKTM:**\n\n1. Pengantar RT/RW atau Surat Pernyataan Pengganti RT/RW\n2. Fotokopi KTP dan Kartu Keluarga\n3. Surat Pernyataan Tidak Mampu bermeterai\n4. Data orang yang dimohonkan bila bukan untuk diri sendiri\n5. Keperluan penggunaan SKTM\n\n📥 Blangko tersedia di menu **Layanan → Surat Keterangan Tidak Mampu (SKTM)**."
     },
     {
       "intent": "syarat_ktp",

@@ -96,7 +96,7 @@ function bootApp() {
   // Handle shortcut deep link: ?s=layanan atau ?s=chat (dari manifest.json shortcuts)
   const urlParams = new URLSearchParams(window.location.search);
   const shortcut  = urlParams.get('s');
-  const pageMap   = { layanan: 'layanan', chat: 'chatbot', peta: 'peta', info: 'info', suara: 'suara', admin: 'admin' };
+  const pageMap   = { layanan: 'layanan', chat: 'chat', peta: 'peta', info: 'info', suara: 'suara', admin: 'admin' };
   initAdminSecretAccess();
   const startPage = (shortcut && pageMap[shortcut]) || localStorage.getItem('prima_last_page') || 'home';
   navigateTo(startPage);
