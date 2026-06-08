@@ -52,7 +52,7 @@
       "prosedur": [
         "Siapkan berkas asli dan fotokopi sesuai persyaratan",
         "Minta pengantar RT/RW bila dipersyaratkan",
-        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui JakEVO sesuai jenis layanan",
         "Petugas memeriksa berkas dan mencatat register bila lengkap",
         "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
       ],
@@ -94,7 +94,7 @@
       "prosedur": [
         "Siapkan berkas asli dan fotokopi sesuai persyaratan",
         "Minta pengantar RT/RW bila dipersyaratkan",
-        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui JakEVO sesuai jenis layanan",
         "Petugas memeriksa berkas dan mencatat register bila lengkap",
         "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
       ],
@@ -134,7 +134,7 @@
       "prosedur": [
         "Siapkan berkas asli dan fotokopi sesuai persyaratan",
         "Minta pengantar RT/RW bila dipersyaratkan",
-        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui JakEVO sesuai jenis layanan",
         "Petugas memeriksa berkas dan mencatat register bila lengkap",
         "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
       ],
@@ -175,10 +175,10 @@
         "KTP/KK orang tua atau dokumen kematian/cerai bila diperlukan"
       ],
       "prosedur": [
-        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Buka jakEVO.jakarta.go.id dan login/daftar akun",
         "Pilih layanan sesuai jenis permohonan",
         "Isi data pemohon dan unggah dokumen persyaratan",
-        "Submit permohonan dan pantau status di Jakevo",
+        "Submit permohonan dan pantau status di JakEVO",
         "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
       ],
       "dokumenUnduh": [
@@ -218,10 +218,10 @@
         "Sertifikat layak kawin pemohon dan calon dari Puskesmas Kecamatan"
       ],
       "prosedur": [
-        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Buka jakEVO.jakarta.go.id dan login/daftar akun",
         "Pilih layanan sesuai jenis permohonan",
         "Isi data pemohon dan unggah dokumen persyaratan",
-        "Submit permohonan dan pantau status di Jakevo",
+        "Submit permohonan dan pantau status di JakEVO",
         "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
       ],
       "dokumenUnduh": [
@@ -262,10 +262,10 @@
         "Surat kuasa dan KTP penerima kuasa bila dikuasakan"
       ],
       "prosedur": [
-        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Buka jakEVO.jakarta.go.id dan login/daftar akun",
         "Pilih layanan sesuai jenis permohonan",
         "Isi data pemohon dan unggah dokumen persyaratan",
-        "Submit permohonan dan pantau status di Jakevo",
+        "Submit permohonan dan pantau status di JakEVO",
         "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
       ],
       "dokumenUnduh": [
@@ -301,10 +301,10 @@
         "Surat kuasa dan KTP penerima kuasa bila dikuasakan"
       ],
       "prosedur": [
-        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Buka jakEVO.jakarta.go.id dan login/daftar akun",
         "Pilih layanan sesuai jenis permohonan",
         "Isi data pemohon dan unggah dokumen persyaratan",
-        "Submit permohonan dan pantau status di Jakevo",
+        "Submit permohonan dan pantau status di JakEVO",
         "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
       ],
       "dokumenUnduh": [
@@ -339,7 +339,7 @@
       "prosedur": [
         "Siapkan berkas asli dan fotokopi sesuai persyaratan",
         "Minta pengantar RT/RW bila dipersyaratkan",
-        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui JakEVO sesuai jenis layanan",
         "Petugas memeriksa berkas dan mencatat register bila lengkap",
         "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
       ],
@@ -374,7 +374,7 @@
       "prosedur": [
         "Siapkan berkas asli dan fotokopi sesuai persyaratan",
         "Minta pengantar RT/RW bila dipersyaratkan",
-        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui JakEVO sesuai jenis layanan",
         "Petugas memeriksa berkas dan mencatat register bila lengkap",
         "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
       ],
@@ -401,7 +401,7 @@
       "emoji": "🏛️",
       "kategori": "Pertanahan/PBB",
       "deskripsi": "Pengantar permohonan hak atas tanah negara/BTP disertai berita acara pengecekan lapangan.",
-      "waktuProses": "Sesuai pengecekan lapangan",
+      "waktuProses": "Menunggu cek lapangan",
       "biaya": "Gratis",
       "syarat": [
         "Surat permohonan dan pengantar RT/RW",
@@ -418,7 +418,8 @@
         "Ajukan permohonan ke Kelurahan",
         "Petugas melakukan pengecekan lapangan bersama RT/RW/saksi batas",
         "Kelurahan membuat berita acara dan surat pengantar",
-        "Berkas dilanjutkan ke Kecamatan/Kantor Pertanahan sesuai arahan"
+        "Berkas dilanjutkan ke Kecamatan/Kantor Pertanahan sesuai arahan",
+        "Estimasi selesai mengikuti jadwal pengecekan lapangan dan kelengkapan berita acara."
       ],
       "dokumenUnduh": [
         {
@@ -444,7 +445,7 @@
       "emoji": "📈",
       "kategori": "Pertanahan/PBB",
       "deskripsi": "Kelengkapan pengantar peningkatan hak tanah berdasarkan daftar persyaratan Kelurahan.",
-      "waktuProses": "Sesuai verifikasi berkas",
+      "waktuProses": "Setelah berkas diverifikasi",
       "biaya": "Gratis",
       "syarat": [
         "Pengantar RT/RW",
@@ -459,9 +460,10 @@
       "prosedur": [
         "Siapkan berkas asli dan fotokopi sesuai persyaratan",
         "Minta pengantar RT/RW bila dipersyaratkan",
-        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui JakEVO sesuai jenis layanan",
         "Petugas memeriksa berkas dan mencatat register bila lengkap",
-        "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
+        "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait",
+        "Estimasi selesai mengikuti hasil verifikasi berkas dan arahan instansi lanjutan."
       ],
       "dokumenUnduh": [
         {
@@ -482,7 +484,7 @@
       "emoji": "🏷️",
       "kategori": "Pertanahan/PBB",
       "deskripsi": "Persyaratan balik nama PBB melalui Jakevo/layanan pajak daerah.",
-      "waktuProses": "Sesuai proses Jakevo",
+      "waktuProses": "Pantau status di JakEVO",
       "biaya": "Gratis",
       "syarat": [
         "Pengantar RT/RW",
@@ -496,11 +498,12 @@
         "Surat pernyataan diketahui RT/RW"
       ],
       "prosedur": [
-        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Buka jakEVO.jakarta.go.id dan login/daftar akun",
         "Pilih layanan sesuai jenis permohonan",
         "Isi data pemohon dan unggah dokumen persyaratan",
-        "Submit permohonan dan pantau status di Jakevo",
-        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+        "Submit permohonan dan pantau status di JakEVO",
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta",
+        "Estimasi selesai mengikuti status verifikasi dan notifikasi di JakEVO."
       ],
       "dokumenUnduh": [
         {
@@ -521,7 +524,7 @@
       "emoji": "🏗️",
       "kategori": "Pertanahan/PBB",
       "deskripsi": "Persyaratan pecah PBB melalui Jakevo/layanan pajak daerah.",
-      "waktuProses": "Sesuai proses Jakevo",
+      "waktuProses": "Pantau status di JakEVO",
       "biaya": "Gratis",
       "syarat": [
         "Pengantar RT/RW",
@@ -534,11 +537,12 @@
         "Surat pernyataan diketahui RT/RW"
       ],
       "prosedur": [
-        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Buka jakEVO.jakarta.go.id dan login/daftar akun",
         "Pilih layanan sesuai jenis permohonan",
         "Isi data pemohon dan unggah dokumen persyaratan",
-        "Submit permohonan dan pantau status di Jakevo",
-        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+        "Submit permohonan dan pantau status di JakEVO",
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta",
+        "Estimasi selesai mengikuti status verifikasi dan notifikasi di JakEVO."
       ],
       "dokumenUnduh": [
         {
@@ -560,7 +564,7 @@
       "emoji": "🧾",
       "kategori": "Pertanahan/PBB",
       "deskripsi": "Persyaratan pembebasan PBB, termasuk kondisi pensiunan bila berlaku.",
-      "waktuProses": "Sesuai proses Jakevo",
+      "waktuProses": "Pantau status di JakEVO",
       "biaya": "Gratis",
       "syarat": [
         "Pengantar RT/RW",
@@ -574,11 +578,12 @@
         "Surat pernyataan diketahui RT/RW dan 2 saksi"
       ],
       "prosedur": [
-        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Buka jakEVO.jakarta.go.id dan login/daftar akun",
         "Pilih layanan sesuai jenis permohonan",
         "Isi data pemohon dan unggah dokumen persyaratan",
-        "Submit permohonan dan pantau status di Jakevo",
-        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+        "Submit permohonan dan pantau status di JakEVO",
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta",
+        "Estimasi selesai mengikuti status verifikasi dan notifikasi di JakEVO."
       ],
       "dokumenUnduh": [
         {
@@ -611,7 +616,7 @@
       "prosedur": [
         "Siapkan berkas asli dan fotokopi sesuai persyaratan",
         "Minta pengantar RT/RW bila dipersyaratkan",
-        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui JakEVO sesuai jenis layanan",
         "Petugas memeriksa berkas dan mencatat register bila lengkap",
         "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
       ],
@@ -640,7 +645,7 @@
       "emoji": "🏪",
       "kategori": "PTSP",
       "deskripsi": "Formulir data usaha untuk pendampingan NIB OSS RBA bagi pelaku usaha.",
-      "waktuProses": "Sesuai pendampingan PTSP",
+      "waktuProses": "Dibantu petugas PTSP/AJIB",
       "biaya": "Gratis",
       "syarat": [
         "KTP pemohon asli/foto",
@@ -655,7 +660,8 @@
         "Isi formulir pendampingan usaha",
         "Siapkan foto KTP, foto usaha, dan share lokasi",
         "Kirim/serahkan ke petugas AJIB/PTSP Kelurahan",
-        "Petugas membantu proses NIB OSS RBA sesuai kelengkapan data"
+        "Petugas membantu proses NIB OSS RBA sesuai kelengkapan data",
+        "Estimasi selesai mengikuti kelengkapan data usaha dan pendampingan petugas PTSP/AJIB."
       ],
       "dokumenUnduh": [
         {
@@ -723,7 +729,7 @@
       "prosedur": [
         "Siapkan berkas asli dan fotokopi sesuai persyaratan",
         "Minta pengantar RT/RW bila dipersyaratkan",
-        "Datang ke loket Kelurahan Rawajati atau ajukan melalui Jakevo sesuai jenis layanan",
+        "Datang ke loket Kelurahan Rawajati atau ajukan melalui JakEVO sesuai jenis layanan",
         "Petugas memeriksa berkas dan mencatat register bila lengkap",
         "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait"
       ],
@@ -751,7 +757,7 @@
       "emoji": "🪦",
       "kategori": "PTSP",
       "deskripsi": "Permohonan IPTM baru, perpanjangan, atau tumpangan pada TPU.",
-      "waktuProses": "Sesuai verifikasi PTSP",
+      "waktuProses": "Diproses via JakEVO/PTSP",
       "biaya": "Gratis",
       "syarat": [
         "Formulir IPTM secara elektronik",
@@ -764,11 +770,12 @@
         "IPTM terdahulu bila perpanjangan/tumpangan"
       ],
       "prosedur": [
-        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Buka jakEVO.jakarta.go.id dan login/daftar akun",
         "Pilih layanan sesuai jenis permohonan",
         "Isi data pemohon dan unggah dokumen persyaratan",
-        "Submit permohonan dan pantau status di Jakevo",
-        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+        "Submit permohonan dan pantau status di JakEVO",
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta",
+        "Estimasi selesai mengikuti verifikasi PTSP/JakEVO dan kelengkapan berkas."
       ],
       "dokumenUnduh": [
         {
@@ -802,10 +809,10 @@
         "Detail pohon: foto, nama/jenis, ukuran, jumlah, lokasi, denah, dan foto kondisi awal"
       ],
       "prosedur": [
-        "Buka jakevo.jakarta.go.id dan login/daftar akun",
+        "Buka jakEVO.jakarta.go.id dan login/daftar akun",
         "Pilih layanan sesuai jenis permohonan",
         "Isi data pemohon dan unggah dokumen persyaratan",
-        "Submit permohonan dan pantau status di Jakevo",
+        "Submit permohonan dan pantau status di JakEVO",
         "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
       ],
       "dokumenUnduh": [
@@ -828,7 +835,7 @@
       "emoji": "🏡",
       "kategori": "PTSP",
       "deskripsi": "Fasilitasi desain gambar arsitek gratis untuk permohonan perizinan bangunan tertentu di DPMPTSP DKI Jakarta.",
-      "waktuProses": "Bertahap sesuai konsultasi/desain",
+      "waktuProses": "Bertahap: konsultasi & desain",
       "biaya": "Gratis",
       "syarat": [
         "Objek termasuk kategori yang diperbolehkan: rumah tinggal, rumah tinggal dengan usaha mikro, rumah ibadah, PAUD binaan, taman lingkungan/gapura/pos jaga/sarana umum",
@@ -843,7 +850,8 @@
         "Petugas memeriksa administrasi",
         "Konsultasi desain bila diperlukan",
         "Tenaga arsitek menyiapkan gambar",
-        "Pemohon menyetujui output gambar lampiran izin"
+        "Pemohon menyetujui output gambar lampiran izin",
+        "Estimasi selesai bertahap karena perlu konsultasi, pemeriksaan administrasi, dan proses desain."
       ],
       "dokumenUnduh": [
         {
@@ -865,7 +873,7 @@
       "emoji": "🪪",
       "kategori": "Dukcapil",
       "deskripsi": "Informasi syarat pengurusan KTP hilang/rusak/perubahan data, foto KTP 17 tahun, IKD, dan KIA.",
-      "waktuProses": "Sesuai antrean Dukcapil",
+      "waktuProses": "Antrean loket Dukcapil",
       "biaya": "Gratis",
       "syarat": [
         "KTP hilang: fotokopi KK dan surat kehilangan kepolisian",
@@ -879,7 +887,8 @@
         "Siapkan dokumen sesuai jenis permohonan",
         "Datang/konsultasi ke loket Dukcapil Kelurahan",
         "Petugas memverifikasi data dan kelengkapan",
-        "Ikuti proses perekaman/aktivasi/pencetakan sesuai jenis layanan"
+        "Ikuti proses perekaman/aktivasi/pencetakan sesuai jenis layanan",
+        "Estimasi layanan mengikuti antrean loket/sistem Dukcapil dan ketersediaan blanko atau proses aktivasi."
       ],
       "dokumenUnduh": [
         {
@@ -902,7 +911,7 @@
       "emoji": "👨‍👩‍👧",
       "kategori": "Dukcapil",
       "deskripsi": "Informasi syarat KK hilang, rusak, perubahan data, pendatang, dan tambah anak baru lahir.",
-      "waktuProses": "Sesuai antrean Dukcapil",
+      "waktuProses": "Antrean loket Dukcapil",
       "biaya": "Gratis",
       "syarat": [
         "KK hilang: fotokopi KK dan surat kehilangan kepolisian",
@@ -916,7 +925,8 @@
         "Siapkan dokumen sesuai kebutuhan perubahan KK",
         "Konsultasi ke petugas Dukcapil bila perubahan data spesifik",
         "Serahkan/unggah dokumen pendukung",
-        "Petugas memproses perubahan/terbit ulang KK"
+        "Petugas memproses perubahan/terbit ulang KK",
+        "Estimasi layanan mengikuti antrean loket/sistem Dukcapil dan hasil verifikasi data."
       ],
       "dokumenUnduh": [
         {
@@ -938,7 +948,7 @@
       "emoji": "👶",
       "kategori": "Dukcapil",
       "deskripsi": "Pencatatan kelahiran anak melalui layanan Dukcapil.",
-      "waktuProses": "Sesuai antrean Dukcapil",
+      "waktuProses": "Antrean loket Dukcapil",
       "biaya": "Gratis",
       "syarat": [
         "Asli dan fotokopi Surat Keterangan Lahir dari RS/Bidan/Puskesmas",
@@ -952,7 +962,8 @@
         "Siapkan dokumen asli dan fotokopi",
         "Isi formulir Akta Kelahiran",
         "Serahkan berkas ke loket Dukcapil/kanal resmi",
-        "Petugas memverifikasi dan memproses penerbitan akta"
+        "Petugas memverifikasi dan memproses penerbitan akta",
+        "Estimasi layanan mengikuti antrean loket/sistem Dukcapil dan hasil verifikasi dokumen."
       ],
       "dokumenUnduh": [
         {
@@ -977,7 +988,7 @@
       "emoji": "🕊️",
       "kategori": "Dukcapil",
       "deskripsi": "Pencatatan kematian melalui layanan Dukcapil.",
-      "waktuProses": "Sesuai antrean Dukcapil",
+      "waktuProses": "Antrean loket Dukcapil",
       "biaya": "Gratis",
       "syarat": [
         "Asli dan fotokopi Surat Keterangan Kematian dari RS/Puskesmas",
@@ -991,7 +1002,8 @@
         "Siapkan dokumen kematian dan identitas pelapor",
         "Isi formulir Akta Kematian",
         "Serahkan berkas ke loket Dukcapil/kanal resmi",
-        "Petugas memverifikasi dan memproses penerbitan akta"
+        "Petugas memverifikasi dan memproses penerbitan akta",
+        "Estimasi layanan mengikuti antrean loket/sistem Dukcapil dan hasil verifikasi dokumen."
       ],
       "dokumenUnduh": [
         {
@@ -1020,7 +1032,7 @@
       "emoji": "🚚",
       "kategori": "Dukcapil",
       "deskripsi": "Formulir F-1.03 untuk permohonan surat keterangan pindah/perpindahan penduduk.",
-      "waktuProses": "Sesuai antrean Dukcapil",
+      "waktuProses": "Antrean loket Dukcapil",
       "biaya": "Gratis",
       "syarat": [
         "Nomor KK dan NIK pemohon",
@@ -1035,7 +1047,8 @@
         "Isi Formulir F-1.03 dengan huruf cetak dan tinta jelas",
         "Lengkapi data alamat asal, alamat pindah, alasan, dan anggota keluarga",
         "Serahkan/unggah formulir ke layanan Dukcapil",
-        "Petugas memproses surat keterangan pindah sesuai ketentuan"
+        "Petugas memproses surat keterangan pindah sesuai ketentuan",
+        "Estimasi layanan mengikuti antrean loket/sistem Dukcapil dan hasil verifikasi data perpindahan."
       ],
       "dokumenUnduh": [
         {
