@@ -162,7 +162,7 @@
       "emoji": "📝",
       "kategori": "Kelurahan",
       "deskripsi": "Pengantar Lurah/Camat untuk permohonan perkawinan pertama melalui Jakevo.",
-      "waktuProses": "Sesuai verifikasi Jakevo",
+      "waktuProses": "±1–2 hari kerja",
       "biaya": "Gratis",
       "syarat": [
         "KTP pemohon sebagai identitas penanggung jawab",
@@ -179,7 +179,8 @@
         "Pilih layanan sesuai jenis permohonan",
         "Isi data pemohon dan unggah dokumen persyaratan",
         "Submit permohonan dan pantau status di JakEVO",
-        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta",
+        "Estimasi ±1–2 hari kerja setelah permohonan JakEVO terkirim dan dokumen lengkap; lengkapi perbaikan bila diminta petugas."
       ],
       "dokumenUnduh": [
         {
@@ -205,7 +206,7 @@
       "emoji": "📝",
       "kategori": "Kelurahan",
       "deskripsi": "Pengantar Lurah/Camat untuk perkawinan kedua dan seterusnya melalui Jakevo.",
-      "waktuProses": "Sesuai verifikasi Jakevo",
+      "waktuProses": "±1–2 hari kerja",
       "biaya": "Gratis",
       "syarat": [
         "KTP pemohon sebagai identitas penanggung jawab",
@@ -222,7 +223,8 @@
         "Pilih layanan sesuai jenis permohonan",
         "Isi data pemohon dan unggah dokumen persyaratan",
         "Submit permohonan dan pantau status di JakEVO",
-        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta",
+        "Estimasi ±1–2 hari kerja setelah permohonan JakEVO terkirim dan dokumen lengkap; lengkapi perbaikan bila diminta petugas."
       ],
       "dokumenUnduh": [
         {
@@ -249,7 +251,7 @@
       "emoji": "👤",
       "kategori": "Kelurahan",
       "deskripsi": "Keterangan untuk dokumen berbeda nama yang menunjuk kepada orang yang sama.",
-      "waktuProses": "Sesuai verifikasi Jakevo",
+      "waktuProses": "±1–2 hari kerja",
       "biaya": "Gratis",
       "syarat": [
         "KTP pemohon",
@@ -266,7 +268,8 @@
         "Pilih layanan sesuai jenis permohonan",
         "Isi data pemohon dan unggah dokumen persyaratan",
         "Submit permohonan dan pantau status di JakEVO",
-        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta",
+        "Estimasi ±1–2 hari kerja setelah permohonan JakEVO terkirim dan dokumen lengkap; lengkapi perbaikan bila diminta petugas."
       ],
       "dokumenUnduh": [
         {
@@ -288,7 +291,7 @@
       "emoji": "🏠",
       "kategori": "Kelurahan",
       "deskripsi": "Keterangan untuk beberapa dokumen yang mencantumkan alamat berbeda tetapi menunjuk objek yang sama.",
-      "waktuProses": "Sesuai verifikasi Jakevo",
+      "waktuProses": "±1–2 hari kerja",
       "biaya": "Gratis",
       "syarat": [
         "KTP pemohon",
@@ -305,7 +308,8 @@
         "Pilih layanan sesuai jenis permohonan",
         "Isi data pemohon dan unggah dokumen persyaratan",
         "Submit permohonan dan pantau status di JakEVO",
-        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta"
+        "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta",
+        "Estimasi ±1–2 hari kerja setelah permohonan JakEVO terkirim dan dokumen lengkap; lengkapi perbaikan bila diminta petugas."
       ],
       "dokumenUnduh": [
         {
@@ -401,7 +405,7 @@
       "emoji": "🏛️",
       "kategori": "Pertanahan/PBB",
       "deskripsi": "Pengantar permohonan hak atas tanah negara/BTP disertai berita acara pengecekan lapangan.",
-      "waktuProses": "Menunggu cek lapangan",
+      "waktuProses": "±3–5 hari kerja",
       "biaya": "Gratis",
       "syarat": [
         "Surat permohonan dan pengantar RT/RW",
@@ -419,7 +423,7 @@
         "Petugas melakukan pengecekan lapangan bersama RT/RW/saksi batas",
         "Kelurahan membuat berita acara dan surat pengantar",
         "Berkas dilanjutkan ke Kecamatan/Kantor Pertanahan sesuai arahan",
-        "Estimasi selesai mengikuti jadwal pengecekan lapangan dan kelengkapan berita acara."
+        "Estimasi ±3–5 hari kerja bila jadwal pengecekan lapangan, saksi batas, dan berita acara sudah lengkap."
       ],
       "dokumenUnduh": [
         {
@@ -445,7 +449,7 @@
       "emoji": "📈",
       "kategori": "Pertanahan/PBB",
       "deskripsi": "Kelengkapan pengantar peningkatan hak tanah berdasarkan daftar persyaratan Kelurahan.",
-      "waktuProses": "Setelah berkas diverifikasi",
+      "waktuProses": "±1–3 hari kerja",
       "biaya": "Gratis",
       "syarat": [
         "Pengantar RT/RW",
@@ -463,7 +467,7 @@
         "Datang ke loket Kelurahan Rawajati atau ajukan melalui JakEVO sesuai jenis layanan",
         "Petugas memeriksa berkas dan mencatat register bila lengkap",
         "Ambil surat/blangko yang sudah selesai atau lanjutkan ke instansi terkait",
-        "Estimasi selesai mengikuti hasil verifikasi berkas dan arahan instansi lanjutan."
+        "Estimasi ±1–3 hari kerja setelah berkas lengkap dan lolos verifikasi awal."
       ],
       "dokumenUnduh": [
         {
@@ -484,7 +488,7 @@
       "emoji": "🏷️",
       "kategori": "Pertanahan/PBB",
       "deskripsi": "Persyaratan balik nama PBB melalui Jakevo/layanan pajak daerah.",
-      "waktuProses": "Pantau status di JakEVO",
+      "waktuProses": "±1–3 hari kerja",
       "biaya": "Gratis",
       "syarat": [
         "Pengantar RT/RW",
@@ -503,7 +507,7 @@
         "Isi data pemohon dan unggah dokumen persyaratan",
         "Submit permohonan dan pantau status di JakEVO",
         "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta",
-        "Estimasi selesai mengikuti status verifikasi dan notifikasi di JakEVO."
+        "Estimasi ±1–3 hari kerja setelah permohonan JakEVO terkirim dan dokumen lengkap; pantau notifikasi/status di JakEVO."
       ],
       "dokumenUnduh": [
         {
@@ -524,7 +528,7 @@
       "emoji": "🏗️",
       "kategori": "Pertanahan/PBB",
       "deskripsi": "Persyaratan pecah PBB melalui Jakevo/layanan pajak daerah.",
-      "waktuProses": "Pantau status di JakEVO",
+      "waktuProses": "±1–3 hari kerja",
       "biaya": "Gratis",
       "syarat": [
         "Pengantar RT/RW",
@@ -542,7 +546,7 @@
         "Isi data pemohon dan unggah dokumen persyaratan",
         "Submit permohonan dan pantau status di JakEVO",
         "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta",
-        "Estimasi selesai mengikuti status verifikasi dan notifikasi di JakEVO."
+        "Estimasi ±1–3 hari kerja setelah permohonan JakEVO terkirim dan dokumen lengkap; pantau notifikasi/status di JakEVO."
       ],
       "dokumenUnduh": [
         {
@@ -564,7 +568,7 @@
       "emoji": "🧾",
       "kategori": "Pertanahan/PBB",
       "deskripsi": "Persyaratan pembebasan PBB, termasuk kondisi pensiunan bila berlaku.",
-      "waktuProses": "Pantau status di JakEVO",
+      "waktuProses": "±1–3 hari kerja",
       "biaya": "Gratis",
       "syarat": [
         "Pengantar RT/RW",
@@ -583,7 +587,7 @@
         "Isi data pemohon dan unggah dokumen persyaratan",
         "Submit permohonan dan pantau status di JakEVO",
         "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta",
-        "Estimasi selesai mengikuti status verifikasi dan notifikasi di JakEVO."
+        "Estimasi ±1–3 hari kerja setelah permohonan JakEVO terkirim dan dokumen lengkap; pantau notifikasi/status di JakEVO."
       ],
       "dokumenUnduh": [
         {
@@ -645,7 +649,7 @@
       "emoji": "🏪",
       "kategori": "PTSP",
       "deskripsi": "Formulir data usaha untuk pendampingan NIB OSS RBA bagi pelaku usaha.",
-      "waktuProses": "Dibantu petugas PTSP/AJIB",
+      "waktuProses": "±30–60 menit",
       "biaya": "Gratis",
       "syarat": [
         "KTP pemohon asli/foto",
@@ -661,7 +665,7 @@
         "Siapkan foto KTP, foto usaha, dan share lokasi",
         "Kirim/serahkan ke petugas AJIB/PTSP Kelurahan",
         "Petugas membantu proses NIB OSS RBA sesuai kelengkapan data",
-        "Estimasi selesai mengikuti kelengkapan data usaha dan pendampingan petugas PTSP/AJIB."
+        "Estimasi pendampingan ±30–60 menit bila data usaha, KTP, foto usaha, dan lokasi sudah siap."
       ],
       "dokumenUnduh": [
         {
@@ -685,7 +689,7 @@
       "emoji": "✍️",
       "kategori": "PTSP",
       "deskripsi": "Surat pernyataan pengganti pengantar RT/RW untuk layanan perizinan/nonperizinan PTSP tertentu.",
-      "waktuProses": "Sesuai layanan tujuan",
+      "waktuProses": "±30–60 menit",
       "biaya": "Gratis",
       "syarat": [
         "KTP pemohon",
@@ -697,7 +701,8 @@
         "Isi surat pernyataan sesuai identitas dan keperluan",
         "Tandatangani di atas meterai",
         "Lampirkan pada layanan PTSP yang membutuhkan pengantar",
-        "Petugas memverifikasi bersama dokumen layanan utama"
+        "Petugas memverifikasi bersama dokumen layanan utama",
+        "Estimasi verifikasi awal ±30–60 menit bila surat pernyataan, meterai, dan dokumen layanan utama sudah lengkap."
       ],
       "dokumenUnduh": [
         {
@@ -757,7 +762,7 @@
       "emoji": "🪦",
       "kategori": "PTSP",
       "deskripsi": "Permohonan IPTM baru, perpanjangan, atau tumpangan pada TPU.",
-      "waktuProses": "Diproses via JakEVO/PTSP",
+      "waktuProses": "±1–3 hari kerja",
       "biaya": "Gratis",
       "syarat": [
         "Formulir IPTM secara elektronik",
@@ -775,7 +780,7 @@
         "Isi data pemohon dan unggah dokumen persyaratan",
         "Submit permohonan dan pantau status di JakEVO",
         "Petugas melakukan verifikasi; lengkapi perbaikan bila diminta",
-        "Estimasi selesai mengikuti verifikasi PTSP/JakEVO dan kelengkapan berkas."
+        "Estimasi ±1–3 hari kerja setelah dokumen lengkap dan verifikasi PTSP/JakEVO tidak meminta perbaikan."
       ],
       "dokumenUnduh": [
         {
@@ -835,7 +840,7 @@
       "emoji": "🏡",
       "kategori": "PTSP",
       "deskripsi": "Fasilitasi desain gambar arsitek gratis untuk permohonan perizinan bangunan tertentu di DPMPTSP DKI Jakarta.",
-      "waktuProses": "Bertahap: konsultasi & desain",
+      "waktuProses": "±7–14 hari kerja",
       "biaya": "Gratis",
       "syarat": [
         "Objek termasuk kategori yang diperbolehkan: rumah tinggal, rumah tinggal dengan usaha mikro, rumah ibadah, PAUD binaan, taman lingkungan/gapura/pos jaga/sarana umum",
@@ -851,7 +856,7 @@
         "Konsultasi desain bila diperlukan",
         "Tenaga arsitek menyiapkan gambar",
         "Pemohon menyetujui output gambar lampiran izin",
-        "Estimasi selesai bertahap karena perlu konsultasi, pemeriksaan administrasi, dan proses desain."
+        "Estimasi ±7–14 hari kerja karena perlu konsultasi, pemeriksaan administrasi, dan proses penyusunan desain."
       ],
       "dokumenUnduh": [
         {
@@ -873,7 +878,7 @@
       "emoji": "🪪",
       "kategori": "Dukcapil",
       "deskripsi": "Informasi syarat pengurusan KTP hilang/rusak/perubahan data, foto KTP 17 tahun, IKD, dan KIA.",
-      "waktuProses": "Antrean loket Dukcapil",
+      "waktuProses": "±30–60 menit",
       "biaya": "Gratis",
       "syarat": [
         "KTP hilang: fotokopi KK dan surat kehilangan kepolisian",
@@ -888,7 +893,7 @@
         "Datang/konsultasi ke loket Dukcapil Kelurahan",
         "Petugas memverifikasi data dan kelengkapan",
         "Ikuti proses perekaman/aktivasi/pencetakan sesuai jenis layanan",
-        "Estimasi layanan mengikuti antrean loket/sistem Dukcapil dan ketersediaan blanko atau proses aktivasi."
+        "Estimasi layanan loket ±30–60 menit untuk cek berkas, perekaman/aktivasi, atau pengajuan awal bila sistem dan blanko tersedia."
       ],
       "dokumenUnduh": [
         {
@@ -911,7 +916,7 @@
       "emoji": "👨‍👩‍👧",
       "kategori": "Dukcapil",
       "deskripsi": "Informasi syarat KK hilang, rusak, perubahan data, pendatang, dan tambah anak baru lahir.",
-      "waktuProses": "Antrean loket Dukcapil",
+      "waktuProses": "±30–60 menit",
       "biaya": "Gratis",
       "syarat": [
         "KK hilang: fotokopi KK dan surat kehilangan kepolisian",
@@ -926,7 +931,7 @@
         "Konsultasi ke petugas Dukcapil bila perubahan data spesifik",
         "Serahkan/unggah dokumen pendukung",
         "Petugas memproses perubahan/terbit ulang KK",
-        "Estimasi layanan mengikuti antrean loket/sistem Dukcapil dan hasil verifikasi data."
+        "Estimasi layanan loket ±30–60 menit bila dokumen perubahan KK lengkap dan data tidak memerlukan verifikasi lanjutan."
       ],
       "dokumenUnduh": [
         {
@@ -948,7 +953,7 @@
       "emoji": "👶",
       "kategori": "Dukcapil",
       "deskripsi": "Pencatatan kelahiran anak melalui layanan Dukcapil.",
-      "waktuProses": "Antrean loket Dukcapil",
+      "waktuProses": "±1 hari kerja",
       "biaya": "Gratis",
       "syarat": [
         "Asli dan fotokopi Surat Keterangan Lahir dari RS/Bidan/Puskesmas",
@@ -963,7 +968,7 @@
         "Isi formulir Akta Kelahiran",
         "Serahkan berkas ke loket Dukcapil/kanal resmi",
         "Petugas memverifikasi dan memproses penerbitan akta",
-        "Estimasi layanan mengikuti antrean loket/sistem Dukcapil dan hasil verifikasi dokumen."
+        "Estimasi ±1 hari kerja bila berkas lengkap, data sesuai, dan tidak ada perbaikan dari petugas Dukcapil."
       ],
       "dokumenUnduh": [
         {
@@ -988,7 +993,7 @@
       "emoji": "🕊️",
       "kategori": "Dukcapil",
       "deskripsi": "Pencatatan kematian melalui layanan Dukcapil.",
-      "waktuProses": "Antrean loket Dukcapil",
+      "waktuProses": "±1 hari kerja",
       "biaya": "Gratis",
       "syarat": [
         "Asli dan fotokopi Surat Keterangan Kematian dari RS/Puskesmas",
@@ -1003,7 +1008,7 @@
         "Isi formulir Akta Kematian",
         "Serahkan berkas ke loket Dukcapil/kanal resmi",
         "Petugas memverifikasi dan memproses penerbitan akta",
-        "Estimasi layanan mengikuti antrean loket/sistem Dukcapil dan hasil verifikasi dokumen."
+        "Estimasi ±1 hari kerja bila berkas lengkap, data sesuai, dan tidak ada perbaikan dari petugas Dukcapil."
       ],
       "dokumenUnduh": [
         {
@@ -1032,7 +1037,7 @@
       "emoji": "🚚",
       "kategori": "Dukcapil",
       "deskripsi": "Formulir F-1.03 untuk permohonan surat keterangan pindah/perpindahan penduduk.",
-      "waktuProses": "Antrean loket Dukcapil",
+      "waktuProses": "±1 hari kerja",
       "biaya": "Gratis",
       "syarat": [
         "Nomor KK dan NIK pemohon",
@@ -1048,7 +1053,7 @@
         "Lengkapi data alamat asal, alamat pindah, alasan, dan anggota keluarga",
         "Serahkan/unggah formulir ke layanan Dukcapil",
         "Petugas memproses surat keterangan pindah sesuai ketentuan",
-        "Estimasi layanan mengikuti antrean loket/sistem Dukcapil dan hasil verifikasi data perpindahan."
+        "Estimasi ±1 hari kerja bila Formulir F-1.03 dan dokumen pendukung lengkap serta data sesuai."
       ],
       "dokumenUnduh": [
         {
