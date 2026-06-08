@@ -1751,6 +1751,25 @@
         "penguasaan fisik"
       ],
       "jawaban": "🏛️ **Pengantar Hak Atas Tanah Negara/BTP:**\n\nSumber dokumen memuat draf pengantar dan berita acara pengecekan lapangan. Berkas yang perlu disiapkan antara lain identitas pemohon, pengantar RT/RW, bukti penguasaan fisik/asal-usul tanah, SPPT PBB/NOP, luas dan batas tanah, surat tidak sengketa, surat penguasaan fisik, saksi batas, dan dokumentasi lokasi.\n\nSemua layanan **GRATIS**. Detail ada di menu **Layanan → Pertanahan/PBB**."
+    },
+    {
+      "intent": "struktur_organisasi_kelurahan",
+      "keywords": [
+        "struktur organisasi",
+        "organisasi kelurahan",
+        "bagan kelurahan",
+        "lurah rawajati",
+        "sekretaris kelurahan",
+        "sekkel",
+        "kasi pemerintahan",
+        "kasi kesra",
+        "kasi ekonomi pembangunan",
+        "ptsp rawajati",
+        "dukcapil rawajati",
+        "satpol pp rawajati",
+        "puskesmas rawajati"
+      ],
+      "jawaban": "🏢 **Struktur Organisasi Pemerintah Kelurahan Rawajati:**\n\n- **Lurah:** Sariman\n- **Sekretariat Kelurahan:** Fajar Muhamad Reza\n- **Plt. Kepala Seksi Pemerintahan:** Dahlan\n- **Kepala Unit PTSP:** Edwan NS\n- **Kasatpel Dukcapil:** Mellinda Rachmasari\n- **Kasatpol PP:** Agus Budiyanto\n- **Puskesmas Rawajati I:** dr. Sri Handayani\n- **Puskesmas Rawajati II:** drg. Andi Sukma\n- **Bendahara:** Eko Prasetyo\n- **Pengurus Barang:** Friska M. Silaban\n- **Staf Pengadministrasian:** Jainabsyah Silalahi, Susanti, dan Ana Puji Hastuti\n\nData ini bersumber dari dokumen Struktur Organisasi Baru Kelurahan Rawajati. Untuk kepastian terbaru saat pelayanan, silakan konfirmasi ke Kelurahan Rawajati di **(021) 7994427**."
     }
   ],
   "aiSettings": {
@@ -1924,6 +1943,32 @@
         "Akta kelahiran: surat keterangan lahir, KTP/KK orang tua, akta/buku nikah, KTP 2 saksi, surat kuasa bila dikuasakan, dan formulir.",
         "Akta kematian: surat keterangan kematian, KTP/KK almarhum, KTP/KK ahli waris/pelapor, KTP 2 saksi, surat kuasa bila dikuasakan, dan formulir.",
         "F-1.03 dipakai untuk pendaftaran perpindahan penduduk; F-1.07 dipakai untuk kuasa layanan administrasi kependudukan."
+      ]
+    },
+    {
+      "id": "KB-STRUKTUR-ORGANISASI",
+      "judul": "Struktur organisasi Pemerintah Kelurahan Rawajati",
+      "kategori": "Profil Kelurahan",
+      "sumber": [
+        "STRUKTUR ORGNISASI BARU.pdf",
+        "STRUKTUR ORGNISASI BARU.xlsx sheet PEMERINTHAN"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Struktur organisasi baru Pemerintah Kelurahan Rawajati memuat Lurah, Sekretariat Kelurahan, seksi-seksi kelurahan, unit pelayanan terkait, dan staf/pengelola administrasi.",
+      "butir": [
+        "Lurah: Sariman, NIP 197706022006041015.",
+        "Sekretariat Kelurahan: Fajar Muhamad Reza, NIP 198408092010011026.",
+        "Plt. Kepala Seksi Pemerintahan: Dahlan, NIP 198304262009041004.",
+        "Kepala Seksi Kesejahteraan Rakyat: tercantum sebagai jabatan pada bagan; staf pengadministrasian terkait: Susanti, NIP 197106262025212002.",
+        "Kepala Seksi Ekonomi Pembangunan: tercantum sebagai jabatan pada bagan; staf pengadministrasian terkait: Ana Puji Hastuti, NIP 197611281998032002.",
+        "Kepala Unit PTSP: Edwan NS.",
+        "Kasatpel Dukcapil: Mellinda Rachmasari.",
+        "Kasatpol PP: Agus Budiyanto.",
+        "Kepala Puskesmas Rawajati I: dr. Sri Handayani.",
+        "Kepala Puskesmas Rawajati II: drg. Andi Sukma, NIP 198007132012122001.",
+        "Bendahara: Eko Prasetyo, NIP 198308252014081001.",
+        "Pengurus Barang: Friska M. Silaban, NIP 197002131991102001.",
+        "Staf Pengadministrasian: Jainabsyah Silalahi."
       ]
     }
   ]
