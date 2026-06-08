@@ -120,7 +120,7 @@ class PRIMAChatbot {
     const suggestions = [];
 
     if (/surat|syarat|persyaratan|dokumen|berkas/.test(normalized)) {
-      suggestions.push('📋 Ketik nama jenis surat yang Anda butuhkan (contoh: "syarat domisili")');
+      suggestions.push('📋 Ketik nama layanan yang Anda butuhkan (contoh: "syarat waris", "KTP hilang", atau "PM1 nikah")');
     }
     if (/lokasi|tempat|dimana/.test(normalized)) {
       suggestions.push('🗺️ Lihat menu **Peta Wilayah** untuk lokasi fasilitas di Rawajati');
@@ -133,7 +133,7 @@ class PRIMAChatbot {
       ? '\n\n💡 **Mungkin Anda mencari:**\n' + suggestions.join('\n')
       : '';
 
-    return `Mohon maaf, saya belum menemukan jawaban yang sesuai. 🙏${sugestText}\n\n**Saya dapat membantu untuk:**\n📋 Syarat & prosedur surat (domisili, ahli waris, SKCK, dll)\n⏰ Jam kerja & lokasi Kelurahan\n♻️ Info bank sampah & posyandu\n📢 Cara penyampaian pengaduan\n\n*Silakan tanyakan dengan lebih spesifik agar saya dapat membantu lebih akurat.*`;
+    return `Mohon maaf, saya belum menemukan jawaban yang sesuai. 🙏${sugestText}\n\n**Saya dapat membantu untuk:**\n📋 Syarat & prosedur layanan Kelurahan, PTSP, Dukcapil, dan Pertanahan/PBB\n🪪 KTP, KK, KIA, Akta Kelahiran, Akta Kematian, dan pindah penduduk\n🏢 SKTM, NIB OSS RBA, IPTM, izin tebang pohon, dan layanan PTSP lain\n⏰ Jam kerja & lokasi Kelurahan\n📢 Cara penyampaian pengaduan\n\n*Silakan tanyakan dengan lebih spesifik agar saya dapat membantu lebih akurat.*`;
   }
 
   _persistConversation(userMsg, botMsg) {
@@ -196,9 +196,9 @@ class PRIMAChatbot {
       // Pagi — warga baru mulai aktivitas, fokus orientasi layanan harian
       return [
         "Jam kerja kelurahan hari ini?",
-        "Apa saja syarat KTP / KK baru?",
-        "Cara urus surat domisili?",
-        "Daftar layanan paling populer?",
+        "Apa saja syarat KTP / KK?",
+        "Syarat PM1 nikah apa saja?",
+        "Daftar layanan Kelurahan, PTSP, Dukcapil?",
         "Lokasi kantor kelurahan?",
         "Petugas yang bisa dihubungi pagi ini?"
       ];
@@ -210,7 +210,7 @@ class PRIMAChatbot {
         "Cara urus SKTM?",
         "Syarat surat ahli waris?",
         "Lokasi Puskesmas Rawajati?",
-        "Berapa lama proses surat keterangan domisili?",
+        "Syarat Akta Kematian apa saja?",
         "Biaya layanan kelurahan?",
         "Cara dapat surat pengantar RT/RW?"
       ];

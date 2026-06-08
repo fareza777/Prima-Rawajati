@@ -1672,6 +1672,85 @@
         "ahli waris luar negeri/negri, ahli waris negara lain"
       ],
       "jawaban": "Apabila ahli waris di luar negeri : Tetap tidak bisa diwakilkan, harus ahli waris yang bersangkutan yang harus ttd\nDokumen surat pernyataan ahli waris di kirim ke luar negeri untuk di ttd"
+    },
+    {
+      "intent": "syarat_ktp_kk_kia",
+      "keywords": [
+        "ktp",
+        "ktp hilang",
+        "ktp rusak",
+        "ikd",
+        "ktp digital",
+        "kia",
+        "kartu identitas anak",
+        "kk",
+        "kartu keluarga",
+        "perubahan kk"
+      ],
+      "jawaban": "🪪 **KTP/KK/KIA Dukcapil:**\n\n- KTP hilang: fotokopi KK + surat kehilangan kepolisian.\n- KTP rusak: KTP asli/fotokopi + fotokopi KK.\n- Perubahan data KTP: KTP asli/fotokopi + KK terbaru yang sudah diubah.\n- KIA: fotokopi KK, Akta Kelahiran, foto anak usia 5–16 tahun; tambah surat kehilangan/KIA asli bila penggantian.\n- KK hilang/rusak/perubahan data: bawa KK/KTP dan bukti pendukung perubahan sesuai kasus.\n\nSemua layanan **GRATIS**. Detail ada di menu **Layanan → Dukcapil**."
+    },
+    {
+      "intent": "syarat_akta_kelahiran",
+      "keywords": [
+        "akta kelahiran",
+        "kelahiran",
+        "bayi lahir",
+        "lahir anak"
+      ],
+      "jawaban": "👶 **Syarat Akta Kelahiran:**\n\n1. Asli dan fotokopi Surat Keterangan Lahir dari RS/Bidan/Puskesmas.\n2. Asli dan fotokopi KTP dan KK orang tua.\n3. Fotokopi Akta Nikah Catatan Sipil atau Buku Nikah lengkap.\n4. Fotokopi KTP 2 orang saksi.\n5. Surat kuasa bila dikuasakan.\n6. Isi formulir permohonan.\n\nSemua layanan **GRATIS**. Blangko tersedia di menu Layanan."
+    },
+    {
+      "intent": "syarat_akta_kematian",
+      "keywords": [
+        "akta kematian",
+        "kematian",
+        "meninggal",
+        "almarhum",
+        "almarhumah"
+      ],
+      "jawaban": "🕊️ **Syarat Akta Kematian:**\n\n1. Asli dan fotokopi Surat Keterangan Kematian dari RS/Puskesmas.\n2. Asli dan fotokopi KTP dan KK almarhum/almarhumah.\n3. Fotokopi KTP dan KK ahli waris/pelapor.\n4. Fotokopi KTP 2 orang saksi.\n5. Surat kuasa bila dikuasakan.\n6. Isi formulir permohonan.\n\nSemua layanan **GRATIS**. Blangko tersedia di menu Layanan."
+    },
+    {
+      "intent": "syarat_perkawinan_pm1",
+      "keywords": [
+        "pm1 nikah",
+        "pengantar nikah",
+        "perkawinan pertama",
+        "perkawinan kedua",
+        "belum menikah",
+        "janda",
+        "duda",
+        "kawin"
+      ],
+      "jawaban": "💍 **PM.1 Perkawinan:**\n\nPRIMA memuat PM.1 belum pernah menikah, janda/duda belum menikah lagi, pengantar perkawinan pertama, dan pengantar perkawinan kedua/seterusnya. Dokumen umum: KTP, KK, pengantar RT/RW, surat pernyataan bermeterai, dokumen calon/pasangan, saksi, akta kelahiran, dan sertifikat layak kawin sesuai jenis layanan.\n\nSemua layanan **GRATIS**. Pilih layanan spesifik di menu **Layanan → Kelurahan** untuk daftar lengkap dan blangko."
+    },
+    {
+      "intent": "syarat_ptsp",
+      "keywords": [
+        "ptsp",
+        "nib",
+        "oss",
+        "sktm",
+        "tidak mampu",
+        "iptm",
+        "makam",
+        "tebang pohon",
+        "arsitek",
+        "belum memiliki rumah"
+      ],
+      "jawaban": "🏢 **Layanan PTSP di PRIMA:**\n\nTersedia informasi SKTM, pendampingan NIB OSS RBA, surat pengganti pengantar RT/RW, keterangan belum memiliki rumah, IPTM, izin penebangan pohon, dan desain gambar arsitek gratis.\n\nSyarat berbeda per layanan, tapi umumnya perlu KTP/KK, formulir, surat pernyataan/kuasa bila ada, dan dokumen teknis sesuai layanan. Semua layanan **GRATIS**. Buka kategori **PTSP** di menu Layanan."
+    },
+    {
+      "intent": "syarat_tanah_negara",
+      "keywords": [
+        "tanah negara",
+        "btp",
+        "hak atas tanah",
+        "berita acara pengecekan",
+        "pengecekan lapangan",
+        "penguasaan fisik"
+      ],
+      "jawaban": "🏛️ **Pengantar Hak Atas Tanah Negara/BTP:**\n\nSumber dokumen memuat draf pengantar dan berita acara pengecekan lapangan. Berkas yang perlu disiapkan antara lain identitas pemohon, pengantar RT/RW, bukti penguasaan fisik/asal-usul tanah, SPPT PBB/NOP, luas dan batas tanah, surat tidak sengketa, surat penguasaan fisik, saksi batas, dan dokumentasi lokasi.\n\nSemua layanan **GRATIS**. Detail ada di menu **Layanan → Pertanahan/PBB**."
     }
   ],
   "aiSettings": {
@@ -1718,6 +1797,134 @@
       "id": "inclusionai/ling-2.6-flash",
       "label": "Inclusionai Ling 2.6 Flash",
       "short": "Ling 2.6 Flash"
+    }
+  ],
+  "knowledgeBase": [
+    {
+      "id": "KB-KELURAHAN-PM1",
+      "judul": "Paket layanan Kelurahan: PM.1 dan surat pernyataan",
+      "kategori": "Kelurahan",
+      "sumber": [
+        "Folder Drive KELURAHAN",
+        "File blangko PM.1 dan surat pernyataan"
+      ],
+      "layananTerkait": [
+        "PM1-BELUM-MENIKAH",
+        "PM1-JANDA-DUDA",
+        "PM1-PERKAWINAN-PERTAMA",
+        "PM1-PERKAWINAN-KEDUA",
+        "PM1-ORANG-SAMA",
+        "PM1-ALAMAT-SAMA",
+        "PM1-GHAIB",
+        "PM1-UMUM"
+      ],
+      "ringkasan": "Layanan PM.1 Kelurahan umumnya memerlukan identitas pemohon, pengantar RT/RW, surat pernyataan bermeterai, serta dokumen pendukung sesuai kasus. Beberapa layanan diajukan melalui Jakevo pada kategori Pelayanan Administrasi Camat/Lurah.",
+      "butir": [
+        "Belum pernah menikah: KTP, KK, pengantar RT/RW, pernyataan bermeterai diketahui RT/RW.",
+        "Janda/duda belum menikah lagi: tambah akta cerai atau akta/surat kematian pasangan dan surat nikah.",
+        "Perkawinan pertama/kedua: unggah KTP/KK pemohon dan calon, saksi, akta kelahiran, sertifikat layak kawin, serta dokumen orang tua/status sebelumnya bila diperlukan.",
+        "Orang yang sama/alamat yang sama: perlu dokumen asli yang berbeda, pernyataan bermeterai, keabsahan dokumen, dan saksi/RT/RW sesuai sumber.",
+        "Keterangan ghaib: perlu KTP/KK, surat nikah, pengantar RT/RW, pernyataan bermeterai, dan KTP saksi."
+      ]
+    },
+    {
+      "id": "KB-WARIS",
+      "judul": "Paket ahli waris",
+      "kategori": "Kelurahan",
+      "sumber": [
+        "Pengurusan Waris.docx",
+        "SALAH SATU MENINGGAL.docx"
+      ],
+      "layananTerkait": [
+        "WARIS"
+      ],
+      "ringkasan": "Sumber waris berisi checklist dokumen, surat permohonan register, draf pernyataan ahli waris, format saksi, dan contoh bila salah satu anggota keluarga meninggal.",
+      "butir": [
+        "Dokumen utama: pengantar RT/RW, akta/surat kematian, akta nikah, KTP/KK ahli waris, akta kelahiran ahli waris, KIA bila anak di bawah 17 tahun.",
+        "Saksi: siapkan fotokopi KTP 2 orang saksi.",
+        "Jika diwakilkan, lampirkan surat kuasa.",
+        "Surat pernyataan ahli waris memuat identitas pewaris, pasangan, anak/ahli waris, pernyataan tanggung jawab hukum, tanda tangan ahli waris, saksi, RT/RW, Kelurahan, dan Kecamatan."
+      ]
+    },
+    {
+      "id": "KB-TANAH-PBB",
+      "judul": "Paket pertanahan, tanah negara/BTP, dan PBB",
+      "kategori": "Pertanahan/PBB",
+      "sumber": [
+        "MACAM MACAM PERSYARATAN TENTANG TANAH.docx",
+        "DRAFT PENGANTAR TANAH NEGARA 2023.doc",
+        "BERITA ACARA PENGECEKAN LAPANGAN.docx"
+      ],
+      "layananTerkait": [
+        "TANAH-NEGARA",
+        "TANAH-PENINGKATAN-HAK",
+        "PBB-BALIK-NAMA",
+        "PBB-PECAH",
+        "PBB-PEMBEBASAN"
+      ],
+      "ringkasan": "Dokumen tanah mencakup persyaratan peningkatan hak, balik nama PBB, pecah PBB, kehilangan sertifikat/perponding, pembebasan PBB, perubahan alamat/luas tanah di PBB, BPHTB nihil, serta pengantar permohonan hak atas tanah negara/BTP.",
+      "butir": [
+        "Berkas yang sering berulang: pengantar RT/RW, KTP, KK, sertifikat, PBB terakhir, bukti bayar PBB 20 tahun terakhir/seadanya di sistem, foto rumah, dan surat pernyataan diketahui RT/RW/saksi.",
+        "Tanah negara/BTP memerlukan pengakuan asal-usul penguasaan, SPPT/NOP, luas tanah, batas tanah, penguasaan fisik, pernyataan tidak sengketa, dan berita acara pengecekan lapangan.",
+        "Berita acara pengecekan lapangan mencatat lokasi, luas, batas utara/timur/selatan/barat, saksi pemilik batas, pemohon, RT, RW, dan petugas Kelurahan."
+      ]
+    },
+    {
+      "id": "KB-PTSP",
+      "judul": "Paket layanan PTSP Kelurahan",
+      "kategori": "PTSP",
+      "sumber": [
+        "Formulir Ket Usaha NIB OSS RBA.docx",
+        "Surat Pernyataan Tidak Mampu.docx",
+        "persyaratan IPTM.docx",
+        "persyaratan Izin Tebang Pohon.docx",
+        "brosur gambar Arsitek Gratis.pdf"
+      ],
+      "layananTerkait": [
+        "SKTM",
+        "NIB-OSS",
+        "PENGGANTI-RT-RW",
+        "BELUM-PUNYA-RUMAH",
+        "IPTM",
+        "IZIN-TEBANG-POHON",
+        "GAMBAR-ARSITEK-GRATIS"
+      ],
+      "ringkasan": "PTSP mencakup surat pernyataan pendukung, pendampingan usaha/NIB, IPTM, izin tebang pohon, dan fasilitasi desain gambar arsitek gratis. Beberapa layanan menggunakan Jakevo dan diverifikasi PTSP.",
+      "butir": [
+        "SKTM dan belum memiliki rumah memakai pengantar RT/RW atau surat pengganti, KTP, KK, dan surat pernyataan bermeterai.",
+        "NIB OSS RBA membutuhkan data pemohon, data usaha, kontak aktif, foto tempat usaha, dan share lokasi usaha ke petugas.",
+        "IPTM membutuhkan KTP/KK pemohon dan jenazah, surat keterangan kematian, laporan kematian Kelurahan, pengantar TPU, serta IPTM terdahulu bila perpanjangan/tumpangan.",
+        "Izin tebang pohon membutuhkan formulir Jakevo, identitas pemohon/badan, kuasa bila ada, pernyataan rekomendasi teknis, IMP bila relevan, dan detail pohon lengkap.",
+        "Desain gambar arsitek gratis berlaku untuk kategori bangunan tertentu dengan KRK, tanpa basement, bukan pemugaran/cluster/kost, dan kepemilikan perorangan."
+      ]
+    },
+    {
+      "id": "KB-DUKCAPIL",
+      "judul": "Paket layanan Dukcapil",
+      "kategori": "Dukcapil",
+      "sumber": [
+        "persyaratan KTP KK.pdf",
+        "Persyaratan Akta Kelahiran.pdf",
+        "Persyaratan Akta Kematian.pdf",
+        "F-1.03",
+        "F-1.07"
+      ],
+      "layananTerkait": [
+        "KTP-KIA",
+        "KK",
+        "AKTA-KELAHIRAN",
+        "AKTA-KEMATIAN",
+        "PINDAH-PENDUDUK"
+      ],
+      "ringkasan": "Dukcapil memuat syarat KTP/IKD/KIA, KK, akta kelahiran, akta kematian, perpindahan penduduk, dan surat kuasa F-1.07.",
+      "butir": [
+        "KTP hilang: fotokopi KK dan surat kehilangan kepolisian; KTP rusak: KTP asli/fotokopi dan KK; perubahan data: KTP dan KK terbaru.",
+        "KIA: KK, akta kelahiran, foto anak usia 5-16 tahun, surat kehilangan atau KIA asli bila penggantian/perpanjangan.",
+        "KK hilang/rusak/perubahan data memerlukan KK/KTP dan bukti pendukung seperti buku nikah, akta cerai, ijazah, SK kerja, golongan darah, akta kelahiran, atau dokumen sesuai kasus.",
+        "Akta kelahiran: surat keterangan lahir, KTP/KK orang tua, akta/buku nikah, KTP 2 saksi, surat kuasa bila dikuasakan, dan formulir.",
+        "Akta kematian: surat keterangan kematian, KTP/KK almarhum, KTP/KK ahli waris/pelapor, KTP 2 saksi, surat kuasa bila dikuasakan, dan formulir.",
+        "F-1.03 dipakai untuk pendaftaran perpindahan penduduk; F-1.07 dipakai untuk kuasa layanan administrasi kependudukan."
+      ]
     }
   ]
 }

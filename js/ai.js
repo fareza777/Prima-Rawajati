@@ -77,12 +77,27 @@ const PRIMA_AI = (() => {
     const docs = [];
 
     // Layanan
-    PRIMA_DATA.layanan.forEach(l => {
+    (PRIMA_DATA.layanan || []).forEach(l => {
+      const downloads = (l.dokumenUnduh || []).map(d => d.nama).filter(Boolean).join('; ');
       const text = `LAYANAN ${l.nama}. Kategori: ${l.kategori}. ${l.deskripsi || ''} ` +
         `Syarat: ${(l.syarat || []).join('; ')}. ` +
         `Prosedur: ${(l.prosedur || []).join('; ')}. ` +
-        `Waktu proses: ${l.waktuProses || '-'}. Biaya: ${l.biaya || 'Gratis'}.`;
+        `Waktu proses: ${l.waktuProses || '-'}. Biaya: ${l.biaya || 'Gratis'}. ` +
+        `Blangko/dokumen unduhan: ${downloads || 'tidak ada'}. ` +
+        `Kata kunci: ${(l.tags || []).join(', ')}.`;
       docs.push({ type: 'layanan', id: l.id, title: l.nama, text, tokens: _tokenize(text) });
+    });
+
+    // Knowledge base kurasi dari dokumen sumber (Drive + file lampiran).
+    // Ini memberi AI konteks lintas-layanan, terutama saat warga bertanya
+    // dengan istilah umum seperti "data dari PTSP" atau "dokumen tanah".
+    (PRIMA_DATA.knowledgeBase || []).forEach(k => {
+      const text = `PENGETAHUAN ${k.judul}. Kategori: ${k.kategori || ''}. ` +
+        `Sumber: ${(k.sumber || []).join('; ')}. ` +
+        `Ringkasan: ${k.ringkasan || ''}. ` +
+        `Butir penting: ${(k.butir || []).join('; ')}. ` +
+        `Layanan terkait: ${(k.layananTerkait || []).join(', ')}.`;
+      docs.push({ type: 'knowledge', id: k.id, title: k.judul, text, tokens: _tokenize(text) });
     });
 
     // Peta
