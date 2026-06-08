@@ -6,6 +6,15 @@
 
 const PRIMA_AI = (() => {
   const ENDPOINT = '/api/chat';
+  const PRODUCTION_ENDPOINT = 'https://prima-rawajati.vercel.app/api/chat';
+
+  function getEndpoint() {
+    const host = window.location.hostname;
+    if (host === '127.0.0.1' || host === 'localhost' || host === '::1') {
+      return PRODUCTION_ENDPOINT;
+    }
+    return ENDPOINT;
+  }
 
   const DEFAULT_MODELS = [
     { id: 'google/gemma-4-26b-a4b-it:free', label: 'Gemma 4 26B (Google)', short: 'Gemma 4' },
@@ -224,7 +233,7 @@ KONTAK KELURAHAN:
 
     let response;
     try {
-      response = await fetch(ENDPOINT, {
+      response = await fetch(getEndpoint(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ model, messages, stream: true, temperature: 0.4, max_tokens: 800, provider, baseUrl, apiKey }),
@@ -315,7 +324,7 @@ KONTAK KELURAHAN:
   async function isAvailable() {
     if (_availability !== null) return _availability;
     try {
-      const r = await fetch(ENDPOINT, { method: 'OPTIONS' });
+      const r = await fetch(getEndpoint(), { method: 'OPTIONS' });
       _availability = r.status !== 404;
     } catch { _availability = false; }
     return _availability;
