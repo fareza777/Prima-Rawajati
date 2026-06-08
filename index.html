@@ -163,7 +163,7 @@
     <div class="menu-card orange" onclick="navigateTo('info')">
       <span class="card-icon"><i data-lucide="utensils"></i></span>
       <h3>Info Warga</h3>
-      <p>Kuliner, usaha binaan & kegiatan</p>
+      <p>Kuliner terverifikasi, data usaha, dan kegiatan warga</p>
     </div>
     <div class="menu-card teal" onclick="navigateTo('chat')">
       <span class="card-icon"><i data-lucide="message-circle"></i></span>
@@ -250,16 +250,16 @@
   <div class="page-hero">
     <div class="page-hero-head section-header">
       <h2>🗺️ Peta Wilayah Rawajati</h2>
-      <p>Fasilitas, lokasi RW, masjid, bank sampah, dan area penting lainnya</p>
+      <p>Fasilitas publik, kesehatan, lingkungan, kuliner, dan area penting lainnya</p>
     </div>
     <!-- Filter Chips -->
     <div class="map-filter-bar">
     <button class="filter-chip active" data-filter="Semua" onclick="updateMapFilter('Semua')">🔍 Semua</button>
     <button class="filter-chip" data-filter="Pemerintahan" onclick="updateMapFilter('Pemerintahan')">🏛️ Pemerintahan</button>
-    <button class="filter-chip" data-filter="RW" onclick="updateMapFilter('RW')">🏘️ Sekretariat RW</button>
     <button class="filter-chip" data-filter="Ibadah" onclick="updateMapFilter('Ibadah')">🕌 Ibadah</button>
     <button class="filter-chip" data-filter="Lingkungan" onclick="updateMapFilter('Lingkungan')">♻️ Lingkungan</button>
     <button class="filter-chip" data-filter="Ekonomi" onclick="updateMapFilter('Ekonomi')">🏪 Ekonomi</button>
+    <button class="filter-chip" data-filter="Kuliner" onclick="updateMapFilter('Kuliner')">🍜 Kuliner</button>
     <button class="filter-chip" data-filter="Kesehatan" onclick="updateMapFilter('Kesehatan')">🏥 Kesehatan</button>
     <button class="filter-chip" data-filter="Fasilitas Umum" onclick="updateMapFilter('Fasilitas Umum')">⚽ Fasilitas</button>
     <button class="filter-chip" data-filter="Peringatan" onclick="updateMapFilter('Peringatan')">⚠️ Rawan Banjir</button>
@@ -283,11 +283,12 @@
   <!-- Legend -->
   <div class="map-legend">
     <div class="legend-item"><span class="legend-dot" style="background:#1565C0"></span>Pemerintahan</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#6A1B9A"></span>RW</div>
     <div class="legend-item"><span class="legend-dot" style="background:#00695C"></span>Ibadah</div>
     <div class="legend-item"><span class="legend-dot" style="background:#2E7D32"></span>Bank Sampah</div>
     <div class="legend-item"><span class="legend-dot" style="background:#E65100"></span>Ekonomi</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#F57C00"></span>Kuliner</div>
     <div class="legend-item"><span class="legend-dot" style="background:#D32F2F"></span>Kesehatan</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#558B2F"></span>Fasilitas</div>
     <div class="legend-item"><span class="legend-dot" style="background:#C62828"></span>⚠️ Rawan Banjir</div>
   </div>
 </main>
@@ -300,7 +301,7 @@
   <div class="page-hero">
     <div class="page-hero-head section-header">
       <h2>🍜 Info Warga Rawajati</h2>
-      <p>Kenali tetangga Anda lebih dekat — kuliner andalan, UMKM binaan, dan agenda warga.</p>
+      <p>Kuliner sekitar Rawajati, data usaha yang sedang diverifikasi, dan agenda warga.</p>
     </div>
     <div class="info-tab-bar" role="tablist" aria-label="Kategori info warga">
       <button type="button" class="info-tab active" data-tab="kuliner" role="tab" aria-selected="true">Kuliner</button>

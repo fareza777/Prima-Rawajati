@@ -1028,7 +1028,8 @@ function renderInfoWarga() {
   // ─ Kuliner ─
   const kulinerContainer = document.getElementById('kuliner-list');
   if (kulinerContainer) {
-    kulinerContainer.innerHTML = PRIMA_DATA.infoWarga.kuliner.map(k => {
+    const kulinerList = PRIMA_DATA.infoWarga.kuliner || [];
+    kulinerContainer.innerHTML = kulinerList.length ? kulinerList.map(k => {
       const wa = waLink(k.kontak);
       return `
       <div class="info-card">
@@ -1050,13 +1051,14 @@ function renderInfoWarga() {
           </div>
         </div>
       </div>`;
-    }).join('');
+    }).join('') : '<div class="empty-state">Belum ada data kuliner terverifikasi.</div>';
   }
 
   // ─ Usaha Binaan ─
   const usahaContainer = document.getElementById('usaha-list');
   if (usahaContainer) {
-    usahaContainer.innerHTML = PRIMA_DATA.infoWarga.usahaBinaan.map(u => {
+    const usahaList = PRIMA_DATA.infoWarga.usahaBinaan || [];
+    usahaContainer.innerHTML = usahaList.length ? usahaList.map(u => {
       const wa = waLink(u.kontak);
       return `
       <div class="info-card">
@@ -1078,13 +1080,14 @@ function renderInfoWarga() {
           </div>
         </div>
       </div>`;
-    }).join('');
+    }).join('') : '<div class="empty-state">Data UMKM/usaha binaan resmi masih perlu verifikasi dari Kelurahan/pendamping UMKM. PRIMA tidak menampilkan nama usaha fiktif.</div>';
   }
 
   // ─ Kegiatan RT/RW ─
   const kegiatanContainer = document.getElementById('kegiatan-list');
   if (kegiatanContainer) {
-    kegiatanContainer.innerHTML = PRIMA_DATA.infoWarga.kegiatanRTRW.map(g => {
+    const kegiatanList = PRIMA_DATA.infoWarga.kegiatanRTRW || [];
+    kegiatanContainer.innerHTML = kegiatanList.length ? kegiatanList.map(g => {
       const wa = waLink(g.kontak);
       const thisWeek = isThisWeek(g.jadwal);
       return `
@@ -1104,7 +1107,7 @@ function renderInfoWarga() {
           ${wa ? `<div class="info-actions"><a class="ia-btn ia-btn-primary" href="${wa}" target="_blank" rel="noopener">💬 Chat WA</a></div>` : ''}
         </div>
       </div>`;
-    }).join('');
+    }).join('') : '<div class="empty-state">Belum ada jadwal kegiatan RT/RW terverifikasi.</div>';
   }
 
   // Tab switching (idempotent)

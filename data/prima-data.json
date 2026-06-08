@@ -1065,374 +1065,262 @@
       "warna": "#1565C0",
       "lat": -6.2605,
       "lng": 106.849,
-      "info": "Kantor Kelurahan Rawajati – Pusat pelayanan administrasi warga. Jam: Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB. Telp: (021) 7994427"
+      "alamat": "Jl. Rawajati Timur No.1, Rawajati, Pancoran, Jakarta Selatan 12750",
+      "info": "Kantor Kelurahan Rawajati – pusat pelayanan administrasi warga. Jam: Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB. Telp: (021) 7994427. Sumber: data kelurahan/PRIMA."
     },
     {
-      "id": "bank-sampah-1",
-      "nama": "Bank Sampah Rawajati Indah",
+      "id": "puskesmas-rawajati-1",
+      "nama": "Puskesmas Kelurahan Rawajati I",
+      "kategori": "Kesehatan",
+      "icon": "🏥",
+      "warna": "#D32F2F",
+      "lat": -6.2616095,
+      "lng": 106.8571746,
+      "alamat": "Jl. Zeni AD V No.32A, RT.4/RW.3, Rawajati, Pancoran, Jakarta Selatan 12750",
+      "info": "Puskesmas Kelurahan Rawajati I. Alamat resmi: Jl. Zeni AD V No.32A, RT.4/RW.3. Telp: (021) 7980483. Jam rujukan publik: Senin–Kamis 08.00–11.30 & 12.30–14.00, Jumat 08.00–11.30 & 13.00–14.30. Sumber: Puskesmas Pancoran/Waze."
+    },
+    {
+      "id": "puskesmas-rawajati-2",
+      "nama": "Puskesmas Kelurahan Rawajati II",
+      "kategori": "Kesehatan",
+      "icon": "🏥",
+      "warna": "#D32F2F",
+      "lat": -6.257538,
+      "lng": 106.8586614,
+      "alamat": "Jl. Binawarga No.11, RT.5/RW.7, Rawajati, Pancoran, Jakarta Selatan 12750",
+      "info": "Puskesmas Kelurahan Rawajati II. Alamat resmi: Jl. Binawarga No.11, RT.5/RW.7. Telp: (021) 7946634. Jam rujukan publik: Senin–Jumat sekitar 08.00–17.00, Sabtu/Minggu tutup. Sumber: Puskesmas Pancoran/contact page."
+    },
+    {
+      "id": "bank-sampah-rawajati",
+      "nama": "Bank Sampah Rawajati / KBA Rawajati",
       "kategori": "Lingkungan",
       "icon": "♻️",
       "warna": "#2E7D32",
-      "lat": -6.259,
-      "lng": 106.8472,
-      "info": "Bank Sampah aktif untuk warga RW 03–05. Buka setiap Sabtu 08.00–11.00 WIB. Hubungi: Pak Budi (081xxxxxxxxx)"
+      "lat": -6.2611,
+      "lng": 106.8566,
+      "alamat": "Komplek Zeni AD II/IV, RW 03 Rawajati, Pancoran, Jakarta Selatan",
+      "info": "Bank Sampah Rawajati berada di kawasan Kampung Berseri Astra/Komplek Zeni RW 03. Sumber publik mencatat lokasi di Komplek Zeni AD RT.05/06 RW.03, pengurus 9, nasabah 930, dan Ketua Sylvia Ermita. Konfirmasi jadwal setor ke pengurus setempat."
     },
     {
-      "id": "bank-sampah-2",
-      "nama": "Bank Sampah Berkah Rawajati",
-      "kategori": "Lingkungan",
-      "icon": "♻️",
-      "warna": "#2E7D32",
-      "lat": -6.2625,
-      "lng": 106.851,
-      "info": "Bank Sampah RW 07–09. Buka Minggu 07.00–10.00 WIB. Menerima: plastik, kertas, botol, logam."
-    },
-    {
-      "id": "lokbin-1",
-      "nama": "Lokbin KUKM Rawajati",
+      "id": "plaza-kalibata",
+      "nama": "Plaza Kalibata",
       "kategori": "Ekonomi",
-      "icon": "🏪",
+      "icon": "🏬",
       "warna": "#E65100",
-      "lat": -6.2612,
-      "lng": 106.8478,
-      "info": "Lokasi Binaan KUKM – Tempat usaha binaan warga Rawajati. ±20 lapak UMKM aktif. Buka setiap hari 08.00–21.00 WIB."
+      "lat": -6.2570656,
+      "lng": 106.8558947,
+      "alamat": "Jl. Raya Kalibata, RT.3/RW.2, Rawajati, Pancoran, Jakarta Selatan 12750",
+      "info": "Pusat belanja dan area kuliner di Rawajati/Kalibata. Koordinat tersedia di OpenStreetMap/Nominatim. Telp publik gedung: (021) 7992017 / (021) 7970326."
     },
     {
-      "id": "rw01",
-      "nama": "Sekretariat RW 01",
-      "kategori": "RW",
-      "icon": "🏘️",
-      "warna": "#6A1B9A",
-      "lat": -6.258,
-      "lng": 106.8465,
-      "info": "Sekretariat RW 01 Rawajati. Ketua: Bp. Ahmad. Untuk urusan pengantar surat RT/RW."
+      "id": "kakapala-rawajati",
+      "nama": "Kakapala Rawajati",
+      "kategori": "Fasilitas Umum",
+      "icon": "🌳",
+      "warna": "#558B2F",
+      "lat": -6.2601893,
+      "lng": 106.8544719,
+      "alamat": "Jl. Kaca Jendela No.15, RT.8/RW.2, Rawajati, Pancoran",
+      "info": "Titik fasilitas/ruang terbuka yang tercatat di direktori publik dekat Rawajati. Gunakan sebagai referensi awal; aktivitas warga perlu konfirmasi RT/RW setempat."
     },
     {
-      "id": "rw02",
-      "nama": "Sekretariat RW 02",
-      "kategori": "RW",
-      "icon": "🏘️",
-      "warna": "#6A1B9A",
-      "lat": -6.2595,
-      "lng": 106.8458,
-      "info": "Sekretariat RW 02 Rawajati. Ketua: Bp. Hendra."
-    },
-    {
-      "id": "rw03",
-      "nama": "Sekretariat RW 03",
-      "kategori": "RW",
-      "icon": "🏘️",
-      "warna": "#6A1B9A",
-      "lat": -6.261,
-      "lng": 106.8502,
-      "info": "Sekretariat RW 03 Rawajati. Ketua: Ibu Sari."
-    },
-    {
-      "id": "rw04",
-      "nama": "Sekretariat RW 04",
-      "kategori": "RW",
-      "icon": "🏘️",
-      "warna": "#6A1B9A",
-      "lat": -6.2622,
-      "lng": 106.8488,
-      "info": "Sekretariat RW 04 Rawajati. Ketua: Bp. Dodi."
-    },
-    {
-      "id": "rw05",
-      "nama": "Sekretariat RW 05",
-      "kategori": "RW",
-      "icon": "🏘️",
-      "warna": "#6A1B9A",
-      "lat": -6.2635,
-      "lng": 106.8472,
-      "info": "Sekretariat RW 05 Rawajati. Ketua: Bp. Faisal."
-    },
-    {
-      "id": "masjid-1",
+      "id": "masjid-al-hikmah-rawajati",
       "nama": "Masjid Al-Hikmah Rawajati",
       "kategori": "Ibadah",
       "icon": "🕌",
       "warna": "#00695C",
-      "lat": -6.2598,
-      "lng": 106.8482,
-      "info": "Masjid Al-Hikmah – Masjid utama RW 01–02. Kegiatan: Sholat 5 waktu, Jumat, pengajian rutin Rabu malam."
+      "lat": -6.257,
+      "lng": 106.858,
+      "alamat": "RT.6/RW.7, Rawajati, Pancoran, Jakarta Selatan",
+      "info": "Masjid Al-Hikmah Rawajati tercatat pada Sistem Informasi Masjid Kemenag untuk wilayah RT.6/RW.7 Rawajati. Titik peta bersifat perkiraan area RW 07; konfirmasi detail lokasi ke warga setempat."
     },
     {
-      "id": "masjid-2",
-      "nama": "Masjid Al-Ikhlas",
-      "kategori": "Ibadah",
-      "icon": "🕌",
-      "warna": "#00695C",
-      "lat": -6.2628,
-      "lng": 106.8495,
-      "info": "Masjid Al-Ikhlas – Melayani warga RW 04–06. Kegiatan TPA setiap hari 16.00–17.30 WIB."
-    },
-    {
-      "id": "masjid-3",
-      "nama": "Masjid Ar-Rahman",
-      "kategori": "Ibadah",
-      "icon": "🕌",
-      "warna": "#00695C",
-      "lat": -6.2642,
-      "lng": 106.8508,
-      "info": "Masjid Ar-Rahman – RW 07–09. Pengajian ibu-ibu setiap Kamis pagi."
-    },
-    {
-      "id": "musholla-1",
-      "nama": "Musholla Al-Barokah",
-      "kategori": "Ibadah",
-      "icon": "🕌",
-      "warna": "#80CBC4",
-      "lat": -6.2582,
-      "lng": 106.8476,
-      "info": "Musholla Al-Barokah – RW 01. Tersedia untuk sholat berjamaah dan kegiatan warga."
-    },
-    {
-      "id": "musholla-2",
-      "nama": "Musholla Nurul Iman",
-      "kategori": "Ibadah",
-      "icon": "🕌",
-      "warna": "#80CBC4",
-      "lat": -6.2618,
-      "lng": 106.8469,
-      "info": "Musholla Nurul Iman – RW 03. Kegiatan majelis taklim setiap Selasa."
-    },
-    {
-      "id": "lapangan-1",
-      "nama": "Lapangan Olahraga RW 02",
-      "kategori": "Fasilitas Umum",
-      "icon": "⚽",
-      "warna": "#F57F17",
-      "lat": -6.2602,
-      "lng": 106.8462,
-      "info": "Lapangan serbaguna – Futsal, badminton, senam pagi. Buka 06.00–21.00 WIB."
-    },
-    {
-      "id": "lapangan-2",
-      "nama": "Lapangan Olahraga RW 06",
-      "kategori": "Fasilitas Umum",
-      "icon": "⚽",
-      "warna": "#F57F17",
+      "id": "zona-ciliwung-rawajati",
+      "nama": "Area Sempadan Kali Ciliwung Rawajati",
+      "kategori": "Peringatan",
+      "icon": "🌊",
+      "warna": "#C62828",
       "lat": -6.2638,
-      "lng": 106.8483,
-      "info": "Lapangan RW 06 – Kegiatan senam pagi ibu PKK setiap Minggu 06.30 WIB."
+      "lng": 106.8602,
+      "alamat": "Sisi timur Kelurahan Rawajati, sempadan Kali Ciliwung",
+      "info": "Area sisi timur Rawajati berbatasan dengan Kali Ciliwung. Waspada genangan/banjir saat hujan tinggi. Kondisi aktual ikuti informasi BPBD DKI/JAKI dan arahan RT/RW."
     },
     {
-      "id": "rawan-banjir-1",
-      "nama": "⚠️ Zona Rawan Banjir – Kali Ciliwung",
-      "kategori": "Peringatan",
-      "icon": "🌊",
-      "warna": "#C62828",
-      "lat": -6.2648,
-      "lng": 106.8515,
-      "info": "⚠️ ZONA RAWAN BANJIR – Area dekat Kali Ciliwung. Waspada saat curah hujan tinggi. Siaga BPBD DKI: 112."
+      "id": "bakso-kaget-rawajati",
+      "nama": "Bakso Kaget Rawajati",
+      "kategori": "Kuliner",
+      "icon": "🍜",
+      "warna": "#F57C00",
+      "lat": -6.2588,
+      "lng": 106.8567,
+      "alamat": "Jl. Rawajati Timur II belakang Plaza Kalibata, RT.1/RW.2, Rawajati",
+      "info": "Bakso dan mie ayam. Sumber publik mencatat rating Google 4,5 dengan 202 ulasan, telp +62 896-3761-5414, buka Selasa–Minggu 10.00–21.00, Senin tutup."
     },
     {
-      "id": "rawan-banjir-2",
-      "nama": "⚠️ Zona Rawan Banjir – RW 08",
-      "kategori": "Peringatan",
-      "icon": "🌊",
-      "warna": "#C62828",
-      "lat": -6.2655,
-      "lng": 106.8496,
-      "info": "⚠️ ZONA RAWAN BANJIR – Titik genangan RW 08. Kedalaman bisa mencapai 80cm saat banjir besar. Siaga: 112."
+      "id": "kopi-bang-alay",
+      "nama": "Kopi Bang Alay & Martabak Bang Alay",
+      "kategori": "Kuliner",
+      "icon": "☕",
+      "warna": "#795548",
+      "lat": -6.2586,
+      "lng": 106.8548,
+      "alamat": "Kalibata City Tower Cendana CT01, Jl. Kalibata Raya, RT.9/RW.4, Rawajati",
+      "info": "Kedai kopi/martabak dan tempat nongkrong di Kalibata City. Sumber publik mencatat rating 4,4 dengan 879 ulasan dan nomor +62 898-8855-555."
     },
     {
-      "id": "kawasan-penataan",
-      "nama": "Kawasan Penataan Lingkungan",
-      "kategori": "Pembangunan",
-      "icon": "🏗️",
-      "warna": "#546E7A",
-      "lat": -6.2617,
-      "lng": 106.8522,
-      "info": "Kawasan penataan lingkungan – Program revitalisasi area permukiman. Target selesai: Desember 2026."
+      "id": "warung-ucok-rawajati",
+      "nama": "Warung Ucok",
+      "kategori": "Kuliner",
+      "icon": "🍽️",
+      "warna": "#F57C00",
+      "lat": -6.2591605,
+      "lng": 106.8560415,
+      "alamat": "Gang Porti No.1, RT.2/RW.1, Rawajati, Pancoran",
+      "info": "Warung makan lokal yang tercatat di direktori publik near-place pada Gang Porti No.1 Rawajati. Konfirmasi jam buka langsung di lokasi."
     },
     {
-      "id": "puskesmas",
-      "nama": "Puskesmas Rawajati",
-      "kategori": "Kesehatan",
-      "icon": "🏥",
-      "warna": "#D32F2F",
-      "lat": -6.2608,
-      "lng": 106.8455,
-      "info": "Puskesmas Rawajati – Layanan kesehatan dasar. Jam: Senin–Jumat 07.30–15.30, Sabtu 07.30–12.00 WIB. Telp: (021) 7989xxx"
+      "id": "slankafe-kalibata-city",
+      "nama": "Slankafe",
+      "kategori": "Kuliner",
+      "icon": "☕",
+      "warna": "#795548",
+      "lat": -6.25845,
+      "lng": 106.85471,
+      "alamat": "LG Kalibata City Square, Jl. Raya Kalibata/Jl. Rawajati Timur I, RT.9/RW.4, Rawajati",
+      "info": "Coffee shop di Kalibata City Square. Sumber publik mencatat rating 4,7 dengan 7 ulasan; layanan dine-in/takeout."
+    },
+    {
+      "id": "raa-cha-plaza-kalibata",
+      "nama": "Raa Cha Suki & BBQ Plaza Kalibata",
+      "kategori": "Kuliner",
+      "icon": "🥘",
+      "warna": "#F57C00",
+      "lat": -6.25707,
+      "lng": 106.85589,
+      "alamat": "Plaza Kalibata, Jl. Raya Kalibata No.141, RT.3/RW.2, Rawajati",
+      "info": "Restoran suki dan BBQ di Plaza Kalibata. Sumber publik mencatat rating sekitar 4,3 dan jam 10.00–21.00."
     }
   ],
   "infoWarga": {
     "kuliner": [
       {
-        "id": "k1",
-        "nama": "Warung Soto Pak Manto",
+        "id": "kul-bakso-kaget-rawajati",
+        "nama": "Bakso Kaget Rawajati",
         "emoji": "🍜",
-        "deskripsi": "Soto Betawi khas Rawajati, sudah berjualan 20+ tahun. Favorit warga sejak 2003!",
-        "lokasi": "Jl. Rawajati Timur No.12 (depan RW 02)",
-        "jam": "06.00–14.00 WIB",
-        "telepon": "081xxxxxxx1",
-        "favorit": "Soto Betawi Spesial, Es Jeruk Peras",
-        "tags": [
-          "soto",
-          "betawi",
-          "sarapan",
-          "kuliner"
-        ]
-      },
-      {
-        "id": "k2",
-        "nama": "Nasi Uduk Bu Ati",
-        "emoji": "🍚",
-        "deskripsi": "Nasi uduk legendaris dengan lauk komplit. Antrean panjang pertanda enak!",
-        "lokasi": "Gang Rawajati Barat No.5 (RW 01)",
-        "jam": "05.30–09.00 WIB (habis sebelum waktunya!)",
-        "telepon": "081xxxxxxx2",
-        "favorit": "Nasi Uduk Komplit, Semur Jengkol",
-        "tags": [
-          "nasi uduk",
-          "sarapan",
-          "pagi",
-          "kuliner"
-        ]
-      },
-      {
-        "id": "k3",
-        "nama": "Bakso & Mie Ayam Mas Bowo",
-        "emoji": "🍱",
-        "deskripsi": "Bakso jumbo dan mie ayam dengan kuah kaldu sapi asli. Buka siang–malam.",
-        "lokasi": "Lokbin KUKM Rawajati",
-        "jam": "11.00–21.00 WIB",
-        "telepon": "081xxxxxxx3",
-        "favorit": "Bakso Urat Jumbo, Mie Ayam Ceker",
+        "kategori": "Bakso & Mie Ayam",
+        "deskripsi": "Bakso dan mie ayam di belakang Plaza Kalibata. Terverifikasi dari beberapa direktori publik; populer untuk makan siang/malam.",
+        "lokasi": "Jl. Rawajati Timur II belakang Plaza Kalibata, RT.1/RW.2, Rawajati",
+        "jam": "Selasa–Minggu 10.00–21.00; Senin tutup",
+        "kontak": "+6289637615414",
+        "favorit": "Bakso, mie ayam, es campur",
         "tags": [
           "bakso",
           "mie ayam",
-          "makan siang",
+          "rawajati",
+          "plaza kalibata",
           "kuliner"
         ]
       },
       {
-        "id": "k4",
-        "nama": "Es Teh Tarik Pak Dadang",
-        "emoji": "🧋",
-        "deskripsi": "Minuman segar khas, teh tarik dan jus buah. Ngobrol sambil ngopi di sini!",
-        "lokasi": "Pintu masuk Lokbin RW 04",
-        "jam": "07.00–22.00 WIB",
-        "telepon": "081xxxxxxx4",
-        "favorit": "Teh Tarik Spesial, Jus Alpukat Kocok",
+        "id": "kul-kopi-bang-alay",
+        "nama": "Kopi Bang Alay & Martabak Bang Alay",
+        "emoji": "☕",
+        "kategori": "Kopi & Martabak",
+        "deskripsi": "Kedai kopi/martabak di Kalibata City yang tercatat sebagai tempat nongkrong populer 24 jam pada direktori publik.",
+        "lokasi": "Kalibata City Tower Cendana CT01, Jl. Kalibata Raya, RT.9/RW.4, Rawajati",
+        "jam": "24 jam (rujukan direktori publik)",
+        "kontak": "+628988855555",
+        "favorit": "Kopi, martabak, makanan ringan",
         "tags": [
-          "minuman",
-          "teh",
-          "jus",
+          "kopi",
+          "martabak",
+          "kalibata city",
+          "rawajati",
           "kuliner"
         ]
       },
       {
-        "id": "k5",
-        "nama": "Warung Padang Bu Minah",
-        "emoji": "🍛",
-        "deskripsi": "Masakan Padang rumahan dengan cita rasa autentik. Rendang dan gulai jadi andalan.",
-        "lokasi": "Jl. Rawajati Selatan No.8 (RW 05)",
-        "jam": "10.00–20.00 WIB",
-        "telepon": "081xxxxxxx5",
-        "favorit": "Rendang Daging, Gulai Nangka",
+        "id": "kul-warung-ucok",
+        "nama": "Warung Ucok",
+        "emoji": "🍽️",
+        "kategori": "Warung Lokal",
+        "deskripsi": "Warung makan lokal yang tercatat di direktori lokasi publik near-place untuk area Rawajati.",
+        "lokasi": "Gang Porti No.1, RT.2/RW.1, Rawajati, Pancoran",
+        "jam": "Konfirmasi langsung di lokasi",
+        "kontak": "",
+        "favorit": "Menu warung rumahan",
         "tags": [
-          "padang",
-          "rendang",
-          "gulai",
-          "makan siang",
+          "warung",
+          "gang porti",
+          "rawajati",
+          "kuliner"
+        ]
+      },
+      {
+        "id": "kul-slankafe",
+        "nama": "Slankafe",
+        "emoji": "☕",
+        "kategori": "Coffee Shop",
+        "deskripsi": "Coffee shop di Kalibata City Square; direktori publik mencatat rating 4,7 dan layanan dine-in/takeout.",
+        "lokasi": "LG Kalibata City Square, Jl. Raya Kalibata/Jl. Rawajati Timur I, RT.9/RW.4, Rawajati",
+        "jam": "Konfirmasi melalui pengelola Kalibata City Square",
+        "kontak": "",
+        "favorit": "Kopi susu, minuman kopi",
+        "tags": [
+          "kopi",
+          "coffee shop",
+          "kalibata city",
+          "rawajati",
+          "kuliner"
+        ]
+      },
+      {
+        "id": "kul-raa-cha-plaza-kalibata",
+        "nama": "Raa Cha Suki & BBQ Plaza Kalibata",
+        "emoji": "🥘",
+        "kategori": "Suki & BBQ",
+        "deskripsi": "Restoran suki dan BBQ di Plaza Kalibata, masuk area Rawajati dan mudah dijangkau warga.",
+        "lokasi": "Plaza Kalibata, Jl. Raya Kalibata No.141, RT.3/RW.2, Rawajati",
+        "jam": "Setiap hari 10.00–21.00",
+        "kontak": "",
+        "favorit": "Paket suki dan BBQ",
+        "tags": [
+          "suki",
+          "bbq",
+          "plaza kalibata",
+          "rawajati",
           "kuliner"
         ]
       }
     ],
-    "usahaBinaan": [
-      {
-        "id": "u1",
-        "nama": "Kerajinan Anyaman Bu Siti",
-        "emoji": "🧺",
-        "kategori": "Kerajinan Tangan",
-        "deskripsi": "Usaha anyaman bambu dan rotan – tas, tempat buah, hiasan dinding. Bisa custom order.",
-        "pemilik": "Siti Rahayu",
-        "lokasi": "Lokbin KUKM, Lapak 03",
-        "kontak": "081xxxxxxx6",
-        "binaan": "KUKM Kelurahan Rawajati"
-      },
-      {
-        "id": "u2",
-        "nama": "Jahit & Konveksi Pak Rahmat",
-        "emoji": "🧵",
-        "kategori": "Konveksi",
-        "deskripsi": "Jasa jahit pakaian, seragam sekolah, batik, dan konveksi kecil. Harga terjangkau.",
-        "pemilik": "Rahmat Hidayat",
-        "lokasi": "Jl. Rawajati Barat No.22 (RW 03)",
-        "kontak": "081xxxxxxx7",
-        "binaan": "KUKM Kelurahan Rawajati"
-      },
-      {
-        "id": "u3",
-        "nama": "UMKM Olahan Pangan Bu Dewi",
-        "emoji": "🍪",
-        "kategori": "Makanan Olahan",
-        "deskripsi": "Produksi kue kering, keripik singkong, dan snack rumahan bersertifikat P-IRT.",
-        "pemilik": "Dewi Lestari",
-        "lokasi": "Lokbin KUKM, Lapak 07",
-        "kontak": "081xxxxxxx8",
-        "binaan": "KUKM Kelurahan Rawajati"
-      },
-      {
-        "id": "u4",
-        "nama": "Sablon & Percetakan Mas Agus",
-        "emoji": "🖨️",
-        "kategori": "Percetakan",
-        "deskripsi": "Sablon kaos, spanduk, banner, undangan. Harga bersahabat untuk warga Rawajati.",
-        "pemilik": "Agus Santoso",
-        "lokasi": "Gang Melati No.4 (RW 06)",
-        "kontak": "081xxxxxxx9",
-        "binaan": "KUKM Kelurahan Rawajati"
-      }
-    ],
+    "usahaBinaan": [],
     "kegiatanRTRW": [
       {
-        "id": "g1",
-        "nama": "Posyandu Balita & Lansia",
-        "emoji": "👶👴",
-        "jadwal": "Setiap Rabu ke-2, 08.00–11.00 WIB",
-        "lokasi": "Balai RW 03 & RW 07",
-        "kontak": "Hubungi Kader Posyandu setempat",
-        "deskripsi": "Penimbangan, imunisasi, pemberian vitamin, dan cek kesehatan lansia gratis."
+        "id": "g-posyandu",
+        "nama": "Posyandu Balita/Lansia",
+        "emoji": "👶",
+        "jadwal": "Mengikuti jadwal kader Posyandu/RT/RW setempat",
+        "lokasi": "Posyandu di masing-masing RW",
+        "kontak": "Kader Posyandu atau RT/RW setempat",
+        "deskripsi": "Informasi kegiatan kesehatan warga perlu mengikuti pengumuman kader/RT/RW karena jadwal dapat berubah."
       },
       {
-        "id": "g2",
+        "id": "g-kerja-bakti",
         "nama": "Kerja Bakti Lingkungan",
         "emoji": "🧹",
-        "jadwal": "Minggu ke-1 setiap bulan, 07.00–10.00 WIB",
-        "lokasi": "Seluruh RW, Koordinasi RT masing-masing",
-        "kontak": "Ketua RT / RW setempat",
-        "deskripsi": "Gotong royong bersih-bersih lingkungan, selokan, dan fasilitas umum."
+        "jadwal": "Umumnya akhir pekan sesuai pengumuman RT/RW",
+        "lokasi": "Lingkungan RT/RW masing-masing",
+        "kontak": "Ketua RT/RW setempat",
+        "deskripsi": "Gotong royong kebersihan lingkungan. Jadwal spesifik tidak ditetapkan di data publik, sehingga perlu konfirmasi RT/RW."
       },
       {
-        "id": "g3",
-        "nama": "Pengajian Ibu-Ibu PKK",
-        "emoji": "📖",
-        "jadwal": "Setiap Kamis, 09.00–11.00 WIB",
-        "lokasi": "Masjid Al-Hikmah & Masjid Ar-Rahman (bergantian)",
-        "kontak": "Ibu Ketua PKK RW",
-        "deskripsi": "Pengajian rutin, arisan, diskusi program PKK dan kegiatan sosial kemasyarakatan."
-      },
-      {
-        "id": "g4",
-        "nama": "Senam Pagi Warga",
-        "emoji": "🏃",
-        "jadwal": "Setiap Minggu, 06.30–08.00 WIB",
-        "lokasi": "Lapangan RW 02 & Lapangan RW 06",
-        "kontak": "Pelatih Senam: Ibu Rini (081xxxxxxxx)",
-        "deskripsi": "Senam aerobik dan poco-poco untuk seluruh warga. Gratis! Bawa minum sendiri."
-      },
-      {
-        "id": "g5",
-        "nama": "Rapat RT/RW Bulanan",
+        "id": "g-rapat-warga",
+        "nama": "Rapat RT/RW dan Musyawarah Warga",
         "emoji": "🗣️",
-        "jadwal": "Minggu ke-3 setiap bulan (malam)",
-        "lokasi": "Sekretariat RW masing-masing",
-        "kontak": "Ketua RT / RW",
-        "deskripsi": "Musyawarah warga, penyampaian informasi kelurahan, dan pembahasan isu lingkungan."
+        "jadwal": "Sesuai undangan RT/RW",
+        "lokasi": "Sekretariat/pos warga masing-masing RW",
+        "kontak": "Ketua RT/RW setempat",
+        "deskripsi": "Forum penyampaian informasi kelurahan dan pembahasan isu lingkungan. Data PRIMA tidak menampilkan jadwal fiktif."
       }
     ]
   },
@@ -1584,7 +1472,7 @@
         "recycle",
         "sampah plastik"
       ],
-      "jawaban": "♻️ **Bank Sampah di Rawajati:**\n\n🏠 **Bank Sampah Rawajati Indah** (RW 03–05)\n📅 Sabtu, 08.00–11.00 WIB\n\n🏠 **Bank Sampah Berkah Rawajati** (RW 07–09)\n📅 Minggu, 07.00–10.00 WIB\n\nMenerima: plastik, kertas, botol, logam\n\n🗺️ Lihat lokasi tepat di menu **Peta Wilayah**!"
+      "jawaban": "♻️ **Bank Sampah Rawajati / KBA Rawajati:**\n\nLokasi rujukan publik: **Komplek Zeni AD RW 03 Rawajati, Pancoran**. Sumber publik mencatat Bank Sampah Rawajati sebagai bank sampah percontohan/Kampung Berseri Astra dengan pengurus dan nasabah aktif.\n\nUntuk jadwal setor sampah terbaru, konfirmasi ke pengurus Bank Sampah atau RT/RW setempat karena jadwal operasional bisa berubah.\n\n🗺️ Lihat titiknya di menu **Peta → Lingkungan**."
     },
     {
       "intent": "posyandu",
@@ -1664,7 +1552,7 @@
         "polisi",
         "ambulans"
       ],
-      "jawaban": "🚨 **Nomor Darurat:**\n\n🚒 Pemadam Kebakaran: **113**\n🚑 Ambulans: **119**\n👮 Polisi: **110**\n🆘 BPBD (Bencana): **112**\n🏥 Puskesmas Rawajati: **(021) 7989xxx**\n🏛️ Kelurahan Rawajati: **(021) 7994427**\n\nDalam keadaan darurat, segera hubungi nomor di atas! 🙏"
+      "jawaban": "🚨 **Nomor Penting:**\n\n- Pemadam Kebakaran: **113**\n- Ambulans/Kedaruratan Medis: **119**\n- Polisi: **110**\n- BPBD/Jakarta Siaga: **112**\n- Kelurahan Rawajati: **(021) 7994427**\n- Puskesmas Rawajati I: **(021) 7980483**\n- Puskesmas Rawajati II: **(021) 7946634**\n\nDalam keadaan darurat, segera hubungi nomor resmi terkait."
     },
     {
       "intent": "ahli waris",
