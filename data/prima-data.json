@@ -1675,7 +1675,7 @@
         "satpol pp rawajati",
         "puskesmas rawajati"
       ],
-      "jawaban": "🏢 **Struktur Organisasi Pemerintah Kelurahan Rawajati:**\n\n- **Lurah:** Sariman\n- **Sekretariat Kelurahan:** Fajar Muhamad Reza\n- **Plt. Kepala Seksi Pemerintahan:** Dahlan\n- **Kepala Unit PTSP:** Edwan NS\n- **Kasatpel Dukcapil:** Mellinda Rachmasari\n- **Kasatpol PP:** Agus Budiyanto\n- **Puskesmas Rawajati I:** dr. Sri Handayani\n- **Puskesmas Rawajati II:** drg. Andi Sukma\n- **Bendahara:** Eko Prasetyo\n- **Pengurus Barang:** Friska M. Silaban\n- **Staf Pengadministrasian:** Jainabsyah Silalahi, Susanti, dan Ana Puji Hastuti\n\nData ini bersumber dari dokumen Struktur Organisasi Baru Kelurahan Rawajati. Untuk kepastian terbaru saat pelayanan, silakan konfirmasi ke Kelurahan Rawajati di **(021) 7994427**."
+      "jawaban": "🏢 **Struktur Organisasi Pemerintah Kelurahan Rawajati (pembaruan Laporan Mei 2026):**\n\n- **Lurah:** Sariman, S.Sos, M.Si\n- **Sekretaris Lurah:** Fajar Muhamad Reza, ST\n- **Kasi Pemerintahan, Ketentraman dan Ketertiban:** Dahlan\n- **Kasi Ekonomi, Pembangunan dan Lingkungan Hidup:** Muhammad Fauzan Bintiang\n- **Kasi Kesejahteraan Rakyat:** Arsy Anjani\n- **Bendahara Pengeluaran Pembantu:** Eko Prasetyo\n- **Pengurus Barang Pembantu:** Friska M. Silaban\n- **Pengadministrasi:** Ana Puji Hastuti, Jainabsyah Silalahi, dan Susanti\n\nUnit layanan terkait yang juga tercatat di PRIMA: PTSP, Dukcapil, Satpol PP, dan Puskesmas Rawajati. Data ini bersumber dari dokumen Struktur Organisasi Baru dan diperbarui dengan **Laporan Kelurahan Mei 2026**. Untuk kepastian terbaru saat pelayanan, silakan konfirmasi ke Kelurahan Rawajati di **(021) 7994427**."
     },
     {
       "intent": "pilah_sampah_rawajati",
@@ -1693,6 +1693,27 @@
         "sampah terpilah"
       ],
       "jawaban": "♻️ **Data Pemilahan Sampah Rumah Tangga Rawajati (8 Juni 2026):**\n\n- Rawajati: **469 dari 2.778 bangunan** sudah memiliki fasilitas sampah terpilah (**16,88%**).\n- Posisi: **tertinggi di Kecamatan Pancoran** dan **peringkat ke-12 dari 65 kelurahan se-Jakarta Selatan**.\n- Jakarta Selatan: rasio pilah **5,91%**; Kecamatan Pancoran **6,01%**.\n- RW terbaik: **RW 006** dengan **58,44%** atau 187 dari 320 bangunan sudah terpilah.\n- RW prioritas: **RW 004**, baru **4,84%** atau 28 dari 579 bangunan.\n- RT percontohan 100%: **RW 006/RT 002, RT 003, RT 004, dan RT 006**.\n- Masih ada **19 RT** dengan 0% pemilahan, sehingga perlu sosialisasi, sarana tempat sampah pilah, pendampingan Bank Sampah, dan monitoring RT/RW.\n\nRekomendasi utama: mulai dari 19 RT 0%, replikasi praktik baik RW 006, bentuk/aktifkan Bank Sampah Unit tiap RW, dan perkuat komposting/maggot untuk sampah organik."
+    },
+    {
+      "intent": "laporan_kelurahan_mei_2026",
+      "keywords": [
+        "laporan kelurahan mei 2026",
+        "laporan bulanan mei 2026",
+        "data rawajati mei 2026",
+        "profil rawajati mei 2026",
+        "penduduk rawajati mei 2026",
+        "jumlah penduduk rawajati",
+        "jumlah kk rawajati",
+        "rt rw rawajati",
+        "ptsp rawajati mei 2026",
+        "pelayanan rawajati mei 2026",
+        "sarana rawajati",
+        "tempat ibadah rawajati",
+        "pps rawajati",
+        "pps rawajati mei",
+        "pegawai kelurahan rawajati"
+      ],
+      "jawaban": "📘 **Ringkasan Laporan Kelurahan Rawajati Mei 2026:**\n\n- Wilayah Rawajati seluas **144 Ha**, terdiri dari **10 RW dan 86 RT** setelah penghapusan RW 05 kompleks DPR RI.\n- Jumlah penduduk akhir Mei 2026: **26.775 jiwa** dan **9.442 KK**.\n- Mutasi penduduk Mei 2026: lahir **14**, meninggal **15**, pindah keluar **33**, pendatang **67**.\n- Pelayanan PTSP bulan Mei 2026 tercatat **66 layanan**, terbanyak **IPTM 43** dan **SKTM 17**.\n- Pegawai Kelurahan tercatat **10 orang**; jabatan Kasi Ekbang/LH dan Kasi Kesra terisi per **20 Mei 2026**.\n- Sarana kebersihan: **53 PPSU**, 1 mobil operasional PPSU, 7 gerobak sampah motor, 16 gerobak sorong, 24 tong sampah pilah, dan 1 LPS swadaya.\n- Fasilitas agama: **24 masjid/musholla** dan **5 gereja**; komposisi agama terbesar Islam **23.887 jiwa**.\n\nKalau ingin detail tertentu, tanya saja misalnya: data penduduk per RW, daftar pegawai, pelayanan PTSP, sarana pendidikan, tempat ibadah, atau kebersihan Rawajati."
     }
   ],
   "aiSettings": {
@@ -1874,24 +1895,24 @@
       "kategori": "Profil Kelurahan",
       "sumber": [
         "STRUKTUR ORGNISASI BARU.pdf",
-        "STRUKTUR ORGNISASI BARU.xlsx sheet PEMERINTHAN"
+        "STRUKTUR ORGNISASI BARU.xlsx sheet PEMERINTHAN",
+        "LAPORAN KELURAHAN MEI 2026.doc"
       ],
       "layananTerkait": [],
-      "ringkasan": "Struktur organisasi baru Pemerintah Kelurahan Rawajati memuat Lurah, Sekretariat Kelurahan, seksi-seksi kelurahan, unit pelayanan terkait, dan staf/pengelola administrasi.",
+      "ringkasan": "Struktur organisasi Pemerintah Kelurahan Rawajati memuat Lurah, Sekretariat Kelurahan, seksi-seksi kelurahan, unit pelayanan terkait, dan staf/pengelola administrasi. Laporan Kelurahan Mei 2026 mencatat dua ASN mengisi jabatan Kasi Kesra dan Kasi Ekbang pada 20 Mei 2026.",
       "butir": [
-        "Lurah: Sariman, NIP 197706022006041015.",
-        "Sekretariat Kelurahan: Fajar Muhamad Reza, NIP 198408092010011026.",
-        "Plt. Kepala Seksi Pemerintahan: Dahlan, NIP 198304262009041004.",
-        "Kepala Seksi Kesejahteraan Rakyat: tercantum sebagai jabatan pada bagan; staf pengadministrasian terkait: Susanti, NIP 197106262025212002.",
-        "Kepala Seksi Ekonomi Pembangunan: tercantum sebagai jabatan pada bagan; staf pengadministrasian terkait: Ana Puji Hastuti, NIP 197611281998032002.",
-        "Kepala Unit PTSP: Edwan NS.",
-        "Kasatpel Dukcapil: Mellinda Rachmasari.",
-        "Kasatpol PP: Agus Budiyanto.",
-        "Kepala Puskesmas Rawajati I: dr. Sri Handayani.",
-        "Kepala Puskesmas Rawajati II: drg. Andi Sukma, NIP 198007132012122001.",
-        "Bendahara: Eko Prasetyo, NIP 198308252014081001.",
-        "Pengurus Barang: Friska M. Silaban, NIP 197002131991102001.",
-        "Staf Pengadministrasian: Jainabsyah Silalahi."
+        "Lurah: Sariman, S.Sos, M.Si; NIP 197706022006041015; NRK 165280; golongan IV/a.",
+        "Sekretaris Lurah: Fajar Muhamad Reza, ST; NIP 198408092010011026; NRK 177178; golongan III/d.",
+        "Kasi Pemerintahan, Ketentraman dan Ketertiban: Dahlan; NIP 198304262009041004; NRK 174956; golongan III/a.",
+        "Kasi Ekonomi, Pembangunan dan Lingkungan Hidup: Muhammad Fauzan Bintiang; NIP 199602172018081001; NRK 220562; golongan III/b.",
+        "Kasi Kesejahteraan Rakyat: Arsy Anjani; NIP 197806102006042005; NRK 164934; golongan III/d.",
+        "Pengadministrasi: Ana Puji Hastuti; NIP 197611281998032002; NRK 124574; golongan III/b.",
+        "Pengurus Barang Pembantu: Friska M. Silaban; NIP 197002131991102001; NRK 116134; golongan III/b.",
+        "Bendahara Pengeluaran Pembantu: Eko Prasetyo; NIP 198308252014081001; NRK 187547; golongan II/a.",
+        "Pengadministrasi Sekretaris Kelurahan dan Plt Kasi Kesejahteraan Rakyat: Jainabsyah Silalahi; NIP 198007132012122001; NRK 224010; golongan III/b.",
+        "Pengadministrasi Kasi Kesejahteraan Rakyat: Susanti; NIP 197106262025212002; NRK 226613; golongan III/b.",
+        "Komposisi pendidikan pegawai: SLTA 4 orang, Sarjana 5 orang, Pascasarjana 1 orang; total 10 pegawai.",
+        "Komposisi golongan laporan Mei 2026: IV/a 1, III/d 2, III/b 4, III/a 1, II/a 1, Pemula V 1; total 10 pegawai."
       ]
     },
     {
@@ -1921,6 +1942,59 @@
         "Rekomendasi fase 2 bulan 3–4: replikasi praktik baik RW 006 ke 24 RT dengan rasio 1–10%, melibatkan Ketua RT, kader Dasawisma, dan tokoh masyarakat sebagai peer educator.",
         "Rekomendasi fase 3 bulan 5–6: insentif/penghargaan untuk RT >50%, sertifikat RT berprestasi, akses CSR, lomba RT Bersih, publikasi role model, dan fasilitasi Bank Sampah Unit untuk RT 100%.",
         "Rekomendasi tambahan: monitoring triwulanan RT → RW → Kelurahan → Kecamatan → Sudin LH; minimal 1 Bank Sampah Unit aktif di tiap RW; pengembangan rumah kompos/maggot minimal 1 unit tiap RW; edukasi 5 jenis sampah: organik, anorganik, kertas, kaca/logam, dan B3."
+      ]
+    },
+    {
+      "id": "KB-LAPORAN-KELURAHAN-MEI-2026",
+      "judul": "Laporan Bulanan Kelurahan Rawajati Mei 2026",
+      "kategori": "Profil Kelurahan",
+      "sumber": [
+        "LAPORAN KELURAHAN MEI 2026.doc",
+        "Laporan Bulanan Bulan Mei 2026 Kelurahan Rawajati, Kecamatan Pancoran, Kota Administrasi Jakarta Selatan"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Laporan bulanan Mei 2026 berisi profil wilayah, administrasi pemerintahan, pegawai, inventaris, RT/RW, penduduk, pelayanan PTSP, pertanahan/PBB, ketertiban, sosial-keagamaan, pendidikan, kebersihan, sarana prasarana, serta kesimpulan dan kendala Kelurahan Rawajati. Dokumen bertanggal Jakarta, 3 Juni 2026.",
+      "butir": [
+        "Rawajati adalah salah satu dari 6 kelurahan di Kecamatan Pancoran, dibentuk berdasarkan SK Gubernur DKI Jakarta Nomor 1251 Tahun 1986.",
+        "Luas wilayah Rawajati: 144 Ha. Batas utara: Jl. Pengadegan Selatan/Kelurahan Pengadegan; timur: Kali Ciliwung/Jakarta Timur; selatan: Jl. Jambu/Kelurahan Pejaten Timur dan Jl. Rawajati Barat II/Kelurahan Kalibata; barat: Jl. Duren Tiga Timur/Kelurahan Duren Tiga dan TMP Kalibata/Kelurahan Kalibata.",
+        "RUTR 2005/RBWK wilayah selatan menempatkan Rawajati sebagai daerah resapan air. Potensi lingkungan yang disebut: taman kampung agro wisata Rawajati dan kawasan hijau/agro wisata di RW 03.",
+        "Laporan menyebut masyarakat Rawajati umumnya berbudaya Betawi, mayoritas Muslim, kehidupan keagamaan harmonis, dan mata pencaharian dominan buruh serta pedagang, sebagian pensiunan.",
+        "Administrasi surat Mei 2026: surat masuk 22, surat keluar 8, undangan masuk 10, undangan keluar 2, SK Lurah 4, Surat Tugas Lurah 1, SK Gubernur 1, SK Walikota 1, SK Camat 0, instruksi 0; total 49 dokumen.",
+        "Publikasi resmi/kanal sosial yang tercatat: Facebook Kelurahan Rawajati dan Instagram @kelurahan_rawajati.",
+        "Pegawai Kelurahan Rawajati Mei 2026 total 10 orang. Pada 20 Mei 2026 dua ASN mengisi kekosongan jabatan Kasi Kesejahteraan Rakyat dan Kasi Ekonomi Pembangunan/Lingkungan Hidup.",
+        "Daftar pegawai: Sariman sebagai Lurah; Fajar Muhamad Reza sebagai Sekretaris Lurah; Dahlan sebagai Kasi Pemerintahan, Ketentraman dan Ketertiban; Muhammad Fauzan Bintiang sebagai Kasi Ekonomi, Pembangunan dan Lingkungan Hidup; Arsy Anjani sebagai Kasi Kesejahteraan Rakyat; Ana Puji Hastuti, Friska M. Silaban, Eko Prasetyo, Jainabsyah Silalahi, dan Susanti pada fungsi administrasi/barang/bendahara.",
+        "Komposisi pendidikan pegawai: SLTA 4 orang, Sarjana 5 orang, Pascasarjana 1 orang. Jenis pegawai: pegawai otonom 10 orang.",
+        "Inventaris kantor total 335 unit, mencakup 3 kendaraan dinas operasional, filing kabinet 24, meja rapat 33, kursi lipat 150, komputer 9, AC split 21, dispenser 3, karpet 4, kompor gas 4, tabung pemadam kebakaran 4, dan perlengkapan kantor lain.",
+        "Wilayah administrasi setelah penghapusan RW 05 kompleks rumah dinas DPR RI dan penggabungan bagian luar kompleks ke RW 07: 10 RW dan 86 RT.",
+        "Sebaran RT per RW: RW 01 sebanyak 10 RT, RW 02 9 RT, RW 03 10 RT, RW 04 11 RT, RW 06 15 RT, RW 07 5 RT, RW 08 8 RT, RW 09 5 RT, RW 10 5 RT, RW 11 8 RT.",
+        "Penduduk akhir Mei 2026: 26.775 jiwa, terdiri dari laki-laki 13.175 dan perempuan 13.600. Jumlah KK total 9.442, dengan 7.090 kepala keluarga laki-laki dan 2.352 kepala keluarga perempuan; KK asing 0.",
+        "Penduduk per RW: RW 01 4.009 jiwa/1.337 KK; RW 02 3.281 jiwa/1.156 KK; RW 03 4.009 jiwa/1.307 KK; RW 04 4.225 jiwa/1.442 KK; RW 05 787 jiwa/288 KK; RW 06 1.677 jiwa/557 KK; RW 07 1.766 jiwa/593 KK; RW 08 1.740 jiwa/583 KK; RW 09 2.054 jiwa/800 KK; RW 10 1.685 jiwa/710 KK; RW 11 1.686 jiwa/669 KK.",
+        "Penduduk menurut usia: 0-4 tahun 1.647; 5-9 2.276; 10-14 2.054; 15-19 1.660; 20-24 1.883; 25-29 2.017; 30-34 2.283; 35-39 2.404; 40-44 2.366; 45-49 2.114; 50-54 1.938; 55-59 1.527; 60-64 1.026; 65-69 692; 70-75 523; di atasnya 365; total 26.775.",
+        "Mutasi penduduk Mei 2026: lahir 14 orang (10 laki-laki, 4 perempuan), meninggal 15 orang (7 laki-laki, 8 perempuan), pindah keluar 33 orang (19 laki-laki, 14 perempuan), pendatang 67 orang (30 laki-laki, 37 perempuan).",
+        "Pelayanan PTSP Mei 2026 total 66 layanan: Izin Penggunaan Tanah Makam 43, SKCK 2, Izin Usaha Mikro Kecil 4, Kartu Pencari Kerja 0, SKTM 17, Izin Penebangan Pohon 0, Izin Pendirian SD 0.",
+        "NTCR (nikah, talak, cerai, rujuk) dapat memakai Surat Pengantar online melalui Jakevo dan diteruskan ke KUA.",
+        "Status tanah Rawajati: 144 Ha seluruhnya tercatat tanah negara; tanah adat 0, wakaf 0, lain-lain 0. Penggunaan tanah: perumahan 104 Ha, fasilitas umum 10 Ha, jalan raya/lingkungan 30 Ha.",
+        "Pemindahan hak atas tanah Mei 2026: jual beli 1, rekomendasi 1 dengan luas 140 m2, hibah 0, akta pembagian waris 0, surat wakaf 0.",
+        "Keamanan lingkungan: total 28 pos keamanan dan 1 Pos Polisi KBI; sebaran pos keamanan RW 01 5, RW 02 5, RW 03 6, RW 04 4, RW 06 6, RW 07 2, RW 08 2.",
+        "Satpol PP Kelurahan bersama PPSU membantu pengamanan lingkungan kantor, penanganan masalah sosial, dan kesiapsiagaan bencana.",
+        "Pemberdayaan ekonomi masyarakat meliputi pembinaan administrasi koperasi/usaha, peningkatan usaha, pembinaan pengusaha ekonomi lemah, edukasi produktivitas/kualitas industri rumah tangga, dan pemasaran.",
+        "Fasilitas agama: 24 masjid/musholla dan 5 gereja. Komposisi agama: Islam 23.887, Protestan 2.044, Katolik 718, Hindu 65, Buddha 61; total 26.775.",
+        "Masjid/musholla yang tercatat antara lain Rahmatussholihin, Hizbul Waton, Ar-Rahmah, Nurul Amaliah, Al Amin, Al Muhajirin, Nurul Hilal, At-Taubah, Nurullah, Al-Bustan, Baitul Ilmi, S. Parman, Azzainiyah, Nurul Qomar, Al Khairiyah, Darussalam, Taj Al Arusain, Asshobirin, Darul Rahman, dan Darus Shobirin.",
+        "Gereja yang tercatat berada di area Apartemen Kalibata City: Gereja Betle Indonesia Kalibata City, Gereja Advent, Gereja Betle Indonesia Glow, GPDI Anugerah, dan GPDI Shosanim.",
+        "Bantuan sosial yang tercatat: BPNT 444 orang, PKH 306 orang, KLJ 215 orang, KAJ 36 anak, KJP 826 anak, KPDJ 8 orang.",
+        "Kegiatan sosial/kemasyarakatan: Kampung Agrowisata di RW 03; Sekretariat PKK di Jalan Rawajati Barat RT006/RW04; PSN dan Silaturahmi Jumat Keliling dilaksanakan tiap Jumat sesuai jadwal RW.",
+        "Prasarana jalan: jalan ekonomi/protokol 1,2 km, arteri 0,6 km, lingkungan aspal 0,8 km, setapak/MHT 2,1 km. Masih ada sebagian jalan lingkungan yang belum diaspal/rusak dan diupayakan melalui Sudin/Bina Marga serta swadaya.",
+        "Taman yang tercatat: Taman RW 03 Rawajati, Taman Zeni AD V, Taman Bangda I/II/III, Taman Stekpi, Taman Komplek DPR, Taman Rawajati Barat samping rel Kalibata, Taman Buah Mangga, dan Taman Pengadegan Barat samping Stasiun Duren Kalibata.",
+        "Sanitasi umum: MCK 0, jamban keluarga 3.801, sumur pompa dangkal 3.774, PDAM 24.",
+        "Bangunan/sarana vital mencakup Pos Polisi Kalibata Indah, Kantor Kelurahan, KUA Pancoran, Puskesmas Rawajati I/II, Sekretariat Karang Taruna, SDN 01/03/05/06/07/08, madrasah, Kantor Diklat BPK, Kampus IPMI, Plaza Kalibata, Apartemen Kalibata City, dan Apartemen Woodland Park.",
+        "Rumah tinggal: permanen 1.386, semi permanen 960, sementara 923.",
+        "Fasilitas pendidikan: PAUD 2, TK 10, SD Negeri 6, dan Sekolah Tinggi 2. PAUD: Bunga Jati dan Anggrek Merah. Sekolah tinggi: IPMI dan STEMIK Indo Daya Supana IDS.",
+        "Kebersihan: kerja bakti dilaksanakan tiap Minggu sesuai jadwal RW dan penyuluhan kebersihan disampaikan dalam setiap kegiatan. PPSU Kelurahan Rawajati berjumlah 53 orang.",
+        "Sarana kebersihan: 1 mobil operasional PPSU, 7 gerobak sampah motor, 16 gerobak sampah sorong, 24 tong sampah pilah, dan 1 LPS swadaya.",
+        "Pelayanan konsultatif Kelurahan mencakup penerimaan laporan aparatur/masyarakat dan respons lisan/tertulis. Pelayanan konsultatif juga diberikan untuk rekomendasi/legalisasi dan administrasi staf.",
+        "Kesimpulan laporan: kegiatan pemerintahan, pelayanan masyarakat, dan tugas kewilayahan berjalan baik/lancar karena integrasi Muspikel, lembaga masyarakat, dan instansi terkait.",
+        "Kendala utama: jumlah pegawai belum seimbang dengan beban kerja. Kendala lain tidak bersifat fundamental dan diselesaikan melalui konsultasi dengan instansi terkait.",
+        "Saran laporan: perlu dukungan sarana-prasarana/peralatan yang memadai serta sumber daya manusia yang cukup agar keterbatasan tidak menghambat pelaksanaan tugas."
       ]
     }
   ]
