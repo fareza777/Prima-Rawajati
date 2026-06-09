@@ -218,7 +218,7 @@ KONTAK KELURAHAN:
    */
   async function streamChat(history, userMessage, opts = {}) {
     const model = opts.model || getSelectedModel();
-    const docs = retrieveContext(userMessage);
+    const docs = retrieveContext(userMessage, 10);
     const systemPrompt = buildSystemPrompt(docs);
     const { provider, baseUrl, apiKey } = getProviderSettings();
 

@@ -1713,7 +1713,7 @@
         "pps rawajati mei",
         "pegawai kelurahan rawajati"
       ],
-      "jawaban": "📘 **Ringkasan Laporan Kelurahan Rawajati Mei 2026:**\n\n- Wilayah Rawajati seluas **144 Ha**, terdiri dari **10 RW dan 86 RT** setelah penghapusan RW 05 kompleks DPR RI.\n- Jumlah penduduk akhir Mei 2026: **26.775 jiwa** dan **9.442 KK**.\n- Mutasi penduduk Mei 2026: lahir **14**, meninggal **15**, pindah keluar **33**, pendatang **67**.\n- Pelayanan PTSP bulan Mei 2026 tercatat **66 layanan**, terbanyak **IPTM 43** dan **SKTM 17**.\n- Pegawai Kelurahan tercatat **10 orang**; jabatan Kasi Ekbang/LH dan Kasi Kesra terisi per **20 Mei 2026**.\n- Sarana kebersihan: **53 PPSU**, 1 mobil operasional PPSU, 7 gerobak sampah motor, 16 gerobak sorong, 24 tong sampah pilah, dan 1 LPS swadaya.\n- Fasilitas agama: **24 masjid/musholla** dan **5 gereja**; komposisi agama terbesar Islam **23.887 jiwa**.\n\nKalau ingin detail tertentu, tanya saja misalnya: data penduduk per RW, daftar pegawai, pelayanan PTSP, sarana pendidikan, tempat ibadah, atau kebersihan Rawajati."
+      "jawaban": "📘 **Laporan Kelurahan Rawajati Mei 2026 sudah tersedia detail di PRIMA.**\n\nData yang bisa saya jelaskan meliputi:\n- Profil wilayah, batas wilayah, dan administrasi surat\n- Daftar pegawai, jabatan, NIP/NRK, pendidikan, golongan, dan inventaris kantor\n- Jumlah RT/RW, penduduk per RW, umur, KK, dan mutasi penduduk\n- Pelayanan PTSP, NTCR/Jakevo, tanah, PBB, dan pemindahan hak tanah\n- Pos keamanan, bantuan sosial, rumah ibadah beserta alamat, dan komposisi agama\n- Jalan, taman, sanitasi, bangunan vital, sekolah, PPSU, dan sarana kebersihan\n- Kesimpulan, kendala, dan saran laporan\n\nSilakan tanya spesifik, misalnya **alamat musholla**, **penduduk per RW**, **inventaris kantor**, **daftar TK**, atau **pelayanan PTSP Mei 2026**."
     },
     {
       "intent": "alamat_rumah_ibadah_rawajati",
@@ -2016,6 +2016,186 @@
         "Kesimpulan laporan: kegiatan pemerintahan, pelayanan masyarakat, dan tugas kewilayahan berjalan baik/lancar karena integrasi Muspikel, lembaga masyarakat, dan instansi terkait.",
         "Kendala utama: jumlah pegawai belum seimbang dengan beban kerja. Kendala lain tidak bersifat fundamental dan diselesaikan melalui konsultasi dengan instansi terkait.",
         "Saran laporan: perlu dukungan sarana-prasarana/peralatan yang memadai serta sumber daya manusia yang cukup agar keterbatasan tidak menghambat pelaksanaan tugas."
+      ]
+    },
+    {
+      "id": "KB-LAPORAN-MEI-2026-WILAYAH-ADMINISTRASI",
+      "judul": "Laporan Mei 2026 - profil wilayah dan administrasi Rawajati",
+      "kategori": "Profil Kelurahan",
+      "sumber": [
+        "LAPORAN KELURAHAN MEI 2026.doc",
+        "Laporan Bulanan Bulan Mei 2026 Kelurahan Rawajati"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Detail profil wilayah, dasar pembentukan, batas wilayah, luas, karakter masyarakat, publikasi, dan administrasi surat Kelurahan Rawajati pada Mei 2026.",
+      "butir": [
+        "Judul laporan: Laporan Bulanan Bulan Mei 2026 Kelurahan Rawajati, Kecamatan Pancoran, Kota Administrasi Jakarta Selatan.",
+        "Tanggal pengantar laporan: Jakarta, 3 Juni 2026; disusun sebagai pertanggungjawaban pembinaan wilayah dan pelayanan masyarakat.",
+        "Rawajati adalah satu dari 6 kelurahan di Kecamatan Pancoran dan dibentuk berdasarkan SK Gubernur DKI Jakarta Nomor 1251 Tahun 1986.",
+        "Luas wilayah: 144 Ha.",
+        "Batas utara: Jl. Pengadegan Selatan / Kelurahan Pengadegan.",
+        "Batas timur: Kali Ciliwung / Jakarta Timur.",
+        "Batas selatan: Jl. Jambu / Kelurahan Pejaten Timur dan Jl. Rawajati Barat II / Kelurahan Kalibata.",
+        "Batas barat: Jl. Duren Tiga Timur / Kelurahan Duren Tiga dan TMP Kalibata / Kelurahan Kalibata.",
+        "Menurut RUTR 2005/RBWK wilayah selatan, Rawajati termasuk daerah resapan air.",
+        "Potensi lingkungan: taman kampung agro wisata Rawajati dan kawasan hijau/agro wisata di RW 03.",
+        "Karakter masyarakat: budaya Betawi, mayoritas Islam, kehidupan keagamaan harmonis; mata pencaharian dominan buruh dan pedagang, sebagian pensiunan.",
+        "Publikasi kelurahan: Facebook Kelurahan Rawajati dan Instagram @kelurahan_rawajati.",
+        "Administrasi surat Mei 2026: surat masuk 22, surat keluar 8, undangan masuk 10, undangan keluar 2, SK Lurah 4, Surat Tugas Lurah 1, SK Gubernur 1, SK Walikota 1, SK Camat 0, instruksi 0; total 49 dokumen."
+      ]
+    },
+    {
+      "id": "KB-LAPORAN-MEI-2026-PEGAWAI-INVENTARIS",
+      "judul": "Laporan Mei 2026 - pegawai dan inventaris kantor Rawajati",
+      "kategori": "Profil Kelurahan",
+      "sumber": [
+        "LAPORAN KELURAHAN MEI 2026.doc",
+        "Laporan Bulanan Bulan Mei 2026 Kelurahan Rawajati"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Detail pegawai, jabatan, NIP/NRK/golongan, komposisi pendidikan, golongan pegawai, dan inventaris kantor Kelurahan Rawajati per Mei 2026.",
+      "butir": [
+        "Total pegawai: 10 orang. Pada 20 Mei 2026 dua ASN mengisi jabatan Kasi Kesejahteraan Rakyat dan Kasi Ekonomi Pembangunan/Lingkungan Hidup.",
+        "Sariman, S.Sos, M.Si - Lurah - IV/a - NIP 197706022006041015 - NRK 165280.",
+        "Fajar Muhamad Reza, ST - Sekretaris Lurah - III/d - NIP 198408092010011026 - NRK 177178.",
+        "Dahlan - Kasi Pemerintahan Ketentraman dan Ketertiban - III/a - NIP 198304262009041004 - NRK 174956.",
+        "Muhammad Fauzan Bintiang - Kasi Ekonomi dan Pembangunan dan Lingkungan Hidup - III/b - NIP 199602172018081001 - NRK 220562.",
+        "Arsy Anjani - Kasi Kesejahteraan Rakyat - III/d - NIP 197806102006042005 - NRK 164934.",
+        "Ana Puji Hastuti - Pengadministrasi - III/b - NIP 197611281998032002 - NRK 124574.",
+        "Friska M. Silaban - Pengurus Barang Pembantu - III/b - NIP 197002131991102001 - NRK 116134.",
+        "Eko Prasetyo - Bendahara Pengeluaran Pembantu - II/a - NIP 198308252014081001 - NRK 187547.",
+        "Jainabsyah Silalahi - Pengadministrasi Sekretaris Kelurahan dan Plt Kasi Kesejahteraan Rakyat - III/b - NIP 198007132012122001 - NRK 224010.",
+        "Susanti - Pengadministrasi Kasi Kesejahteraan Rakyat - III/b - NIP 197106262025212002 - NRK 226613.",
+        "Pendidikan pegawai: SLTA 4, Sarjana 5, Pascasarjana 1; total 10.",
+        "Jenis pegawai: pegawai otonom 10 orang.",
+        "Golongan pegawai: IV/a 1, III/d 2, III/c 0, III/b 4, III/a 1, II/d 0, II/c 0, II/a 1, I/c 0, I/a 0, Pemula V 1; total 10.",
+        "Inventaris kantor total 335 unit.",
+        "Inventaris kendaraan/perabot: kendaraan dinas operasional 3, lemari kantor 2, lemari piala 1, filing kabinet 24, meja pimpinan 3, meja kasubsi 6, meja karyawan 6, meja rapat 33, meja samping pimpinan 6, meja samping kasubsi 6, meja tik 4.",
+        "Inventaris kursi/rak: kursi pimpinan 5, kursi karyawan 15, kursi lipat 150, kursi tunggu 6, rak buku perpustakaan 2.",
+        "Inventaris elektronik/peralatan: telepon 2, komputer 9, mesin tik elektrik 1, televisi 2, AC split 21, dispenser 3, karpet 4, kompor gas 4, tabung pemadam kebakaran 4, jam dinding 6."
+      ]
+    },
+    {
+      "id": "KB-LAPORAN-MEI-2026-PENDUDUK",
+      "judul": "Laporan Mei 2026 - RT/RW dan penduduk Rawajati",
+      "kategori": "Kependudukan",
+      "sumber": [
+        "LAPORAN KELURAHAN MEI 2026.doc",
+        "Laporan Bulanan Bulan Mei 2026 Kelurahan Rawajati"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Detail jumlah RT/RW, penduduk menurut jenis kelamin, KK, penduduk per RW, umur, dan mutasi penduduk Rawajati Mei 2026.",
+      "butir": [
+        "Setelah penghapusan RW 05 kompleks rumah dinas anggota DPR RI dan penggabungan bagian luar kompleks ke RW 07, wilayah administrasi menjadi 10 RW dan 86 RT.",
+        "RT per RW: RW 01 10 RT, RW 02 9 RT, RW 03 10 RT, RW 04 11 RT, RW 06 15 RT, RW 07 5 RT, RW 08 8 RT, RW 09 5 RT, RW 10 5 RT, RW 11 8 RT.",
+        "Penduduk akhir Mei 2026: total 26.775 jiwa; laki-laki 13.175; perempuan 13.600.",
+        "Jumlah KK: total 9.442; kepala keluarga laki-laki 7.090; kepala keluarga perempuan 2.352; KK asing 0.",
+        "Penduduk per RW: RW 01 4.009 jiwa/1.337 KK; RW 02 3.281/1.156; RW 03 4.009/1.307; RW 04 4.225/1.442; RW 05 787/288; RW 06 1.677/557; RW 07 1.766/593; RW 08 1.740/583; RW 09 2.054/800; RW 10 1.685/710; RW 11 1.686/669; total 26.775/9.442.",
+        "Penduduk menurut usia: 0-4 tahun 1.647; 5-9 2.276; 10-14 2.054; 15-19 1.660; 20-24 1.883; 25-29 2.017; 30-34 2.283; 35-39 2.404; 40-44 2.366; 45-49 2.114; 50-54 1.938; 55-59 1.527; 60-64 1.026; 65-69 692; 70-75 523; di atas 75 365; total 26.775.",
+        "Mutasi penduduk Mei 2026: kelahiran 14 orang, terdiri dari 10 laki-laki dan 4 perempuan.",
+        "Mutasi penduduk Mei 2026: kematian 15 orang, terdiri dari 7 laki-laki dan 8 perempuan.",
+        "Mutasi penduduk Mei 2026: pindah keluar 33 orang, terdiri dari 19 laki-laki dan 14 perempuan.",
+        "Mutasi penduduk Mei 2026: pendatang 67 orang, terdiri dari 30 laki-laki dan 37 perempuan.",
+        "Catatan tabel mutasi: RW 09, RW 10, dan RW 11 disebut sebagai RT tambahan dalam laporan."
+      ]
+    },
+    {
+      "id": "KB-LAPORAN-MEI-2026-PELAYANAN-TANAH",
+      "judul": "Laporan Mei 2026 - pelayanan PTSP, NTCR, tanah, dan PBB Rawajati",
+      "kategori": "Pelayanan",
+      "sumber": [
+        "LAPORAN KELURAHAN MEI 2026.doc",
+        "Laporan Bulanan Bulan Mei 2026 Kelurahan Rawajati"
+      ],
+      "layananTerkait": [
+        "SKTM",
+        "IPTM",
+        "NIB-OSS",
+        "TANAH-NEGARA",
+        "PBB-BALIK-NAMA",
+        "PBB-PECAH"
+      ],
+      "ringkasan": "Detail realisasi pelayanan PTSP Mei 2026, alur NTCR melalui Jakevo, status tanah, penggunaan tanah, dan pemindahan hak atas tanah.",
+      "butir": [
+        "Pelayanan PTSP Mei 2026 total 66 layanan.",
+        "Rincian PTSP: Izin Penggunaan Tanah Makam 43, SKCK 2, Izin Usaha Mikro Kecil 4, Kartu Pencari Kerja 0, SKTM 17, Izin Penebangan Pohon 0, Izin Pendirian SD 0.",
+        "NTCR (nikah, talak, cerai, rujuk) dapat menggunakan Surat Pengantar online melalui Jakevo dan diteruskan ke KUA.",
+        "Status tanah: seluruh 144 Ha wilayah Rawajati tercatat sebagai tanah negara; tanah adat 0 Ha, wakaf 0 Ha, lain-lain 0 Ha.",
+        "Penggunaan tanah: perumahan 104 Ha, fasilitas umum 10 Ha, jalan raya/lingkungan 30 Ha, perdagangan/perkantoran/industri/taman/lainnya 0 Ha; total 144 Ha.",
+        "Pemindahan hak atas tanah Mei 2026: jual beli 1, rekomendasi 1 dengan luas 140 m2, hibah 0, akta pembagian waris 0, surat wakaf 0.",
+        "Target PBB tahun 2025 disebut dalam laporan, namun angka lengkap hasil ekstraksi dokumen tidak dipakai bila tidak terbaca utuh; chatbot harus menghindari menyebut angka PBB target yang tidak lengkap."
+      ]
+    },
+    {
+      "id": "KB-LAPORAN-MEI-2026-KEAMANAN-SOSIAL-IBADAH",
+      "judul": "Laporan Mei 2026 - keamanan, sosial, bantuan, dan rumah ibadah Rawajati",
+      "kategori": "Sosial Kemasyarakatan",
+      "sumber": [
+        "LAPORAN KELURAHAN MEI 2026.doc",
+        "Laporan Bulanan Bulan Mei 2026 Kelurahan Rawajati"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Detail pos keamanan, peran Satpol PP/PPSU, pemberdayaan, rumah ibadah beserta alamat, komposisi agama, bantuan sosial, dan kegiatan masyarakat.",
+      "butir": [
+        "Pos keamanan lingkungan total 28 pos ditambah 1 Pos Polisi KBI.",
+        "Sebaran pos keamanan: RW 01 5, RW 02 5, RW 03 6, RW 04 4, RW 06 6, RW 07 2, RW 08 2.",
+        "Satpol PP Kelurahan dan PPSU membantu pengamanan lingkungan kantor, penanganan masalah sosial, serta penanggulangan/kesiapsiagaan bencana.",
+        "Pemberdayaan ekonomi masyarakat: pembinaan administrasi, peningkatan usaha, pembinaan pengusaha ekonomi lemah, edukasi produktivitas/kualitas industri rumah tangga, dan pemasaran.",
+        "Komposisi agama Rawajati Mei 2026: Islam 23.887, Protestan 2.044, Katolik 718, Hindu 65, Buddha 61; total 26.775.",
+        "Masjid/musholla beralamat: Masjid Rahmatussholihin - Gg. Madrasah No.40 RT006/RW01; Masjid Hizbul Waton - Jl. Komplek Zeni AD RT009/RW03; Masjid Ar-Rahmah - Jl. Rawajati Barat No.I RT004/RW04; Masjid Nurul Amaliah - Jl. Kalibata Timur I RT008/RW04; Masjid Al Amin - Komplek DPR RI RT003/RW05; Masjid Al Muhajirin - Kantor Kementerian Transmigrasi; Masjid Nurul Hilal - Jl. Bina Warga RT002/RW07; Masjid At-Taubah - Jl. Rawajati Timur II RT005/RW08.",
+        "Masjid/musholla beralamat lanjutan: Masjid Nurullah - Tower Cendana Kalibata City; Masjid Al-Bustan - Lantai 4 Plaza Kalibata; Masjid Al Muhajirin - Kementerian Desa/Kemendes RI; Masjid Al-Amin - Kompleks DPR RW 05; Masjid Salahudin - Kantor Pajak; Masjid Bangun Iman - Kemendagri Bangda; Masjid Baitul Ilmi - Pusdiklat BPK; Masjid S. Parman - Kantor BAIS.",
+        "Musholla beralamat: Musholla Azzainiyah - Jl. Rawajati Timur II RT002/RW02; Musholla Nurul Qomar - Jl. Rawajati Timur II RT006/RW02; Musholla Al Khairiyah - Gg. Langgar RT001/RW03; Musholla Darussalam - Gang Asal RT009/RW03; Musholla Taj Al Arusain - Jl. Rawajati Barat RT006/RW04; Musholla Asshobirin - Jl. Nangka No.1 SDN 08; Musholla Darul Rahman - Jl. Binawarga RT006/RW07; Musholla Darus Shobirin - Jl. Rawajati Timur IV No.14 RT002/RW08.",
+        "Gereja beralamat: Gereja Betle Indonesia Kalibata City - Tower Jasmine Apartemen Kalibata City; Gereja Advent - Tower Gaharu Apartemen Kalibata City; Gereja Betle Indonesia Glow - Tower Sakura Apartemen Kalibata City; GPDI Anugerah - Tower Gaharu Apartemen Kalibata City; GPDI Shosanim - Tower Gaharu Apartemen Kalibata City.",
+        "Bantuan sosial: BPNT 444 orang, PKH 306 orang, KLJ 215 orang, KAJ 36 anak, KJP 826 anak, KPDJ 8 orang.",
+        "Budaya/kegiatan: Kampung Agrowisata berada di RW 03; Sekretariat PKK berada di Jalan Rawajati Barat RT006/RW04; PSN dan Silaturahmi Jumat Keliling dilaksanakan tiap Jumat sesuai jadwal RW."
+      ]
+    },
+    {
+      "id": "KB-LAPORAN-MEI-2026-SARPRAS-PENDIDIKAN-KEBERSIHAN",
+      "judul": "Laporan Mei 2026 - sarana prasarana, pendidikan, taman, dan kebersihan Rawajati",
+      "kategori": "Sarana Prasarana",
+      "sumber": [
+        "LAPORAN KELURAHAN MEI 2026.doc",
+        "Laporan Bulanan Bulan Mei 2026 Kelurahan Rawajati"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Detail jalan, taman, sanitasi, bangunan vital, perumahan, fasilitas pendidikan, PPSU, dan sarana kebersihan Rawajati pada Mei 2026.",
+      "butir": [
+        "Prasarana jalan: jalan ekonomi/protokol 1,2 km; jalan arteri 0,6 km; jalan lingkungan aspal 0,8 km; jalan setapak/MHT 2,1 km.",
+        "Masih ada sebagian jalan lingkungan yang belum diaspal atau rusak; peningkatan dilakukan melalui Sudin/Bina Marga dan swadaya masyarakat.",
+        "Taman: Taman RW 03 Rawajati - Jl. Zeni AD IV RT005/RW03; Taman Zeni AD V - Jl. Zeni AD V A,B RT004/RW03; Taman Bangda I, II, III - Jl. Rawajati Barat; Taman Stekpi - Jl. Duren Tiga Timur; Taman Komplek DPR - Jl. DPR Raya; Taman Rawajati Barat samping rel Kalibata - Jl. Rawajati Barat RT002/RW09; Taman Buah Mangga - Jl. Pengadegan Timur Raya; Taman Pengadegan Barat samping Stasiun Duren Kalibata - Jl. Rawajati Barat.",
+        "Sanitasi: MCK 0, jamban keluarga 3.801, sumur pompa dangkal 3.774, PDAM 24.",
+        "Bangunan vital/pemerintah/swasta mencakup Pos Polisi Kalibata Indah, Kantor Kelurahan, KUA Pancoran, Puskesmas Rawajati I/II, Sekretariat Karang Taruna, Kantor Transmigrasi, Kantor Pajak, Bangda, BAIS TNI, Kantor Diklat BPK, Kampus IPMI, Plaza Kalibata, Apartemen Kalibata City, dan Apartemen Woodland Park.",
+        "Rumah tinggal: permanen 1.386, semi permanen 960, sementara 923.",
+        "PAUD: PAUD Bunga Jati - Jl. Komp Zeni AD II RW03; PAUD Anggrek Merah - Jl. Kaca Jendela RW08.",
+        "TK: TK Widyastuti - Jl. Rawajati Timur VI; TK Kuncup Melati - Jl. Komp Zeni AD Raya RW03; TK Al-Ishlah - Jl. Komp Zeni AD I RW03; TK An-Nikmah - Gg. Madrasah RT006/RW01; TK Anak Bangsa - Komp DPR RI Blok A; TK Azzahir - Jl. Kober RW02; TK Al Khoriah - Jl. Rawajati Barat I; TK AlFalah - Apartemen Kalibata City; TK Darul Quran - Apartemen Kalibata City; TK Harapan Bunda - Gang KUA RT005/RW04.",
+        "SD Negeri: SDN 01 Rawajati - Jl. Rawajati Barat II; SDN 03 Rawajati - Jl. Zeni AD VII Rawajati; SDN 05 Rawajati - Jl. Zeni AD VII Rawajati; SDN 06 Rawajati - Gang KUA RT005/RW04 Rawajati; SDN 07 Rawajati - Jl. SDN 07 Komp Zeni AD; SDN 08 Rawajati - Jl. Komp Kalibata Indah.",
+        "Sekolah tinggi: Sekolah Tinggi IPMI - Jl. Rawajati Timur Raya; STEMIK Indo Daya Supana IDS - Apartemen Kalibata City.",
+        "Kebersihan: kerja bakti setiap Minggu sesuai jadwal RW dan penyuluhan kebersihan disampaikan dalam setiap kegiatan.",
+        "PPSU Kelurahan Rawajati berjumlah 53 orang.",
+        "Sarana kebersihan: mobil operasional PPSU 1, gerobak sampah motor 7, gerobak sampah sorong 16, tong sampah pilah 24, LPS swadaya 1."
+      ]
+    },
+    {
+      "id": "KB-LAPORAN-MEI-2026-KESIMPULAN-KENDALA",
+      "judul": "Laporan Mei 2026 - pelayanan konsultatif, kesimpulan, kendala, dan saran Rawajati",
+      "kategori": "Pelayanan",
+      "sumber": [
+        "LAPORAN KELURAHAN MEI 2026.doc",
+        "Laporan Bulanan Bulan Mei 2026 Kelurahan Rawajati"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Detail pelayanan konsultatif, layanan informatif, kesimpulan laporan, kendala pelaksanaan tugas, dan saran perbaikan dari Laporan Mei 2026.",
+      "butir": [
+        "Pelayanan konsultatif: Kelurahan menerima laporan dari aparatur dan masyarakat lalu menanggapi secara lisan maupun tertulis sesuai kebutuhan.",
+        "Pelayanan konsultatif juga diberikan untuk rekomendasi, legalisasi, dan administrasi staf.",
+        "Pelayanan informatif diberikan terkait kegiatan pemerintahan, pembangunan, dan pembinaan kemasyarakatan.",
+        "Kesimpulan laporan: kegiatan pemerintahan, pelayanan masyarakat, pembangunan, ketentraman, ketertiban, dan pembinaan wilayah pada umumnya berjalan baik dan lancar.",
+        "Kelancaran kegiatan disebut karena integrasi Muspikel, lembaga masyarakat, dan instansi terkait.",
+        "Kendala yang ada tidak bersifat fundamental dan diatasi melalui konsultasi dengan instansi terkait.",
+        "Kendala utama: belum seimbangnya jumlah pegawai dengan beban kerja Kelurahan.",
+        "Kelurahan tetap melakukan penyempurnaan pelaksanaan tugas rutin, terutama pelayanan masyarakat.",
+        "Saran laporan: diperlukan sarana prasarana/peralatan yang memadai dan sumber daya manusia yang cukup agar keterbatasan tidak menghambat pelaksanaan tugas."
       ]
     }
   ]
