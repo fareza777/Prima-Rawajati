@@ -1714,6 +1714,27 @@
         "pegawai kelurahan rawajati"
       ],
       "jawaban": "📘 **Ringkasan Laporan Kelurahan Rawajati Mei 2026:**\n\n- Wilayah Rawajati seluas **144 Ha**, terdiri dari **10 RW dan 86 RT** setelah penghapusan RW 05 kompleks DPR RI.\n- Jumlah penduduk akhir Mei 2026: **26.775 jiwa** dan **9.442 KK**.\n- Mutasi penduduk Mei 2026: lahir **14**, meninggal **15**, pindah keluar **33**, pendatang **67**.\n- Pelayanan PTSP bulan Mei 2026 tercatat **66 layanan**, terbanyak **IPTM 43** dan **SKTM 17**.\n- Pegawai Kelurahan tercatat **10 orang**; jabatan Kasi Ekbang/LH dan Kasi Kesra terisi per **20 Mei 2026**.\n- Sarana kebersihan: **53 PPSU**, 1 mobil operasional PPSU, 7 gerobak sampah motor, 16 gerobak sorong, 24 tong sampah pilah, dan 1 LPS swadaya.\n- Fasilitas agama: **24 masjid/musholla** dan **5 gereja**; komposisi agama terbesar Islam **23.887 jiwa**.\n\nKalau ingin detail tertentu, tanya saja misalnya: data penduduk per RW, daftar pegawai, pelayanan PTSP, sarana pendidikan, tempat ibadah, atau kebersihan Rawajati."
+    },
+    {
+      "intent": "alamat_rumah_ibadah_rawajati",
+      "keywords": [
+        "alamat masjid rawajati",
+        "alamat musholla rawajati",
+        "daftar masjid rawajati",
+        "daftar musholla rawajati",
+        "rumah ibadah rawajati",
+        "tempat ibadah rawajati",
+        "gereja rawajati",
+        "alamat gereja rawajati",
+        "masjid rahmatussholihin",
+        "masjid hizbul waton",
+        "masjid ar rahmah",
+        "masjid nurul amaliah",
+        "musholla azzainiyah",
+        "musholla darussalam",
+        "musholla darul rahman"
+      ],
+      "jawaban": "🕌 **Alamat Rumah Ibadah Rawajati (Laporan Kelurahan Mei 2026):**\n\n**Masjid/Musholla:**\n1. **Masjid Rahmatussholihin** — Gg. Madrasah No.40 RT006/RW01\n2. **Masjid Hizbul Waton** — Jl. Komplek Zeni AD RT009/RW03\n3. **Masjid Ar-Rahmah** — Jl. Rawajati Barat No.I RT004/RW04\n4. **Masjid Nurul Amaliah** — Jl. Kalibata Timur I RT008/RW04\n5. **Masjid Al Amin** — Komplek DPR RI RT003/RW05\n6. **Masjid Al Muhajirin** — Kantor Kementerian Transmigrasi\n7. **Masjid Nurul Hilal** — Jl. Bina Warga RT002/RW07\n8. **Masjid At-Taubah** — Jl. Rawajati Timur II RT005/RW08\n9. **Masjid Nurullah** — Tower Cendana Kalibata City\n10. **Masjid Al-Bustan** — Lantai 4 Plaza Kalibata\n11. **Masjid Al Muhajirin** — Kementerian Desa/Kemendes RI\n12. **Masjid Al-Amin** — Kompleks DPR RW 05\n13. **Masjid Salahudin** — Kantor Pajak\n14. **Masjid Bangun Iman** — Kemendagri Bangda\n15. **Masjid Baitul Ilmi** — Pusdiklat BPK\n16. **Masjid S. Parman** — Kantor BAIS\n17. **Musholla Azzainiyah** — Jl. Rawajati Timur II RT002/RW02\n18. **Musholla Nurul Qomar** — Jl. Rawajati Timur II RT006/RW02\n19. **Musholla Al Khairiyah** — Gg. Langgar RT001/RW03\n20. **Musholla Darussalam** — Gang Asal RT009/RW03\n21. **Musholla Taj Al Arusain** — Jl. Rawajati Barat RT006/RW04\n22. **Musholla Asshobirin** — Jl. Nangka No.1 SDN 08\n23. **Musholla Darul Rahman** — Jl. Binawarga RT006/RW07\n24. **Musholla Darus Shobirin** — Jl. Rawajati Timur IV No.14 RT002/RW08\n\n**Gereja:**\n1. **Gereja Betle Indonesia Kalibata City** — Tower Jasmine Apartemen Kalibata City\n2. **Gereja Advent** — Tower Gaharu Apartemen Kalibata City\n3. **Gereja Betle Indonesia Glow** — Tower Sakura Apartemen Kalibata City\n4. **GPDI Anugerah** — Tower Gaharu Apartemen Kalibata City\n5. **GPDI Shosanim** — Tower Gaharu Apartemen Kalibata City\n\nData ini bersumber dari Laporan Bulanan Kelurahan Rawajati Mei 2026. Untuk titik lokasi paling presisi, konfirmasi ke RT/RW setempat atau Kelurahan Rawajati."
     }
   ],
   "aiSettings": {
@@ -1978,9 +1999,9 @@
         "Keamanan lingkungan: total 28 pos keamanan dan 1 Pos Polisi KBI; sebaran pos keamanan RW 01 5, RW 02 5, RW 03 6, RW 04 4, RW 06 6, RW 07 2, RW 08 2.",
         "Satpol PP Kelurahan bersama PPSU membantu pengamanan lingkungan kantor, penanganan masalah sosial, dan kesiapsiagaan bencana.",
         "Pemberdayaan ekonomi masyarakat meliputi pembinaan administrasi koperasi/usaha, peningkatan usaha, pembinaan pengusaha ekonomi lemah, edukasi produktivitas/kualitas industri rumah tangga, dan pemasaran.",
-        "Fasilitas agama: 24 masjid/musholla dan 5 gereja. Komposisi agama: Islam 23.887, Protestan 2.044, Katolik 718, Hindu 65, Buddha 61; total 26.775.",
-        "Masjid/musholla yang tercatat antara lain Rahmatussholihin, Hizbul Waton, Ar-Rahmah, Nurul Amaliah, Al Amin, Al Muhajirin, Nurul Hilal, At-Taubah, Nurullah, Al-Bustan, Baitul Ilmi, S. Parman, Azzainiyah, Nurul Qomar, Al Khairiyah, Darussalam, Taj Al Arusain, Asshobirin, Darul Rahman, dan Darus Shobirin.",
-        "Gereja yang tercatat berada di area Apartemen Kalibata City: Gereja Betle Indonesia Kalibata City, Gereja Advent, Gereja Betle Indonesia Glow, GPDI Anugerah, dan GPDI Shosanim.",
+        "Fasilitas agama: 24 masjid/musholla dan 5 gereja. Komposisi agama penduduk Rawajati Mei 2026: Islam 23.887, Protestan 2.044, Katolik 718, Hindu 65, Buddha 61; total 26.775.",
+        "Daftar masjid/musholla beserta alamat dari Laporan Kelurahan Mei 2026: 1. Masjid Rahmatussholihin — Gg. Madrasah No.40 RT006/RW01; 2. Masjid Hizbul Waton — Jl. Komplek Zeni AD RT009/RW03; 3. Masjid Ar-Rahmah — Jl. Rawajati Barat No.I RT004/RW04; 4. Masjid Nurul Amaliah — Jl. Kalibata Timur I RT008/RW04; 5. Masjid Al Amin — Komplek DPR RI RT003/RW05; 6. Masjid Al Muhajirin — Kantor Kementerian Transmigrasi; 7. Masjid Nurul Hilal — Jl. Bina Warga RT002/RW07; 8. Masjid At-Taubah — Jl. Rawajati Timur II RT005/RW08; 9. Masjid Nurullah — Tower Cendana Kalibata City; 10. Masjid Al-Bustan — Lantai 4 Plaza Kalibata; 11. Masjid Al Muhajirin — Kementerian Desa/Kemendes RI; 12. Masjid Al-Amin — Kompleks DPR RW 05; 13. Masjid Salahudin — Kantor Pajak; 14. Masjid Bangun Iman — Kemendagri Bangda; 15. Masjid Baitul Ilmi — Pusdiklat BPK; 16. Masjid S. Parman — Kantor BAIS; 17. Musholla Azzainiyah — Jl. Rawajati Timur II RT002/RW02; 18. Musholla Nurul Qomar — Jl. Rawajati Timur II RT006/RW02; 19. Musholla Al Khairiyah — Gg. Langgar RT001/RW03; 20. Musholla Darussalam — Gang Asal RT009/RW03; 21. Musholla Taj Al Arusain — Jl. Rawajati Barat RT006/RW04; 22. Musholla Asshobirin — Jl. Nangka No.1 SDN 08; 23. Musholla Darul Rahman — Jl. Binawarga RT006/RW07; 24. Musholla Darus Shobirin — Jl. Rawajati Timur IV No.14 RT002/RW08.",
+        "Daftar gereja beserta alamat dari Laporan Kelurahan Mei 2026: 1. Gereja Betle Indonesia Kalibata City — Tower Jasmine Apartemen Kalibata City; 2. Gereja Advent — Tower Gaharu Apartemen Kalibata City; 3. Gereja Betle Indonesia Glow — Tower Sakura Apartemen Kalibata City; 4. GPDI Anugerah — Tower Gaharu Apartemen Kalibata City; 5. GPDI Shosanim — Tower Gaharu Apartemen Kalibata City.",
         "Bantuan sosial yang tercatat: BPNT 444 orang, PKH 306 orang, KLJ 215 orang, KAJ 36 anak, KJP 826 anak, KPDJ 8 orang.",
         "Kegiatan sosial/kemasyarakatan: Kampung Agrowisata di RW 03; Sekretariat PKK di Jalan Rawajati Barat RT006/RW04; PSN dan Silaturahmi Jumat Keliling dilaksanakan tiap Jumat sesuai jadwal RW.",
         "Prasarana jalan: jalan ekonomi/protokol 1,2 km, arteri 0,6 km, lingkungan aspal 0,8 km, setapak/MHT 2,1 km. Masih ada sebagian jalan lingkungan yang belum diaspal/rusak dan diupayakan melalui Sudin/Bina Marga serta swadaya.",
