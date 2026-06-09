@@ -1676,6 +1676,23 @@
         "puskesmas rawajati"
       ],
       "jawaban": "🏢 **Struktur Organisasi Pemerintah Kelurahan Rawajati:**\n\n- **Lurah:** Sariman\n- **Sekretariat Kelurahan:** Fajar Muhamad Reza\n- **Plt. Kepala Seksi Pemerintahan:** Dahlan\n- **Kepala Unit PTSP:** Edwan NS\n- **Kasatpel Dukcapil:** Mellinda Rachmasari\n- **Kasatpol PP:** Agus Budiyanto\n- **Puskesmas Rawajati I:** dr. Sri Handayani\n- **Puskesmas Rawajati II:** drg. Andi Sukma\n- **Bendahara:** Eko Prasetyo\n- **Pengurus Barang:** Friska M. Silaban\n- **Staf Pengadministrasian:** Jainabsyah Silalahi, Susanti, dan Ana Puji Hastuti\n\nData ini bersumber dari dokumen Struktur Organisasi Baru Kelurahan Rawajati. Untuk kepastian terbaru saat pelayanan, silakan konfirmasi ke Kelurahan Rawajati di **(021) 7994427**."
+    },
+    {
+      "intent": "pilah_sampah_rawajati",
+      "keywords": [
+        "pilah sampah",
+        "pemilahan sampah",
+        "sampah rumah tangga",
+        "data sampah rawajati",
+        "rw 006 sampah",
+        "rw 004 sampah",
+        "rt 0 persen sampah",
+        "bank sampah rawajati",
+        "komposting rawajati",
+        "gerakan pemilahan sampah",
+        "sampah terpilah"
+      ],
+      "jawaban": "♻️ **Data Pemilahan Sampah Rumah Tangga Rawajati (8 Juni 2026):**\n\n- Rawajati: **469 dari 2.778 bangunan** sudah memiliki fasilitas sampah terpilah (**16,88%**).\n- Posisi: **tertinggi di Kecamatan Pancoran** dan **peringkat ke-12 dari 65 kelurahan se-Jakarta Selatan**.\n- Jakarta Selatan: rasio pilah **5,91%**; Kecamatan Pancoran **6,01%**.\n- RW terbaik: **RW 006** dengan **58,44%** atau 187 dari 320 bangunan sudah terpilah.\n- RW prioritas: **RW 004**, baru **4,84%** atau 28 dari 579 bangunan.\n- RT percontohan 100%: **RW 006/RT 002, RT 003, RT 004, dan RT 006**.\n- Masih ada **19 RT** dengan 0% pemilahan, sehingga perlu sosialisasi, sarana tempat sampah pilah, pendampingan Bank Sampah, dan monitoring RT/RW.\n\nRekomendasi utama: mulai dari 19 RT 0%, replikasi praktik baik RW 006, bentuk/aktifkan Bank Sampah Unit tiap RW, dan perkuat komposting/maggot untuk sampah organik."
     }
   ],
   "aiSettings": {
@@ -1875,6 +1892,35 @@
         "Bendahara: Eko Prasetyo, NIP 198308252014081001.",
         "Pengurus Barang: Friska M. Silaban, NIP 197002131991102001.",
         "Staf Pengadministrasian: Jainabsyah Silalahi."
+      ]
+    },
+    {
+      "id": "KB-PILAH-SAMPAH-RUMAH-TANGGA-RAWAJATI",
+      "judul": "Analisis fasilitas pemilahan sampah rumah tangga Rawajati",
+      "kategori": "Lingkungan",
+      "sumber": [
+        "09-06-2026-analisis-data-pilah-sampah-rumah-tangga-jaksel.docx",
+        "BPS / Sudin LH DKI Jakarta — Data Fasilitas Sampah Rumah Tangga per 8 Juni 2026"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Laporan 9 Juni 2026 menganalisis fasilitas pemilahan sampah rumah tangga di Jakarta Selatan dengan fokus Kelurahan Rawajati. Rawajati mencapai 16,88% bangunan rumah tangga dengan fasilitas pembuangan sampah terpilah, tertinggi di Kecamatan Pancoran dan peringkat ke-12 dari 65 kelurahan di Jakarta Selatan.",
+      "butir": [
+        "Jakarta Selatan: 317.248 bangunan rumah tangga; 18.737 bangunan terpilah (5,91%); 264.425 bangunan masih tercampur (83,35%); komposting 28.298 bangunan (8,92%).",
+        "Kecamatan Pancoran: 22.919 bangunan; 1.378 bangunan terpilah (6,01%); komposting 1.784 bangunan (7,78%); peringkat ke-4 dari 10 kecamatan di Jaksel.",
+        "Kelurahan Rawajati: 2.778 bangunan, 7 RW, 68 RT; 469 bangunan terpilah (16,88%); 292 bangunan punya fasilitas komposting (10,51%); 2.147 bangunan masih tercampur (77,29%).",
+        "Posisi Rawajati: peringkat ke-12 dari 65 kelurahan se-Jakarta Selatan dan tertinggi di Kecamatan Pancoran untuk rasio pemilahan sampah rumah tangga.",
+        "Capaian per RW: RW 006 tertinggi dengan 187 dari 320 bangunan terpilah (58,44%); RW 003 24,34%; RW 002 12,73%; RW 007 8,72%; RW 001 7,04%; RW 008 6,39%; RW 004 terendah 4,84%.",
+        "RW prioritas intervensi: RW 004 karena hanya 28 dari 579 bangunan terpilah (4,84%) dan pembuangan tercampur mencapai 81,87%.",
+        "Statistik 68 RT Rawajati: rata-rata rasio pilah 20,31%; median 5,95%; minimum 0%; maksimum 100%; simpangan baku 31,20%, menunjukkan ketimpangan capaian antar-RT.",
+        "Distribusi RT: 19 RT (27,9%) masih 0% pemilahan; 24 RT (35,3%) berada di 1–10%; 9 RT 11–25%; 5 RT 26–50%; 4 RT 51–75%; 3 RT 76–99%; 4 RT mencapai 100%.",
+        "RT percontohan 100% seluruhnya di RW 006: RT 002, RT 003, RT 004, dan RT 006; total 90 rumah tangga sudah memilah sampah.",
+        "10 RT tertinggi: RW 006/RT 002, 003, 004, 006 (100%); RW 006/RT 001 (96%); RW 006/RT 008 (94,12%); RW 006/RT 005 (88,89%); RW 003/RT 001 (68,80%); RW 006/RT 009 (66,67%); RW 006/RT 011 (65,38%).",
+        "RT 0% pemilahan mencakup 19 RT, antara lain RW 001/RT 003, 004, 008; RW 002/RT 001, 006, 009; RW 003/RT 005, 010; RW 004/RT 002, 003, 006, 011, 012; RW 006/RT 007, 012; RW 007/RT 002, 006; RW 008/RT 005, 007.",
+        "Jika 19 RT dengan 0% pemilahan berhasil dikonversi, potensi tambahan bangunan terpilah disebut dapat mendorong rasio Rawajati dari 16,88% menuju sekitar 44,64% dalam skenario konversi penuh.",
+        "Rekomendasi fase 1 bulan 1–2: quick win di 19 RT 0% melalui penyuluhan door-to-door, 1 set tempat sampah pilah per RT, pendampingan Bank Sampah Induk Jaksel 4 minggu, dan monitoring harian Ketua RT.",
+        "Rekomendasi fase 2 bulan 3–4: replikasi praktik baik RW 006 ke 24 RT dengan rasio 1–10%, melibatkan Ketua RT, kader Dasawisma, dan tokoh masyarakat sebagai peer educator.",
+        "Rekomendasi fase 3 bulan 5–6: insentif/penghargaan untuk RT >50%, sertifikat RT berprestasi, akses CSR, lomba RT Bersih, publikasi role model, dan fasilitasi Bank Sampah Unit untuk RT 100%.",
+        "Rekomendasi tambahan: monitoring triwulanan RT → RW → Kelurahan → Kecamatan → Sudin LH; minimal 1 Bank Sampah Unit aktif di tiap RW; pengembangan rumah kompos/maggot minimal 1 unit tiap RW; edukasi 5 jenis sampah: organik, anorganik, kertas, kaca/logam, dan B3."
       ]
     }
   ]
