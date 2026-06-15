@@ -2648,45 +2648,93 @@ function showQRCode() {
 
   body.innerHTML = `
     <div class="modal-handle"></div>
-    <div class="modal-body qr-modal">
-      <h3>📱 QR Code PRIMA</h3>
-      <p>Scan QR Code ini untuk mengakses PRIMA – Kelurahan Rawajati</p>
-      <div id="qr-display"></div>
-      <div class="qr-url">${appUrl}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
-        <button class="submit-btn" style="font-size:13px;padding:10px" onclick="printQR()">🖨️ Cetak QR</button>
-        <button class="submit-btn" style="font-size:13px;padding:10px;background:var(--accent)" onclick="closeModal()">✓ Tutup</button>
+    <div class="modal-header">
+      <span class="modal-emoji"><i data-lucide="qr-code"></i></span>
+      <div class="modal-title">
+        <h3>QR Code PRIMA</h3>
+        <p>Scan untuk akses layanan Kelurahan Rawajati</p>
       </div>
-      <p style="font-size:12px;color:var(--text-muted)">Pasang di: Loket pelayanan • Papan pengumuman • Pos RW • Masjid • Area publik</p>
+      <button class="modal-close" onclick="closeModal()" aria-label="Tutup">✕</button>
+    </div>
+    <div class="modal-body qr-modal">
+      <div class="qr-card" id="qr-print-area">
+        <div class="qr-card-glow" aria-hidden="true"></div>
+        <div class="qr-card-frame">
+          <span class="qr-corner qr-corner--tl" aria-hidden="true"></span>
+          <span class="qr-corner qr-corner--tr" aria-hidden="true"></span>
+          <span class="qr-corner qr-corner--bl" aria-hidden="true"></span>
+          <span class="qr-corner qr-corner--br" aria-hidden="true"></span>
+          <div id="qr-display" class="qr-display"></div>
+        </div>
+        <div class="qr-card-brand">
+          <span class="qr-brand-badge">PRIMA</span>
+          <span class="qr-brand-sub">Kelurahan Rawajati</span>
+        </div>
+      </div>
+
+      <p class="qr-hint">
+        <i data-lucide="smartphone"></i>
+        Arahkan kamera HP ke kode di atas
+      </p>
+
+      <div class="qr-tips">
+        <span class="qr-tip">Loket pelayanan</span>
+        <span class="qr-tip">Papan pengumuman</span>
+        <span class="qr-tip">Pos RW</span>
+        <span class="qr-tip">Masjid</span>
+        <span class="qr-tip">Area publik</span>
+      </div>
+
+      <div class="qr-actions">
+        <button class="la-btn la-btn-primary qr-btn-print" onclick="printQR()">
+          <i data-lucide="printer"></i> Cetak QR
+        </button>
+        <button class="la-btn la-btn-ghost" onclick="closeModal()">
+          <i data-lucide="x"></i> Tutup
+        </button>
+      </div>
     </div>
   `;
 
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // Generate QR
+  if (window.lucide && typeof lucide.createIcons === 'function') {
+    try { lucide.createIcons(); } catch {}
+  }
+
   setTimeout(() => {
+    const display = document.getElementById('qr-display');
+    if (!display) return;
     try {
-      new QRCode(document.getElementById('qr-display'), {
+      new QRCode(display, {
         text: appUrl,
-        width: 200,
-        height: 200,
-        colorDark: '#1565C0',
+        width: 220,
+        height: 220,
+        colorDark: '#0A1F44',
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.H
       });
-    } catch(e) {
-      document.getElementById('qr-display').innerHTML = `
-        <div style="width:200px;height:200px;border:3px dashed var(--border);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;margin:0 auto">
-          <p style="font-size:13px;color:var(--text-muted)">QR Code tersedia saat aplikasi di-deploy online 📱</p>
+    } catch (e) {
+      display.innerHTML = `
+        <div class="qr-fallback">
+          <i data-lucide="wifi-off"></i>
+          <p>QR Code tersedia saat aplikasi di-deploy online</p>
         </div>
       `;
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        try { lucide.createIcons(); } catch {}
+      }
     }
   }, 100);
 }
 
 function printQR() {
+  document.body.classList.add('qr-printing');
   window.print();
+  window.addEventListener('afterprint', () => {
+    document.body.classList.remove('qr-printing');
+  }, { once: true });
 }
 
 // ── UTILS ────────────────────────────────────────────────────────
