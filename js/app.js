@@ -2660,11 +2660,13 @@ function showQRCode() {
       <div class="qr-card" id="qr-print-area">
         <div class="qr-card-glow" aria-hidden="true"></div>
         <div class="qr-card-frame">
-          <span class="qr-corner qr-corner--tl" aria-hidden="true"></span>
-          <span class="qr-corner qr-corner--tr" aria-hidden="true"></span>
-          <span class="qr-corner qr-corner--bl" aria-hidden="true"></span>
-          <span class="qr-corner qr-corner--br" aria-hidden="true"></span>
-          <div id="qr-display" class="qr-display"></div>
+          <div class="qr-scan-target">
+            <span class="qr-corner qr-corner--tl" aria-hidden="true"></span>
+            <span class="qr-corner qr-corner--tr" aria-hidden="true"></span>
+            <span class="qr-corner qr-corner--bl" aria-hidden="true"></span>
+            <span class="qr-corner qr-corner--br" aria-hidden="true"></span>
+            <div class="qr-code-surface" id="qr-code-host"></div>
+          </div>
         </div>
         <div class="qr-card-brand">
           <span class="qr-brand-badge">PRIMA</span>
@@ -2704,19 +2706,22 @@ function showQRCode() {
   }
 
   setTimeout(() => {
-    const display = document.getElementById('qr-display');
-    if (!display) return;
+    const host = document.getElementById('qr-code-host');
+    if (!host) return;
     try {
-      new QRCode(display, {
+      new QRCode(host, {
         text: appUrl,
-        width: 220,
-        height: 220,
+        width: 196,
+        height: 196,
         colorDark: '#0A1F44',
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.H
       });
+      // qrcodejs injects canvas + img; img fallback bikin titik putih di kanan
+      const img = host.querySelector('img');
+      if (img) img.remove();
     } catch (e) {
-      display.innerHTML = `
+      host.innerHTML = `
         <div class="qr-fallback">
           <i data-lucide="wifi-off"></i>
           <p>QR Code tersedia saat aplikasi di-deploy online</p>

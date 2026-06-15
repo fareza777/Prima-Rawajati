@@ -1481,7 +1481,6 @@ a.download-btn, .download-btn {
   pointer-events: none;
 }
 .qr-card-frame {
-  position: relative;
   display: flex;
   justify-content: center;
   padding: 14px;
@@ -1490,32 +1489,52 @@ a.download-btn, .download-btn {
   border-radius: 18px;
   border: 1px solid rgba(212,175,55,.25);
 }
+.qr-scan-target {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+}
 .qr-corner {
   position: absolute;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-color: var(--gold-light);
   border-style: solid;
-  opacity: .85;
+  opacity: .9;
+  z-index: 2;
+  pointer-events: none;
 }
-.qr-corner--tl { top: 8px; left: 8px; border-width: 2.5px 0 0 2.5px; border-radius: 6px 0 0 0; }
-.qr-corner--tr { top: 8px; right: 8px; border-width: 2.5px 2.5px 0 0; border-radius: 0 6px 0 0; }
-.qr-corner--bl { bottom: 8px; left: 8px; border-width: 0 0 2.5px 2.5px; border-radius: 0 0 0 6px; }
-.qr-corner--br { bottom: 8px; right: 8px; border-width: 0 2.5px 2.5px 0; border-radius: 0 0 6px 0; }
-.qr-display {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 220px;
-  min-width: 220px;
-}
-.qr-display canvas,
-.qr-display img {
-  display: block !important;
-  border-radius: 12px;
+.qr-corner--tl { top: -6px; left: -6px; border-width: 2.5px 0 0 2.5px; border-radius: 5px 0 0 0; }
+.qr-corner--tr { top: -6px; right: -6px; border-width: 2.5px 2.5px 0 0; border-radius: 0 5px 0 0; }
+.qr-corner--bl { bottom: -6px; left: -6px; border-width: 0 0 2.5px 2.5px; border-radius: 0 0 0 5px; }
+.qr-corner--br { bottom: -6px; right: -6px; border-width: 0 2.5px 2.5px 0; border-radius: 0 0 5px 0; }
+.qr-code-surface {
+  width: 220px;
+  height: 220px;
+  padding: 12px;
+  box-sizing: border-box;
   background: #fff;
-  padding: 10px;
+  border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0,0,0,.22);
+  overflow: hidden;
+  line-height: 0;
+}
+.qr-code-surface canvas {
+  display: block !important;
+  width: 196px !important;
+  height: 196px !important;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.qr-code-surface img {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  visibility: hidden;
 }
 .qr-card-brand {
   display: flex;
@@ -1578,8 +1597,8 @@ a.download-btn, .download-btn {
 }
 .qr-actions .la-btn [data-lucide] { width: 16px; height: 16px; }
 .qr-fallback {
-  width: 220px;
-  height: 220px;
+  width: 196px;
+  height: 196px;
   display: flex;
   flex-direction: column;
   align-items: center;
