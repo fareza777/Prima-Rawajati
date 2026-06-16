@@ -1743,6 +1743,11 @@
   },
   "aiModels": [
     {
+      "id": "MiniMax/MiniMax-M3",
+      "label": "MiniMax M3 (MiniMax)",
+      "short": "MiniMax M3"
+    },
+    {
       "id": "google/gemma-4-26b-a4b-it:free",
       "label": "Gemma 4 26B (Google)",
       "short": "Gemma 4"
