@@ -1369,6 +1369,7 @@ function initAISettings() {
     openai:     { label: 'OpenAI',     base: 'https://api.openai.com/v1/chat/completions',     link: 'https://platform.openai.com/docs/models' },
     anthropic:  { label: 'Anthropic',  base: 'https://api.anthropic.com/v1/messages',            link: 'https://docs.anthropic.com/en/docs/models-overview' },
     gemini:     { label: 'Google Gemini', base: 'https://generativelanguage.googleapis.com/v1beta/models', link: 'https://ai.google.dev/models' },
+    MiniMax:    { label: 'MiniMax',     base: 'https://api.MiniMax.chat/v1/chat/completions',   link: 'https://MiniMax.ai/docs' },
     custom:     { label: 'Custom',     base: '',                                                 link: '#' }
   };
   function _updateProviderUI(provider) {

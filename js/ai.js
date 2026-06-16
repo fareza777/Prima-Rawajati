@@ -17,6 +17,7 @@ const PRIMA_AI = (() => {
   }
 
   const DEFAULT_MODELS = [
+    { id: 'MiniMax/MiniMax-M3', label: 'MiniMax M3 (MiniMax)', short: 'MiniMax M3' },
     { id: 'google/gemma-4-26b-a4b-it:free', label: 'Gemma 4 26B (Google)', short: 'Gemma 4' },
     { id: 'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free', label: 'Nemotron 3 Nano 30B (Reasoning)', short: 'Nemotron Nano' },
     { id: 'nvidia/nemotron-3-super-120b-a12b:free', label: 'Nemotron 3 Super 120B', short: 'Nemotron Super' },
