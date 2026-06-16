@@ -33,8 +33,8 @@ function validateData(d) {
   if (d.aiSettings !== undefined) {
     if (typeof d.aiSettings !== 'object' || d.aiSettings === null) return 'Field "aiSettings" harus object.';
     if (d.aiSettings.enabled !== undefined && typeof d.aiSettings.enabled !== 'boolean') return 'aiSettings.enabled harus boolean.';
-    if (d.aiSettings.model !== undefined && (typeof d.aiSettings.model !== 'string' || !d.aiSettings.model.includes('/'))) {
-      return 'aiSettings.model harus string format "vendor/model".';
+    if (d.aiSettings.model !== undefined && (typeof d.aiSettings.model !== 'string' || !(/^[a-z0-9_-]+\/[a-z0-9._-]+$/i.test(d.aiSettings.model) || /^[A-Za-z][A-Za-z0-9._-]{1,63}$/.test(d.aiSettings.model)))) {
+      return 'aiSettings.model harus string dengan format yang valid (vendor/model atau model-id).';
     }
   }
   if (d.aiModels !== undefined) {
@@ -42,7 +42,7 @@ function validateData(d) {
     for (let i = 0; i < d.aiModels.length; i++) {
       const m = d.aiModels[i];
       if (!m || typeof m !== 'object') return `aiModels[${i}] harus object.`;
-      if (typeof m.id !== 'string' || !m.id.includes('/')) return `aiModels[${i}].id harus string format "vendor/model".`;
+      if (typeof m.id !== 'string' || !(/^[a-z0-9_-]+\/[a-z0-9._-]+$/i.test(m.id) || /^[A-Za-z][A-Za-z0-9._-]{1,63}$/.test(m.id))) return `aiModels[${i}].id harus string dengan format yang valid (vendor/model atau model-id).`;
       if (typeof m.label !== 'string') return `aiModels[${i}].label harus string.`;
       if (typeof m.short !== 'string') return `aiModels[${i}].short harus string.`;
     }

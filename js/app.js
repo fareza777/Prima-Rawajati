@@ -1567,8 +1567,8 @@ function addAIModelPreset() {
     showToast('❌ ID model wajib diisi');
     return;
   }
-  if (!id.includes('/')) {
-    showToast('❌ ID harus format vendor/model (contoh: qwen/qwen3.6-flash)');
+  if (!/^[a-z0-9_-]+\/[a-z0-9._-]+$/i.test(id) && !/^[A-Za-z][A-Za-z0-9._-]{1,63}$/.test(id)) {
+    showToast('❌ ID harus format valid: vendor/model (contoh: qwen/qwen3.6-flash) atau model-id (contoh: MiniMax-M3)');
     return;
   }
   const label = _autoLabelFromId(id);
