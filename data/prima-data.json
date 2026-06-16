@@ -27,7 +27,7 @@
       "lng": 106.849
     },
     "versi": "1.0.0",
-    "terakhirUpdate": "2026-06-08T00:00:00.000Z",
+    "terakhirUpdate": "2026-06-16T13:09:17.611Z",
     "instagram": "kelrawajati"
   },
   "layanan": [
@@ -1739,7 +1739,9 @@
   ],
   "aiSettings": {
     "enabled": true,
-    "model": "deepseek/deepseek-v4-flash"
+    "model": "MiniMax/MiniMax-M3",
+    "provider": "MiniMax",
+    "baseUrl": "https://api.MiniMax.chat/v1/chat/completions"
   },
   "aiModels": [
     {
