@@ -9,12 +9,12 @@ const PROVIDER_CONFIG = {
   openai:     { base: 'https://api.openai.com/v1/chat/completions',     envKey: 'OPENAI_API_KEY' },
   anthropic:  { base: 'https://api.anthropic.com/v1/messages',          envKey: 'ANTHROPIC_API_KEY' },
   gemini:     { base: 'https://generativelanguage.googleapis.com/v1beta/models', envKey: 'GEMINI_API_KEY' },
-  MiniMax:    { base: 'https://api.MiniMax.chat/v1/chat/completions', envKey: 'MINIMAX_API_KEY' },
+  MiniMax:    { base: 'https://api.MiniMax.io/v1/chat/completions',  envKey: 'MINIMAX_API_KEY' },
   custom:     { base: '', envKey: 'CUSTOM_AI_API_KEY' }
 };
 
 function isValidModelId(id) {
-  return typeof id === 'string' && /^[a-z0-9_-]+\/[a-z0-9._-]+$/i.test(id);
+  return typeof id === 'string' && (/^[a-z0-9_-]+\/[a-z0-9._-]+$/i.test(id) || /^[A-Za-z][A-Za-z0-9._-]{1,63}$/.test(id));
 }
 
 export default async function handler(req) {

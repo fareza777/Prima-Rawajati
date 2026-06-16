@@ -1745,7 +1745,7 @@
   },
   "aiModels": [
     {
-      "id": "MiniMax/MiniMax-M3",
+      "id": "MiniMax-M3",
       "label": "MiniMax M3 (MiniMax)",
       "short": "MiniMax M3"
     },
