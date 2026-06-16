@@ -14,7 +14,7 @@ const PROVIDER_CONFIG = {
 };
 
 function isValidModelId(id) {
-  return typeof id === 'string' && (/^[a-z0-9_-]+\/[a-z0-9._-]+$/i.test(id) || /^[A-Za-z][A-Za-z0-9._-]{1,63}$/.test(id));
+  return typeof id === 'string' && (/^[a-z0-9_-]+\/[a-z0-9._:-]+$/i.test(id) || /^[A-Za-z][A-Za-z0-9._-]{1,63}$/.test(id));
 }
 
 export default async function handler(req) {
