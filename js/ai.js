@@ -70,6 +70,20 @@ const PRIMA_AI = (() => {
 
   const DEFAULT_MODEL = DEFAULT_MODELS[0].id;
 
+  function isValidModelId(id) {
+    return typeof id === 'string' && (/^[a-z0-9_-]+\/[a-z0-9._:-]+$/i.test(id) || /^[A-Za-z][A-Za-z0-9._-]{1,63}$/.test(id));
+  }
+
+  function normalizeModelId(id, provider) {
+    const clean = String(id || '').trim();
+    if (!clean) return clean;
+    if (/minimax/i.test(provider || '')) {
+      if (/^MiniMax\/MiniMax-/i.test(clean)) return clean.replace(/^MiniMax\/MiniMax-/i, 'MiniMax-');
+      if (/^MiniMax\//i.test(clean)) return clean.replace(/^MiniMax\//i, '');
+    }
+    return clean;
+  }
+
   // ── BASIC RAG ──────────────────────────────────────────────────
   // Indeks sederhana: tokenize semua dokumen sekali, lalu skor TF terhadap query.
   let _index = null;
@@ -218,10 +232,10 @@ KONTAK KELURAHAN:
    * @param {{model?:string, onToken?:(text:string)=>void, onDone?:(full:string)=>void, onError?:(err:Error)=>void, signal?:AbortSignal}} opts
    */
   async function streamChat(history, userMessage, opts = {}) {
-    const model = opts.model || getSelectedModel();
+    const { provider, baseUrl } = getProviderSettings();
+    const model = normalizeModelId(opts.model || getSelectedModel(), provider);
     const docs = retrieveContext(userMessage, 10);
     const systemPrompt = buildSystemPrompt(docs);
-    const { provider, baseUrl, apiKey } = getProviderSettings();
 
     const messages = [
       { role: 'system', content: systemPrompt },
@@ -237,7 +251,7 @@ KONTAK KELURAHAN:
       response = await fetch(getEndpoint(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model, messages, stream: true, temperature: 0.4, max_tokens: 800, provider, baseUrl, apiKey }),
+        body: JSON.stringify({ model, messages, stream: true, temperature: 0.4, max_tokens: 800, provider, baseUrl }),
         signal: opts.signal
       });
     } catch (e) {
@@ -247,9 +261,16 @@ KONTAK KELURAHAN:
 
     if (!response.ok) {
       const errText = await response.text().catch(() => '');
-      const err = new Error(`HTTP ${response.status}: ${errText.slice(0, 200)}`);
+      let msg = `HTTP ${response.status}`;
+      try {
+        const parsed = JSON.parse(errText);
+        if (parsed.error) msg = typeof parsed.error === 'string' ? parsed.error : JSON.stringify(parsed.error);
+      } catch {
+        if (errText) msg += ': ' + errText.slice(0, 120);
+      }
+      const err = new Error(msg);
       opts.onError?.(err);
-      return { ok: false, error: err.message, status: response.status, retrievedDocs: docs };
+      return { ok: false, error: msg, status: response.status, retrievedDocs: docs };
     }
 
     const reader = response.body.getReader();
@@ -276,6 +297,7 @@ KONTAK KELURAHAN:
             const parsed = JSON.parse(data);
             const delta = parsed.choices?.[0]?.delta?.content
                        || parsed.choices?.[0]?.message?.content
+                       || parsed.choices?.[0]?.delta?.reasoning_content
                        || '';
             if (delta) {
               full += delta;
@@ -307,7 +329,7 @@ KONTAK KELURAHAN:
   // GitHub" supaya berlaku global. localStorage tetap ditulis sebagai cache.
   function setSelectedModel(id) {
     const clean = (id || '').trim();
-    if (!clean || !clean.includes('/')) return false;
+    if (!isValidModelId(clean)) return false;
     if (window.PRIMA_DATA) {
       if (!window.PRIMA_DATA.aiSettings) window.PRIMA_DATA.aiSettings = {};
       window.PRIMA_DATA.aiSettings.model = clean;

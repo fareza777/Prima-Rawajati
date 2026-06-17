@@ -1739,9 +1739,9 @@
   ],
   "aiSettings": {
     "enabled": true,
-    "model": "MiniMax/MiniMax-M3",
+    "model": "MiniMax-M3",
     "provider": "MiniMax",
-    "baseUrl": "https://api.MiniMax.chat/v1/chat/completions"
+    "baseUrl": "https://api.minimax.io/v1/chat/completions"
   },
   "aiModels": [
     {

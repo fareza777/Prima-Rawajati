@@ -1369,7 +1369,7 @@ function initAISettings() {
     openai:     { label: 'OpenAI',     base: 'https://api.openai.com/v1/chat/completions',     link: 'https://platform.openai.com/docs/models' },
     anthropic:  { label: 'Anthropic',  base: 'https://api.anthropic.com/v1/messages',            link: 'https://docs.anthropic.com/en/docs/models-overview' },
     gemini:     { label: 'Google Gemini', base: 'https://generativelanguage.googleapis.com/v1beta/models', link: 'https://ai.google.dev/models' },
-    MiniMax:    { label: 'MiniMax',     base: 'https://api.MiniMax.io/v1/chat/completions',    link: 'https://platform.MiniMax.io/docs' },
+    MiniMax:    { label: 'MiniMax',     base: 'https://api.minimax.io/v1/chat/completions',    link: 'https://platform.minimax.io/docs' },
     custom:     { label: 'Custom',     base: '',                                                 link: '#' }
   };
   function _updateProviderUI(provider) {
@@ -1747,7 +1747,7 @@ async function sendMessage() {
       if (msg) msg.remove();
     }
     addBotMessage(
-      '<em>⚠️ Mode AI tidak tersedia (' + (result.error || 'unknown') + '). Beralih ke mesin lokal…</em>',
+      '<em>⚠️ Mode AI tidak tersedia. ' + escapeHtml(result.error || 'unknown') + ' Beralih ke mesin lokal…</em>',
       getCurrentTime()
     );
   }
