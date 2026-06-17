@@ -211,7 +211,7 @@ ${ctxBlocks || '(tidak ada konteks spesifik — pakai pengetahuan umum tentang P
 
 KONTAK KELURAHAN:
 - Telepon: ${meta.telepon || '(021) 7994427'}
-- Alamat: ${meta.alamat || 'Jl. Rawajati Timur, Pancoran, Jakarta Selatan'}
+- Alamat: ${meta.alamat || 'Jl. Rawajati Barat RT.006/RW.04, Rawajati, Pancoran, Jakarta Selatan 12750'}
 - Jam Kerja: ${meta.jamKerja || 'Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB'}`;
   }
 

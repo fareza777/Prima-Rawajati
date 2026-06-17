@@ -4,7 +4,7 @@
     "kecamatan": "Pancoran",
     "kota": "Jakarta Selatan",
     "provinsi": "DKI Jakarta",
-    "alamat": "Jl. Rawajati Timur No.1, Rawajati, Pancoran, Jakarta Selatan 12750",
+    "alamat": "Jl. Rawajati Barat RT.006/RW.04, Rawajati, Pancoran, Jakarta Selatan 12750",
     "telepon": "(021) 7994427",
     "email": "kel.rawajati@jakarta.go.id",
     "officialSources": [
@@ -23,8 +23,8 @@
     ],
     "jamKerja": "Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB",
     "koordinat": {
-      "lat": -6.2605,
-      "lng": 106.849
+      "lat": -6.260252,
+      "lng": 106.852497
     },
     "versi": "1.0.0",
     "terakhirUpdate": "2026-06-17T01:28:06.249Z",
@@ -1081,9 +1081,9 @@
       "kategori": "Pemerintahan",
       "icon": "🏛️",
       "warna": "#1565C0",
-      "lat": -6.2605,
-      "lng": 106.849,
-      "alamat": "Jl. Rawajati Timur No.1, Rawajati, Pancoran, Jakarta Selatan 12750",
+      "lat": -6.260252,
+      "lng": 106.852497,
+      "alamat": "Jl. Rawajati Barat RT.006/RW.04, Rawajati, Pancoran, Jakarta Selatan 12750",
       "info": "Kantor Kelurahan Rawajati – pusat pelayanan administrasi warga. Jam: Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB. Telp: (021) 7994427. Sumber: data kelurahan/PRIMA."
     },
     {
@@ -1366,7 +1366,7 @@
         "kantor kelurahan",
         "rawajati"
       ],
-      "jawaban": "📍 **Kantor Kelurahan Rawajati:**\n\nJl. Rawajati Timur No.1\nRawajati, Pancoran\nJakarta Selatan 12750\n\n📞 Telepon: (021) 7994427\n📧 Email: kel.rawajati@jakarta.go.id\n\n🗺️ Lihat di menu **Peta Wilayah** untuk petunjuk arah!"
+      "jawaban": "📍 **Kantor Kelurahan Rawajati:**\n\nJl. Rawajati Barat RT.006/RW.04\nRawajati, Pancoran\nJakarta Selatan 12750\n\n📞 Telepon: (021) 7994427\n📧 Email: kel.rawajati@jakarta.go.id\n\n🗺️ Lihat di menu **Peta Wilayah** untuk petunjuk arah!"
     },
     {
       "intent": "syarat_domisili",

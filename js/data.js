@@ -22,11 +22,11 @@ const PRIMA_DATA_FALLBACK = {
     kecamatan: 'Pancoran',
     kota: 'Jakarta Selatan',
     provinsi: 'DKI Jakarta',
-    alamat: 'Jl. Rawajati Timur No.1, Rawajati, Pancoran, Jakarta Selatan 12750',
+    alamat: 'Jl. Rawajati Barat RT.006/RW.04, Rawajati, Pancoran, Jakarta Selatan 12750',
     telepon: '(021) 7994427',
     email: 'kel.rawajati@jakarta.go.id',
     jamKerja: 'Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB',
-    koordinat: { lat: -6.2605, lng: 106.8490 },
+    koordinat: { lat: -6.260252, lng: 106.852497 },
     versi: '1.0.0',
     terakhirUpdate: 'Mei 2026'
   },
