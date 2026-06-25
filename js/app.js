@@ -2680,14 +2680,6 @@ function showQRCode() {
         Arahkan kamera HP ke kode di atas
       </p>
 
-      <div class="qr-tips">
-        <span class="qr-tip">Loket pelayanan</span>
-        <span class="qr-tip">Papan pengumuman</span>
-        <span class="qr-tip">Pos RW</span>
-        <span class="qr-tip">Masjid</span>
-        <span class="qr-tip">Area publik</span>
-      </div>
-
       <div class="qr-actions">
         <button class="la-btn la-btn-primary qr-btn-print" onclick="printQR()">
           <i data-lucide="printer"></i> Cetak QR
