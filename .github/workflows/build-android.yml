@@ -23,7 +23,7 @@ permissions:
   contents: write
 
 env:
-  PACKAGE_ID:    id.kelurahan.rawajati.prima
+  PACKAGE_ID:    id.rawajati.prima
   # Semua package yang masih dipakai di Play (AAB lama + app baru)
   ASSETLINK_PACKAGES: id.rawajati.prima,id.kelurahan.rawajati.prima
   KEY_ALIAS:     prima
