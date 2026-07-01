@@ -2,6 +2,8 @@
 // PRIMA – Main Application Logic
 // ================================================================
 
+const PRIMA_PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=id.rawajati.prima';
+
 // ── SPLASH SCREEN ────────────────────────────────────────────────
 (function initAppSplash() {
   const splash = document.getElementById('app-splash');
@@ -2809,7 +2811,7 @@ async function exportData() {
 function showQRCode() {
   const modal = document.getElementById('modal-overlay');
   const body  = document.getElementById('modal-body-content');
-  const appUrl = window.location.href.split('#')[0];
+  const qrUrl = PRIMA_PLAY_STORE_URL;
 
   body.innerHTML = `
     <div class="modal-handle"></div>
@@ -2817,7 +2819,7 @@ function showQRCode() {
       <span class="modal-emoji"><i data-lucide="qr-code"></i></span>
       <div class="modal-title">
         <h3>QR Code PRIMA</h3>
-        <p>Scan untuk akses layanan Kelurahan Rawajati</p>
+        <p>Scan untuk unduh aplikasi di Google Play Store</p>
       </div>
       <button class="modal-close" onclick="closeModal()" aria-label="Tutup">✕</button>
     </div>
@@ -2841,7 +2843,7 @@ function showQRCode() {
 
       <p class="qr-hint">
         <i data-lucide="smartphone"></i>
-        Arahkan kamera HP ke kode di atas
+        Scan untuk install PRIMA Rawajati dari Play Store
       </p>
 
       <div class="qr-actions">
@@ -2867,7 +2869,7 @@ function showQRCode() {
     if (!host) return;
     try {
       new QRCode(host, {
-        text: appUrl,
+        text: qrUrl,
         width: 196,
         height: 196,
         colorDark: '#0A1F44',
