@@ -1342,6 +1342,48 @@
       }
     ]
   },
+  "infoKelurahan": {
+    "pengumuman": [
+      {
+        "id": "pg-jam-kerja",
+        "judul": "Jam Pelayanan Kelurahan Rawajati",
+        "emoji": "📢",
+        "tanggal": "2026-06-01",
+        "ringkasan": "Senin–Kamis 07.30–16.00 WIB, Jumat 07.30–16.30 WIB.",
+        "deskripsi": "Pelayanan administrasi kelurahan buka Senin–Kamis pukul 07.30–16.00 WIB dan Jumat 07.30–16.30 WIB. Di luar jam tersebut, warga dapat memanfaatkan informasi layanan melalui PRIMA 24 jam.",
+        "penting": true
+      },
+      {
+        "id": "pg-prioritas-layanan",
+        "judul": "Persiapan Berkas Sebelum Ke Loket",
+        "emoji": "📋",
+        "tanggal": "2026-06-10",
+        "ringkasan": "Siapkan dokumen asli dan fotokopi sesuai jenis layanan agar proses lebih cepat.",
+        "deskripsi": "Untuk mempercepat pelayanan, warga diharapkan mengecek syarat lengkap di menu Layanan & Surat PRIMA sebelum datang ke loket Kelurahan Rawajati.",
+        "penting": false
+      }
+    ],
+    "kegiatan": [
+      {
+        "id": "kg-sosialisasi-jakevo",
+        "nama": "Sosialisasi Layanan Online JakEVO",
+        "emoji": "🏛️",
+        "jadwal": "Menyesuaikan jadwal resmi Kelurahan",
+        "lokasi": "Kantor Kelurahan Rawajati",
+        "kontak": "Loket Kelurahan — (021) 7994427",
+        "deskripsi": "Informasi dan pendampingan layanan administrasi kependudukan serta kelurahan melalui platform JakEVO."
+      },
+      {
+        "id": "kg-posyandu-kelurahan",
+        "nama": "Koordinasi Posyandu & Kesehatan Warga",
+        "emoji": "👶",
+        "jadwal": "Bulanan — lihat pengumuman terbaru",
+        "lokasi": "Wilayah kerja Kelurahan Rawajati",
+        "kontak": "Sekretariat Kelurahan Rawajati",
+        "deskripsi": "Kegiatan kesehatan warga yang dikoordinasikan tingkat kelurahan bersama kader dan RT/RW setempat."
+      }
+    ]
+  },
   "faqChatbot": [
     {
       "intent": "jam_kerja",

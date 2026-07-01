@@ -148,6 +148,16 @@ const PRIMA_AI = (() => {
       docs.push({ type: 'kegiatan', id: g.id, title: g.nama, text, tokens: _tokenize(text) });
     });
 
+    const ik = PRIMA_DATA.infoKelurahan || {};
+    (ik.pengumuman || []).forEach(p => {
+      const text = `PENGUMUMAN KELURAHAN ${p.judul || ''}. ${p.ringkasan || ''} ${p.deskripsi || ''} Tanggal: ${p.tanggal || ''}.`;
+      docs.push({ type: 'pengumuman', id: p.id, title: p.judul, text, tokens: _tokenize(text) });
+    });
+    (ik.kegiatan || []).forEach(g => {
+      const text = `KEGIATAN KELURAHAN ${g.nama}. ${g.deskripsi || ''} Jadwal: ${g.jadwal || ''}. Lokasi: ${g.lokasi || ''}.`;
+      docs.push({ type: 'kegiatan-kel', id: g.id, title: g.nama, text, tokens: _tokenize(text) });
+    });
+
     // FAQ
     (PRIMA_DATA.faqChatbot || []).forEach(f => {
       const text = `FAQ ${f.intent}. Kata kunci: ${(f.keywords || []).join(', ')}. Jawaban: ${f.jawaban}`;

@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 
   <!-- App CSS (v4 – Royal Government Theme) -->
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
 
   <!-- Desktop fix: inline override agar tidak terkena cache -->
   <style>
@@ -160,10 +160,15 @@
       <h3>Peta Wilayah</h3>
       <p>Fasilitas, RW, dan lokasi penting</p>
     </div>
-    <div class="menu-card orange" onclick="navigateTo('info')">
+    <div class="menu-card orange" onclick="navigateToInfo('warga')">
       <span class="card-icon"><i data-lucide="utensils"></i></span>
       <h3>Info Warga</h3>
       <p>Kuliner terverifikasi, data usaha, dan kegiatan warga</p>
+    </div>
+    <div class="menu-card navy" onclick="navigateToInfo('kelurahan')">
+      <span class="card-icon"><i data-lucide="landmark"></i></span>
+      <h3>Info Kelurahan</h3>
+      <p>Pengumuman resmi dan kegiatan kelurahan</p>
     </div>
     <div class="menu-card teal" onclick="navigateTo('chat')">
       <span class="card-icon"><i data-lucide="message-circle"></i></span>
@@ -295,33 +300,59 @@
 
 
 <!-- ══════════════════════════════════════════
-     PAGE: INFO WARGA
+     PAGE: INFO (Warga + Kelurahan)
 ═══════════════════════════════════════════ -->
 <main id="page-info" class="page">
   <div class="page-hero">
     <div class="page-hero-head section-header">
-      <h2>🍜 Info Warga Rawajati</h2>
-      <p>Kuliner sekitar Rawajati, data usaha yang sedang diverifikasi, dan agenda warga.</p>
+      <h2 id="info-page-title">📋 Info Rawajati</h2>
+      <p id="info-page-desc">Informasi warga dan pengumuman resmi Kelurahan Rawajati.</p>
     </div>
+
+    <div class="info-section-switch" role="tablist" aria-label="Kategori info">
+      <button type="button" class="info-section-btn active" data-section="warga" role="tab" aria-selected="true">
+        <i data-lucide="users"></i> Info Warga
+      </button>
+      <button type="button" class="info-section-btn" data-section="kelurahan" role="tab" aria-selected="false">
+        <i data-lucide="landmark"></i> Info Kelurahan
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Panel: Info Warga ── -->
+  <div id="info-panel-warga" class="info-panel active">
     <div class="info-tab-bar" role="tablist" aria-label="Kategori info warga">
-      <button type="button" class="info-tab active" data-tab="kuliner" role="tab" aria-selected="true">Kuliner</button>
-      <button type="button" class="info-tab" data-tab="usaha" role="tab" aria-selected="false">Usaha Binaan</button>
-      <button type="button" class="info-tab" data-tab="kegiatan" role="tab" aria-selected="false">Kegiatan</button>
+      <button type="button" class="info-tab active" data-panel="warga" data-tab="kuliner" role="tab" aria-selected="true">Kuliner</button>
+      <button type="button" class="info-tab" data-panel="warga" data-tab="usaha" role="tab" aria-selected="false">Usaha Binaan</button>
+      <button type="button" class="info-tab" data-panel="warga" data-tab="kegiatan" role="tab" aria-selected="false">Kegiatan</button>
+    </div>
+
+    <div class="kegiatan-this-week" id="kegiatan-this-week" hidden></div>
+
+    <div class="tab-content active" id="tab-kuliner">
+      <div id="kuliner-list"></div>
+    </div>
+    <div class="tab-content" id="tab-usaha">
+      <div id="usaha-list"></div>
+    </div>
+    <div class="tab-content" id="tab-kegiatan">
+      <div id="kegiatan-list"></div>
     </div>
   </div>
 
-  <!-- Banner Kegiatan Minggu Ini — auto-populated kalau ada kegiatan jadwalnya minggu ini -->
-  <div class="kegiatan-this-week" id="kegiatan-this-week" hidden></div>
+  <!-- ── Panel: Info Kelurahan ── -->
+  <div id="info-panel-kelurahan" class="info-panel">
+    <div class="info-tab-bar info-tab-bar--kelurahan" role="tablist" aria-label="Kategori info kelurahan">
+      <button type="button" class="info-tab active" data-panel="kelurahan" data-tab="pengumuman" role="tab" aria-selected="true">Pengumuman</button>
+      <button type="button" class="info-tab" data-panel="kelurahan" data-tab="kel-kegiatan" role="tab" aria-selected="false">Kegiatan</button>
+    </div>
 
-  <!-- Tab Content -->
-  <div class="tab-content active" id="tab-kuliner">
-    <div id="kuliner-list"></div>
-  </div>
-  <div class="tab-content" id="tab-usaha">
-    <div id="usaha-list"></div>
-  </div>
-  <div class="tab-content" id="tab-kegiatan">
-    <div id="kegiatan-list"></div>
+    <div class="tab-content active" id="tab-pengumuman">
+      <div id="pengumuman-list"></div>
+    </div>
+    <div class="tab-content" id="tab-kel-kegiatan">
+      <div id="kel-kegiatan-list"></div>
+    </div>
   </div>
 </main>
 

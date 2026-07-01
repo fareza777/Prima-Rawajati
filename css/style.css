@@ -598,8 +598,8 @@ input:focus, textarea:focus, select:focus {
 .menu-card.teal   { --mc-from:#D6EEEC; --mc-to:#9BCFCA; --mc-ink:#00504A; }
 .menu-card.purple { --mc-from:#EADFF0; --mc-to:#C2A5D4; --mc-ink:#4A148C; }
 .menu-card-admin[hidden] { display: none !important; }
-/* Kartu ke-5 (Suara Warga) — tengah di baris terakhir saat Admin disembunyikan */
-.menu-grid .menu-card:nth-child(5):not(.menu-card-admin) {
+/* Kartu ke-6 (Suara Warga) — tengah di baris terakhir bila jumlah ganjil */
+.menu-grid .menu-card:nth-child(6):not(.menu-card-admin) {
   grid-column: 1 / -1;
   max-width: calc(50% - 6px);
   justify-self: center;
@@ -609,6 +609,137 @@ input:focus, textarea:focus, select:focus {
   --mc-from:#FBF3D6; --mc-to:#F4C95D; --mc-ink:#7A5A00;
   border-color: rgba(212,175,55,.55);
   box-shadow: 0 1px 2px rgba(10,31,68,.05), 0 10px 22px rgba(212,175,55,.25), inset 0 1px 0 rgba(255,255,255,.9);
+}
+.menu-card.navy   {
+  --mc-from:#D8E2F4; --mc-to:#9BB0D9; --mc-ink:var(--navy-800);
+  border-color: rgba(10,31,68,.12);
+}
+
+/* ── INFO PAGE: section switch (Warga / Kelurahan) ── */
+.info-section-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 0 16px 4px;
+  max-width: 568px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px;
+  background: rgba(10,31,68,.06);
+  border: 1px solid rgba(10,31,68,.08);
+  border-radius: 14px;
+}
+.info-section-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 11px 10px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s, color .2s, box-shadow .2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.info-section-btn [data-lucide],
+.info-section-btn svg { width: 16px; height: 16px; stroke-width: 2.2; }
+.info-section-btn.active {
+  background: linear-gradient(145deg, var(--navy-800), var(--navy-900));
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(10,31,68,.22);
+}
+.info-section-btn.active [data-lucide],
+.info-section-btn.active svg { color: var(--gold-light); }
+.info-panel { display: none; }
+.info-panel.active { display: block; }
+.info-tab-bar--kelurahan { margin-top: 12px; }
+
+/* Pengumuman kelurahan cards */
+.pengumuman-card {
+  margin: 0 16px 12px;
+  max-width: 568px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 16px;
+  background: var(--surface, #fff);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--gold-deep);
+}
+.pengumuman-card.is-penting {
+  border-left-color: #C62828;
+  background: linear-gradient(135deg, rgba(198,40,40,.04), rgba(255,255,255,.98));
+}
+.pg-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.pg-emoji { font-size: 22px; line-height: 1; flex-shrink: 0; }
+.pg-title-wrap { flex: 1; min-width: 0; }
+.pg-title-wrap h3 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy-900);
+  line-height: 1.3;
+  margin: 0;
+}
+.pg-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 5px;
+}
+.pg-date {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.pg-ringkasan {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+  margin: 0 0 8px;
+}
+.pg-body {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 0;
+  white-space: pre-line;
+}
+.kel-kegiatan-card .info-card-header .badge-navy {
+  background: rgba(10,31,68,.08);
+  color: var(--navy-800);
+  border: 1px solid rgba(10,31,68,.12);
+}
+
+[data-theme="dark"] .info-section-switch {
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.08);
+}
+[data-theme="dark"] .info-section-btn { color: rgba(255,255,255,.55); }
+[data-theme="dark"] .info-section-btn.active {
+  background: linear-gradient(145deg, #1E3A6E, #0A1F44);
+}
+[data-theme="dark"] .menu-card.navy {
+  --mc-from: #1E293B; --mc-to: #172033; --mc-ink: #93C5FD;
+}
+[data-theme="dark"] .pengumuman-card {
+  background: var(--surface);
+  border-color: rgba(255,255,255,.1);
+}
+[data-theme="dark"] .pengumuman-card.is-penting {
+  background: linear-gradient(135deg, rgba(198,40,40,.12), rgba(30,30,40,.95));
 }
 
 /* ── INFO BANNER ── */
@@ -692,6 +823,7 @@ input:focus, textarea:focus, select:focus {
 .badge-gray   { background: #F1EFE6; color: #6B6658; }
 .badge-amber  { background: #FFF3CD; color: #8A6D11; }
 .badge-orange { background: #FFE4D1; color: #B0481A; }
+.badge-red    { background: #FFEBEE; color: #C62828; }
 .lcard-arrow { font-size: 18px; color: var(--text-light); flex-shrink: 0; }
 
 /* ── MODAL / DETAIL SHEET ── */

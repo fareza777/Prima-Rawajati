@@ -89,7 +89,7 @@ function bootApp() {
   renderLayananQuick();
   renderLayananFilters();
   renderLayanan();
-  renderInfoWarga();
+  renderInfoPage();
   renderSuaraWarga();
   renderAdminPage();
   initChatbot();
@@ -144,6 +144,11 @@ function navigateTo(pageId) {
     setTimeout(() => map.invalidateSize(), 80);
   }
 
+  if (pageId === 'info' && !_preserveInfoSection) {
+    switchInfoSection('warga');
+  }
+  _preserveInfoSection = false;
+
   // Analytics
   if (typeof PRIMA_ANALYTICS !== 'undefined') {
     PRIMA_ANALYTICS.trackPageView();
@@ -152,6 +157,91 @@ function navigateTo(pageId) {
   }
 
   localStorage.setItem('prima_last_page', pageId);
+}
+
+let _preserveInfoSection = false;
+
+const INFO_SECTION_COPY = {
+  warga: {
+    title: '🍜 Info Warga Rawajati',
+    desc: 'Kuliner terverifikasi, usaha binaan, dan kegiatan RT/RW sekitar Rawajati.'
+  },
+  kelurahan: {
+    title: '🏛️ Info Kelurahan Rawajati',
+    desc: 'Pengumuman resmi dan kegiatan yang diselenggarakan Kelurahan Rawajati.'
+  }
+};
+
+function ensureInfoKelurahan() {
+  if (!PRIMA_DATA.infoKelurahan) PRIMA_DATA.infoKelurahan = { pengumuman: [], kegiatan: [] };
+  if (!Array.isArray(PRIMA_DATA.infoKelurahan.pengumuman)) PRIMA_DATA.infoKelurahan.pengumuman = [];
+  if (!Array.isArray(PRIMA_DATA.infoKelurahan.kegiatan)) PRIMA_DATA.infoKelurahan.kegiatan = [];
+}
+
+function navigateToInfo(section = 'warga', tab = null) {
+  _preserveInfoSection = true;
+  navigateTo('info');
+  switchInfoSection(section, tab);
+}
+
+function switchInfoSection(section = 'warga', tab = null) {
+  const sec = section === 'kelurahan' ? 'kelurahan' : 'warga';
+  const copy = INFO_SECTION_COPY[sec];
+
+  document.getElementById('info-page-title').textContent = copy.title;
+  document.getElementById('info-page-desc').textContent = copy.desc;
+
+  document.querySelectorAll('.info-section-btn').forEach(btn => {
+    const active = btn.dataset.section === sec;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+
+  document.getElementById('info-panel-warga')?.classList.toggle('active', sec === 'warga');
+  document.getElementById('info-panel-kelurahan')?.classList.toggle('active', sec === 'kelurahan');
+
+  const defaultTab = sec === 'kelurahan' ? 'pengumuman' : 'kuliner';
+  activateInfoTab(sec, tab || defaultTab);
+
+  if (window.lucide && typeof lucide.createIcons === 'function') {
+    try { lucide.createIcons(); } catch {}
+  }
+}
+
+function activateInfoTab(panel, tabId) {
+  const panelEl = document.getElementById('info-panel-' + panel);
+  if (!panelEl) return;
+
+  panelEl.querySelectorAll('.info-tab').forEach(btn => {
+    const active = btn.dataset.tab === tabId;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+  panelEl.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tabId)?.classList.add('active');
+}
+
+function bindInfoPageTabs() {
+  document.querySelectorAll('.info-section-btn').forEach(btn => {
+    if (btn.dataset.bound) return;
+    btn.dataset.bound = '1';
+    btn.addEventListener('click', () => switchInfoSection(btn.dataset.section));
+  });
+
+  document.querySelectorAll('.info-tab[data-panel]').forEach(btn => {
+    if (btn.dataset.bound) return;
+    btn.dataset.bound = '1';
+    btn.addEventListener('click', () => {
+      activateInfoTab(btn.dataset.panel, btn.dataset.tab);
+    });
+  });
+}
+
+function formatInfoDate(value) {
+  if (!value) return '';
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return String(value);
+  return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
 // ── HOME PAGE ────────────────────────────────────────────────────
@@ -330,6 +420,16 @@ function searchAll(query) {
     }
   });
 
+  ensureInfoKelurahan();
+  PRIMA_DATA.infoKelurahan.pengumuman.forEach(p => {
+    const hay = `${p.judul || ''} ${p.ringkasan || ''} ${p.deskripsi || ''}`.toLowerCase();
+    if (hay.includes(q)) results.push({ type: 'pengumuman', data: p, score: 2 });
+  });
+  PRIMA_DATA.infoKelurahan.kegiatan.forEach(g => {
+    const hay = `${g.nama || ''} ${g.deskripsi || ''}`.toLowerCase();
+    if (hay.includes(q)) results.push({ type: 'kel-kegiatan', data: g, score: 2 });
+  });
+
   return results.sort((a, b) => b.score - a.score).slice(0, 8);
 }
 
@@ -366,8 +466,26 @@ function showSearchResults(results, query) {
         </div>
         <span class="lcard-arrow">›</span>
       </div>`;
+    } else if (r.type === 'pengumuman') {
+      return `<div class="layanan-card" onclick="navigateToInfo('kelurahan','pengumuman'); document.getElementById('home-search').value=''; document.getElementById('search-results').style.display='none';">
+        <span class="lcard-emoji">${r.data.emoji || '📢'}</span>
+        <div class="lcard-body">
+          <h3>${highlightText(r.data.judul, query)}</h3>
+          <div class="lcard-meta"><span class="badge badge-gray">🏛️ Pengumuman</span></div>
+        </div>
+        <span class="lcard-arrow">›</span>
+      </div>`;
+    } else if (r.type === 'kel-kegiatan') {
+      return `<div class="layanan-card" onclick="navigateToInfo('kelurahan','kel-kegiatan'); document.getElementById('home-search').value=''; document.getElementById('search-results').style.display='none';">
+        <span class="lcard-emoji">${r.data.emoji || '📅'}</span>
+        <div class="lcard-body">
+          <h3>${highlightText(r.data.nama, query)}</h3>
+          <div class="lcard-meta"><span class="badge badge-gray">🏛️ Kegiatan Kelurahan</span></div>
+        </div>
+        <span class="lcard-arrow">›</span>
+      </div>`;
     } else {
-      return `<div class="layanan-card" onclick="navigateTo('info'); document.getElementById('home-search').value=''; document.getElementById('search-results').style.display='none';">
+      return `<div class="layanan-card" onclick="navigateToInfo('warga'); document.getElementById('home-search').value=''; document.getElementById('search-results').style.display='none';">
         <span class="lcard-emoji">${r.data.emoji}</span>
         <div class="lcard-body">
           <h3>${highlightText(r.data.nama, query)}</h3>
@@ -993,6 +1111,12 @@ const SUARA_JENIS_LABEL = {
   umum: 'Saran Umum',
 };
 
+function renderInfoPage() {
+  bindInfoPageTabs();
+  renderInfoWarga();
+  renderInfoKelurahan();
+}
+
 function renderInfoWarga() {
   // ─ Section "Kegiatan Minggu Ini" (di atas tab, hanya kalau ada) ─
   const kegiatanThisWeek = (PRIMA_DATA.infoWarga.kegiatanRTRW || [])
@@ -1109,23 +1233,63 @@ function renderInfoWarga() {
       </div>`;
     }).join('') : '<div class="empty-state">Belum ada jadwal kegiatan RT/RW terverifikasi.</div>';
   }
+}
 
-  // Tab switching (idempotent)
-  document.querySelectorAll('.info-tab').forEach(btn => {
-    if (btn.dataset.bound) return;
-    btn.dataset.bound = '1';
-    btn.addEventListener('click', () => {
-      const tab = btn.dataset.tab;
-      document.querySelectorAll('.info-tab').forEach(b => {
-        b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
-      });
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      btn.classList.add('active');
-      btn.setAttribute('aria-selected', 'true');
-      document.getElementById('tab-' + tab)?.classList.add('active');
+function renderInfoKelurahan() {
+  ensureInfoKelurahan();
+  const ik = PRIMA_DATA.infoKelurahan;
+
+  const pengumumanContainer = document.getElementById('pengumuman-list');
+  if (pengumumanContainer) {
+    const list = [...(ik.pengumuman || [])].sort((a, b) => {
+      const da = new Date(a.tanggal || 0).getTime();
+      const db = new Date(b.tanggal || 0).getTime();
+      return db - da;
     });
-  });
+    pengumumanContainer.innerHTML = list.length ? list.map(p => `
+      <article class="pengumuman-card ${(p.penting === true || p.penting === 'true') ? 'is-penting' : ''}">
+        <div class="pg-header">
+          <span class="pg-emoji" aria-hidden="true">${p.emoji || '📢'}</span>
+          <div class="pg-title-wrap">
+            <h3>${escapeHtml(p.judul || 'Pengumuman')}</h3>
+            <div class="pg-meta">
+              ${p.tanggal ? `<span class="pg-date">📅 ${escapeHtml(formatInfoDate(p.tanggal))}</span>` : ''}
+              ${(p.penting === true || p.penting === 'true') ? '<span class="badge badge-red">Penting</span>' : ''}
+            </div>
+          </div>
+        </div>
+        ${p.ringkasan ? `<p class="pg-ringkasan">${escapeHtml(p.ringkasan)}</p>` : ''}
+        ${p.deskripsi ? `<p class="pg-body">${escapeHtml(p.deskripsi)}</p>` : ''}
+      </article>
+    `).join('') : '<div class="empty-state">Belum ada pengumuman resmi dari Kelurahan.</div>';
+  }
+
+  const kegiatanContainer = document.getElementById('kel-kegiatan-list');
+  if (kegiatanContainer) {
+    const list = ik.kegiatan || [];
+    kegiatanContainer.innerHTML = list.length ? list.map(g => {
+      const wa = waLink(g.kontak);
+      const thisWeek = isThisWeek(g.jadwal);
+      return `
+      <div class="info-card kel-kegiatan-card">
+        <div class="info-card-body">
+          <div class="info-card-header">
+            <span class="ic-emoji" aria-hidden="true">${g.emoji || '📅'}</span>
+            <h3>${escapeHtml(g.nama)}</h3>
+            <span class="badge badge-navy ic-badge">Kelurahan</span>
+            ${thisWeek ? '<span class="badge badge-green ic-badge">📅 Minggu Ini</span>' : ''}
+          </div>
+          <p>${escapeHtml(g.deskripsi || '')}</p>
+          <div class="ic-details">
+            <div class="ic-row"><span class="ic-label">📅</span><span class="ic-val">${escapeHtml(g.jadwal || '-')}</span></div>
+            <div class="ic-row"><span class="ic-label">📍</span><span class="ic-val">${escapeHtml(g.lokasi || '-')}</span></div>
+            ${g.kontak ? `<div class="ic-row"><span class="ic-label">📞</span><span class="ic-val">${escapeHtml(g.kontak)}</span></div>` : ''}
+          </div>
+          ${wa ? `<div class="info-actions"><a class="ia-btn ia-btn-primary" href="${wa}" target="_blank" rel="noopener">💬 Hubungi</a></div>` : ''}
+        </div>
+      </div>`;
+    }).join('') : '<div class="empty-state">Belum ada kegiatan kelurahan yang dipublikasikan.</div>';
+  }
 }
 
 // ── CHATBOT ──────────────────────────────────────────────────────
@@ -2834,6 +2998,22 @@ const DATA_EDITOR_SCHEMA = {
     jsonFields: [],
     parent: 'infoWarga'
   },
+  kelPengumuman: {
+    label: '📢 Pengumuman Kelurahan',
+    dataKey: 'pengumuman',
+    fields: ['id', 'judul', 'emoji', 'tanggal', 'ringkasan', 'deskripsi', 'penting'],
+    arrayFields: [],
+    jsonFields: [],
+    parent: 'infoKelurahan'
+  },
+  kelKegiatan: {
+    label: '📅 Kegiatan Kelurahan',
+    dataKey: 'kegiatan',
+    fields: ['id', 'nama', 'emoji', 'jadwal', 'lokasi', 'deskripsi', 'kontak'],
+    arrayFields: [],
+    jsonFields: [],
+    parent: 'infoKelurahan'
+  },
   meta: {
     label: '⚙️ Meta Kelurahan',
     fields: [],
@@ -2869,7 +3049,11 @@ const FORM_FIELD_SPECS = {
   foto: { label: 'URL Foto', ph: 'https://…' },
   pemilik: { label: 'Pemilik', ph: 'Nama pemilik' },
   jadwal: { label: 'Jadwal', ph: 'Setiap hari Jumat' },
-  penanggungJawab: { label: 'Penanggung Jawab', ph: 'Nama PJ' }
+  penanggungJawab: { label: 'Penanggung Jawab', ph: 'Nama PJ' },
+  judul: { label: 'Judul Pengumuman', ph: 'Judul singkat' },
+  ringkasan: { label: 'Ringkasan', ph: 'Satu kalimat inti…', type: 'textarea', rows: 2 },
+  tanggal: { label: 'Tanggal', ph: '2026-06-01' },
+  penting: { label: 'Penting (true/false)', ph: 'true' }
 };
 
 // Form layout per tab: array of rows, each row is array of field keys
@@ -2910,6 +3094,18 @@ const FORM_LAYOUTS = {
     ['jadwal','lokasi'],
     ['deskripsi'],
     ['penanggungJawab']
+  ],
+  kelPengumuman: [
+    ['id','judul'],
+    ['emoji','tanggal','penting'],
+    ['ringkasan'],
+    ['deskripsi']
+  ],
+  kelKegiatan: [
+    ['id','nama'],
+    ['emoji','jadwal','lokasi'],
+    ['deskripsi'],
+    ['kontak']
   ]
 };
 
@@ -2917,14 +3113,23 @@ function getCategoryArray(category) {
   const schema = DATA_EDITOR_SCHEMA[category];
   if (!schema) return null;
   if (schema.singleObject) return _dataEditorDraft.meta;
-  if (schema.parent) return _dataEditorDraft[schema.parent][category];
+  const key = schema.dataKey || category;
+  if (schema.parent) {
+    if (!_dataEditorDraft[schema.parent]) _dataEditorDraft[schema.parent] = {};
+    return _dataEditorDraft[schema.parent][key];
+  }
   return _dataEditorDraft[category];
 }
 
 function setCategoryArray(category, arr) {
   const schema = DATA_EDITOR_SCHEMA[category];
+  const key = schema.dataKey || category;
   if (schema.singleObject) { _dataEditorDraft.meta = arr; return; }
-  if (schema.parent) { _dataEditorDraft[schema.parent][category] = arr; return; }
+  if (schema.parent) {
+    if (!_dataEditorDraft[schema.parent]) _dataEditorDraft[schema.parent] = {};
+    _dataEditorDraft[schema.parent][key] = arr;
+    return;
+  }
   _dataEditorDraft[category] = arr;
 }
 
@@ -2934,6 +3139,9 @@ function openDataEditor() {
     return;
   }
   _dataEditorDraft = JSON.parse(JSON.stringify(PRIMA_DATA));
+  _dataEditorDraft.infoKelurahan = _dataEditorDraft.infoKelurahan || { pengumuman: [], kegiatan: [] };
+  if (!Array.isArray(_dataEditorDraft.infoKelurahan.pengumuman)) _dataEditorDraft.infoKelurahan.pengumuman = [];
+  if (!Array.isArray(_dataEditorDraft.infoKelurahan.kegiatan)) _dataEditorDraft.infoKelurahan.kegiatan = [];
   _dataEditorTab = 'layanan';
   _dataEditorEditingIdx = null;
   _pendingFileUploads = [];
