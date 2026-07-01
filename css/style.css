@@ -534,12 +534,16 @@ input:focus, textarea:focus, select:focus {
   padding: 10px 16px 18px;
   max-width: 600px;
   margin: 0 auto;
+  align-items: stretch;
 }
 .menu-card {
   --mc-from: #E8ECF7;
   --mc-to:   #C9D2EC;
   --mc-ink:  var(--navy-700);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 118px;
   background: linear-gradient(160deg, rgba(255,255,255,.9), rgba(255,255,255,.6));
   border: 1px solid rgba(255,255,255,.8);
   border-radius: 18px;
@@ -587,10 +591,17 @@ input:focus, textarea:focus, select:focus {
   font-size: 16px;
   font-weight: 700;
   line-height: 1.25;
-  color: var(--text);
+  color: var(--navy-900);
   letter-spacing: -.1px;
 }
-.menu-card p { position: relative; font-size: 13px; color: var(--text-muted); line-height: 1.45; margin-top: 5px; }
+.menu-card p {
+  position: relative;
+  flex: 1;
+  font-size: 13px;
+  color: #3D4A63;
+  line-height: 1.45;
+  margin-top: 5px;
+}
 
 .menu-card.blue   { --mc-from:#E8ECF7; --mc-to:#B9C6E8; --mc-ink:var(--navy-700); }
 .menu-card.green  { --mc-from:#E4F1E6; --mc-to:#B8D8BE; --mc-ink:#1B5E20; }
@@ -598,12 +609,6 @@ input:focus, textarea:focus, select:focus {
 .menu-card.teal   { --mc-from:#D6EEEC; --mc-to:#9BCFCA; --mc-ink:#00504A; }
 .menu-card.purple { --mc-from:#EADFF0; --mc-to:#C2A5D4; --mc-ink:#4A148C; }
 .menu-card-admin[hidden] { display: none !important; }
-/* Kartu ke-6 (Suara Warga) — tengah di baris terakhir bila jumlah ganjil */
-.menu-grid .menu-card:nth-child(6):not(.menu-card-admin) {
-  grid-column: 1 / -1;
-  max-width: calc(50% - 6px);
-  justify-self: center;
-}
 
 .menu-card.gold   {
   --mc-from:#FBF3D6; --mc-to:#F4C95D; --mc-ink:#7A5A00;
@@ -730,9 +735,6 @@ input:focus, textarea:focus, select:focus {
 [data-theme="dark"] .info-section-btn { color: rgba(255,255,255,.55); }
 [data-theme="dark"] .info-section-btn.active {
   background: linear-gradient(145deg, #1E3A6E, #0A1F44);
-}
-[data-theme="dark"] .menu-card.navy {
-  --mc-from: #1E293B; --mc-to: #172033; --mc-ink: #93C5FD;
 }
 [data-theme="dark"] .pengumuman-card {
   background: var(--surface);
@@ -1056,24 +1058,32 @@ a.download-btn, .download-btn {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
+.info-tab-bar:not(.info-tab-bar--scroll) {
+  overflow-x: visible;
+}
+.info-tab-bar:not(.info-tab-bar--scroll) .info-tab {
+  flex: 1 1 0;
+}
 .info-tab-bar::-webkit-scrollbar { display: none; }
 .info-tab {
-  flex: 0 0 auto;
-  padding: 8px 16px;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 9px 14px;
   font-size: 13px;
   font-weight: 600;
-  color: #fff;
-  background: rgba(255,255,255,.1);
-  border: 1px solid rgba(255,255,255,.28);
+  color: var(--navy-800);
+  background: var(--surface, #fff);
+  border: 1.5px solid var(--border);
   border-radius: 999px;
   cursor: pointer;
   transition: all .18s ease;
-  backdrop-filter: blur(8px);
   white-space: nowrap;
+  text-align: center;
 }
 .info-tab:hover {
-  border-color: rgba(244,201,93,.55);
-  color: var(--gold-light);
+  border-color: var(--gold);
+  color: var(--navy-900);
+  background: var(--gold-soft);
 }
 .info-tab.active {
   background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
@@ -2113,6 +2123,26 @@ a.download-btn, .download-btn {
 [data-theme="dark"] .menu-card.green { --mc-from: #1A2E1F; --mc-to: #132618; --mc-ink: #86EFAC; }
 [data-theme="dark"] .menu-card.orange{ --mc-from: #3B2A1E; --mc-to: #2E2015; --mc-ink: #FDBA74; }
 [data-theme="dark"] .menu-card.teal  { --mc-from: #1E2E33; --mc-to: #152428; --mc-ink: #5EEAD4; }
+[data-theme="dark"] .menu-card.purple { --mc-from: #2A1F33; --mc-to: #1F1528; --mc-ink: #D8B4FE; }
+[data-theme="dark"] .menu-card.navy  { --mc-from: #1E293B; --mc-to: #172033; --mc-ink: #93C5FD; }
+[data-theme="dark"] .menu-card h3 { color: #E8ECF7; }
+[data-theme="dark"] .menu-card p  { color: #A8B4CC; }
+
+[data-theme="dark"] .info-tab {
+  color: #C8D0E0;
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.12);
+}
+[data-theme="dark"] .info-tab:hover {
+  color: #fff;
+  background: rgba(212,175,55,.12);
+  border-color: rgba(212,175,55,.35);
+}
+[data-theme="dark"] .info-tab.active {
+  color: var(--navy-900);
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
+  border-color: var(--gold-deep);
+}
 
 [data-theme="dark"] .info-banner {
   background: linear-gradient(145deg, #2E2610 0%, #1F1A0B 100%);
