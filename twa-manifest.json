@@ -15,8 +15,8 @@
   "iconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512.png",
   "maskableIconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512-maskable.png",
   "monochromeIconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512.png",
-  "appVersion": "16",
-  "appVersionName": "1.1.5",
+  "appVersion": "17",
+  "appVersionName": "1.1.6",
   "signingKey": {
     "path": "android.keystore",
     "alias": "prima"
