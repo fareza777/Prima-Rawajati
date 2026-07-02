@@ -8,5 +8,20 @@
     "masukan": "keren",
     "nama": "Anonim",
     "rt": "-"
+  },
+  {
+    "id": 1782959034674,
+    "timestamp": "2026-07-02T02:23:54.674Z",
+    "jenisSuara": "Fasilitas & Lingkungan",
+    "jenisKey": "fasilitas",
+    "topik": "Kebersihan lingkungan",
+    "rating": 5,
+    "urgensi": "🟢 Biasa",
+    "masukan": "Sudah baik",
+    "nama": "Edi",
+    "rt": "Rt 003 rw 02",
+    "hp": "",
+    "fiturFavorit": "Kebersihan lingkungan",
+    "aksesInfo": "🟢 Biasa"
   }
 ]
