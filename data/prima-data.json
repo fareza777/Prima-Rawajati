@@ -1345,6 +1345,15 @@
   "infoKelurahan": {
     "pengumuman": [
       {
+        "id": "pg-ikm-semester1-2026",
+        "judul": "Hasil Survei Kepuasan Masyarakat Semester I 2026",
+        "emoji": "📊",
+        "tanggal": "2026-04-15",
+        "gambar": "img/kelurahan/ikm-semester1-2026.png",
+        "ringkasan": "Kelurahan Rawajati meraih nilai IKM 99,93 dengan kategori A (Sangat Baik), diukur dari 6 jenis layanan dengan 717 responden periode 30 Maret–15 April 2026 melalui JakSurvei Daring.",
+        "penting": false
+      },
+      {
         "id": "pg-jam-kerja",
         "judul": "Jam Pelayanan Kelurahan Rawajati",
         "emoji": "📢",

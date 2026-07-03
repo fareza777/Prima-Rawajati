@@ -1250,11 +1250,24 @@ function renderInfoKelurahan() {
     });
     pengumumanContainer.innerHTML = list.length ? list.map(p => {
       if (p.gambar) {
+        const hasCaption = !!(p.judul || p.ringkasan || p.tanggal);
         return `
-      <article class="pengumuman-card pengumuman-card--gambar">
+      <article class="pengumuman-card pengumuman-card--gambar ${hasCaption ? 'has-caption' : ''} ${(p.penting === true || p.penting === 'true') ? 'is-penting' : ''}">
+        ${hasCaption ? `
+        <div class="pg-header">
+          <span class="pg-emoji" aria-hidden="true">${p.emoji || '📢'}</span>
+          <div class="pg-title-wrap">
+            <h3>${escapeHtml(p.judul || 'Pengumuman')}</h3>
+            <div class="pg-meta">
+              ${p.tanggal ? `<span class="pg-date">📅 ${escapeHtml(formatInfoDate(p.tanggal))}</span>` : ''}
+              ${(p.penting === true || p.penting === 'true') ? '<span class="badge badge-red">Penting</span>' : ''}
+            </div>
+          </div>
+        </div>` : ''}
         <figure class="pg-gambar">
           <img src="${escapeHtml(p.gambar)}" alt="${escapeHtml(p.judul || 'Pengumuman Kelurahan')}" loading="lazy">
         </figure>
+        ${p.ringkasan ? `<p class="pg-ringkasan">${escapeHtml(p.ringkasan)}</p>` : ''}
       </article>`;
       }
       return `

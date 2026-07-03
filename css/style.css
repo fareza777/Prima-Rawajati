@@ -727,6 +727,15 @@ input:focus, textarea:focus, select:focus {
   overflow: hidden;
   border-left-width: 1px;
 }
+.pengumuman-card--gambar.has-caption {
+  padding: 16px;
+}
+.pengumuman-card--gambar.has-caption .pg-gambar img {
+  border-radius: 12px;
+}
+.pengumuman-card--gambar .pg-ringkasan {
+  margin: 12px 0 0;
+}
 .pg-gambar {
   margin: 0;
   line-height: 0;
