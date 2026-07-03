@@ -1345,14 +1345,6 @@
   "infoKelurahan": {
     "pengumuman": [
       {
-        "id": "pg-maklumat-pelayanan-2026",
-        "judul": "Maklumat Pelayanan 2026",
-        "emoji": "📜",
-        "tanggal": "2026-06-29",
-        "gambar": "img/kelurahan/maklumat-pelayanan-2026.png",
-        "penting": true
-      },
-      {
         "id": "pg-jam-kerja",
         "judul": "Jam Pelayanan Kelurahan Rawajati",
         "emoji": "📢",
