@@ -722,6 +722,21 @@ input:focus, textarea:focus, select:focus {
   margin: 0;
   white-space: pre-line;
 }
+.pengumuman-card--gambar {
+  padding: 0;
+  overflow: hidden;
+  border-left-width: 1px;
+}
+.pg-gambar {
+  margin: 0;
+  line-height: 0;
+}
+.pg-gambar img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+}
 .kel-kegiatan-card .info-card-header .badge-navy {
   background: rgba(10,31,68,.08);
   color: var(--navy-800);

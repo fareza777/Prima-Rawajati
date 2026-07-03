@@ -1248,7 +1248,16 @@ function renderInfoKelurahan() {
       const db = new Date(b.tanggal || 0).getTime();
       return db - da;
     });
-    pengumumanContainer.innerHTML = list.length ? list.map(p => `
+    pengumumanContainer.innerHTML = list.length ? list.map(p => {
+      if (p.gambar) {
+        return `
+      <article class="pengumuman-card pengumuman-card--gambar">
+        <figure class="pg-gambar">
+          <img src="${escapeHtml(p.gambar)}" alt="${escapeHtml(p.judul || 'Pengumuman Kelurahan')}" loading="lazy">
+        </figure>
+      </article>`;
+      }
+      return `
       <article class="pengumuman-card ${(p.penting === true || p.penting === 'true') ? 'is-penting' : ''}">
         <div class="pg-header">
           <span class="pg-emoji" aria-hidden="true">${p.emoji || '📢'}</span>
@@ -1262,8 +1271,8 @@ function renderInfoKelurahan() {
         </div>
         ${p.ringkasan ? `<p class="pg-ringkasan">${escapeHtml(p.ringkasan)}</p>` : ''}
         ${p.deskripsi ? `<p class="pg-body">${escapeHtml(p.deskripsi)}</p>` : ''}
-      </article>
-    `).join('') : '<div class="empty-state">Belum ada pengumuman resmi dari Kelurahan.</div>';
+      </article>`;
+    }).join('') : '<div class="empty-state">Belum ada pengumuman resmi dari Kelurahan.</div>';
   }
 
   const kegiatanContainer = document.getElementById('kel-kegiatan-list');
@@ -3003,7 +3012,7 @@ const DATA_EDITOR_SCHEMA = {
   kelPengumuman: {
     label: '📢 Pengumuman Kelurahan',
     dataKey: 'pengumuman',
-    fields: ['id', 'judul', 'emoji', 'tanggal', 'ringkasan', 'deskripsi', 'penting'],
+    fields: ['id', 'judul', 'emoji', 'tanggal', 'gambar', 'ringkasan', 'deskripsi', 'penting'],
     arrayFields: [],
     jsonFields: [],
     parent: 'infoKelurahan'
@@ -3055,6 +3064,7 @@ const FORM_FIELD_SPECS = {
   judul: { label: 'Judul Pengumuman', ph: 'Judul singkat' },
   ringkasan: { label: 'Ringkasan', ph: 'Satu kalimat inti…', type: 'textarea', rows: 2 },
   tanggal: { label: 'Tanggal', ph: '2026-06-01' },
+  gambar: { label: 'URL Gambar', ph: 'img/kelurahan/contoh.png' },
   penting: { label: 'Penting (true/false)', ph: 'true' }
 };
 
@@ -3100,6 +3110,7 @@ const FORM_LAYOUTS = {
   kelPengumuman: [
     ['id','judul'],
     ['emoji','tanggal','penting'],
+    ['gambar'],
     ['ringkasan'],
     ['deskripsi']
   ],
