@@ -1345,6 +1345,15 @@
   "infoKelurahan": {
     "pengumuman": [
       {
+        "id": "pg-maklumat-pelayanan-2026",
+        "judul": "Maklumat Pelayanan Kelurahan Rawajati 2026",
+        "emoji": "📜",
+        "tanggal": "2026-06-29",
+        "ringkasan": "Komitmen Lurah Kelurahan Rawajati dalam menyelenggarakan pelayanan publik sesuai Standar Pelayanan.",
+        "deskripsi": "STANDAR PELAYANAN PUBLIK\n\nDengan ini, kami menyatakan sanggup menyelenggarakan pelayanan sesuai Standar Pelayanan yang telah ditetapkan.\n\nDan apabila dalam penyelenggaraan pelayanan kami tidak sesuai dengan Standar Pelayanan yang telah ditetapkan, kami bersedia menerima sanksi sesuai ketentuan peraturan perundang-undangan yang berlaku.\n\nJakarta, 29 Juni 2026\nLurah Kelurahan Rawajati,\nSARIMAN\nNIP. 197706022006041015",
+        "penting": true
+      },
+      {
         "id": "pg-jam-kerja",
         "judul": "Jam Pelayanan Kelurahan Rawajati",
         "emoji": "📢",
