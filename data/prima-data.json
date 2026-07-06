@@ -27,7 +27,7 @@
       "lng": 106.852497
     },
     "versi": "1.0.0",
-    "terakhirUpdate": "2026-06-17T01:28:06.249Z",
+    "terakhirUpdate": "2026-07-06T11:55:09.714Z",
     "instagram": "kelrawajati"
   },
   "layanan": [
@@ -1786,6 +1786,24 @@
         "musholla darul rahman"
       ],
       "jawaban": "🕌 **Alamat Rumah Ibadah Rawajati (Laporan Kelurahan Mei 2026):**\n\n**Masjid/Musholla:**\n1. **Masjid Rahmatussholihin** — Gg. Madrasah No.40 RT006/RW01\n2. **Masjid Hizbul Waton** — Jl. Komplek Zeni AD RT009/RW03\n3. **Masjid Ar-Rahmah** — Jl. Rawajati Barat No.I RT004/RW04\n4. **Masjid Nurul Amaliah** — Jl. Kalibata Timur I RT008/RW04\n5. **Masjid Al Amin** — Komplek DPR RI RT003/RW05\n6. **Masjid Al Muhajirin** — Kantor Kementerian Transmigrasi\n7. **Masjid Nurul Hilal** — Jl. Bina Warga RT002/RW07\n8. **Masjid At-Taubah** — Jl. Rawajati Timur II RT005/RW08\n9. **Masjid Nurullah** — Tower Cendana Kalibata City\n10. **Masjid Al-Bustan** — Lantai 4 Plaza Kalibata\n11. **Masjid Al Muhajirin** — Kementerian Desa/Kemendes RI\n12. **Masjid Al-Amin** — Kompleks DPR RW 05\n13. **Masjid Salahudin** — Kantor Pajak\n14. **Masjid Bangun Iman** — Kemendagri Bangda\n15. **Masjid Baitul Ilmi** — Pusdiklat BPK\n16. **Masjid S. Parman** — Kantor BAIS\n17. **Musholla Azzainiyah** — Jl. Rawajati Timur II RT002/RW02\n18. **Musholla Nurul Qomar** — Jl. Rawajati Timur II RT006/RW02\n19. **Musholla Al Khairiyah** — Gg. Langgar RT001/RW03\n20. **Musholla Darussalam** — Gang Asal RT009/RW03\n21. **Musholla Taj Al Arusain** — Jl. Rawajati Barat RT006/RW04\n22. **Musholla Asshobirin** — Jl. Nangka No.1 SDN 08\n23. **Musholla Darul Rahman** — Jl. Binawarga RT006/RW07\n24. **Musholla Darus Shobirin** — Jl. Rawajati Timur IV No.14 RT002/RW08\n\n**Gereja:**\n1. **Gereja Betle Indonesia Kalibata City** — Tower Jasmine Apartemen Kalibata City\n2. **Gereja Advent** — Tower Gaharu Apartemen Kalibata City\n3. **Gereja Betle Indonesia Glow** — Tower Sakura Apartemen Kalibata City\n4. **GPDI Anugerah** — Tower Gaharu Apartemen Kalibata City\n5. **GPDI Shosanim** — Tower Gaharu Apartemen Kalibata City\n\nData ini bersumber dari Laporan Bulanan Kelurahan Rawajati Mei 2026. Untuk titik lokasi paling presisi, konfirmasi ke RT/RW setempat atau Kelurahan Rawajati."
+    },
+    {
+      "intent": "monev_apbd_2026_tw2_rawajati",
+      "keywords": [
+        "monev apbd 2026",
+        "monev rawajati 2026",
+        "monev tw2",
+        "monev triwulan ii",
+        "realisasi belanja apbd rawajati",
+        "realisasi anggaran rawajati",
+        "apbd rawajati 2026",
+        "item tw2 belum terealisasi",
+        "sub kegiatan monev",
+        "pagu anggaran rawajati",
+        "ppsu monev",
+        "rt rw lmk monev"
+      ],
+      "jawaban": "Data Monev APBD 2026 Triwulan II Kelurahan Rawajati sudah tersedia di PRIMA.\n\nRingkasan per 18 Juni 2026:\n- Total pagu APBD 2026: **Rp 10.469.429.927**\n- Realisasi keuangan: **Rp 4.227.250.582 (40,38%)**\n- Total sub kegiatan: **29**\n- Sudah realisasi: **16 sub kegiatan**\n- Belum realisasi: **13 sub kegiatan**\n- Item pekerjaan TW2: **21 item**, terdiri dari 1 selesai, 8 progress, dan 12 belum terealisasi.\n\nDetail lengkap per program, item TW2, sub kegiatan, progres tahapan, rekening belanja, pagu, realisasi, dan rekomendasi sudah masuk ke basis pengetahuan AI PRIMA. Silakan tanya spesifik, misalnya **PPSU monev**, **item TW2 belum terealisasi**, **realisasi RT RW LMK**, atau kode sub kegiatan seperti **7.01.04.6.02.0001**."
     }
   ],
   "aiSettings": {
@@ -2254,6 +2272,975 @@
         "Kendala utama: belum seimbangnya jumlah pegawai dengan beban kerja Kelurahan.",
         "Kelurahan tetap melakukan penyempurnaan pelaksanaan tugas rutin, terutama pelayanan masyarakat.",
         "Saran laporan: diperlukan sarana prasarana/peralatan yang memadai dan sumber daya manusia yang cukup agar keterbatasan tidak menghambat pelaksanaan tugas."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-RINGKASAN-EKSEKUTIF",
+      "judul": "Monev APBD 2026 TW II Rawajati - ringkasan eksekutif dan rekomendasi",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Ringkasan Monev APBD 2026 Kelurahan Rawajati per 18 Juni 2026: realisasi Rp 4.227.250.582 dari pagu Rp 10.469.429.927 atau 40,38%.",
+      "butir": [
+        "Judul dokumen: Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati - Jakarta Selatan.",
+        "Per tanggal: 18 Juni 2026; periode laporan Triwulan II / April-Juni 2026.",
+        "Unit Kerja: 7.01.0.00.0.00.04.0039 KELURAHAN RAWAJATI - JAKSEL.",
+        "Total Sub Kegiatan: 29 sub kegiatan.",
+        "Total Pagu Anggaran 2026: Rp 10.469.429.927.",
+        "Total Realisasi Keuangan: Rp 4.227.250.582 (40.38%).",
+        "Sub Kegiatan Sudah Realisasi: 16 sub kegiatan.",
+        "Sub Kegiatan Belum Realisasi: 13 sub kegiatan.",
+        "Periode Laporan: Triwulan II / April – Juni 2026.",
+        "Kesimpulan - Realisasi Keuangan Keseluruhan: Rp 4.227.250.582 dari Rp 10.469.429.927 (40.38%).",
+        "Kesimpulan - Sub Kegiatan Realisasi >= 50%: 2 sub kegiatan.",
+        "Kesimpulan - Sub Kegiatan Realisasi 1-49%: 14 sub kegiatan.",
+        "Kesimpulan - Sub Kegiatan Realisasi 0%: 13 sub kegiatan (BELUM TEREALISASI).",
+        "Kesimpulan - Item TW2 Belum Terealisasi: 12 item (perlu segera ditindaklanjuti).",
+        "Rekomendasi 1: Segera laksanakan 12 item pekerjaan TW2 yang belum terealisasi sebelum akhir Juni 2026..",
+        "Rekomendasi 2: Percepat realisasi keuangan untuk sub kegiatan yang masih 0% namun bukan pengadaan akhir tahun..",
+        "Rekomendasi 3: Pastikan laporan TW II telah disusun dan diunggah ke sistem Monev sebelum deadline..",
+        "Rekomendasi 4: Sub kegiatan PPSU (7.01.04.6.02.0001) dengan pagu terbesar (Rp 4,6 M) perlu dipantau intensif karena menentukan capaian keseluruhan..",
+        "Rekomendasi 5: Sub kegiatan RT/RW/LMK (7.01.03.6.01.0003) dengan pagu Rp 3,18 M sudah berjalan baik (48,97% keuangan).."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-REKAP-PROGRAM",
+      "judul": "Monev APBD 2026 TW II Rawajati - rekap realisasi per program",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Rekap pagu, realisasi keuangan, dan persentase realisasi APBD 2026 per program Kelurahan Rawajati per 18 Juni 2026.",
+      "butir": [
+        "Rekap program: No: 1; Program: 7.01.03 PROGRAM PENGELOLAAN KECAMATAN DAN KELURAHAN; Pagu (Rp): 3.376.965.084; Realisasi Keuangan (Rp): 1.612.387.800; % Real.: 47.75%.",
+        "Rekap program: No: 2; Program: 7.01.04 PROGRAM PENYELENGGARAAN PEMERINTAHAN DAN PELAYANAN PUBLIK; Pagu (Rp): 4.633.701.433; Realisasi Keuangan (Rp): 2.001.678.048; % Real.: 43.20%.",
+        "Rekap program: No: 3; Program: 7.01.05 PROGRAM PEMBERDAYAAN MASYARAKAT DESA DAN KELURAHAN; Pagu (Rp): 1.478.164.744; Realisasi Keuangan (Rp): 462.880.000; % Real.: 31.31%.",
+        "Rekap program: No: 4; Program: 7.01.06 PROGRAM KOORDINASI KETENTRAMAN DAN KETERTIBAN UMUM; Pagu (Rp): 51.422.832; Realisasi Keuangan (Rp): 7.500.000; % Real.: 14.58%.",
+        "Rekap program: No: 5; Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI; Pagu (Rp): 929.175.834; Realisasi Keuangan (Rp): 142.804.734; % Real.: 15.37%.",
+        "Rekap program: Program: TOTAL KESELURUHAN; Pagu (Rp): 10.469.429.927; Realisasi Keuangan (Rp): 4.227.250.582; % Real.: 40.38%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-TARGET-DAN-TINDAK-LANJUT",
+      "judul": "Monev APBD 2026 TW II Rawajati - target pekerjaan TW2 dan tindak lanjut",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Daftar item pekerjaan yang harus direalisasikan pada Triwulan II APBD 2026, termasuk status selesai, progress, dan belum terealisasi.",
+      "butir": [
+        "Total Item Pekerjaan TW2: 21 item.",
+        "Sudah Selesai (100%): 1 item.",
+        "Sedang Berjalan (> 0%): 8 item.",
+        "Belum Terealisasi (0%): 12 item ← PERLU SEGERA DITINDAKLANJUTI.",
+        "Item pekerjaan TW2: No: 1; Kode Sub Kegiatan: 7.01.03.6.01.0001; Nama Sub Kegiatan: Peningkatan Partisipasi Masyarakat dalam Pemeliharaan dan Penanganan Kebersihan Lingkungan; Item Pekerjaan TW2: Laporan Pelaksanaan Kerja Bakti TW 2; Jadwal: Juni; Target (%): 25%; Status: BELUM.",
+        "Item pekerjaan TW2: No: 2; Kode Sub Kegiatan: 7.01.03.6.01.0002; Nama Sub Kegiatan: Pelaksanaan Kewaspadaan Dini Masyarakat; Item Pekerjaan TW2: Pelaksanaan Fungsi FKDM Triwulan I; Jadwal: April; Target (%): 25%; Status: PROGRESS.",
+        "Item pekerjaan TW2: No: 3; Kode Sub Kegiatan: 7.01.03.6.01.0002; Nama Sub Kegiatan: Pelaksanaan Kewaspadaan Dini Masyarakat; Item Pekerjaan TW2: Pelaksanaan Fungsi FKDM Triwulan II; Jadwal: Juli; Target (%): 25%; Status: BELUM.",
+        "Item pekerjaan TW2: No: 4; Kode Sub Kegiatan: 7.01.03.6.01.0003; Nama Sub Kegiatan: Peningkatan Peran Kelembagaan RT, RW dan LMK; Item Pekerjaan TW2: Pelaksanaan Fungsi RT, RW dan LMK Triwulan I; Jadwal: April; Target (%): 25%; Status: PROGRESS.",
+        "Item pekerjaan TW2: No: 5; Kode Sub Kegiatan: 7.01.03.6.01.0003; Nama Sub Kegiatan: Peningkatan Peran Kelembagaan RT, RW dan LMK; Item Pekerjaan TW2: Pelaksanaan Fungsi RT, RW dan LMK Triwulan II; Jadwal: Juli; Target (%): 25%; Status: BELUM.",
+        "Item pekerjaan TW2: No: 6; Kode Sub Kegiatan: 7.01.04.6.01.0001; Nama Sub Kegiatan: Koordinasi/Sinergi Perencanaan dan Pelaksanaan Kegiatan Pemerintahan dengan Perangkat Daerah dan Instansi Vertikal Terkait; Item Pekerjaan TW2: Penyusunan Laporan; Jadwal: April; Target (%): 100%; Status: SELESAI.",
+        "Item pekerjaan TW2: No: 7; Kode Sub Kegiatan: 7.01.04.6.02.0001; Nama Sub Kegiatan: Pelaksanaan Urusan Pemerintahan yang Terkait dengan Kewenangan Lain yang Ditugaskan; Item Pekerjaan TW2: Penanganan Prasarana Sarana Umum (PPSU) Kelurahan TW I; Jadwal: April; Target (%): 25%; Status: PROGRESS.",
+        "Item pekerjaan TW2: No: 8; Kode Sub Kegiatan: 7.01.04.6.02.0001; Nama Sub Kegiatan: Pelaksanaan Urusan Pemerintahan yang Terkait dengan Kewenangan Lain yang Ditugaskan; Item Pekerjaan TW2: Penanganan Prasarana Sarana Umum (PPSU) Kelurahan TW II; Jadwal: Juli; Target (%): 25%; Status: BELUM.",
+        "Item pekerjaan TW2: No: 9; Kode Sub Kegiatan: 7.01.05.6.01.0001; Nama Sub Kegiatan: Pemberdayaan Masyarakat; Item Pekerjaan TW2: Pelaksanaan Pemberdayaan Masyarakat Kelurahan Triwulan I; Jadwal: April; Target (%): 25%; Status: PROGRESS.",
+        "Item pekerjaan TW2: No: 10; Kode Sub Kegiatan: 7.01.05.6.01.0001; Nama Sub Kegiatan: Pemberdayaan Masyarakat; Item Pekerjaan TW2: Pelaksanaan Pemberdayaan Masyarakat Kelurahan Triwulan II; Jadwal: Juli; Target (%): 25%; Status: BELUM.",
+        "Item pekerjaan TW2: No: 11; Kode Sub Kegiatan: 7.01.05.6.02.0001; Nama Sub Kegiatan: Penyelenggaraan Lembaga Kemasyarakatan; Item Pekerjaan TW2: Pelaksanaan Kegiatan Triwulan I; Jadwal: April; Target (%): 25%; Status: PROGRESS.",
+        "Item pekerjaan TW2: No: 12; Kode Sub Kegiatan: 7.01.05.6.02.0001; Nama Sub Kegiatan: Penyelenggaraan Lembaga Kemasyarakatan; Item Pekerjaan TW2: Pelaksanaan Kegiatan Triwulan II; Jadwal: Juli; Target (%): 25%; Status: BELUM.",
+        "Item pekerjaan TW2: No: 13; Kode Sub Kegiatan: 7.01.06.6.01.0001; Nama Sub Kegiatan: Sinergitas dengan Kepolisian RI, TNI dan Instansi Vertikal di Wilayah Kecamatan dan Kelurahan; Item Pekerjaan TW2: Pelaksanaan Kegiatan Triwulan I; Jadwal: April; Target (%): 25%; Status: PROGRESS.",
+        "Item pekerjaan TW2: No: 14; Kode Sub Kegiatan: 7.01.06.6.01.0001; Nama Sub Kegiatan: Sinergitas dengan Kepolisian RI, TNI dan Instansi Vertikal di Wilayah Kecamatan dan Kelurahan; Item Pekerjaan TW2: Pelaksanaan Kegiatan Triwulan II; Jadwal: Juli; Target (%): 25%; Status: BELUM.",
+        "Item pekerjaan TW2: No: 15; Kode Sub Kegiatan: 7.02.01.1.06.0004; Nama Sub Kegiatan: Penyediaan Bahan Logistik Kantor; Item Pekerjaan TW2: Penyediaan Bahan Logistik Kantor TW I; Jadwal: April; Target (%): 25%; Status: PROGRESS.",
+        "Item pekerjaan TW2: No: 16; Kode Sub Kegiatan: 7.02.01.1.06.0004; Nama Sub Kegiatan: Penyediaan Bahan Logistik Kantor; Item Pekerjaan TW2: Penyediaan Bahan Logistik Kantor TW II; Jadwal: Juli; Target (%): 25%; Status: BELUM.",
+        "Item pekerjaan TW2: No: 17; Kode Sub Kegiatan: 7.02.01.1.06.0007; Nama Sub Kegiatan: Penyediaan Bahan/Material; Item Pekerjaan TW2: Penyediaan Bahan/Material TW I; Jadwal: April; Target (%): 25%; Status: PROGRESS.",
+        "Item pekerjaan TW2: No: 18; Kode Sub Kegiatan: 7.02.01.1.06.0007; Nama Sub Kegiatan: Penyediaan Bahan/Material; Item Pekerjaan TW2: Penyediaan Bahan/Material TW II; Jadwal: Juli; Target (%): 25%; Status: BELUM.",
+        "Item pekerjaan TW2: No: 19; Kode Sub Kegiatan: 7.02.01.1.06.0008; Nama Sub Kegiatan: Fasilitasi Kunjungan Tamu; Item Pekerjaan TW2: Fasilitasi Kunjungan Tamu TW II; Jadwal: Juni; Target (%): 25%; Status: BELUM.",
+        "Item pekerjaan TW2: No: 20; Kode Sub Kegiatan: 7.02.01.1.08.0002; Nama Sub Kegiatan: Penyediaan Jasa Komunikasi, Sumber Daya Air dan Listrik; Item Pekerjaan TW2: Penyediaan Jasa TALI TW II; Jadwal: Juni; Target (%): 25%; Status: BELUM.",
+        "Item pekerjaan TW2: No: 21; Kode Sub Kegiatan: 7.02.01.1.08.0003; Nama Sub Kegiatan: Penyediaan Jasa Peralatan dan Perlengkapan Kantor; Item Pekerjaan TW2: Penyediaan Sewa Mesin Foto Copy Kantor Kelurahan TW II; Jadwal: Juni; Target (%): 25%; Status: BELUM."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-01-7-01-03-6-01-0001",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.01.03.6.01.0001 Peningkatan Partisipasi Masyarakat dalam Pemeliharaan dan Penanganan Kebersihan Lingkungan",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Peningkatan Partisipasi Masyarakat dalam Pemeliharaan dan Penanganan Kebersihan Lingkungan: pagu Rp 7.200.000, realisasi keuangan Rp 900.000 (12.50%), realisasi fisik 20%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 1.",
+        "Kode sub kegiatan: 7.01.03.6.01.0001.",
+        "Program: 7.01.03 PROGRAM PENGELOLAAN KECAMATAN DAN KELURAHAN.",
+        "Kegiatan: 7.01.03.6.01 Peningkatan Penyelenggaraan Pemerintahan Kecamatan dan Kelurahan.",
+        "Nama Sub Kegiatan: Peningkatan Partisipasi Masyarakat dalam Pemeliharaan dan Penanganan Kebersihan Lingkungan.",
+        "Keluaran: 330 Kelompok Masyarakat – Jumlah Orang yang Mengikuti Peningkatan Partisipasi.",
+        "Pagu Anggaran: Rp 7.200.000.",
+        "Realisasi Keuangan: Rp 900.000 (12.50%).",
+        "Realisasi Fisik: 20%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 20%, status -.",
+        "Progres tahapan 2.01 - Laporan Pelaksanaan Kerja Bakti TW 1: jadwal Maret, bobot 20%, realisasi jadwal Maret, target 25%, realisasi 25%, status PROGRESS.",
+        "Progres tahapan 2.02 - Laporan Pelaksanaan Kerja Bakti TW 2: jadwal Juni, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.03 - Laporan Pelaksanaan Kerja Bakti TW 3: jadwal September, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.04 - Laporan Pelaksanaan Kerja Bakti TW 4: jadwal Desember, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 20%, realisasi jadwal -, target 20%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Penyusunan Laporan: jadwal Desember, bobot 20%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00052 - Belanja Makanan dan Minuman Rapat: biaya Rp 7.200.000, realisasi Rp 900.000, persentase 12.5%.",
+        "Rekening belanja - - TOTAL: biaya Rp 7.200.000, realisasi Rp 900.000, persentase 12.5%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-02-7-01-03-6-01-0002",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.01.03.6.01.0002 Pelaksanaan Kewaspadaan Dini Masyarakat",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Pelaksanaan Kewaspadaan Dini Masyarakat: pagu Rp 151.500.000, realisasi keuangan Rp 48.550.000 (32.05%), realisasi fisik 20%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 2.",
+        "Kode sub kegiatan: 7.01.03.6.01.0002.",
+        "Program: 7.01.03 PROGRAM PENGELOLAAN KECAMATAN DAN KELURAHAN.",
+        "Kegiatan: 7.01.03.6.01 Peningkatan Penyelenggaraan Pemerintahan Kecamatan dan Kelurahan.",
+        "Nama Sub Kegiatan: Pelaksanaan Kewaspadaan Dini Masyarakat.",
+        "Keluaran: 12 Laporan – Jumlah Laporan Program Kewaspadaan Dini Masyarakat.",
+        "Pagu Anggaran: Rp 151.500.000.",
+        "Realisasi Keuangan: Rp 48.550.000 (32.05%).",
+        "Realisasi Fisik: 20%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 20%, status -.",
+        "Progres tahapan 2.01 - Pelaksanaan Fungsi FKDM Triwulan I: jadwal April, bobot 20%, realisasi jadwal Maret, target 25%, realisasi 25%, status PROGRESS.",
+        "Progres tahapan 2.02 - Pelaksanaan Fungsi FKDM Triwulan II: jadwal Juli, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.03 - Pelaksanaan Fungsi FKDM Triwulan III: jadwal Oktober, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.04 - Pelaksanaan Fungsi FKDM Triwulan IV: jadwal Desember, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 20%, realisasi jadwal -, target 20%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Penyusunan Laporan: jadwal Desember, bobot 20%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00052 - Belanja Makanan dan Minuman Rapat: biaya Rp 11.700.000, realisasi Rp 1.950.000, persentase 16.7%.",
+        "Rekening belanja 5.1.02.02.001.00004 - Honorarium Tim Pelaksana Kegiatan dan Sekretariat: biaya Rp 139.800.000, realisasi Rp 46.600.000, persentase 33.3%.",
+        "Rekening belanja - - TOTAL: biaya Rp 151.500.000, realisasi Rp 48.550.000, persentase 32.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-03-7-01-03-6-01-0003",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.01.03.6.01.0003 Peningkatan Peran Kelembagaan RT, RW dan LMK",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Peningkatan Peran Kelembagaan RT, RW dan LMK: pagu Rp 3.181.765.085, realisasi keuangan Rp 1.558.062.800 (48.97%), realisasi fisik 20%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 3.",
+        "Kode sub kegiatan: 7.01.03.6.01.0003.",
+        "Program: 7.01.03 PROGRAM PENGELOLAAN KECAMATAN DAN KELURAHAN.",
+        "Kegiatan: 7.01.03.6.01 Peningkatan Penyelenggaraan Pemerintahan Kecamatan dan Kelurahan.",
+        "Nama Sub Kegiatan: Peningkatan Peran Kelembagaan RT, RW dan LMK.",
+        "Keluaran: 102 Lembaga – Jumlah RT, RW, dan/atau LMK yang Mengikuti Peningkatan Peran Kelembagaan.",
+        "Pagu Anggaran: Rp 3.181.765.085.",
+        "Realisasi Keuangan: Rp 1.558.062.800 (48.97%).",
+        "Realisasi Fisik: 20%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 20%, status -.",
+        "Progres tahapan 2.01 - Pelaksanaan Fungsi RT, RW dan LMK Triwulan I: jadwal April, bobot 20%, realisasi jadwal Maret, target 25%, realisasi 25%, status PROGRESS.",
+        "Progres tahapan 2.02 - Pelaksanaan Fungsi RT, RW dan LMK Triwulan II: jadwal Juli, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.03 - Pelaksanaan Fungsi RT, RW dan LMK Triwulan III: jadwal Oktober, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.04 - Pelaksanaan Fungsi RT, RW dan LMK Triwulan IV: jadwal Desember, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 20%, realisasi jadwal -, target 20%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Penyusunan Laporan: jadwal Desember, bobot 20%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00024 - Belanja Alat Tulis Kantor: biaya Rp 2.341.085, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.01.001.00052 - Belanja Makanan dan Minuman Rapat: biaya Rp 2.772.000, realisasi Rp 684.000, persentase 24.7%.",
+        "Rekening belanja 5.1.02.02.002.00006 - Belanja Iuran Jaminan Kecelakaan Kerja Non ASN: biaya Rp 11.400.000, realisasi Rp 2.160.000, persentase 18.9%.",
+        "Rekening belanja 5.1.02.02.002.00007 - Belanja Iuran Jaminan Kematian Non ASN: biaya Rp 7.752.000, realisasi Rp 1.468.800, persentase 18.9%.",
+        "Rekening belanja 5.1.02.05.001.00008 - Belanja Uang kepada RT: biaya Rp 2.580.000.000, realisasi Rp 1.280.000.000, persentase 49.6%.",
+        "Rekening belanja 5.1.02.05.001.00009 - Belanja Uang kepada RW: biaya Rp 337.500.000, realisasi Rp 168.750.000, persentase 50.0%.",
+        "Rekening belanja 5.1.02.05.001.00011 - Belanja Uang kepada LMK: biaya Rp 240.000.000, realisasi Rp 105.000.000, persentase 43.8%.",
+        "Rekening belanja - - TOTAL: biaya Rp 3.181.765.085, realisasi Rp 1.558.062.800, persentase 49.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-04-7-01-03-6-01-0004",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.01.03.6.01.0004 Pelaksanaan Bina Mental Spritual",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Pelaksanaan Bina Mental Spritual: pagu Rp 13.000.000, realisasi keuangan Rp 4.875.000 (37.50%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 4.",
+        "Kode sub kegiatan: 7.01.03.6.01.0004.",
+        "Program: 7.01.03 PROGRAM PENGELOLAAN KECAMATAN DAN KELURAHAN.",
+        "Kegiatan: 7.01.03.6.01 Peningkatan Penyelenggaraan Pemerintahan Kecamatan dan Kelurahan.",
+        "Nama Sub Kegiatan: Pelaksanaan Bina Mental Spritual.",
+        "Keluaran: 4 Laporan – Jumlah Laporan Pelaksanaan Bina Mental Spritual.",
+        "Pagu Anggaran: Rp 13.000.000.",
+        "Realisasi Keuangan: Rp 4.875.000 (37.50%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 1 - Persiapan: jadwal -, bobot 15%, realisasi jadwal -, target 15%, realisasi 0%, status -.",
+        "Progres tahapan 1.01 - Dokumen Persiapan: jadwal Oktober, bobot 15%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Kegiatan Keagamaan: jadwal November, bobot 80%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 5%, realisasi jadwal -, target 5%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Laporan Penyelesaian: jadwal Desember, bobot 5%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00052 - Belanja Makanan dan Minuman Rapat: biaya Rp 13.000.000, realisasi Rp 4.875.000, persentase 37.5%.",
+        "Rekening belanja - - TOTAL: biaya Rp 13.000.000, realisasi Rp 4.875.000, persentase 37.5%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-05-7-01-03-6-01-0005",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.01.03.6.01.0005 Penanganan Bencana",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Penanganan Bencana: pagu Rp 23.499.999, realisasi keuangan Rp 0 (0.00%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 5.",
+        "Kode sub kegiatan: 7.01.03.6.01.0005.",
+        "Program: 7.01.03 PROGRAM PENGELOLAAN KECAMATAN DAN KELURAHAN.",
+        "Kegiatan: 7.01.03.6.01 Peningkatan Penyelenggaraan Pemerintahan Kecamatan dan Kelurahan.",
+        "Nama Sub Kegiatan: Penanganan Bencana.",
+        "Keluaran: 1 Laporan – Jumlah Pelaksanaan Penanganan Bencana.",
+        "Pagu Anggaran: Rp 23.499.999.",
+        "Realisasi Keuangan: Rp 0 (0.00%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 100%, realisasi jadwal -, target 100%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Belanja Natura dan Pakan-Natura: jadwal Desember, bobot 100%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00043 - Belanja Natura dan Pakan-Natura: biaya Rp 23.499.999, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 23.499.999, realisasi Rp 0, persentase 0.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-06-7-01-04-6-01-0001",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.01.04.6.01.0001 Koordinasi/Sinergi Perencanaan dan Pelaksanaan Kegiatan Pemerintahan dengan Perangkat Daerah dan Instansi Vertikal Terkait",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Koordinasi/Sinergi Perencanaan dan Pelaksanaan Kegiatan Pemerintahan dengan Perangkat Daerah dan Instansi Vertikal Terkait: pagu Rp 7.218.059, realisasi keuangan Rp 6.500.000 (90.05%), realisasi fisik 100%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 6.",
+        "Kode sub kegiatan: 7.01.04.6.01.0001.",
+        "Program: 7.01.04 PROGRAM PENYELENGGARAAN PEMERINTAHAN DAN PELAYANAN PUBLIK.",
+        "Kegiatan: 7.01.04.6.01 Koordinasi Penyelenggaraan Kegiatan Pemerintahan di Tingkat Kecamatan dan Kelurahan.",
+        "Nama Sub Kegiatan: Koordinasi/Sinergi Perencanaan dan Pelaksanaan Kegiatan Pemerintahan dengan Perangkat Daerah dan Instansi Vertikal Terkait.",
+        "Keluaran: 1 Laporan – Jumlah Laporan Koordinasi/Sinergi.",
+        "Pagu Anggaran: Rp 7.218.059.",
+        "Realisasi Keuangan: Rp 6.500.000 (90.05%).",
+        "Realisasi Fisik: 100%.",
+        "Progres tahapan 1 - Persiapan: jadwal -, bobot 15%, realisasi jadwal -, target 15%, realisasi 15%, status -.",
+        "Progres tahapan 1.01 - Administrasi (surat menyurat): jadwal Februari, bobot 15%, realisasi jadwal Februari, target 100%, realisasi 100%, status SELESAI.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 80%, status -.",
+        "Progres tahapan 2.01 - Pelaksanaan Sidang Kelompok: jadwal Maret, bobot 80%, realisasi jadwal Maret, target 100%, realisasi 100%, status SELESAI.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 5%, realisasi jadwal -, target 5%, realisasi 5%, status -.",
+        "Progres tahapan 3.01 - Penyusunan Laporan: jadwal April, bobot 5%, realisasi jadwal April, target 100%, realisasi 100%, status SELESAI.",
+        "Rekening belanja 5.1.02.01.001.00026 - Belanja Bahan Cetak: biaya Rp 718.059, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.01.001.00052 - Belanja Makanan dan Minuman Rapat: biaya Rp 6.500.000, realisasi Rp 6.500.000, persentase 100.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 7.218.059, realisasi Rp 6.500.000, persentase 90.1%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-07-7-01-04-6-02-0001",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.01.04.6.02.0001 Pelaksanaan Urusan Pemerintahan yang Terkait dengan Kewenangan Lain yang Ditugaskan",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [
+        "PPSU"
+      ],
+      "ringkasan": "Pelaksanaan Urusan Pemerintahan yang Terkait dengan Kewenangan Lain yang Ditugaskan: pagu Rp 4.626.483.374, realisasi keuangan Rp 1.995.178.048 (43.13%), realisasi fisik 20%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 7.",
+        "Kode sub kegiatan: 7.01.04.6.02.0001.",
+        "Program: 7.01.04 PROGRAM PENYELENGGARAAN PEMERINTAHAN DAN PELAYANAN PUBLIK.",
+        "Kegiatan: 7.01.04.6.02 Pelaksanaan Urusan Pemerintahan yang Ditugaskan kepada Camat dan/atau Lurah.",
+        "Nama Sub Kegiatan: Pelaksanaan Urusan Pemerintahan yang Terkait dengan Kewenangan Lain yang Ditugaskan.",
+        "Keluaran: 12 Laporan – Jumlah Laporan Pelaksanaan Kewenangan Lain yang Ditugaskan.",
+        "Pagu Anggaran: Rp 4.626.483.374.",
+        "Realisasi Keuangan: Rp 1.995.178.048 (43.13%).",
+        "Realisasi Fisik: 20%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 20%, status -.",
+        "Progres tahapan 2.01 - Penanganan Prasarana Sarana Umum (PPSU) Kelurahan TW I: jadwal April, bobot 20%, realisasi jadwal Maret, target 25%, realisasi 25%, status PROGRESS.",
+        "Progres tahapan 2.02 - Penanganan Prasarana Sarana Umum (PPSU) Kelurahan TW II: jadwal Juli, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.03 - Penanganan Prasarana Sarana Umum (PPSU) Kelurahan TW III: jadwal Oktober, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.04 - Penanganan Prasarana Sarana Umum (PPSU) Kelurahan TW IV: jadwal Desember, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 20%, realisasi jadwal -, target 20%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Penyusunan Laporan: jadwal Desember, bobot 20%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00001 - Belanja Bahan Bangunan dan Konstruksi: biaya Rp 95.731.160, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.01.001.00004 - Belanja Bahan Bakar dan Pelumas: biaya Rp 7.254.016, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.01.001.00012 - Belanja Bahan-Bahan Lainnya: biaya Rp 252.826.224, realisasi Rp 171.307.188, persentase 67.8%.",
+        "Rekening belanja 5.1.02.01.001.00036 - Belanja Alat/Bahan Kantor Lainnya: biaya Rp 224.040.992, realisasi Rp 113.771.892, persentase 50.8%.",
+        "Rekening belanja 5.1.02.01.001.00069 - Belanja Pakaian Teknik: biaya Rp 99.335.040, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.02.001.00016 - Belanja Jasa Tenaga PPSU: biaya Rp 3.648.210.436, realisasi Rp 1.582.859.570, persentase 43.4%.",
+        "Rekening belanja 5.1.02.02.001.00088 - Belanja Jasa PPPK Paruh Waktu: biaya Rp 140.315.786, realisasi Rp 64.761.132, persentase 46.2%.",
+        "Rekening belanja 5.1.02.02.002.00005 - Belanja Iuran Jaminan Kesehatan Non ASN: biaya Rp 139.884.408, realisasi Rp 55.046.850, persentase 39.4%.",
+        "Rekening belanja 5.1.02.02.002.00006 - Belanja Iuran Jaminan Kecelakaan Kerja Non ASN: biaya Rp 8.393.544, realisasi Rp 3.303.015, persentase 39.4%.",
+        "Rekening belanja 5.1.02.02.002.00007 - Belanja Iuran Jaminan Kematian Non ASN: biaya Rp 10.491.768, realisasi Rp 4.128.401, persentase 39.3%.",
+        "Rekening belanja - - TOTAL: biaya Rp 4.626.483.374, realisasi Rp 1.995.178.048, persentase 43.1%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-08-7-01-05-6-01-0001",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.01.05.6.01.0001 Pemberdayaan Masyarakat",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Pemberdayaan Masyarakat: pagu Rp 1.004.220.000, realisasi keuangan Rp 340.880.000 (33.94%), realisasi fisik 20%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 8.",
+        "Kode sub kegiatan: 7.01.05.6.01.0001.",
+        "Program: 7.01.05 PROGRAM PEMBERDAYAAN MASYARAKAT DESA DAN KELURAHAN.",
+        "Kegiatan: 7.01.05.6.01 Kegiatan Pemberdayaan Kelurahan.",
+        "Nama Sub Kegiatan: Pemberdayaan Masyarakat.",
+        "Keluaran: 118 Lembaga Kemasyarakatan – Jumlah Lembaga yang Diberdayakan.",
+        "Pagu Anggaran: Rp 1.004.220.000.",
+        "Realisasi Keuangan: Rp 340.880.000 (33.94%).",
+        "Realisasi Fisik: 20%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 20%, status -.",
+        "Progres tahapan 2.01 - Pelaksanaan Pemberdayaan Masyarakat Kelurahan Triwulan I: jadwal April, bobot 20%, realisasi jadwal Maret, target 25%, realisasi 25%, status PROGRESS.",
+        "Progres tahapan 2.02 - Pelaksanaan Pemberdayaan Masyarakat Kelurahan Triwulan II: jadwal Juli, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.03 - Pelaksanaan Pemberdayaan Masyarakat Kelurahan Triwulan III: jadwal Oktober, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.04 - Pelaksanaan Pemberdayaan Masyarakat Kelurahan Triwulan IV: jadwal Desember, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 20%, realisasi jadwal -, target 20%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Penyusunan Laporan: jadwal Desember, bobot 20%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00036 - Belanja Alat/Bahan Kantor Lainnya: biaya Rp 62.160.000, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.01.001.00056 - Belanja Makanan dan Minuman Fasilitas Kesehatan: biaya Rp 137.760.000, realisasi Rp 68.880.000, persentase 50.0%.",
+        "Rekening belanja 5.1.02.02.001.00006 - Honorarium Penyuluhan atau Pendampingan: biaya Rp 721.500.000, realisasi Rp 237.500.000, persentase 32.9%.",
+        "Rekening belanja 5.1.02.05.001.00012 - Belanja Uang kepada Posyandu: biaya Rp 82.800.000, realisasi Rp 34.500.000, persentase 41.7%.",
+        "Rekening belanja - - TOTAL: biaya Rp 1.004.220.000, realisasi Rp 340.880.000, persentase 33.9%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-09-7-01-05-6-02-0001",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.01.05.6.02.0001 Penyelenggaraan Lembaga Kemasyarakatan",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Penyelenggaraan Lembaga Kemasyarakatan: pagu Rp 473.944.744, realisasi keuangan Rp 122.000.000 (25.74%), realisasi fisik 20%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 9.",
+        "Kode sub kegiatan: 7.01.05.6.02.0001.",
+        "Program: 7.01.05 PROGRAM PEMBERDAYAAN MASYARAKAT DESA DAN KELURAHAN.",
+        "Kegiatan: 7.01.05.6.02 Pemberdayaan Lembaga Kemasyarakatan Tingkat Kecamatan dan Kelurahan.",
+        "Nama Sub Kegiatan: Penyelenggaraan Lembaga Kemasyarakatan.",
+        "Keluaran: 1 Lembaga Kemasyarakatan – Jumlah Lembaga yang Diselenggarakan.",
+        "Pagu Anggaran: Rp 473.944.744.",
+        "Realisasi Keuangan: Rp 122.000.000 (25.74%).",
+        "Realisasi Fisik: 20%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 20%, status -.",
+        "Progres tahapan 2.01 - Pelaksanaan Kegiatan Triwulan I: jadwal April, bobot 20%, realisasi jadwal Maret, target 25%, realisasi 25%, status PROGRESS.",
+        "Progres tahapan 2.02 - Pelaksanaan Kegiatan Triwulan II: jadwal Juli, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.03 - Pelaksanaan Kegiatan Triwulan III: jadwal Oktober, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.04 - Pelaksanaan Kegiatan Triwulan IV: jadwal Desember, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 20%, realisasi jadwal -, target 20%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Penyusunan Laporan: jadwal Desember, bobot 20%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00024 - Belanja Alat Tulis Kantor: biaya Rp 6.801.200, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.01.001.00026 - Belanja Bahan Cetak: biaya Rp 16.991.072, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.01.001.00035 - Belanja Suvenir/Cendera Mata: biaya Rp 22.086.960, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.01.001.00052 - Belanja Makanan dan Minuman Rapat: biaya Rp 164.525.000, realisasi Rp 40.070.000, persentase 24.4%.",
+        "Rekening belanja 5.1.02.01.001.00053 - Belanja Makanan dan Minuman Jamuan Tamu: biaya Rp 11.050.000, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.01.001.00068 - Belanja Pakaian Siaga: biaya Rp 46.768.512, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.02.001.00003 - Honorarium Narasumber, Moderator, Panitia: biaya Rp 13.050.000, realisasi Rp 1.650.000, persentase 12.6%.",
+        "Rekening belanja 5.1.02.02.001.00006 - Honorarium Penyuluhan atau Pendampingan: biaya Rp 192.672.000, realisasi Rp 80.280.000, persentase 41.7%.",
+        "Rekening belanja - - TOTAL: biaya Rp 473.944.744, realisasi Rp 122.000.000, persentase 25.7%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-10-7-01-06-6-01-0001",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.01.06.6.01.0001 Sinergitas dengan Kepolisian RI, TNI dan Instansi Vertikal di Wilayah Kecamatan dan Kelurahan",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Sinergitas dengan Kepolisian RI, TNI dan Instansi Vertikal di Wilayah Kecamatan dan Kelurahan: pagu Rp 51.422.832, realisasi keuangan Rp 7.500.000 (14.58%), realisasi fisik 20%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 10.",
+        "Kode sub kegiatan: 7.01.06.6.01.0001.",
+        "Program: 7.01.06 PROGRAM KOORDINASI KETENTRAMAN DAN KETERTIBAN UMUM.",
+        "Kegiatan: 7.01.06.6.01 Koordinasi Upaya Penyelenggaraan Ketenteraman dan Ketertiban Umum.",
+        "Nama Sub Kegiatan: Sinergitas dengan Kepolisian RI, TNI dan Instansi Vertikal di Wilayah Kecamatan dan Kelurahan.",
+        "Keluaran: 4 Laporan – Jumlah Laporan Hasil Sinergitas dengan Kepolisian RI, TNI.",
+        "Pagu Anggaran: Rp 51.422.832.",
+        "Realisasi Keuangan: Rp 7.500.000 (14.58%).",
+        "Realisasi Fisik: 20%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 20%, status -.",
+        "Progres tahapan 2.01 - Pelaksanaan Kegiatan Triwulan I: jadwal April, bobot 20%, realisasi jadwal Maret, target 25%, realisasi 25%, status PROGRESS.",
+        "Progres tahapan 2.02 - Pelaksanaan Kegiatan Triwulan II: jadwal Juli, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.03 - Pelaksanaan Kegiatan Triwulan III: jadwal Oktober, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.04 - Pelaksanaan Kegiatan Triwulan IV: jadwal Desember, bobot 20%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 20%, realisasi jadwal -, target 20%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Laporan Kegiatan: jadwal Desember, bobot 20%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00026 - Belanja Bahan Cetak: biaya Rp 17.912.832, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.01.001.00052 - Belanja Makanan dan Minuman Rapat: biaya Rp 15.510.000, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.02.001.00004 - Honorarium Tim Pelaksana Kegiatan: biaya Rp 18.000.000, realisasi Rp 7.500.000, persentase 41.7%.",
+        "Rekening belanja - - TOTAL: biaya Rp 51.422.832, realisasi Rp 7.500.000, persentase 14.6%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-11-7-02-01-1-02-0003",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.02.0003 Pelaksanaan Penatausahaan dan Pengujian/Verifikasi Keuangan SKPD",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Pelaksanaan Penatausahaan dan Pengujian/Verifikasi Keuangan SKPD: pagu Rp 5.000.000, realisasi keuangan Rp 5.000.000 (100.00%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 11.",
+        "Kode sub kegiatan: 7.02.01.1.02.0003.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.02 Administrasi Keuangan Perangkat Daerah.",
+        "Nama Sub Kegiatan: Pelaksanaan Penatausahaan dan Pengujian/Verifikasi Keuangan SKPD.",
+        "Keluaran: 4 Dokumen – Jumlah Dokumen Penatausahaan dan Pengujian/Verifikasi Keuangan SKPD.",
+        "Pagu Anggaran: Rp 5.000.000.",
+        "Realisasi Keuangan: Rp 5.000.000 (100.00%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 100%, realisasi jadwal -, target 100%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Penyediaan Materai: jadwal Desember, bobot 100%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00027 - Belanja Benda Pos: biaya Rp 5.000.000, realisasi Rp 5.000.000, persentase 100.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 5.000.000, realisasi Rp 5.000.000, persentase 100.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-12-7-02-01-1-06-0001",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.06.0001 Penyediaan Komponen Instalasi Listrik/Penerangan Bangunan Kantor",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Penyediaan Komponen Instalasi Listrik/Penerangan Bangunan Kantor: pagu Rp 30.910.544, realisasi keuangan Rp 0 (0.00%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 12.",
+        "Kode sub kegiatan: 7.02.01.1.06.0001.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.06 Administrasi Umum Perangkat Daerah.",
+        "Nama Sub Kegiatan: Penyediaan Komponen Instalasi Listrik/Penerangan Bangunan Kantor.",
+        "Keluaran: 1 Paket – Komponen Instalasi Listrik/Penerangan Bangunan Kantor.",
+        "Pagu Anggaran: Rp 30.910.544.",
+        "Realisasi Keuangan: Rp 0 (0.00%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 1 - Persiapan: jadwal -, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 1.01 - Proses Pengadaan Barang/Jasa: jadwal Oktober, bobot 10%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Penyediaan Barang: jadwal November, bobot 80%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Serah Terima Barang: jadwal Desember, bobot 10%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00031 - Belanja Alat Listrik: biaya Rp 30.910.544, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 30.910.544, realisasi Rp 0, persentase 0.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-13-7-02-01-1-06-0002",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.06.0002 Penyediaan Peralatan dan Perlengkapan Kantor",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Penyediaan Peralatan dan Perlengkapan Kantor: pagu Rp 41.832.224, realisasi keuangan Rp 0 (0.00%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 13.",
+        "Kode sub kegiatan: 7.02.01.1.06.0002.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.06 Administrasi Umum Perangkat Daerah.",
+        "Nama Sub Kegiatan: Penyediaan Peralatan dan Perlengkapan Kantor.",
+        "Keluaran: 1 Paket – Peralatan dan Perlengkapan Kantor.",
+        "Pagu Anggaran: Rp 41.832.224.",
+        "Realisasi Keuangan: Rp 0 (0.00%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 1 - Persiapan: jadwal -, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 1.01 - Proses Pengadaan Barang/Jasa: jadwal Oktober, bobot 10%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Penyediaan Barang: jadwal November, bobot 80%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Serah Terima Barang: jadwal Desember, bobot 10%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00024 - Belanja Alat Tulis Kantor: biaya Rp 41.832.224, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 41.832.224, realisasi Rp 0, persentase 0.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-14-7-02-01-1-06-0003",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.06.0003 Penyediaan Peralatan Rumah Tangga",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Penyediaan Peralatan Rumah Tangga: pagu Rp 24.030.160, realisasi keuangan Rp 0 (0.00%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 14.",
+        "Kode sub kegiatan: 7.02.01.1.06.0003.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.06 Administrasi Umum Perangkat Daerah.",
+        "Nama Sub Kegiatan: Penyediaan Peralatan Rumah Tangga.",
+        "Keluaran: 1 Paket – Peralatan Rumah Tangga.",
+        "Pagu Anggaran: Rp 24.030.160.",
+        "Realisasi Keuangan: Rp 0 (0.00%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 1 - Persiapan: jadwal -, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 1.01 - Proses Pengadaan Barang/Jasa: jadwal Oktober, bobot 10%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Penyediaan Barang: jadwal November, bobot 80%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Serah Terima Barang: jadwal Desember, bobot 10%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00012 - Belanja Bahan-Bahan Lainnya: biaya Rp 17.094.224, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.01.001.00036 - Belanja Alat/Bahan Kantor Lainnya: biaya Rp 6.935.936, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 24.030.160, realisasi Rp 0, persentase 0.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-15-7-02-01-1-06-0004",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.06.0004 Penyediaan Bahan Logistik Kantor",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Penyediaan Bahan Logistik Kantor: pagu Rp 30.913.904, realisasi keuangan Rp 12.547.700 (40.59%), realisasi fisik 25%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 15.",
+        "Kode sub kegiatan: 7.02.01.1.06.0004.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.06 Administrasi Umum Perangkat Daerah.",
+        "Nama Sub Kegiatan: Penyediaan Bahan Logistik Kantor.",
+        "Keluaran: 1 Paket – Bahan Logistik Kantor.",
+        "Pagu Anggaran: Rp 30.913.904.",
+        "Realisasi Keuangan: Rp 12.547.700 (40.59%).",
+        "Realisasi Fisik: 25%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 100%, realisasi jadwal -, target 100%, realisasi 25%, status -.",
+        "Progres tahapan 2.01 - Penyediaan Bahan Logistik Kantor TW I: jadwal April, bobot 25%, realisasi jadwal Maret, target 25%, realisasi 25%, status PROGRESS.",
+        "Progres tahapan 2.02 - Penyediaan Bahan Logistik Kantor TW II: jadwal Juli, bobot 25%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.03 - Penyediaan Bahan Logistik Kantor TW III: jadwal Oktober, bobot 25%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.04 - Penyediaan Bahan Logistik Kantor TW IV: jadwal Desember, bobot 25%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00043 - Belanja Natura dan Pakan-Natura: biaya Rp 30.913.904, realisasi Rp 12.547.700, persentase 40.6%.",
+        "Rekening belanja - - TOTAL: biaya Rp 30.913.904, realisasi Rp 12.547.700, persentase 40.6%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-16-7-02-01-1-06-0005",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.06.0005 Penyediaan Barang Cetakan dan Penggandaan",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Penyediaan Barang Cetakan dan Penggandaan: pagu Rp 5.523.759, realisasi keuangan Rp 0 (0.00%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 16.",
+        "Kode sub kegiatan: 7.02.01.1.06.0005.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.06 Administrasi Umum Perangkat Daerah.",
+        "Nama Sub Kegiatan: Penyediaan Barang Cetakan dan Penggandaan.",
+        "Keluaran: 1 Paket – Barang Cetakan dan Penggandaan.",
+        "Pagu Anggaran: Rp 5.523.759.",
+        "Realisasi Keuangan: Rp 0 (0.00%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 1 - Persiapan: jadwal Oktober, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Penyediaan Barang: jadwal November, bobot 80%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Serah Terima Barang: jadwal Desember, bobot 10%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00026 - Belanja Bahan Cetak: biaya Rp 5.523.759, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 5.523.759, realisasi Rp 0, persentase 0.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-17-7-02-01-1-06-0007",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.06.0007 Penyediaan Bahan/Material",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Penyediaan Bahan/Material: pagu Rp 118.146.000, realisasi keuangan Rp 15.000.000 (12.70%), realisasi fisik 25%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 17.",
+        "Kode sub kegiatan: 7.02.01.1.06.0007.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.06 Administrasi Umum Perangkat Daerah.",
+        "Nama Sub Kegiatan: Penyediaan Bahan/Material.",
+        "Keluaran: 1 Paket – Bahan/Material.",
+        "Pagu Anggaran: Rp 118.146.000.",
+        "Realisasi Keuangan: Rp 15.000.000 (12.70%).",
+        "Realisasi Fisik: 25%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 100%, realisasi jadwal -, target 100%, realisasi 25%, status -.",
+        "Progres tahapan 2.01 - Penyediaan Bahan/Material TW I: jadwal April, bobot 25%, realisasi jadwal Maret, target 25%, realisasi 25%, status PROGRESS.",
+        "Progres tahapan 2.02 - Penyediaan Bahan/Material TW II: jadwal Juli, bobot 25%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.03 - Penyediaan Bahan/Material TW III: jadwal Oktober, bobot 25%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.04 - Penyediaan Bahan/Material TW IV: jadwal Desember, bobot 25%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00004 - Belanja Bahan Bakar dan Pelumas: biaya Rp 118.146.000, realisasi Rp 15.000.000, persentase 12.7%.",
+        "Rekening belanja - - TOTAL: biaya Rp 118.146.000, realisasi Rp 15.000.000, persentase 12.7%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-18-7-02-01-1-06-0008",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.06.0008 Fasilitasi Kunjungan Tamu",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Fasilitasi Kunjungan Tamu: pagu Rp 148.000.000, realisasi keuangan Rp 29.355.000 (19.83%), realisasi fisik 25%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 18.",
+        "Kode sub kegiatan: 7.02.01.1.06.0008.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.06 Administrasi Umum Perangkat Daerah.",
+        "Nama Sub Kegiatan: Fasilitasi Kunjungan Tamu.",
+        "Keluaran: 4 Laporan – Jumlah Laporan Fasilitasi Kunjungan Tamu.",
+        "Pagu Anggaran: Rp 148.000.000.",
+        "Realisasi Keuangan: Rp 29.355.000 (19.83%).",
+        "Realisasi Fisik: 25%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 100%, realisasi jadwal -, target 100%, realisasi 25%, status -.",
+        "Progres tahapan 2.01 - Fasilitasi Kunjungan Tamu TW I: jadwal Maret, bobot 25%, realisasi jadwal Maret, target 25%, realisasi 25%, status PROGRESS.",
+        "Progres tahapan 2.02 - Fasilitasi Kunjungan Tamu TW II: jadwal Juni, bobot 25%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.03 - Fasilitasi Kunjungan Tamu TW III: jadwal September, bobot 25%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.04 - Fasilitasi Kunjungan Tamu TW IV: jadwal Desember, bobot 25%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00053 - Belanja Makanan dan Minuman Jamuan Tamu: biaya Rp 148.000.000, realisasi Rp 29.355.000, persentase 19.8%.",
+        "Rekening belanja - - TOTAL: biaya Rp 148.000.000, realisasi Rp 29.355.000, persentase 19.8%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-19-7-02-01-1-06-0009",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.06.0009 Penyelenggaraan Rapat Koordinasi dan Konsultasi SKPD",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Penyelenggaraan Rapat Koordinasi dan Konsultasi SKPD: pagu Rp 14.100.000, realisasi keuangan Rp 0 (0.00%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 19.",
+        "Kode sub kegiatan: 7.02.01.1.06.0009.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.06 Administrasi Umum Perangkat Daerah.",
+        "Nama Sub Kegiatan: Penyelenggaraan Rapat Koordinasi dan Konsultasi SKPD.",
+        "Keluaran: 4 Laporan – Penyelenggaraan Rapat Koordinasi dan Konsultasi SKPD.",
+        "Pagu Anggaran: Rp 14.100.000.",
+        "Realisasi Keuangan: Rp 0 (0.00%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 100%, realisasi jadwal -, target 100%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Penyelenggaraan Rapat Koordinasi dan Konsultasi SKPD: jadwal Desember, bobot 100%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00052 - Belanja Makanan dan Minuman Rapat: biaya Rp 14.100.000, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 14.100.000, realisasi Rp 0, persentase 0.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-20-7-02-01-1-07-0005",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.07.0005 Pengadaan Mebel",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Pengadaan Mebel: pagu Rp 36.052.800, realisasi keuangan Rp 0 (0.00%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 20.",
+        "Kode sub kegiatan: 7.02.01.1.07.0005.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.07 Pengadaan Barang Milik Daerah Penunjang Urusan Pemerintah Daerah.",
+        "Nama Sub Kegiatan: Pengadaan Mebel.",
+        "Keluaran: 1 Paket – Mebel.",
+        "Pagu Anggaran: Rp 36.052.800.",
+        "Realisasi Keuangan: Rp 0 (0.00%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 1 - Persiapan: jadwal Oktober, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Penyediaan Barang: jadwal November, bobot 80%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Serah Terima Barang: jadwal Desember, bobot 10%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.2.02.05.002.00001 - Belanja Modal Mebel: biaya Rp 36.052.800, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 36.052.800, realisasi Rp 0, persentase 0.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-21-7-02-01-1-07-0006",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.07.0006 Pengadaan Peralatan dan Mesin Lainnya",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Pengadaan Peralatan dan Mesin Lainnya: pagu Rp 66.415.328, realisasi keuangan Rp 0 (0.00%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 21.",
+        "Kode sub kegiatan: 7.02.01.1.07.0006.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.07 Pengadaan Barang Milik Daerah Penunjang Urusan Pemerintah Daerah.",
+        "Nama Sub Kegiatan: Pengadaan Peralatan dan Mesin Lainnya.",
+        "Keluaran: 1 Unit – Peralatan dan Mesin Lainnya.",
+        "Pagu Anggaran: Rp 66.415.328.",
+        "Realisasi Keuangan: Rp 0 (0.00%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 1 - Persiapan: jadwal Oktober, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Penyediaan Barang: jadwal November, bobot 80%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Serah Terima Barang: jadwal Desember, bobot 10%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.2.02.06.001.00001 - Belanja Modal Peralatan Studio Audio: biaya Rp 21.518.112, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.2.02.10.001.00002 - Belanja Modal Personal Computer: biaya Rp 44.897.216, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 66.415.328, realisasi Rp 0, persentase 0.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-22-7-02-01-1-07-0011",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.07.0011 Pengadaan Sarana dan Prasarana Pendukung Gedung Kantor atau Bangunan Lainnya",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Pengadaan Sarana dan Prasarana Pendukung Gedung Kantor atau Bangunan Lainnya: pagu Rp 18.976.496, realisasi keuangan Rp 0 (0.00%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 22.",
+        "Kode sub kegiatan: 7.02.01.1.07.0011.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.07 Pengadaan Barang Milik Daerah Penunjang Urusan Pemerintah Daerah.",
+        "Nama Sub Kegiatan: Pengadaan Sarana dan Prasarana Pendukung Gedung Kantor atau Bangunan Lainnya.",
+        "Keluaran: 1 Unit – Sarana dan Prasarana Pendukung Gedung Kantor.",
+        "Pagu Anggaran: Rp 18.976.496.",
+        "Realisasi Keuangan: Rp 0 (0.00%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 1 - Persiapan: jadwal Oktober, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Penyediaan Barang: jadwal November, bobot 80%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Serah Terima Barang: jadwal Desember, bobot 10%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.2.02.05.002.00004 - Belanja Modal Alat Pendingin: biaya Rp 16.872.464, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.2.02.05.002.00007 - Belanja Modal Alat Pemadam Kebakaran: biaya Rp 2.104.032, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 18.976.496, realisasi Rp 0, persentase 0.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-23-7-02-01-1-08-0002",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.08.0002 Penyediaan Jasa Komunikasi, Sumber Daya Air dan Listrik",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Penyediaan Jasa Komunikasi, Sumber Daya Air dan Listrik: pagu Rp 106.382.428, realisasi keuangan Rp 44.275.298 (41.62%), realisasi fisik 25%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 23.",
+        "Kode sub kegiatan: 7.02.01.1.08.0002.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.08 Penyediaan Jasa Penunjang Urusan Pemerintahan Daerah.",
+        "Nama Sub Kegiatan: Penyediaan Jasa Komunikasi, Sumber Daya Air dan Listrik.",
+        "Keluaran: 12 Laporan – Penyediaan Jasa Komunikasi, Sumber Daya Air dan Listrik.",
+        "Pagu Anggaran: Rp 106.382.428.",
+        "Realisasi Keuangan: Rp 44.275.298 (41.62%).",
+        "Realisasi Fisik: 25%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 100%, realisasi jadwal -, target 100%, realisasi 25%, status -.",
+        "Progres tahapan 2.01 - Penyediaan Jasa TALI TW I: jadwal Maret, bobot 25%, realisasi jadwal Maret, target 25%, realisasi 25%, status PROGRESS.",
+        "Progres tahapan 2.02 - Penyediaan Jasa TALI TW II: jadwal Juni, bobot 25%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.03 - Penyediaan Jasa TALI TW III: jadwal September, bobot 25%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.04 - Penyediaan Jasa TALI TW IV: jadwal Desember, bobot 25%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.02.001.00059 - Belanja Tagihan Telepon: biaya Rp 2.160.000, realisasi Rp 512.904, persentase 23.7%.",
+        "Rekening belanja 5.1.02.02.001.00061 - Belanja Tagihan Listrik: biaya Rp 104.222.428, realisasi Rp 43.762.394, persentase 42.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 106.382.428, realisasi Rp 44.275.298, persentase 41.6%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-24-7-02-01-1-08-0003",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.08.0003 Penyediaan Jasa Peralatan dan Perlengkapan Kantor",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Penyediaan Jasa Peralatan dan Perlengkapan Kantor: pagu Rp 57.931.776, realisasi keuangan Rp 23.764.090 (41.02%), realisasi fisik 25%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 24.",
+        "Kode sub kegiatan: 7.02.01.1.08.0003.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.08 Penyediaan Jasa Penunjang Urusan Pemerintahan Daerah.",
+        "Nama Sub Kegiatan: Penyediaan Jasa Peralatan dan Perlengkapan Kantor.",
+        "Keluaran: 4 Laporan – Penyediaan Jasa Peralatan dan Perlengkapan Kantor.",
+        "Pagu Anggaran: Rp 57.931.776.",
+        "Realisasi Keuangan: Rp 23.764.090 (41.02%).",
+        "Realisasi Fisik: 25%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 100%, realisasi jadwal -, target 100%, realisasi 25%, status -.",
+        "Progres tahapan 2.01 - Penyediaan Sewa Mesin Foto Copy Kantor Kelurahan TW I: jadwal Maret, bobot 25%, realisasi jadwal Maret, target 25%, realisasi 25%, status PROGRESS.",
+        "Progres tahapan 2.02 - Penyediaan Sewa Mesin Foto Copy Kantor Kelurahan TW II: jadwal Juni, bobot 25%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.03 - Penyediaan Sewa Mesin Foto Copy Kantor Kelurahan TW III: jadwal September, bobot 25%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.04 - Penyediaan Sewa Mesin Foto Copy Kantor Kelurahan TW IV: jadwal Desember, bobot 25%, realisasi jadwal -, target 25%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.02.004.00115 - Belanja Sewa Alat Reproduksi (Penggandaan): biaya Rp 57.931.776, realisasi Rp 23.764.090, persentase 41.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 57.931.776, realisasi Rp 23.764.090, persentase 41.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-25-7-02-01-1-09-0002",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.09.0002 Penyediaan Jasa Pemeliharaan, Biaya Pemeliharaan, Pajak dan Perizinan Kendaraan Dinas Operasional",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Penyediaan Jasa Pemeliharaan, Biaya Pemeliharaan, Pajak dan Perizinan Kendaraan Dinas Operasional: pagu Rp 119.044.255, realisasi keuangan Rp 12.862.646 (10.80%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 25.",
+        "Kode sub kegiatan: 7.02.01.1.09.0002.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.09 Pemeliharaan Barang Milik Daerah Penunjang Urusan Pemerintahan Daerah.",
+        "Nama Sub Kegiatan: Penyediaan Jasa Pemeliharaan, Biaya Pemeliharaan, Pajak dan Perizinan Kendaraan Dinas Operasional.",
+        "Keluaran: 9 Unit – Kendaraan Dinas Operasional yang Dipelihara.",
+        "Pagu Anggaran: Rp 119.044.255.",
+        "Realisasi Keuangan: Rp 12.862.646 (10.80%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 100%, realisasi jadwal -, target 100%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Penyediaan Jasa Pemeliharaan, Biaya Pemeliharaan, Pajak Perizinan KDO: jadwal Desember, bobot 100%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.02.001.00067 - Belanja Pembayaran Pajak, Bea, dan Perizinan: biaya Rp 5.956.600, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.03.002.00036 - Belanja Pemeliharaan Kendaraan Bermotor Penumpang: biaya Rp 44.627.504, realisasi Rp 3.414.767, persentase 7.7%.",
+        "Rekening belanja 5.1.02.03.002.00037 - Belanja Pemeliharaan Kendaraan Bermotor Angkutan Barang: biaya Rp 47.759.191, realisasi Rp 9.447.879, persentase 19.8%.",
+        "Rekening belanja 5.1.02.03.002.00039 - Belanja Pemeliharaan Kendaraan Bermotor Beroda Tiga: biaya Rp 20.700.960, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 119.044.255, realisasi Rp 12.862.646, persentase 10.8%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-26-7-02-01-1-09-0006",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.09.0006 Pemeliharaan Peralatan dan Mesin Lainnya",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Pemeliharaan Peralatan dan Mesin Lainnya: pagu Rp 8.814.400, realisasi keuangan Rp 0 (0.00%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 26.",
+        "Kode sub kegiatan: 7.02.01.1.09.0006.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.09 Pemeliharaan Barang Milik Daerah Penunjang Urusan Pemerintahan Daerah.",
+        "Nama Sub Kegiatan: Pemeliharaan Peralatan dan Mesin Lainnya.",
+        "Keluaran: 1 Unit – Peralatan dan Mesin Lainnya yang Dipelihara.",
+        "Pagu Anggaran: Rp 8.814.400.",
+        "Realisasi Keuangan: Rp 0 (0.00%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 100%, realisasi jadwal -, target 100%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Pemeliharaan Peralatan dan Mesin: jadwal Desember, bobot 100%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.03.002.00405 - Belanja Pemeliharaan Komputer-Personal Computer: biaya Rp 5.723.200, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.03.002.00409 - Belanja Pemeliharaan Peralatan Personal Computer: biaya Rp 3.091.200, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 8.814.400, realisasi Rp 0, persentase 0.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-27-7-02-01-1-09-0009",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.09.0009 Pemeliharaan/Rehabilitasi Gedung Kantor dan Bangunan Lainnya",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Pemeliharaan/Rehabilitasi Gedung Kantor dan Bangunan Lainnya: pagu Rp 64.281.840, realisasi keuangan Rp 0 (0.00%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 27.",
+        "Kode sub kegiatan: 7.02.01.1.09.0009.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.09 Pemeliharaan Barang Milik Daerah Penunjang Urusan Pemerintahan Daerah.",
+        "Nama Sub Kegiatan: Pemeliharaan/Rehabilitasi Gedung Kantor dan Bangunan Lainnya.",
+        "Keluaran: 1 Unit – Gedung Kantor yang Dipelihara/Direhabilitasi.",
+        "Pagu Anggaran: Rp 64.281.840.",
+        "Realisasi Keuangan: Rp 0 (0.00%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 1 - Persiapan: jadwal Juli, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 80%, realisasi jadwal -, target 80%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Pelaksanaan Pekerjaan: jadwal Oktober, bobot 80%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Progres tahapan 3 - Penyelesaian: jadwal -, bobot 10%, realisasi jadwal -, target 10%, realisasi 0%, status -.",
+        "Progres tahapan 3.01 - Serah Terima Pekerjaan: jadwal Desember, bobot 10%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.03.003.00001 - Belanja Pemeliharaan Bangunan Gedung Kantor: biaya Rp 64.281.840, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 64.281.840, realisasi Rp 0, persentase 0.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-28-7-02-01-1-09-0010",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.09.0010 Pemeliharaan/Rehabilitasi Sarana dan Prasarana Gedung Kantor atau Bangunan Lainnya",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Pemeliharaan/Rehabilitasi Sarana dan Prasarana Gedung Kantor atau Bangunan Lainnya: pagu Rp 7.176.400, realisasi keuangan Rp 0 (0.00%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 28.",
+        "Kode sub kegiatan: 7.02.01.1.09.0010.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.09 Pemeliharaan Barang Milik Daerah Penunjang Urusan Pemerintahan Daerah.",
+        "Nama Sub Kegiatan: Pemeliharaan/Rehabilitasi Sarana dan Prasarana Gedung Kantor atau Bangunan Lainnya.",
+        "Keluaran: 1 Unit – Sarana Prasarana Gedung Kantor yang Dipelihara.",
+        "Pagu Anggaran: Rp 7.176.400.",
+        "Realisasi Keuangan: Rp 0 (0.00%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 100%, realisasi jadwal -, target 100%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Pemeliharaan Sarana dan Prasarana Plumbing: jadwal November, bobot 100%, realisasi jadwal -, target 100%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.02.001.00069 - Belanja Pengolahan Air Limbah: biaya Rp 7.176.400, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 7.176.400, realisasi Rp 0, persentase 0.0%."
+      ]
+    },
+    {
+      "id": "KB-MONEV-2026-TW2-SUB-29-7-02-01-1-09-0011",
+      "judul": "Monev APBD 2026 TW II Rawajati - 7.02.01.1.09.0011 Pemeliharaan/Rehabilitasi Sarana dan Prasarana Pendukung Gedung Kantor atau Bangunan Lainnya",
+      "kategori": "Monev APBD 2026",
+      "sumber": [
+        "Monev2026_Rawajati_Laporan_Detail.docx",
+        "Laporan Monitoring dan Evaluasi Realisasi Belanja APBD Tahun 2026 Kelurahan Rawajati per 18 Juni 2026 Triwulan II"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Pemeliharaan/Rehabilitasi Sarana dan Prasarana Pendukung Gedung Kantor atau Bangunan Lainnya: pagu Rp 25.643.520, realisasi keuangan Rp 0 (0.00%), realisasi fisik 0%.",
+      "butir": [
+        "Nomor sub kegiatan dalam laporan: 29.",
+        "Kode sub kegiatan: 7.02.01.1.09.0011.",
+        "Program: 7.02.01 PROGRAM PENUNJANG URUSAN PEMERINTAHAN DAERAH PROVINSI.",
+        "Kegiatan: 7.02.01.1.09 Pemeliharaan Barang Milik Daerah Penunjang Urusan Pemerintahan Daerah.",
+        "Nama Sub Kegiatan: Pemeliharaan/Rehabilitasi Sarana dan Prasarana Pendukung Gedung Kantor atau Bangunan Lainnya.",
+        "Keluaran: 1 Unit – Sarana Prasarana Pendukung Gedung Kantor yang Dipelihara.",
+        "Pagu Anggaran: Rp 25.643.520.",
+        "Realisasi Keuangan: Rp 0 (0.00%).",
+        "Realisasi Fisik: 0%.",
+        "Progres tahapan 2 - Pelaksanaan: jadwal -, bobot 100%, realisasi jadwal -, target 100%, realisasi 0%, status -.",
+        "Progres tahapan 2.01 - Pemeliharaan/Rehabilitasi Sarana Prasarana Pendukung Gedung Kantor Tahap I: jadwal Juli, bobot 50%, realisasi jadwal -, target 50%, realisasi 0%, status BELUM.",
+        "Progres tahapan 2.02 - Pemeliharaan/Rehabilitasi Sarana Prasarana Pendukung Gedung Kantor Tahap II: jadwal Desember, bobot 50%, realisasi jadwal -, target 50%, realisasi 0%, status BELUM.",
+        "Rekening belanja 5.1.02.01.001.00009 - Belanja Bahan-Isi Tabung Pemadam Kebakaran: biaya Rp 1.048.320, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja 5.1.02.03.002.00121 - Belanja Pemeliharaan Alat Kantor-Alat Pendingin: biaya Rp 24.595.200, realisasi Rp 0, persentase 0.0%.",
+        "Rekening belanja - - TOTAL: biaya Rp 25.643.520, realisasi Rp 0, persentase 0.0%."
       ]
     }
   ]
