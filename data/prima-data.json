@@ -27,7 +27,7 @@
       "lng": 106.852497
     },
     "versi": "1.0.0",
-    "terakhirUpdate": "2026-07-06T11:55:09.714Z",
+    "terakhirUpdate": "2026-07-10T04:28:16.387Z",
     "instagram": "kelrawajati"
   },
   "layanan": [
@@ -3241,6 +3241,24 @@
         "Rekening belanja 5.1.02.01.001.00009 - Belanja Bahan-Isi Tabung Pemadam Kebakaran: biaya Rp 1.048.320, realisasi Rp 0, persentase 0.0%.",
         "Rekening belanja 5.1.02.03.002.00121 - Belanja Pemeliharaan Alat Kantor-Alat Pendingin: biaya Rp 24.595.200, realisasi Rp 0, persentase 0.0%.",
         "Rekening belanja - - TOTAL: biaya Rp 25.643.520, realisasi Rp 0, persentase 0.0%."
+      ]
+    },
+    {
+      "id": "KB-KEPEG-RAWAJATI-JUL2026",
+      "judul": "Komposisi Pegawai Kelurahan Rawajati TMT 9 Juli 2026",
+      "kategori": "Kepegawaian Publik",
+      "sumber": [
+        "Updating Data Pegawai Kecamatan Pancoran (2).xlsx"
+      ],
+      "layananTerkait": [],
+      "ringkasan": "Kelurahan Rawajati per TMT 9 Juli 2026 memiliki total 61 pegawai dengan status kepegawaian campuran, yakni PNS, PPPK, dan PJLP PPSU. Struktur organisasi kelurahan diisi lengkap mulai Lurah, Sekretaris Lurah, tiga Kepala Seksi, Pengurus Barang, Bendahara Pengeluaran, hingga staf pelaksana dan tenaga PJLP PPSU.",
+      "butir": [
+        "Total pegawai Kelurahan Rawajati: 61 orang, berlaku TMT 9 Juli 2026.",
+        "PNS: 9 orang, mengisi jabatan Lurah, Sekretaris Lurah, Kasi Pemerintahan, Kasi Ekbang, Kasi Kesra, Pengurus Barang, Staf Kesra, Bendahara Pengeluaran, dan Staf.",
+        "PPPK: 3 orang, terdiri atas 1 PPPK penuh (staf) dan 2 PPPK Paruh Waktu.",
+        "PJLP PPSU: 49 orang, seluruhnya bertugas pada unit PPSU Kelurahan Rawajati.",
+        "Puncak jabatan struktural adalah Lurah golongan IV/a, dengan tiga kepala seksi (Pemerintahan, Ekbang, Kesra) di bawah Sekretaris Lurah.",
+        "Komposisi pangkat/golongan PNS terendah yang tercatat adalah II/a (Bendahara Pengeluaran) dan tertinggi IV/a (Lurah)."
       ]
     }
   ]
