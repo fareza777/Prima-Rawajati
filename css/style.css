@@ -1995,6 +1995,50 @@ a.download-btn, .download-btn {
   transform: translateY(-1px);
   box-shadow: 0 6px 18px rgba(139,92,246,.5);
 }
+
+/* Knowledge Base simple upload */
+.de-kb-upload {
+  margin: 4px 0 8px;
+  padding: 16px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  background: var(--surface-2);
+  text-align: center;
+}
+.de-kb-upload-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.de-kb-upload-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0 0 14px;
+  line-height: 1.45;
+}
+.de-kb-upload-btn {
+  width: 100%;
+  max-width: 280px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.de-kb-upload-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin: 10px 0 0;
+}
+.de-kb-status {
+  margin: 8px 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
 .de-json {
   width: 100%;
   min-height: 300px;

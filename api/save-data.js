@@ -31,6 +31,7 @@ function validateData(d) {
   if (!d.infoWarga || typeof d.infoWarga !== 'object') return 'Field "infoWarga" wajib ada.';
   if (d.infoKelurahan !== undefined && typeof d.infoKelurahan !== 'object') return 'Field "infoKelurahan" harus object.';
   if (!Array.isArray(d.faqChatbot)) return 'Field "faqChatbot" harus array.';
+  if (d.knowledgeBase !== undefined && !Array.isArray(d.knowledgeBase)) return 'Field "knowledgeBase" harus array.';
   if (d.aiSettings !== undefined) {
     if (typeof d.aiSettings !== 'object' || d.aiSettings === null) return 'Field "aiSettings" harus object.';
     if (d.aiSettings.enabled !== undefined && typeof d.aiSettings.enabled !== 'boolean') return 'aiSettings.enabled harus boolean.';

@@ -34,7 +34,8 @@ const PRIMA_DATA_FALLBACK = {
   petaMarkers: [],
   infoWarga: { kuliner: [], usahaBinaan: [], kegiatanRTRW: [] },
   infoKelurahan: { pengumuman: [], kegiatan: [] },
-  faqChatbot: []
+  faqChatbot: [],
+  knowledgeBase: []
 };
 
 (async function loadPrimaData() {

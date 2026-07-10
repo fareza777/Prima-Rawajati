@@ -3038,6 +3038,13 @@ const DATA_EDITOR_SCHEMA = {
     jsonFields: [],
     parent: 'infoKelurahan'
   },
+  knowledgeBase: {
+    label: '🧠 Pengetahuan AI',
+    fields: ['id', 'judul', 'kategori', 'sumber', 'layananTerkait', 'ringkasan', 'butir'],
+    arrayFields: ['sumber', 'layananTerkait', 'butir'],
+    jsonFields: [],
+    uploadOnly: true
+  },
   meta: {
     label: '⚙️ Meta Kelurahan',
     fields: [],
@@ -3074,11 +3081,14 @@ const FORM_FIELD_SPECS = {
   pemilik: { label: 'Pemilik', ph: 'Nama pemilik' },
   jadwal: { label: 'Jadwal', ph: 'Setiap hari Jumat' },
   penanggungJawab: { label: 'Penanggung Jawab', ph: 'Nama PJ' },
-  judul: { label: 'Judul Pengumuman', ph: 'Judul singkat' },
-  ringkasan: { label: 'Ringkasan', ph: 'Satu kalimat inti…', type: 'textarea', rows: 2 },
+  judul: { label: 'Judul', ph: 'Judul singkat' },
+  ringkasan: { label: 'Ringkasan', ph: 'Satu kalimat / paragraf inti…', type: 'textarea', rows: 3 },
   tanggal: { label: 'Tanggal', ph: '2026-06-01' },
   gambar: { label: 'URL Gambar', ph: 'img/kelurahan/contoh.png' },
-  penting: { label: 'Penting (true/false)', ph: 'true' }
+  penting: { label: 'Penting (true/false)', ph: 'true' },
+  sumber: { label: 'Sumber (satu per baris)', ph: 'Laporan bulanan Juni 2026', type: 'textarea', rows: 2 },
+  layananTerkait: { label: 'Layanan terkait (satu per baris)', ph: 'SKD', type: 'textarea', rows: 2 },
+  butir: { label: 'Butir penting (satu per baris)', ph: 'Poin fakta…', type: 'textarea', rows: 6 }
 };
 
 // Form layout per tab: array of rows, each row is array of field keys
@@ -3127,6 +3137,14 @@ const FORM_LAYOUTS = {
     ['ringkasan'],
     ['deskripsi']
   ],
+  knowledgeBase: [
+    ['id','judul'],
+    ['kategori'],
+    ['sumber'],
+    ['layananTerkait'],
+    ['ringkasan'],
+    ['butir']
+  ],
   kelKegiatan: [
     ['id','nama'],
     ['emoji','jadwal','lokasi'],
@@ -3168,6 +3186,7 @@ function openDataEditor() {
   _dataEditorDraft.infoKelurahan = _dataEditorDraft.infoKelurahan || { pengumuman: [], kegiatan: [] };
   if (!Array.isArray(_dataEditorDraft.infoKelurahan.pengumuman)) _dataEditorDraft.infoKelurahan.pengumuman = [];
   if (!Array.isArray(_dataEditorDraft.infoKelurahan.kegiatan)) _dataEditorDraft.infoKelurahan.kegiatan = [];
+  if (!Array.isArray(_dataEditorDraft.knowledgeBase)) _dataEditorDraft.knowledgeBase = [];
   _dataEditorTab = 'layanan';
   _dataEditorEditingIdx = null;
   _pendingFileUploads = [];
@@ -3334,24 +3353,25 @@ function renderDataEditorTab() {
   // ═══════════════════════════════════════════════════════════════
   // LIST MODE (all array-based tabs)
   // ═══════════════════════════════════════════════════════════════
+  const isKnowledge = _dataEditorTab === 'knowledgeBase';
   let previewHtml = '';
   if (Array.isArray(data) && data.length > 0) {
     previewHtml = `
       <div class="de-preview">
         ${data.map((item, i) => `
           <div class="de-preview-item" data-idx="${i}" onclick="editItem(${i})" style="cursor:pointer">
-            <span class="de-pv-emoji">${item.emoji || item.icon || '📄'}</span>
+            <span class="de-pv-emoji">${item.emoji || item.icon || (isKnowledge ? '🧠' : '📄')}</span>
             <div class="de-pv-body">
-              <strong>${escapeHtml(item.nama || item.id || item.intent || 'Item ' + (i+1))}</strong>
-              <span class="de-pv-id">${escapeHtml(item.id || item.intent || '')}</span>
+              <strong>${escapeHtml(item.judul || item.nama || item.id || item.intent || 'Item ' + (i+1))}</strong>
+              <span class="de-pv-id">${escapeHtml(item.kategori || item.id || item.intent || '')}</span>
             </div>
             <button class="de-pv-del" onclick="event.stopPropagation();deleteDataItem(${i})" title="Hapus item ini">🗑️</button>
           </div>
         `).join('')}
       </div>
-      <button class="de-btn" onclick="addItem()" style="width:100%;margin:8px 0;padding:12px">➕ Tambah Item Baru</button>
+      ${isKnowledge ? '' : `<button class="de-btn" onclick="addItem()" style="width:100%;margin:8px 0;padding:12px">➕ Tambah Item Baru</button>`}
     `;
-  } else {
+  } else if (!isKnowledge) {
     previewHtml = `<button class="de-btn" onclick="addItem()" style="width:100%;margin:8px 0;padding:12px">➕ Tambah Item Baru</button>`;
   }
 
@@ -3395,6 +3415,27 @@ function renderDataEditorTab() {
          </span>
        `).join('')}</div>`
     : '';
+
+  if (isKnowledge) {
+    container.innerHTML = `
+      <div class="de-kb-upload">
+        <div class="de-kb-upload-title">Upload laporan ke Pengetahuan AI</div>
+        <p class="de-kb-upload-desc">Pilih file Word/Excel/TXT. AI otomatis buat judul, kategori, dan butir — tanpa isi form.</p>
+        <button class="de-btn de-btn-ai de-kb-upload-btn" onclick="document.getElementById('de-kb-input').click()">⬆ Upload File ke AI</button>
+        <input type="file" id="de-kb-input" hidden accept=".docx,.xlsx,.xls,.csv,.txt,.md" onchange="handleKnowledgeUpload(event)">
+        <p class="de-kb-upload-hint">Format: .docx · .xlsx · .xls · .csv · .txt · .md</p>
+      </div>
+      <div class="de-toolbar" style="margin-top:12px">
+        <span class="de-count">${count} pengetahuan</span>
+      </div>
+      <div id="de-kb-status" class="de-kb-status" style="display:none"></div>
+      ${previewHtml || '<p style="font-size:13px;color:var(--text-muted);padding:8px 0">Belum ada pengetahuan. Upload file di atas.</p>'}
+      <div style="margin-top:12px;padding:10px;background:var(--surface-2);border-radius:8px;border:1px dashed var(--border);font-size:12px;color:var(--text-muted)">
+        💡 Setelah upload, review daftar di atas. Hapus yang salah jika perlu, lalu klik <strong>"💾 Simpan & Publish"</strong>.
+      </div>
+    `;
+    return;
+  }
 
   container.innerHTML = `
     <div class="de-toolbar">
@@ -3465,10 +3506,12 @@ function saveFormEdit() {
   });
 
   // Validation
-  const reqKey = _dataEditorTab === 'faqChatbot' ? 'intent' : 'id';
-  const reqLabel = _dataEditorTab === 'faqChatbot' ? 'Intent' : 'ID';
-  const nameKey = _dataEditorTab === 'faqChatbot' ? 'jawaban' : 'nama';
-  const nameLabel = _dataEditorTab === 'faqChatbot' ? 'Jawaban' : 'Nama';
+  const isFaq = _dataEditorTab === 'faqChatbot';
+  const isKb = _dataEditorTab === 'knowledgeBase';
+  const reqKey = isFaq ? 'intent' : 'id';
+  const reqLabel = isFaq ? 'Intent' : 'ID';
+  const nameKey = isFaq ? 'jawaban' : (isKb ? 'judul' : 'nama');
+  const nameLabel = isFaq ? 'Jawaban' : (isKb ? 'Judul' : 'Nama');
 
   if (!newItem[reqKey]) { showToast(`❌ ${reqLabel} wajib diisi.`); return; }
   if (!newItem[nameKey]) { showToast(`❌ ${nameLabel} wajib diisi.`); return; }
@@ -3922,6 +3965,192 @@ async function handleNarrativeUpload(event, category) {
   setCategoryArray(category, merged);
   renderDataEditorTab();
   showToast(`✅ ${parsed.length} item ${mode === 'append' ? 'ditambahkan' : 'menggantikan data lama'}. Review & klik Simpan.`);
+}
+
+// ── Upload sederhana → Knowledge Base AI (tanpa isi form) ────────
+function setKnowledgeUploadStatus(msg, isError) {
+  const el = document.getElementById('de-kb-status');
+  if (!el) return;
+  el.style.display = 'block';
+  el.style.color = isError ? 'var(--danger,#c1272d)' : 'var(--gold-deep,#8a6d1b)';
+  el.textContent = msg;
+}
+
+function buildKnowledgeParsePrompt(text, fileName) {
+  const existing = getCategoryArray('knowledgeBase') || [];
+  const existingIds = existing.map(k => k.id).filter(Boolean).slice(-20);
+  const sample = existing[0] ? JSON.stringify({
+    id: existing[0].id,
+    judul: existing[0].judul,
+    kategori: existing[0].kategori,
+    sumber: existing[0].sumber,
+    layananTerkait: existing[0].layananTerkait || [],
+    ringkasan: existing[0].ringkasan,
+    butir: (existing[0].butir || []).slice(0, 3)
+  }, null, 2) : null;
+
+  return `Kamu adalah AI parser pengetahuan untuk asisten PRIMA Kelurahan Rawajati.
+
+TUGAS: Baca dokumen laporan/narasi di bawah, ekstrak HANYA fakta yang aman untuk dibaca warga, lalu ubah jadi JSON array entri knowledge base.
+
+SCHEMA setiap item:
+  - "id" (string pendek unik, mis. "KB-LAP-JUN2026-1")
+  - "judul" (string jelas, sebutkan periode bila ada)
+  - "kategori" (string singkat: Laporan Bulanan / Keuangan Publik / Kepegawaian Publik / Pelayanan / Kegiatan / Profil Kelurahan / dll)
+  - "sumber" (array string; sertakan nama file: "${fileName}")
+  - "layananTerkait" (array string ID layanan bila relevan, else [])
+  - "ringkasan" (1-3 kalimat)
+  - "butir" (array string: poin fakta penting, angka, tanggal, capaian)
+
+${sample ? 'CONTOH FORMAT:\n```json\n[' + sample + ']\n```\n' : ''}
+
+ID yang sudah ada (jangan duplikat): ${existingIds.join(', ') || '(belum ada)'}
+
+ATURAN:
+1. Output WAJIB pure JSON array — tanpa penjelasan, tanpa markdown fence.
+2. Boleh 1–5 entri jika dokumen memuat topik berbeda (mis. pelayanan + keuangan). Jangan pecah berlebihan.
+3. JANGAN masukkan data pribadi (NIK, alamat rumah, gaji individu, NIP, penilaian ASN, data pemohon).
+4. Fokus fakta publik: angka agregat, program, jadwal, capaian, pengumuman.
+5. Judul harus spesifik (sertakan bulan/tahun bila ada di dokumen).
+6. Bahasa Indonesia.
+
+TEKS SUMBER (dari file ${fileName}):
+"""
+${text.slice(0, 14000)}
+"""
+
+JSON output:`;
+}
+
+async function aiParseKnowledge(text, fileName) {
+  if (typeof PRIMA_AI === 'undefined') throw new Error('AI module tidak ada');
+
+  const prompt = buildKnowledgeParsePrompt(text, fileName);
+  const model = PRIMA_AI.getSelectedModel();
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model,
+      messages: [
+        { role: 'system', content: 'Kamu adalah JSON parser yang teliti. Selalu return pure JSON array tanpa penjelasan.' },
+        { role: 'user', content: prompt }
+      ],
+      stream: false,
+      temperature: 0.1,
+      max_tokens: 4000
+    })
+  });
+
+  if (!res.ok) {
+    const err = await res.text().catch(() => '');
+    throw new Error(`API ${res.status}: ${err.slice(0, 200)}`);
+  }
+
+  const data = await res.json();
+  const raw = data.choices?.[0]?.message?.content || '';
+  if (!raw) throw new Error('AI tidak return konten');
+
+  const cleaned = stripJsonFences(raw);
+  let parsed;
+  try {
+    parsed = JSON.parse(cleaned);
+  } catch (e) {
+    const m = cleaned.match(/(\{[\s\S]*\}|\[[\s\S]*\])/);
+    if (m) {
+      try { parsed = JSON.parse(m[0]); }
+      catch { throw new Error('AI return JSON tidak valid: ' + e.message); }
+    } else {
+      throw new Error('AI return JSON tidak valid: ' + e.message);
+    }
+  }
+  return parsed;
+}
+
+function normalizeKnowledgeItems(parsed, fileName) {
+  let items = parsed;
+  if (!Array.isArray(items)) {
+    if (items && typeof items === 'object') items = [items];
+    else return [];
+  }
+
+  const stamp = Date.now().toString(36).toUpperCase();
+  return items.map((item, i) => {
+    const id = (item.id && String(item.id).trim()) || `KB-UP-${stamp}-${i + 1}`;
+    const sumber = Array.isArray(item.sumber) ? item.sumber.map(String) : [];
+    if (fileName && !sumber.some(s => s.includes(fileName))) sumber.unshift(fileName);
+    return {
+      id,
+      judul: String(item.judul || item.nama || `Pengetahuan dari ${fileName}`).trim(),
+      kategori: String(item.kategori || 'Laporan').trim(),
+      sumber,
+      layananTerkait: Array.isArray(item.layananTerkait) ? item.layananTerkait.map(String) : [],
+      ringkasan: String(item.ringkasan || '').trim(),
+      butir: Array.isArray(item.butir)
+        ? item.butir.map(b => String(b).trim()).filter(Boolean)
+        : (item.ringkasan ? [String(item.ringkasan)] : [])
+    };
+  }).filter(k => k.judul && (k.ringkasan || k.butir.length));
+}
+
+async function handleKnowledgeUpload(event) {
+  const file = event.target.files[0];
+  event.target.value = '';
+  if (!file) return;
+
+  setKnowledgeUploadStatus('📄 Membaca file…');
+  showToast('📄 Membaca file…');
+
+  let text;
+  try {
+    text = await extractTextFromFile(file);
+  } catch (e) {
+    setKnowledgeUploadStatus('❌ ' + e.message, true);
+    showToast('❌ Gagal baca file: ' + e.message);
+    return;
+  }
+
+  if (!text || text.trim().length < 10) {
+    setKnowledgeUploadStatus('❌ File kosong atau tidak terbaca', true);
+    showToast('❌ File kosong atau tidak terbaca');
+    return;
+  }
+
+  setKnowledgeUploadStatus('🤖 AI sedang ekstrak pengetahuan… (10–30 detik)');
+  showToast('🤖 AI parsing… mohon tunggu');
+
+  let parsed;
+  try {
+    parsed = await aiParseKnowledge(text, file.name);
+  } catch (e) {
+    setKnowledgeUploadStatus('❌ ' + e.message, true);
+    showToast('❌ AI gagal: ' + e.message);
+    return;
+  }
+
+  const items = normalizeKnowledgeItems(parsed, file.name);
+  if (!items.length) {
+    setKnowledgeUploadStatus('❌ AI tidak menemukan fakta yang bisa dijadikan pengetahuan', true);
+    showToast('❌ Tidak ada item yang bisa ditambahkan');
+    return;
+  }
+
+  const existing = getCategoryArray('knowledgeBase') || [];
+  const existingIds = new Set(existing.map(k => k.id));
+  items.forEach(item => {
+    let id = item.id;
+    let n = 2;
+    while (existingIds.has(id)) {
+      id = `${item.id}-${n}`;
+      n += 1;
+    }
+    item.id = id;
+    existingIds.add(id);
+  });
+
+  setCategoryArray('knowledgeBase', [...existing, ...items]);
+  renderDataEditorTab();
+  showToast(`✅ ${items.length} pengetahuan ditambahkan. Review & klik Simpan.`);
 }
 
 // ── Admin Secret: tersimpan di device, di-prompt sekali ──────────
