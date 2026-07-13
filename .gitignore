@@ -39,6 +39,11 @@ android.keystore
 *.log
 npm-debug.log*
 
+# Generated media work files
+tools/__pycache__/
+img/play/video/scenes/
+img/play/video/qa/
+
 # Windsurf/Cascade
 .windsurf/
 .vercel
