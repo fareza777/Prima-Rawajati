@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 
   <!-- App CSS (v4 – Royal Government Theme) -->
-  <link rel="stylesheet" href="css/style.css?v=25">
+  <link rel="stylesheet" href="css/style.css?v=26">
 
   <!-- Desktop fix: inline override agar tidak terkena cache -->
   <style>
@@ -74,32 +74,125 @@
 <!-- ══════════════════════════════════════════
      SPLASH SCREEN
 ═══════════════════════════════════════════ -->
-<div id="app-splash" class="app-splash" role="presentation" aria-label="Memuat PRIMA">
+<div id="app-splash" class="app-splash" role="status" aria-live="polite" aria-label="Memuat PRIMA">
   <div class="splash-scene" aria-hidden="true">
-    <div class="splash-orb splash-orb--1"></div>
-    <div class="splash-orb splash-orb--2"></div>
-    <div class="splash-orb splash-orb--3"></div>
-    <div class="splash-grid"></div>
-    <div class="splash-shine"></div>
+    <div class="splash-coordinate splash-coordinate--top">06°15'37.0&quot;S · 106°51'09.0&quot;E</div>
+    <div class="splash-contours"></div>
+    <div class="splash-axis splash-axis--x"></div>
+    <div class="splash-axis splash-axis--y"></div>
+    <div class="splash-district-mark">RJ</div>
+    <div class="splash-coordinate splash-coordinate--bottom">PANCORAN / JAKARTA SELATAN</div>
   </div>
   <div class="splash-content">
-    <div class="splash-brand">
-      <div class="splash-badge-halo" aria-hidden="true"></div>
-      <div class="splash-badge">
-        <span class="splash-badge-text">PRIMA</span>
-      </div>
-    </div>
+    <img class="splash-government" src="img/jaksel-logo-putih.png" alt="Pemerintah Kota Administrasi Jakarta Selatan">
+    <div class="splash-rule" aria-hidden="true"><span></span></div>
+    <div class="splash-wordmark" aria-label="PRIMA">PRIMA</div>
     <p class="splash-tagline">Platform Ringkas Interaktif Masyarakat</p>
-    <h1 class="splash-title">Kelurahan <span>Rawajati</span></h1>
-    <p class="splash-sub">Kecamatan Pancoran · Jakarta Selatan</p>
+    <p class="splash-location">Kelurahan Rawajati</p>
     <div class="splash-progress" aria-hidden="true">
-      <div class="splash-progress-track">
-        <div class="splash-progress-bar"></div>
-      </div>
+      <div class="splash-progress-track"><div class="splash-progress-bar"></div></div>
     </div>
     <p class="splash-status" id="splash-status">Menyiapkan layanan…</p>
   </div>
 </div>
+
+<!-- Onboarding hanya tampil pada kunjungan pertama. -->
+<section id="app-onboarding" class="onboarding" hidden aria-modal="true" role="dialog" aria-label="Selamat datang di PRIMA">
+  <div class="onboarding-shell">
+    <header class="onboarding-header">
+      <div class="onboarding-brand" aria-label="PRIMA Rawajati">
+        <span class="onboarding-brand-mark">P</span>
+        <span><strong>PRIMA</strong><small>Rawajati</small></span>
+      </div>
+      <button class="onboarding-skip" type="button" data-onboarding-skip>Lewati</button>
+    </header>
+
+    <div class="onboarding-viewport">
+      <div class="onboarding-track" id="onboarding-track">
+        <article class="onboarding-slide" data-onboarding-slide aria-hidden="false">
+          <div class="onboarding-visual onboarding-visual--services" aria-hidden="true">
+            <div class="ob-service-sheet">
+              <span class="ob-sheet-kicker">LAYANAN WARGA</span>
+              <strong>Urusan lebih jelas.</strong>
+              <i data-lucide="check-circle-2"></i><span>Syarat lengkap</span>
+              <i data-lucide="route"></i><span>Prosedur berurutan</span>
+              <i data-lucide="download"></i><span>Template siap unduh</span>
+            </div>
+            <div class="ob-service-stamp"><i data-lucide="badge-check"></i><span>GRATIS</span></div>
+          </div>
+          <div class="onboarding-copy">
+            <span class="onboarding-eyebrow">Layanan & Surat</span>
+            <h2>Datang dengan berkas yang sudah siap.</h2>
+            <p>Cek persyaratan, alur pengurusan, estimasi waktu, dan dokumen pendukung sebelum menuju loket.</p>
+          </div>
+        </article>
+
+        <article class="onboarding-slide" data-onboarding-slide aria-hidden="true">
+          <div class="onboarding-visual onboarding-visual--map" aria-hidden="true">
+            <div class="ob-map-grid"></div>
+            <div class="ob-map-road ob-map-road--one"></div>
+            <div class="ob-map-road ob-map-road--two"></div>
+            <div class="ob-map-pin ob-map-pin--main"><i data-lucide="landmark"></i></div>
+            <div class="ob-map-pin ob-map-pin--health"><i data-lucide="heart-pulse"></i></div>
+            <div class="ob-map-pin ob-map-pin--place"><i data-lucide="map-pin"></i></div>
+            <div class="ob-map-label"><span></span>Lokasi penting Rawajati</div>
+          </div>
+          <div class="onboarding-copy">
+            <span class="onboarding-eyebrow">Peta Wilayah</span>
+            <h2>Temukan fasilitas di sekitar Anda.</h2>
+            <p>Jelajahi kantor layanan, fasilitas kesehatan, rumah ibadah, kuliner, dan titik penting lainnya.</p>
+          </div>
+        </article>
+
+        <article class="onboarding-slide" data-onboarding-slide aria-hidden="true">
+          <div class="onboarding-visual onboarding-visual--ai" aria-hidden="true">
+            <div class="ob-ai-orbit"><i data-lucide="sparkles"></i></div>
+            <div class="ob-chat ob-chat--question">Syarat urus ahli waris?</div>
+            <div class="ob-chat ob-chat--answer"><span>PRIMA AI</span>Berikut dokumen yang perlu disiapkan…</div>
+            <div class="ob-ai-source"><i data-lucide="shield-check"></i> Berdasarkan data PRIMA</div>
+          </div>
+          <div class="onboarding-copy">
+            <span class="onboarding-eyebrow">Tanya AI</span>
+            <h2>Jawaban cepat, kapan pun dibutuhkan.</h2>
+            <p>Tanyakan layanan, data wilayah, atau informasi kelurahan dengan bahasa sehari-hari, selama 24 jam.</p>
+          </div>
+        </article>
+
+        <article class="onboarding-slide" data-onboarding-slide aria-hidden="true">
+          <div class="onboarding-visual onboarding-visual--ready" aria-hidden="true">
+            <div class="ob-ready-ring"><span>PRIMA</span></div>
+            <div class="ob-ready-feature ob-ready-feature--one"><i data-lucide="file-text"></i></div>
+            <div class="ob-ready-feature ob-ready-feature--two"><i data-lucide="map"></i></div>
+            <div class="ob-ready-feature ob-ready-feature--three"><i data-lucide="message-circle"></i></div>
+            <div class="ob-ready-feature ob-ready-feature--four"><i data-lucide="megaphone"></i></div>
+          </div>
+          <div class="onboarding-copy">
+            <span class="onboarding-eyebrow">Siap Digunakan</span>
+            <h2>Rawajati dalam satu genggaman.</h2>
+            <p>Akses informasi warga, pengumuman kelurahan, layanan, peta, dan ruang masukan dalam satu aplikasi.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <footer class="onboarding-footer">
+      <div class="onboarding-progress" role="tablist" aria-label="Langkah onboarding">
+        <button type="button" class="active" data-onboarding-dot="0" aria-label="Langkah 1" aria-selected="true"></button>
+        <button type="button" data-onboarding-dot="1" aria-label="Langkah 2" aria-selected="false"></button>
+        <button type="button" data-onboarding-dot="2" aria-label="Langkah 3" aria-selected="false"></button>
+        <button type="button" data-onboarding-dot="3" aria-label="Langkah 4" aria-selected="false"></button>
+      </div>
+      <div class="onboarding-actions">
+        <button class="onboarding-back" type="button" data-onboarding-back aria-label="Kembali" title="Kembali" disabled>
+          <i data-lucide="arrow-left"></i>
+        </button>
+        <button class="onboarding-next" type="button" data-onboarding-next>
+          <span>Lanjut</span><i data-lucide="arrow-right"></i>
+        </button>
+      </div>
+    </footer>
+  </div>
+</section>
 
 <!-- ══════════════════════════════════════════
      TOP HEADER
@@ -112,6 +205,7 @@
     </div>
   </div>
   <div class="header-actions">
+    <button class="header-btn" onclick="showPrimaOnboarding()" title="Panduan PRIMA" aria-label="Buka panduan PRIMA"><i data-lucide="circle-help"></i></button>
     <button class="theme-toggle" id="theme-toggle" onclick="toggleDarkMode()" title="Ganti tema" aria-label="Ganti tema"><span id="theme-icon">🌙</span></button>
     <button class="header-btn" onclick="showQRCode()" title="QR Code" aria-label="QR Code"><i data-lucide="qr-code"></i></button>
   </div>

@@ -4,21 +4,133 @@
 
 const PRIMA_PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=id.rawajati.prima';
 
+// First-run onboarding. Disimpan per perangkat dan dapat dibuka ulang dari header.
+(function initPrimaOnboarding() {
+  const root = document.getElementById('app-onboarding');
+  if (!root) return;
+
+  const STORAGE_KEY = 'prima_onboarding_v1_complete';
+  const track = root.querySelector('#onboarding-track');
+  const slides = [...root.querySelectorAll('[data-onboarding-slide]')];
+  const dots = [...root.querySelectorAll('[data-onboarding-dot]')];
+  const backBtn = root.querySelector('[data-onboarding-back]');
+  const nextBtn = root.querySelector('[data-onboarding-next]');
+  const skipBtn = root.querySelector('[data-onboarding-skip]');
+  const viewport = root.querySelector('.onboarding-viewport');
+  let activeIndex = 0;
+  let isOpen = false;
+  let pointerStartX = null;
+
+  function hasCompleted() {
+    try { return localStorage.getItem(STORAGE_KEY) === '1'; }
+    catch { return false; }
+  }
+
+  function rememberCompleted() {
+    try { localStorage.setItem(STORAGE_KEY, '1'); } catch {}
+  }
+
+  function render() {
+    if (track) track.style.transform = `translateX(-${activeIndex * 100}%)`;
+    slides.forEach((slide, index) => slide.setAttribute('aria-hidden', index === activeIndex ? 'false' : 'true'));
+    dots.forEach((dot, index) => {
+      const active = index === activeIndex;
+      dot.classList.toggle('active', active);
+      dot.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    if (backBtn) backBtn.disabled = activeIndex === 0;
+    if (nextBtn) {
+      const isLast = activeIndex === slides.length - 1;
+      nextBtn.innerHTML = `<span>${isLast ? 'Mulai PRIMA' : 'Lanjut'}</span><i data-lucide="${isLast ? 'check' : 'arrow-right'}"></i>`;
+    }
+    if (window.refreshIcons) window.refreshIcons();
+  }
+
+  function goTo(index) {
+    activeIndex = Math.max(0, Math.min(slides.length - 1, index));
+    render();
+  }
+
+  function show(force = false, initialIndex = 0) {
+    if (!force && hasCompleted()) return false;
+    activeIndex = Math.max(0, Math.min(slides.length - 1, initialIndex));
+    isOpen = true;
+    root.hidden = false;
+    root.classList.remove('onboarding--leaving');
+    document.body.classList.add('onboarding-active');
+    render();
+    requestAnimationFrame(() => skipBtn?.focus({ preventScroll: true }));
+    return true;
+  }
+
+  function close(markComplete = true) {
+    if (!isOpen) return;
+    if (markComplete) rememberCompleted();
+    isOpen = false;
+    root.classList.add('onboarding--leaving');
+    document.body.classList.remove('onboarding-active');
+    setTimeout(() => {
+      root.hidden = true;
+      root.classList.remove('onboarding--leaving');
+      document.querySelector('[onclick="showPrimaOnboarding()"]')?.focus({ preventScroll: true });
+    }, 320);
+  }
+
+  nextBtn?.addEventListener('click', () => {
+    if (activeIndex === slides.length - 1) close(true);
+    else goTo(activeIndex + 1);
+  });
+  backBtn?.addEventListener('click', () => goTo(activeIndex - 1));
+  skipBtn?.addEventListener('click', () => close(true));
+  dots.forEach(dot => dot.addEventListener('click', () => goTo(Number(dot.dataset.onboardingDot))));
+
+  viewport?.addEventListener('pointerdown', event => { pointerStartX = event.clientX; });
+  viewport?.addEventListener('pointerup', event => {
+    if (pointerStartX === null) return;
+    const delta = event.clientX - pointerStartX;
+    pointerStartX = null;
+    if (Math.abs(delta) < 44) return;
+    goTo(activeIndex + (delta < 0 ? 1 : -1));
+  });
+  viewport?.addEventListener('pointercancel', () => { pointerStartX = null; });
+
+  document.addEventListener('keydown', event => {
+    if (!isOpen) return;
+    if (event.key === 'ArrowRight') goTo(activeIndex + 1);
+    if (event.key === 'ArrowLeft') goTo(activeIndex - 1);
+    if (event.key === 'Escape') close(true);
+  });
+
+  const onboardingParams = new URLSearchParams(window.location.search);
+  const forceFromUrl = onboardingParams.get('onboarding') === '1';
+  const initialSlideFromUrl = Number(onboardingParams.get('onboardingSlide')) || 0;
+  window.PRIMAOnboarding = {
+    showIfNeeded: () => show(forceFromUrl, initialSlideFromUrl),
+    show: () => show(true, 0),
+    close,
+    reset: () => { try { localStorage.removeItem(STORAGE_KEY); } catch {} }
+  };
+})();
+
+function showPrimaOnboarding() {
+  window.PRIMAOnboarding?.show();
+}
+
 // ── SPLASH SCREEN ────────────────────────────────────────────────
 (function initAppSplash() {
   const splash = document.getElementById('app-splash');
   if (!splash) return;
 
-  const MIN_SHOW_MS = 3400;
-  const EXIT_MS = 1050;
+  const MIN_SHOW_MS = 2350;
+  const EXIT_MS = 700;
   const MAX_WAIT_MS = 10000;
   const startedAt = Date.now();
 
   const statusEl = document.getElementById('splash-status');
   const statusSteps = [
   { at: 0,    text: 'Menyiapkan layanan…' },
-  { at: 1200, text: 'Memuat data kelurahan…' },
-  { at: 2400, text: 'Hampir siap…' },
+  { at: 850,  text: 'Memuat data kelurahan…' },
+  { at: 1700, text: 'PRIMA siap digunakan' },
   ];
   statusSteps.forEach(({ at, text }) => {
     setTimeout(() => { if (statusEl && !splash.classList.contains('splash--exit')) statusEl.textContent = text; }, at);
@@ -46,6 +158,7 @@ const PRIMA_PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=id.r
     setTimeout(() => {
       splash.remove();
       document.body.classList.add('app-ready');
+      window.PRIMAOnboarding?.showIfNeeded();
     }, EXIT_MS);
   }
 
