@@ -2300,6 +2300,26 @@ a.download-btn, .download-btn {
   align-items: flex-end;
   gap: 8px;
   height: 120px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.analytics-chart--dense {
+  gap: 3px;
+  height: 140px;
+}
+.analytics-chart--dense .analytics-bar-val {
+  font-size: 8px;
+}
+.analytics-chart--dense .analytics-bar-label {
+  font-size: 7px;
+  transform: rotate(-45deg);
+  transform-origin: top center;
+  margin-top: 6px;
+  height: 18px;
+}
+.analytics-chart--dense .analytics-bar-fill {
+  border-radius: 4px 4px 0 0;
+  min-width: 10px;
 }
 .analytics-bar {
   flex: 1;

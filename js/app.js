@@ -2781,6 +2781,8 @@ async function updateAdminStats() {
 // sudah dikonfigurasi. Bila belum, diam-diam tetap memakai data lokal.
 async function _hydrateGlobalAnalytics() {
   if (typeof PRIMA_ANALYTICS === 'undefined' || !PRIMA_ANALYTICS.getGlobal) return;
+  // Saat demo seminar aktif, jangan timpa chart mock 5–22 Juli.
+  if (PRIMA_ANALYTICS.isSeminarDemo && PRIMA_ANALYTICS.isSeminarDemo()) return;
   try {
     const g = await PRIMA_ANALYTICS.getGlobal(14);
     if (!g || !g.configured) return;
@@ -2916,13 +2918,31 @@ function renderKpiRapDashboard(feedbacks, chatStats, aTotals) {
 function _renderAnalyticsChart(data) {
   const container = document.getElementById('admin-analytics-chart');
   if (!container || typeof PRIMA_ANALYTICS === 'undefined') return;
-  if (!data) data = PRIMA_ANALYTICS.getDaily(7);
-  const maxVal = Math.max(1, ...data.map(d => d.pageViews + d.chatSessions));
+
+  const demo = PRIMA_ANALYTICS.isSeminarDemo && PRIMA_ANALYTICS.isSeminarDemo();
+  if (demo) {
+    data = PRIMA_ANALYTICS.getDaily(18);
+  } else if (!data) {
+    data = PRIMA_ANALYTICS.getDaily(7);
+  }
+
+  const titleEl = document.querySelector('.analytics-chart-title');
+  if (titleEl) {
+    titleEl.textContent = demo
+      ? 'Trafik Demo Seminar · 5–22 Juli 2026'
+      : 'Trafik 7 Hari Terakhir';
+  }
+  const badge = document.getElementById('analytics-scope-label');
+  if (badge && demo) badge.textContent = '(demo seminar RAP)';
+
+  const maxVal = Math.max(1, ...data.map(d => (d.traffic != null ? d.traffic : (d.pageViews + d.chatSessions))));
+  container.classList.toggle('analytics-chart--dense', data.length > 10);
   container.innerHTML = data.map(d => {
-    const h = Math.round(((d.pageViews + d.chatSessions) / maxVal) * 100);
+    const val = d.traffic != null ? d.traffic : (d.pageViews + d.chatSessions);
+    const h = Math.round((val / maxVal) * 100);
     return `
       <div class="analytics-bar">
-        <div class="analytics-bar-val">${d.pageViews + d.chatSessions}</div>
+        <div class="analytics-bar-val">${val}</div>
         <div class="analytics-bar-fill" style="height:${h}%"></div>
         <div class="analytics-bar-label">${d.label}</div>
       </div>
