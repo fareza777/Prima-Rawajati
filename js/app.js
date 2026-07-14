@@ -3,6 +3,8 @@
 // ================================================================
 
 const PRIMA_PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=id.rawajati.prima';
+const PRIMA_APP_VERSION = '1.1.7';
+const PRIMA_PACKAGE_ID = 'id.rawajati.prima';
 
 // First-run onboarding. Disimpan per perangkat dan dapat dibuka ulang dari header.
 (function initPrimaOnboarding() {
@@ -208,10 +210,11 @@ function bootApp() {
   renderSuaraWarga();
   renderAdminPage();
   initChatbot();
+  hydrateAboutPage();
   // Handle shortcut deep link: ?s=layanan atau ?s=chat (dari manifest.json shortcuts)
   const urlParams = new URLSearchParams(window.location.search);
   const shortcut  = urlParams.get('s');
-  const pageMap   = { layanan: 'layanan', chat: 'chat', peta: 'peta', info: 'info', suara: 'suara', admin: 'admin' };
+  const pageMap   = { layanan: 'layanan', chat: 'chat', peta: 'peta', info: 'info', suara: 'suara', about: 'about', admin: 'admin' };
   initAdminSecretAccess();
   const startPage = (shortcut && pageMap[shortcut]) || localStorage.getItem('prima_last_page') || 'home';
   navigateTo(startPage);
@@ -2978,6 +2981,63 @@ async function exportData() {
   a.click();
   URL.revokeObjectURL(url);
   showToast('📥 Data berhasil diekspor!');
+}
+
+// ── ABOUT + PLAY STORE ───────────────────────────────────────────
+function hydrateAboutPage() {
+  const chip = document.getElementById('about-version-chip');
+  if (chip) chip.textContent = 'Versi ' + PRIMA_APP_VERSION;
+  const meta = document.getElementById('about-credit-meta');
+  if (meta) meta.textContent = 'PRIMA · ' + PRIMA_PACKAGE_ID + ' · v' + PRIMA_APP_VERSION;
+}
+
+/** Buka listing Play Store (rating / unduh). Di Android biasanya handover ke app Play. */
+function openPlayStore() {
+  const market = 'market://details?id=' + PRIMA_PACKAGE_ID;
+  const web = PRIMA_PLAY_STORE_URL;
+  const ua = navigator.userAgent || '';
+  if (/Android/i.test(ua)) {
+    // Coba intent market:// dulu; fallback HTTPS jika Play tidak menangani.
+    const started = Date.now();
+    window.location.href = market;
+    setTimeout(() => {
+      if (document.visibilityState === 'visible' && Date.now() - started < 1600) {
+        window.open(web, '_blank', 'noopener,noreferrer');
+      }
+    }, 700);
+    return;
+  }
+  window.open(web, '_blank', 'noopener,noreferrer');
+}
+
+function rateOnPlayStore() {
+  if (typeof showToast === 'function') {
+    showToast('⭐ Membuka Google Play Store…');
+  }
+  openPlayStore();
+}
+
+async function sharePrimaApp() {
+  const shareData = {
+    title: 'PRIMA – Kelurahan Rawajati',
+    text: 'Unduh PRIMA: layanan info kelurahan Rawajati — surat, peta, info warga & Tanya AI 24 jam.',
+    url: PRIMA_PLAY_STORE_URL
+  };
+  try {
+    if (navigator.share && (!navigator.canShare || navigator.canShare(shareData))) {
+      await navigator.share(shareData);
+      return;
+    }
+  } catch (err) {
+    // User cancel → diam; error lain → fallback QR
+    if (err && err.name === 'AbortError') return;
+  }
+  try {
+    await navigator.clipboard.writeText(PRIMA_PLAY_STORE_URL);
+    if (typeof showToast === 'function') showToast('🔗 Link Play Store disalin');
+    return;
+  } catch {}
+  showQRCode();
 }
 
 // ── QR CODE ──────────────────────────────────────────────────────

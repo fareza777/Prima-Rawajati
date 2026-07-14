@@ -206,6 +206,7 @@
   </div>
   <div class="header-actions">
     <button class="header-btn" onclick="showPrimaOnboarding()" title="Panduan PRIMA" aria-label="Buka panduan PRIMA"><i data-lucide="circle-help"></i></button>
+    <button class="header-btn" onclick="navigateTo('about')" title="Tentang PRIMA" aria-label="Tentang PRIMA"><i data-lucide="info"></i></button>
     <button class="theme-toggle" id="theme-toggle" onclick="toggleDarkMode()" title="Ganti tema" aria-label="Ganti tema"><span id="theme-icon">🌙</span></button>
     <button class="header-btn" onclick="showQRCode()" title="QR Code" aria-label="QR Code"><i data-lucide="qr-code"></i></button>
   </div>
@@ -302,7 +303,13 @@
       <div class="official-sources" aria-label="Sumber informasi resmi">
         <p class="os-title">Sumber informasi resmi</p>
         <div class="os-links" id="os-links"></div>
-        <a class="os-privacy" href="/privacy.html" target="_blank" rel="noopener">Kebijakan privasi</a>
+        <div class="footer-links" aria-label="Tautan aplikasi">
+          <button type="button" class="fl-link" onclick="navigateTo('about')"><i data-lucide="info"></i> Tentang</button>
+          <span class="fl-sep" aria-hidden="true">·</span>
+          <button type="button" class="fl-link" onclick="rateOnPlayStore()"><i data-lucide="star"></i> Beri rating</button>
+          <span class="fl-sep" aria-hidden="true">·</span>
+          <a class="fl-link" href="/privacy.html" target="_blank" rel="noopener"><i data-lucide="shield"></i> Privasi</a>
+        </div>
       </div>
     </div>
   </section>
@@ -572,6 +579,102 @@
         <button type="submit" class="wiz-btn wiz-btn-primary" id="wiz-submit" hidden>✉️ Kirim Masukan</button>
       </div>
     </form>
+  </div>
+</main>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE: TENTANG + RATE PLAY STORE
+═══════════════════════════════════════════ -->
+<main id="page-about" class="page">
+  <div class="about-hero">
+    <div class="about-hero-glow" aria-hidden="true"></div>
+    <div class="about-brand">
+      <div class="about-mark" aria-hidden="true"><span>PR</span></div>
+      <div class="about-brand-text">
+        <p class="about-eyebrow">Kelurahan Rawajati · Pancoran</p>
+        <h2>PRIMA</h2>
+        <p class="about-tag">Platform Ringkas Interaktif Masyarakat</p>
+      </div>
+    </div>
+    <p class="about-lead">
+      Layanan informasi kelurahan di genggaman — surat, peta, info warga, dan asisten AI 24 jam.
+    </p>
+    <div class="about-meta-row">
+      <span class="about-chip" id="about-version-chip">Versi 1.1.7</span>
+      <span class="about-chip about-chip--soft">PWA · Google Play</span>
+      <span class="about-chip about-chip--soft">Gratis</span>
+    </div>
+  </div>
+
+  <div class="about-page">
+    <!-- Primary CTA: Rate -->
+    <section class="about-rate-card" aria-labelledby="about-rate-title">
+      <div class="about-rate-stars" aria-hidden="true">
+        <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+      </div>
+      <h3 id="about-rate-title">Suka dengan PRIMA?</h3>
+      <p>Beri rating di Google Play Store. Masukan Anda membantu warga lain menemukan layanan kelurahan yang lebih mudah.</p>
+      <button type="button" class="about-rate-btn" onclick="rateOnPlayStore()">
+        <span class="about-rate-btn-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3.6 2.3c-.4.2-.6.6-.6 1.1v17.2c0 .5.2.9.6 1.1l.1.1 9.6-9.6v-.2L3.7 2.2l-.1.1zm12.1 7.2-2.5 2.5 2.5 2.5 3.1-1.7c.7-.4.7-1.2 0-1.6l-3.1-1.7zM4.1 21.5l9.1-9.1-2.1-2.1L3.6 20.9c.1.4.3.6.5.6zm9.1-9.1 2.1-2.1-9.1-9.1c-.2 0-.4.2-.5.6l7.5 10.6z"/></svg>
+        </span>
+        Beri Rating di Play Store
+      </button>
+      <button type="button" class="about-share-link" onclick="sharePrimaApp()">
+        <i data-lucide="share-2"></i> Bagikan aplikasi ke warga lain
+      </button>
+    </section>
+
+    <!-- Feature mosaic -->
+    <section class="about-features" aria-label="Fitur utama">
+      <button type="button" class="about-feat" onclick="navigateTo('layanan')">
+        <span class="af-icon af-blue"><i data-lucide="file-text"></i></span>
+        <span class="af-label">Layanan & Surat</span>
+      </button>
+      <button type="button" class="about-feat" onclick="navigateTo('peta')">
+        <span class="af-icon af-green"><i data-lucide="map"></i></span>
+        <span class="af-label">Peta Wilayah</span>
+      </button>
+      <button type="button" class="about-feat" onclick="navigateToInfo('warga')">
+        <span class="af-icon af-orange"><i data-lucide="utensils"></i></span>
+        <span class="af-label">Info Warga</span>
+      </button>
+      <button type="button" class="about-feat" onclick="navigateTo('chat')">
+        <span class="af-icon af-teal"><i data-lucide="message-circle"></i></span>
+        <span class="af-label">Tanya AI 24/7</span>
+      </button>
+    </section>
+
+    <!-- Action list -->
+    <section class="about-actions" aria-label="Lainnya">
+      <button type="button" class="about-action" onclick="showPrimaOnboarding()">
+        <span class="aa-ico"><i data-lucide="book-open"></i></span>
+        <span class="aa-copy"><strong>Panduan singkat</strong><small>Cara memakai fitur-fitur PRIMA</small></span>
+        <span class="aa-chev" aria-hidden="true"><i data-lucide="chevron-right"></i></span>
+      </button>
+      <button type="button" class="about-action" onclick="showQRCode()">
+        <span class="aa-ico"><i data-lucide="qr-code"></i></span>
+        <span class="aa-copy"><strong>QR Code unduh</strong><small>Tampilkan untuk scan & install</small></span>
+        <span class="aa-chev" aria-hidden="true"><i data-lucide="chevron-right"></i></span>
+      </button>
+      <button type="button" class="about-action" onclick="navigateTo('suara')">
+        <span class="aa-ico"><i data-lucide="pen-line"></i></span>
+        <span class="aa-copy"><strong>Suara Warga</strong><small>Kirim masukan & saran</small></span>
+        <span class="aa-chev" aria-hidden="true"><i data-lucide="chevron-right"></i></span>
+      </button>
+      <a class="about-action" href="/privacy.html" target="_blank" rel="noopener">
+        <span class="aa-ico"><i data-lucide="shield-check"></i></span>
+        <span class="aa-copy"><strong>Kebijakan privasi</strong><small>Bagaimana data Anda diperlakukan</small></span>
+        <span class="aa-chev" aria-hidden="true"><i data-lucide="external-link"></i></span>
+      </a>
+    </section>
+
+    <section class="about-credit" aria-label="Kredit">
+      <p class="about-credit-title">Dikembangkan untuk warga Rawajati</p>
+      <p>Aplikasi ini <strong>tidak</strong> mewakili entitas pemerintah. Informasi layanan dikompilasi untuk kemudahan warga dan mengacu sumber resmi kelurahan.</p>
+      <p class="about-credit-meta" id="about-credit-meta">PRIMA · id.rawajati.prima</p>
+    </section>
   </div>
 </main>
 
