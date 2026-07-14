@@ -23,11 +23,41 @@ const PRIMA_ANALYTICS = (() => {
   }
 
   function track(eventType) {
+    // 1) Simpan lokal (backup + tampilan instan tanpa jaringan)
     const data = _getData();
     const day = _today();
     _ensureDay(data, day);
     if (data[day][eventType] !== undefined) data[day][eventType]++;
     _saveData(data);
+    // 2) Kirim ke server agar terhitung GLOBAL (semua pengguna).
+    //    Fire-and-forget; kalau backend belum dikonfigurasi, diabaikan diam-diam.
+    try {
+      fetch('/api/analytics', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ event: eventType }),
+        keepalive: true
+      }).catch(() => {});
+    } catch {}
+  }
+
+  function _labelFor(dateStr) {
+    const d = new Date(dateStr + 'T00:00:00');
+    return d.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric' });
+  }
+
+  // Ambil analytics GLOBAL dari server. Mengembalikan
+  // { configured:true, totals, daily:[{date,label,...}] } bila backend aktif,
+  // atau null bila belum dikonfigurasi / gagal (pemanggil fallback ke lokal).
+  async function getGlobal(days = 14) {
+    try {
+      const r = await fetch('/api/analytics?days=' + days, { cache: 'no-store' });
+      if (!r.ok) return null;
+      const j = await r.json();
+      if (!j || !j.ok || !j.configured) return null;
+      const daily = (j.daily || []).map(d => ({ ...d, label: _labelFor(d.date) }));
+      return { configured: true, totals: j.totals || {}, daily };
+    } catch { return null; }
   }
 
   function trackPageView() { track('pageViews'); }
@@ -65,5 +95,5 @@ const PRIMA_ANALYTICS = (() => {
     return data[day] || { pageViews: 0, chatSessions: 0, layananClicks: 0, petaViews: 0, downloads: 0 };
   }
 
-  return { trackPageView, trackChatSession, trackLayananClick, trackPetaView, trackDownload, getDaily, getTotals, getToday };
+  return { trackPageView, trackChatSession, trackLayananClick, trackPetaView, trackDownload, getDaily, getTotals, getToday, getGlobal };
 })();

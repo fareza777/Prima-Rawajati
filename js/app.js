@@ -2774,7 +2774,25 @@ async function updateAdminStats() {
 
   _renderAnalyticsChart();
   _renderFeedbackList(feedbacks);
-  renderKpiRapDashboard(feedbacks, chatStats, aTotals);
+  _hydrateGlobalAnalytics();
+}
+
+// Ambil analytics GLOBAL (agregat semua pengguna) dari server bila backend
+// sudah dikonfigurasi. Bila belum, diam-diam tetap memakai data lokal.
+async function _hydrateGlobalAnalytics() {
+  if (typeof PRIMA_ANALYTICS === 'undefined' || !PRIMA_ANALYTICS.getGlobal) return;
+  try {
+    const g = await PRIMA_ANALYTICS.getGlobal(14);
+    if (!g || !g.configured) return;
+    const el = id => document.getElementById(id);
+    if (el('admin-stat-pageviews')) el('admin-stat-pageviews').textContent = g.totals.pageViews || 0;
+    if (el('admin-stat-chats'))     el('admin-stat-chats').textContent     = g.totals.chatSessions || 0;
+    if (el('admin-stat-layanan'))   el('admin-stat-layanan').textContent   = g.totals.layananClicks || 0;
+    if (el('admin-stat-peta'))      el('admin-stat-peta').textContent      = g.totals.petaViews || 0;
+    _renderAnalyticsChart(g.daily.slice(-7));
+    const lbl = el('analytics-scope-label');
+    if (lbl) lbl.textContent = '(semua pengguna)';
+  } catch {}
 }
 
 /**
@@ -2895,10 +2913,10 @@ function renderKpiRapDashboard(feedbacks, chatStats, aTotals) {
   }).join('');
 }
 
-function _renderAnalyticsChart() {
+function _renderAnalyticsChart(data) {
   const container = document.getElementById('admin-analytics-chart');
   if (!container || typeof PRIMA_ANALYTICS === 'undefined') return;
-  const data = PRIMA_ANALYTICS.getDaily(7);
+  if (!data) data = PRIMA_ANALYTICS.getDaily(7);
   const maxVal = Math.max(1, ...data.map(d => d.pageViews + d.chatSessions));
   container.innerHTML = data.map(d => {
     const h = Math.round(((d.pageViews + d.chatSessions) / maxVal) * 100);
