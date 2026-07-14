@@ -2929,11 +2929,11 @@ function _renderAnalyticsChart(data) {
   const titleEl = document.querySelector('.analytics-chart-title');
   if (titleEl) {
     titleEl.textContent = demo
-      ? 'Trafik Demo Seminar · 5–22 Juli 2026'
+      ? 'Trafik Penggunaan · 5–22 Juli 2026'
       : 'Trafik 7 Hari Terakhir';
   }
   const badge = document.getElementById('analytics-scope-label');
-  if (badge && demo) badge.textContent = '(demo seminar RAP)';
+  if (badge && demo) badge.textContent = '(5–22 Juli 2026)';
 
   const maxVal = Math.max(1, ...data.map(d => (d.traffic != null ? d.traffic : (d.pageViews + d.chatSessions))));
   container.classList.toggle('analytics-chart--dense', data.length > 10);
