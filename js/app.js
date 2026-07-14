@@ -2781,7 +2781,7 @@ async function updateAdminStats() {
 // sudah dikonfigurasi. Bila belum, diam-diam tetap memakai data lokal.
 async function _hydrateGlobalAnalytics() {
   if (typeof PRIMA_ANALYTICS === 'undefined' || !PRIMA_ANALYTICS.getGlobal) return;
-  // Saat demo seminar aktif, jangan timpa chart mock 5–22 Juli.
+  // Saat demo seminar aktif, jangan timpa chart mock 5–20 Juli.
   if (PRIMA_ANALYTICS.isSeminarDemo && PRIMA_ANALYTICS.isSeminarDemo()) return;
   try {
     const g = await PRIMA_ANALYTICS.getGlobal(14);
@@ -2921,7 +2921,7 @@ function _renderAnalyticsChart(data) {
 
   const demo = PRIMA_ANALYTICS.isSeminarDemo && PRIMA_ANALYTICS.isSeminarDemo();
   if (demo) {
-    data = PRIMA_ANALYTICS.getDaily(18);
+    data = PRIMA_ANALYTICS.getDaily(16);
   } else if (!data) {
     data = PRIMA_ANALYTICS.getDaily(7);
   }
@@ -2929,11 +2929,11 @@ function _renderAnalyticsChart(data) {
   const titleEl = document.querySelector('.analytics-chart-title');
   if (titleEl) {
     titleEl.textContent = demo
-      ? 'Trafik Penggunaan · 5–22 Juli 2026'
+      ? 'Trafik Penggunaan · 5–20 Juli 2026'
       : 'Trafik 7 Hari Terakhir';
   }
   const badge = document.getElementById('analytics-scope-label');
-  if (badge && demo) badge.textContent = '(5–22 Juli 2026)';
+  if (badge && demo) badge.textContent = '(5–20 Juli 2026)';
 
   const maxVal = Math.max(1, ...data.map(d => (d.traffic != null ? d.traffic : (d.pageViews + d.chatSessions))));
   container.classList.toggle('analytics-chart--dense', data.length > 10);

@@ -1,6 +1,6 @@
 // PRIMA Service Worker – v2 (Royal Government Theme)
 // Strategy: network-first for app shell (HTML/CSS/JS), cache-first for static assets (fonts, leaflet).
-const CACHE = 'prima-v4.10.27';
+const CACHE = 'prima-v4.10.28';
 const NETWORK_FIRST = [
   './',
   './index.html',
