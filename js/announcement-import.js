@@ -127,10 +127,19 @@ export function createAnnouncementImporter(deps = {}) {
 
   async function requestDraft(extracted, fileName, secret) {
     if (!adapters.fetchImpl) throw new Error('Koneksi API tidak tersedia.');
+    const aiSettings = root?.PRIMA_DATA?.aiSettings || {};
     const response = await adapters.fetchImpl('/api/announcement-ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': secret },
-      body: JSON.stringify({ text: extracted.text, fileName, usedOcr: Boolean(extracted.usedOcr), pageCount: extracted.pageCount })
+      body: JSON.stringify({
+        text: extracted.text,
+        fileName,
+        usedOcr: Boolean(extracted.usedOcr),
+        pageCount: extracted.pageCount,
+        provider: aiSettings.provider || '',
+        model: aiSettings.model || '',
+        baseUrl: aiSettings.baseUrl || ''
+      })
     });
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(payload.error || `AI gagal (${response.status}).`);
