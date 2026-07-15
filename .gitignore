@@ -26,6 +26,7 @@ android.keystore
 
 # Claude Code worktrees / secrets
 .claude/
+.worktrees/
 .prima-admin-secrets.txt
 *-secrets.txt
 
