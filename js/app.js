@@ -218,6 +218,7 @@ function bootApp() {
   initAdminSecretAccess();
   const startPage = (shortcut && pageMap[shortcut]) || localStorage.getItem('prima_last_page') || 'home';
   navigateTo(startPage);
+  loadDynamicAnnouncements().finally(() => focusAnnouncementFromUrl());
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1368,7 +1369,7 @@ function renderInfoKelurahan() {
       if (p.gambar) {
         const hasCaption = !!(p.judul || p.ringkasan || p.tanggal);
         return `
-      <article class="pengumuman-card pengumuman-card--gambar ${hasCaption ? 'has-caption' : ''} ${(p.penting === true || p.penting === 'true') ? 'is-penting' : ''}">
+      <article id="announcement-${escapeHtml(p.id || '')}" class="pengumuman-card pengumuman-card--gambar ${hasCaption ? 'has-caption' : ''} ${(p.penting === true || p.penting === 'true') ? 'is-penting' : ''}">
         ${hasCaption ? `
         <div class="pg-header">
           <span class="pg-emoji" aria-hidden="true">${p.emoji || '📢'}</span>
@@ -1387,7 +1388,7 @@ function renderInfoKelurahan() {
       </article>`;
       }
       return `
-      <article class="pengumuman-card ${(p.penting === true || p.penting === 'true') ? 'is-penting' : ''}">
+      <article id="announcement-${escapeHtml(p.id || '')}" class="pengumuman-card ${(p.penting === true || p.penting === 'true') ? 'is-penting' : ''}">
         <div class="pg-header">
           <span class="pg-emoji" aria-hidden="true">${p.emoji || '📢'}</span>
           <div class="pg-title-wrap">
@@ -1400,6 +1401,13 @@ function renderInfoKelurahan() {
         </div>
         ${p.ringkasan ? `<p class="pg-ringkasan">${escapeHtml(p.ringkasan)}</p>` : ''}
         ${p.deskripsi ? `<p class="pg-body">${escapeHtml(p.deskripsi)}</p>` : ''}
+        ${p.eventStart ? `<div class="pg-event-facts">
+          <span>🗓️ ${escapeHtml(formatAnnouncementEvent(p.eventStart, p.eventEnd))}</span>
+          ${p.lokasi ? `<span>📍 ${escapeHtml(p.lokasi)}</span>` : ''}
+          ${p.penyelenggara ? `<span>🏛️ ${escapeHtml(p.penyelenggara)}</span>` : ''}
+        </div>` : ''}
+        ${p.sumber?.instansi ? `<p class="pg-source">Sumber: ${escapeHtml(p.sumber.instansi)}${p.sumber.nomorDokumen ? ` · ${escapeHtml(p.sumber.nomorDokumen)}` : ''}</p>` : ''}
+        ${safeAnnouncementUrl(p.lampiran?.url) ? `<a class="pg-attachment" href="${escapeHtml(safeAnnouncementUrl(p.lampiran.url))}" target="_blank" rel="noopener">📎 Lihat dokumen sumber</a>` : ''}
       </article>`;
     }).join('') : '<div class="empty-state">Belum ada pengumuman resmi dari Kelurahan.</div>';
   }
@@ -1430,6 +1438,64 @@ function renderInfoKelurahan() {
       </div>`;
     }).join('') : '<div class="empty-state">Belum ada kegiatan kelurahan yang dipublikasikan.</div>';
   }
+}
+
+function safeAnnouncementUrl(value) {
+  const url = String(value || '').trim();
+  if (!url || url.startsWith('//') || /^javascript:/i.test(url)) return '';
+  if (/^https:\/\//i.test(url)) return url;
+  if (/^[a-z][a-z0-9+.-]*:/i.test(url)) return '';
+  return /^[./a-z0-9_-]/i.test(url) ? url : '';
+}
+
+function formatAnnouncementEvent(start, end) {
+  const begin = new Date(start);
+  if (Number.isNaN(begin.getTime())) return start || '';
+  const date = begin.toLocaleDateString('id-ID', { timeZone: 'Asia/Jakarta', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const startTime = begin.toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit' }).replace('.', ':');
+  if (!end) return `${date} · ${startTime} WIB`;
+  const finish = new Date(end);
+  const endTime = Number.isNaN(finish.getTime()) ? '' : finish.toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit' }).replace('.', ':');
+  return `${date} · ${startTime}${endTime ? `–${endTime}` : ''} WIB`;
+}
+
+function mergeAnnouncementRecords(staticItems, dynamicItems) {
+  const items = new Map();
+  [...(staticItems || []), ...(dynamicItems || [])].forEach(item => {
+    if (!item?.id) return;
+    const previous = items.get(item.id);
+    const incomingTime = Date.parse(item.updatedAt || item.tanggal || 0) || 0;
+    const previousTime = Date.parse(previous?.updatedAt || previous?.tanggal || 0) || 0;
+    if (!previous || incomingTime >= previousTime) items.set(item.id, item);
+  });
+  return [...items.values()].filter(item => !item.expiresAt || Date.parse(item.expiresAt) >= Date.now());
+}
+
+async function loadDynamicAnnouncements() {
+  try {
+    const response = await fetch('/api/announcements', { cache: 'no-store' });
+    if (!response.ok) return;
+    const payload = await response.json();
+    if (!payload?.configured || !Array.isArray(payload.announcements)) return;
+    ensureInfoKelurahan();
+    PRIMA_DATA.infoKelurahan.pengumuman = mergeAnnouncementRecords(PRIMA_DATA.infoKelurahan.pengumuman, payload.announcements);
+    renderInfoKelurahan();
+  } catch (error) {
+    console.warn('PRIMA dynamic announcements unavailable:', error?.message || error);
+  }
+}
+
+function focusAnnouncementFromUrl() {
+  const id = new URLSearchParams(window.location.search).get('announcement');
+  if (!id) return;
+  navigateTo('info');
+  switchInfoSection('kelurahan', 'pengumuman');
+  requestAnimationFrame(() => {
+    const target = document.getElementById(`announcement-${id}`);
+    if (!target) return;
+    target.classList.add('announcement-focus');
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
 }
 
 // ── CHATBOT ──────────────────────────────────────────────────────
@@ -3191,6 +3257,7 @@ let _dataEditorDraft = null;
 let _dataEditorTab = 'layanan';
 let _pendingFileUploads = []; // [{ path, content: base64, layananId, nama }]
 let _dataEditorEditingIdx = null; // null = list view, -1 = new item, 0+ = editing existing
+let _announcementImportState = { file: null, extracted: null, draft: null, warnings: [], busy: false, progress: '', result: null, error: '' };
 
 // Schema kolom Excel per kategori. Urutan kolom = urutan di sheet.
 const DATA_EDITOR_SCHEMA = {
@@ -3627,6 +3694,16 @@ function renderDataEditorTab() {
        `).join('')}</div>`
     : '';
 
+  const announcementImportHtml = _dataEditorTab === 'kelPengumuman' ? `
+    <section class="announcement-import" id="de-announcement-import">
+      <div class="announcement-import-head">
+        <div><span class="ai-kicker">AI DOCUMENT ASSISTANT</span><h4>Buat pengumuman dari dokumen</h4><p>Upload PDF hasil scan, foto, Word, atau Excel. AI membuat draft; Anda tetap memeriksa sebelum publikasi.</p></div>
+        <button type="button" class="de-btn de-btn-ai" onclick="document.getElementById('de-announcement-file').click()" ${_announcementImportState.busy ? 'disabled' : ''}>📄 Pilih Dokumen</button>
+        <input id="de-announcement-file" type="file" hidden accept=".pdf,.jpg,.jpeg,.png,.docx,.xlsx,.xls,.csv,.txt,.md" onchange="handleAnnouncementDocument(event)">
+      </div>
+      <div id="de-announcement-workspace"></div>
+    </section>` : '';
+
   if (isKnowledge) {
     container.innerHTML = `
       <div class="de-kb-upload">
@@ -3649,6 +3726,7 @@ function renderDataEditorTab() {
   }
 
   container.innerHTML = `
+    ${announcementImportHtml}
     <div class="de-toolbar">
       <span class="de-count">${count} baris</span>
       <button class="de-btn de-btn-ai" onclick="document.getElementById('de-narrative-input').click()" title="Upload Word/Excel/TXT — AI akan parse otomatis">🤖 Import Narasi (AI)</button>
@@ -3681,6 +3759,7 @@ function renderDataEditorTab() {
       💡 <strong>Tips:</strong> Klik salah satu item di atas untuk mengedit. Klik <strong>"➕ Tambah Item Baru"</strong> untuk menambahkan. Setelah semua selesai, klik <strong>"💾 Simpan & Publish"</strong> di bawah.
     </div>
   `;
+  if (_dataEditorTab === 'kelPengumuman') renderAnnouncementImportWorkspace();
 }
 
 function editItem(idx) {
@@ -3701,7 +3780,10 @@ function cancelFormEdit() {
 function saveFormEdit() {
   const schema = DATA_EDITOR_SCHEMA[_dataEditorTab];
   const layout = FORM_LAYOUTS[_dataEditorTab] || [];
-  const newItem = {};
+  const existingData = getCategoryArray(_dataEditorTab) || [];
+  // Preserve additive fields created by specialized workflows (for example
+  // eventStart, sumber, lampiran, and notification on AI announcements).
+  const newItem = _dataEditorEditingIdx >= 0 ? { ...(existingData[_dataEditorEditingIdx] || {}) } : {};
 
   layout.forEach(row => {
     row.forEach(key => {
@@ -3721,8 +3803,9 @@ function saveFormEdit() {
   const isKb = _dataEditorTab === 'knowledgeBase';
   const reqKey = isFaq ? 'intent' : 'id';
   const reqLabel = isFaq ? 'Intent' : 'ID';
-  const nameKey = isFaq ? 'jawaban' : (isKb ? 'judul' : 'nama');
-  const nameLabel = isFaq ? 'Jawaban' : (isKb ? 'Judul' : 'Nama');
+  const usesTitle = isKb || _dataEditorTab === 'kelPengumuman';
+  const nameKey = isFaq ? 'jawaban' : (usesTitle ? 'judul' : 'nama');
+  const nameLabel = isFaq ? 'Jawaban' : (usesTitle ? 'Judul' : 'Nama');
 
   if (!newItem[reqKey]) { showToast(`❌ ${reqLabel} wajib diisi.`); return; }
   if (!newItem[nameKey]) { showToast(`❌ ${nameLabel} wajib diisi.`); return; }
@@ -4412,6 +4495,178 @@ function forgetAdminSecret() {
 }
 
 // ── Save: POST ke /api/save-data ─────────────────────────────────
+function announcementProgressLabel(info) {
+  if (!info) return 'Menyiapkan dokumen…';
+  if (info.stage === 'reading') return info.page ? `Membaca halaman ${info.page} dari ${info.total}…` : 'Membaca dokumen…';
+  if (info.stage === 'ocr' || info.stage === 'ocr-engine') {
+    const percent = info.progress ? ` · ${Math.round(info.progress * 100)}%` : '';
+    return `OCR halaman ${info.page || 1} dari ${info.total || 1}${percent}…`;
+  }
+  if (info.stage === 'ai') return 'AI menyusun draft pengumuman…';
+  return 'Memproses dokumen…';
+}
+
+function renderAnnouncementImportWorkspace() {
+  const container = document.getElementById('de-announcement-workspace');
+  if (!container) return;
+  const state = _announcementImportState;
+  if (state.busy) {
+    container.innerHTML = `<div class="ai-progress"><span class="ai-progress-spinner"></span><div><strong>${escapeHtml(state.progress || 'Memproses dokumen…')}</strong><small>Jangan tutup editor sampai proses selesai.</small></div><button type="button" class="de-btn" onclick="cancelAnnouncementImport()">Batalkan</button></div>`;
+    return;
+  }
+  if (state.error && !state.draft) {
+    container.innerHTML = `<div class="ai-error"><strong>Dokumen belum berhasil diproses</strong><p>${escapeHtml(state.error)}</p><button type="button" class="de-btn" onclick="document.getElementById('de-announcement-file').click()">Coba file lain</button></div>`;
+    return;
+  }
+  if (!state.draft) {
+    container.innerHTML = `<div class="ai-empty"><span>PDF · JPG/PNG · Word · Excel</span><small>Maksimal 10 MB dan 10 halaman. PDF scan dibaca dengan OCR di perangkat ini.</small></div>`;
+    return;
+  }
+  const draft = state.draft;
+  const warningHtml = state.warnings.length ? `<div class="ai-warnings"><strong>⚠ Perlu diperiksa</strong><ul>${state.warnings.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul><label><input type="checkbox" id="ai-warning-ack"> Saya sudah memeriksa kembali informasi di atas.</label></div>` : '';
+  const resultHtml = state.result ? renderAnnouncementPublishResult(state.result) : '';
+  container.innerHTML = `${resultHtml}<div class="ai-review-grid">
+    <section class="ai-source-panel"><div class="ai-panel-title"><strong>Teks sumber</strong><span>${state.extracted?.usedOcr ? 'OCR' : 'Text layer'}</span></div><pre>${escapeHtml(state.extracted?.text || '')}</pre></section>
+    <section class="ai-draft-panel"><div class="ai-panel-title"><strong>Review draft pengumuman</strong><span>Belum dipublikasikan</span></div>
+      <div class="ai-form-grid">
+        <label class="ai-field ai-span-2">Judul<input id="ai-ann-title" value="${escapeHtml(draft.judul || '')}" maxlength="180"></label>
+        <label class="ai-field">Emoji<input id="ai-ann-emoji" value="${escapeHtml(draft.emoji || '📢')}" maxlength="8"></label>
+        <label class="ai-field">Tanggal publikasi<input id="ai-ann-date" type="date" value="${escapeHtml(draft.tanggal || '')}"></label>
+        <label class="ai-field">Mulai<input id="ai-ann-start" type="datetime-local" value="${escapeHtml(toAnnouncementLocalInput(draft.eventStart))}"></label>
+        <label class="ai-field">Selesai<input id="ai-ann-end" type="datetime-local" value="${escapeHtml(toAnnouncementLocalInput(draft.eventEnd))}"></label>
+        <label class="ai-field ai-span-2">Lokasi<input id="ai-ann-location" value="${escapeHtml(draft.lokasi || '')}"></label>
+        <label class="ai-field ai-span-2">Penyelenggara<input id="ai-ann-organizer" value="${escapeHtml(draft.penyelenggara || '')}"></label>
+        <label class="ai-field ai-span-2">Ringkasan<textarea id="ai-ann-summary" rows="3" maxlength="600">${escapeHtml(draft.ringkasan || '')}</textarea></label>
+        <label class="ai-field ai-span-2">Deskripsi<textarea id="ai-ann-description" rows="5" maxlength="5000">${escapeHtml(draft.deskripsi || '')}</textarea></label>
+        <label class="ai-field">Instansi sumber<input id="ai-ann-source-agency" value="${escapeHtml(draft.sumber?.instansi || '')}"></label>
+        <label class="ai-field">Nomor dokumen<input id="ai-ann-source-number" value="${escapeHtml(draft.sumber?.nomorDokumen || '')}"></label>
+        <label class="ai-field">Tanggal dokumen<input id="ai-ann-source-date" type="date" value="${escapeHtml(draft.sumber?.tanggalDokumen || '')}"></label>
+        <label class="ai-field">Kedaluwarsa<input id="ai-ann-expiry" type="datetime-local" value="${escapeHtml(toAnnouncementLocalInput(draft.expiresAt))}"></label>
+        <label class="ai-check ai-span-2"><input id="ai-ann-important" type="checkbox" ${draft.penting ? 'checked' : ''}> Tandai sebagai pengumuman penting</label>
+        <label class="ai-check ai-span-2"><input id="ai-ann-attachment" type="checkbox" ${state.file ? 'checked' : 'disabled'}> Sertakan dokumen sumber (${escapeHtml(state.file?.name || 'tidak ada file')})</label>
+      </div>
+      <div class="ai-notification-box"><label class="ai-check"><input id="ai-ann-push" type="checkbox" ${draft.notification?.enabled ? 'checked' : ''}> Kirim push notification setelah publikasi berhasil</label><label class="ai-field">Judul notifikasi<input id="ai-ann-push-title" value="${escapeHtml(draft.notification?.title || '')}" maxlength="60"></label><label class="ai-field">Isi notifikasi<textarea id="ai-ann-push-body" rows="2" maxlength="160">${escapeHtml(draft.notification?.body || '')}</textarea></label></div>
+      ${warningHtml}<div class="ai-review-actions"><button type="button" class="de-btn" onclick="resetAnnouncementImport()">Buang draft</button><button type="button" class="submit-btn ai-publish-btn" onclick="publishReviewedAnnouncement()">🚀 Publish & Broadcast</button></div>
+    </section></div>`;
+}
+
+function renderAnnouncementPublishResult(result) {
+  const cls = result.status === 'complete' ? 'success' : result.status === 'partial' ? 'warning' : 'error';
+  let detail = '';
+  if (result.status === 'complete' && result.broadcast?.result) {
+    const p = result.broadcast.result;
+    detail = `Notifikasi: ${p.sent || 0} terkirim, ${p.failed || 0} gagal, ${p.removed || 0} subscription dibersihkan.`;
+  } else if (result.status === 'complete') detail = 'Pengumuman tersimpan dan langsung tampil. Broadcast tidak dipilih.';
+  else if (result.stage === 'redis') detail = 'Tersimpan di GitHub, tetapi publikasi instan gagal. Broadcast tidak dikirim.';
+  else if (result.stage === 'push') detail = 'Pengumuman sudah tampil, tetapi broadcast gagal. Anda dapat mencoba publish kembali.';
+  else detail = result.github?.error || 'Publikasi belum berhasil.';
+  return `<div class="ai-result ${cls}"><strong>${result.status === 'complete' ? '✓ Publikasi selesai' : result.status === 'partial' ? '⚠ Publikasi sebagian' : '✕ Publikasi gagal'}</strong><p>${escapeHtml(detail)}</p></div>`;
+}
+
+function toAnnouncementLocalInput(value) { return String(value || '').slice(0, 16); }
+function fromAnnouncementLocalInput(id) {
+  const value = document.getElementById(id)?.value || '';
+  return value ? `${value}:00+07:00` : '';
+}
+function cancelAnnouncementImport() {
+  window.PRIMA_ANNOUNCEMENT_IMPORT?.cancel();
+  _announcementImportState.busy = false;
+  _announcementImportState.progress = '';
+  _announcementImportState.error = 'Proses dibatalkan.';
+  renderAnnouncementImportWorkspace();
+}
+function resetAnnouncementImport() {
+  _announcementImportState = { file: null, extracted: null, draft: null, warnings: [], busy: false, progress: '', result: null, error: '' };
+  renderAnnouncementImportWorkspace();
+}
+
+async function handleAnnouncementDocument(event) {
+  const file = event.target.files?.[0];
+  event.target.value = '';
+  if (!file) return;
+  if (!window.PRIMA_ANNOUNCEMENT_IMPORT) { _announcementImportState.error = 'Modul impor belum siap. Muat ulang aplikasi.'; renderAnnouncementImportWorkspace(); return; }
+  const secret = await ensureAdminSecret();
+  if (!secret) return;
+  _announcementImportState = { file, extracted: null, draft: null, warnings: [], busy: true, progress: 'Membaca dokumen…', result: null, error: '' };
+  renderAnnouncementImportWorkspace();
+  try {
+    const extracted = await window.PRIMA_ANNOUNCEMENT_IMPORT.extract(file, { onProgress: info => {
+      _announcementImportState.progress = announcementProgressLabel(info);
+      const label = document.querySelector('#de-announcement-workspace .ai-progress strong');
+      if (label) label.textContent = _announcementImportState.progress;
+    }});
+    if (!extracted.text || extracted.text.length < 10) throw new Error('Dokumen tidak menghasilkan teks yang cukup.');
+    _announcementImportState.extracted = extracted;
+    _announcementImportState.progress = announcementProgressLabel({ stage: 'ai' });
+    renderAnnouncementImportWorkspace();
+    const response = await window.PRIMA_ANNOUNCEMENT_IMPORT.requestDraft(extracted, file.name, secret);
+    _announcementImportState.draft = response.draft;
+    _announcementImportState.warnings = response.warnings || [];
+    _announcementImportState.busy = false;
+    renderAnnouncementImportWorkspace();
+  } catch (error) {
+    _announcementImportState.busy = false;
+    _announcementImportState.error = error.message || 'Dokumen gagal diproses.';
+    renderAnnouncementImportWorkspace();
+  }
+}
+
+function collectReviewedAnnouncement() {
+  const state = _announcementImportState;
+  if (!state.draft) throw new Error('Draft pengumuman belum tersedia.');
+  if (state.warnings.length && !document.getElementById('ai-warning-ack')?.checked) throw new Error('Centang konfirmasi setelah memeriksa peringatan OCR/AI.');
+  const now = new Date().toISOString();
+  const draft = { ...state.draft,
+    judul: document.getElementById('ai-ann-title')?.value.trim() || '', emoji: document.getElementById('ai-ann-emoji')?.value.trim() || '📢', tanggal: document.getElementById('ai-ann-date')?.value || now.slice(0, 10),
+    eventStart: fromAnnouncementLocalInput('ai-ann-start'), eventEnd: fromAnnouncementLocalInput('ai-ann-end'), lokasi: document.getElementById('ai-ann-location')?.value.trim() || '', penyelenggara: document.getElementById('ai-ann-organizer')?.value.trim() || '',
+    ringkasan: document.getElementById('ai-ann-summary')?.value.trim() || '', deskripsi: document.getElementById('ai-ann-description')?.value.trim() || '', penting: Boolean(document.getElementById('ai-ann-important')?.checked),
+    sumber: { instansi: document.getElementById('ai-ann-source-agency')?.value.trim() || '', nomorDokumen: document.getElementById('ai-ann-source-number')?.value.trim() || '', tanggalDokumen: document.getElementById('ai-ann-source-date')?.value || '' },
+    expiresAt: fromAnnouncementLocalInput('ai-ann-expiry'), notification: { enabled: Boolean(document.getElementById('ai-ann-push')?.checked), title: document.getElementById('ai-ann-push-title')?.value.trim() || '', body: document.getElementById('ai-ann-push-body')?.value.trim() || '' },
+    updatedAt: now, createdAt: state.draft.createdAt || now
+  };
+  if (!draft.id || !draft.judul || !draft.ringkasan) throw new Error('ID, judul, dan ringkasan wajib diisi.');
+  if (draft.eventStart && draft.eventEnd && Date.parse(draft.eventEnd) < Date.parse(draft.eventStart)) throw new Error('Waktu selesai tidak boleh sebelum waktu mulai.');
+  if (draft.notification.enabled && (!draft.notification.title || !draft.notification.body)) throw new Error('Judul dan isi notifikasi wajib diisi ketika broadcast aktif.');
+  return draft;
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(String(reader.result || '').split(',')[1] || ''); reader.onerror = () => reject(new Error('Lampiran gagal dibaca.')); reader.readAsDataURL(file); });
+}
+
+async function publishReviewedAnnouncement() {
+  if (_announcementImportState.busy) return;
+  if (!window.PRIMA_PUBLISH_FLOW) { showToast('❌ Modul publish belum siap. Muat ulang aplikasi.'); return; }
+  let draft;
+  try { draft = collectReviewedAnnouncement(); } catch (error) { showToast(`❌ ${error.message}`); return; }
+  if (draft.notification.enabled && !confirm('Publikasikan pengumuman dan kirim notifikasi ke seluruh warga yang sudah berlangganan?')) return;
+  const secret = await ensureAdminSecret();
+  if (!secret) return;
+  const attachRequested = Boolean(document.getElementById('ai-ann-attachment')?.checked && _announcementImportState.file);
+  _announcementImportState.busy = true; _announcementImportState.progress = 'Menyimpan pengumuman ke GitHub…'; _announcementImportState.result = null; renderAnnouncementImportWorkspace();
+  let nextData = null;
+  const saveStatic = async value => {
+    nextData = JSON.parse(JSON.stringify(_dataEditorDraft));
+    if (!nextData.infoKelurahan) nextData.infoKelurahan = { pengumuman: [], kegiatan: [] };
+    if (!Array.isArray(nextData.infoKelurahan.pengumuman)) nextData.infoKelurahan.pengumuman = [];
+    const files = [];
+    if (attachRequested) {
+      const original = _announcementImportState.file; const ext = original.name.match(/\.[a-z0-9]+$/i)?.[0].toLowerCase() || '.pdf'; const path = `dokumen/pengumuman/${value.id}${ext}`;
+      value.lampiran = { nama: original.name, url: path }; files.push({ path, content: await fileToBase64(original), nama: original.name });
+    } else value.lampiran = { nama: '', url: '' };
+    const index = nextData.infoKelurahan.pengumuman.findIndex(item => item.id === value.id);
+    if (index >= 0) nextData.infoKelurahan.pengumuman[index] = value; else nextData.infoKelurahan.pengumuman.unshift(value);
+    const response = await fetch('/api/save-data', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': secret }, body: JSON.stringify({ data: nextData, files, message: `feat(info): publish ${value.id}` }) });
+    const payload = await response.json().catch(() => ({})); return response.ok ? { ok: true, ...payload } : { ok: false, error: payload.error || `GitHub ${response.status}` };
+  };
+  const upsertDynamic = async value => { _announcementImportState.progress = 'Menayangkan pengumuman…'; const response = await fetch('/api/announcements', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': secret }, body: JSON.stringify(value) }); const payload = await response.json().catch(() => ({})); return response.ok ? { ok: true, ...payload } : { ok: false, error: payload.error || `Redis ${response.status}` }; };
+  const broadcast = async value => { _announcementImportState.progress = 'Mengirim push notification…'; const response = await fetch('/api/push-broadcast', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': secret }, body: JSON.stringify(value) }); const payload = await response.json().catch(() => ({})); return response.ok ? { ok: true, ...payload } : { ok: false, error: payload.error || `Push ${response.status}` }; };
+  const result = await window.PRIMA_PUBLISH_FLOW.execute(draft, { saveStatic, upsertDynamic, broadcast });
+  if (result.github?.ok && nextData) { _dataEditorDraft = nextData; window.PRIMA_DATA = JSON.parse(JSON.stringify(nextData)); if (window.PRIMA_AI?.resetIndex) window.PRIMA_AI.resetIndex(); renderInfoKelurahan(); }
+  _announcementImportState.busy = false; _announcementImportState.draft = draft; _announcementImportState.result = result; renderDataEditorTab();
+  showToast(result.status === 'complete' ? '✅ Pengumuman berhasil dipublikasikan.' : '⚠️ Periksa hasil publikasi dan coba lagi bila perlu.');
+}
+
 async function saveDataEditor() {
   // If user is currently editing a form item, auto-save it to draft first
   if (_dataEditorEditingIdx !== null) {
