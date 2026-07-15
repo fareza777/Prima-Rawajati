@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { redisCommand } from '../lib/redis.mjs';
+import { isRedisConfigured, redisCommand } from '../lib/redis.mjs';
 
 test('redisCommand sends an authenticated JSON command', async () => {
   let captured;
@@ -15,6 +15,22 @@ test('redisCommand sends an authenticated JSON command', async () => {
   assert.equal(captured.url, 'https://redis.example');
   assert.equal(captured.options.headers.Authorization, 'Bearer secret');
   assert.equal(captured.options.body, '["HGETALL","prima:test"]');
+});
+
+test('supports Vercel Marketplace prefixed Upstash credentials', async () => {
+  const env = {
+    UPSTASH_REDIS_REST_KV_REST_API_URL: 'https://marketplace-redis.example',
+    UPSTASH_REDIS_REST_KV_REST_API_TOKEN: 'marketplace-secret'
+  };
+  let captured;
+  assert.equal(isRedisConfigured(env), true);
+  const result = await redisCommand(['PING'], env, async (url, options) => {
+    captured = { url, options };
+    return new Response(JSON.stringify({ result: 'PONG' }), { status: 200 });
+  });
+  assert.equal(result, 'PONG');
+  assert.equal(captured.url, env.UPSTASH_REDIS_REST_KV_REST_API_URL);
+  assert.equal(captured.options.headers.Authorization, 'Bearer marketplace-secret');
 });
 
 test('redisCommand reports missing configuration', async () => {
