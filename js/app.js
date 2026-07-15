@@ -3729,8 +3729,8 @@ function renderDataEditorTab() {
     ${announcementImportHtml}
     <div class="de-toolbar">
       <span class="de-count">${count} baris</span>
-      <button class="de-btn de-btn-ai" onclick="document.getElementById('de-narrative-input').click()" title="Upload Word/Excel/TXT — AI akan parse otomatis">🤖 Import Narasi (AI)</button>
-      <input type="file" id="de-narrative-input" hidden accept=".docx,.xlsx,.xls,.csv,.txt,.md" onchange="handleNarrativeUpload(event, '${_dataEditorTab}')">
+      ${_dataEditorTab !== 'kelPengumuman' ? `<button class="de-btn de-btn-ai" onclick="document.getElementById('de-narrative-input').click()" title="Upload Word/Excel/TXT — AI akan parse otomatis">🤖 Import Narasi (AI)</button>
+      <input type="file" id="de-narrative-input" hidden accept=".docx,.xlsx,.xls,.csv,.txt,.md" onchange="handleNarrativeUpload(event, '${_dataEditorTab}')">` : ''}
       <button class="de-btn" onclick="downloadCategoryExcel('${_dataEditorTab}')">⬇ Excel</button>
       <button class="de-btn" onclick="document.getElementById('de-excel-input').click()">⬆ Excel</button>
       <input type="file" id="de-excel-input" hidden accept=".xlsx,.xls,.csv" onchange="handleExcelUpload(event, '${_dataEditorTab}')">
