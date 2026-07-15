@@ -67,4 +67,8 @@ export function createPushBroadcastHandler(options = {}) {
   };
 }
 
-export default createPushBroadcastHandler();
+const pushBroadcastHandler = createPushBroadcastHandler();
+
+export function POST(request) {
+  return pushBroadcastHandler(request);
+}
