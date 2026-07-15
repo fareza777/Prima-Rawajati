@@ -443,6 +443,14 @@
 
   <!-- ── Panel: Info Kelurahan ── -->
   <div id="info-panel-kelurahan" class="info-panel">
+    <section class="push-card" aria-labelledby="push-card-title">
+      <div class="push-card-icon" aria-hidden="true"><i data-lucide="bell-ring"></i></div>
+      <div class="push-card-copy">
+        <div class="push-card-heading"><strong id="push-card-title">Notifikasi Info Rawajati</strong><span class="push-status" data-push-status>Memeriksa…</span></div>
+        <p data-push-detail>Dapatkan pengumuman penting langsung di perangkat ini.</p>
+      </div>
+      <button type="button" class="push-action" data-push-action>Aktifkan notifikasi</button>
+    </section>
     <div class="info-tab-bar info-tab-bar--kelurahan" role="tablist" aria-label="Kategori info kelurahan">
       <button type="button" class="info-tab active" data-panel="kelurahan" data-tab="pengumuman" role="tab" aria-selected="true">Pengumuman</button>
       <button type="button" class="info-tab" data-panel="kelurahan" data-tab="kel-kegiatan" role="tab" aria-selected="false">Kegiatan</button>
@@ -648,6 +656,11 @@
 
     <!-- Action list -->
     <section class="about-actions" aria-label="Lainnya">
+      <div class="about-action about-push-control">
+        <span class="aa-ico"><i data-lucide="bell-ring"></i></span>
+        <span class="aa-copy"><strong>Notifikasi warga · <span data-push-status>Memeriksa…</span></strong><small data-push-detail>Pengumuman penting di perangkat ini</small></span>
+        <button type="button" class="about-inline-action" data-push-action>Aktifkan</button>
+      </div>
       <button type="button" class="about-action" onclick="showPrimaOnboarding()">
         <span class="aa-ico"><i data-lucide="book-open"></i></span>
         <span class="aa-copy"><strong>Panduan singkat</strong><small>Cara memakai fitur-fitur PRIMA</small></span>
@@ -949,6 +962,10 @@
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <!-- mammoth.js (untuk extract text dari Word .docx — AI narrative import) -->
 <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
+<!-- PDF text extraction + scanned-page rendering for announcement import -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<!-- Client-side OCR; source documents stay on the admin device until publish -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
 <!-- App Data -->
 <script src="js/data.js"></script>
 <!-- AI Client (OpenRouter via Vercel proxy) -->
@@ -959,6 +976,12 @@
 <script src="js/analytics.js"></script>
 <!-- Main App -->
 <script src="js/app.js"></script>
+<!-- Ordered publish orchestration: GitHub -> immediate store -> optional push -->
+<script type="module" src="js/publish-flow.js"></script>
+<!-- Admin document extraction/OCR -->
+<script type="module" src="js/announcement-import.js"></script>
+<!-- Resident Web Push controls; permission is requested only after a button press -->
+<script type="module" src="js/push.js"></script>
 
 <!-- Inline: quick-layanan + admin helpers + PWA SW -->
 <script>

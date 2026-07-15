@@ -1,6 +1,6 @@
 // PRIMA Service Worker – v2 (Royal Government Theme)
 // Strategy: network-first for app shell (HTML/CSS/JS), cache-first for static assets (fonts, leaflet).
-const CACHE = 'prima-v4.10.30';
+const CACHE = 'prima-v4.11.1';
 const NETWORK_FIRST = [
   './',
   './index.html',
@@ -9,7 +9,12 @@ const NETWORK_FIRST = [
   './js/ai.js',
   './js/chatbot.js',
   './js/analytics.js',
-  './js/app.js'
+  './js/app.js',
+  './js/push.js',
+  './js/announcement-import.js',
+  './js/publish-flow.js',
+  './lib/announcement.mjs',
+  './lib/publish-flow.mjs'
 ];
 const CACHE_FIRST = [
   'https://fonts.googleapis.com',
@@ -74,4 +79,34 @@ self.addEventListener('fetch', e => {
 // Allow page to force-skip-waiting via postMessage
 self.addEventListener('message', e => {
   if (e.data === 'SKIP_WAITING') self.skipWaiting();
+});
+
+self.addEventListener('push', event => {
+  let data = {};
+  try { data = event.data ? event.data.json() : {}; } catch {}
+  const safeUrl = typeof data.url === 'string' && data.url.startsWith('/') && !data.url.startsWith('//')
+    ? data.url
+    : '/?s=info';
+  event.waitUntil(self.registration.showNotification(data.title || 'PRIMA Rawajati', {
+    body: data.body || 'Ada informasi terbaru untuk warga.',
+    icon: '/img/icons/icon-192.png',
+    badge: '/img/icons/icon-192.png',
+    tag: data.tag || 'prima-info',
+    renotify: false,
+    data: { url: safeUrl }
+  }));
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  const url = event.notification?.data?.url || '/?s=info';
+  event.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(async clients => {
+    for (const client of clients) {
+      if (new URL(client.url).origin === self.location.origin) {
+        await client.navigate(url);
+        return client.focus();
+      }
+    }
+    return self.clients.openWindow(url);
+  }));
 });

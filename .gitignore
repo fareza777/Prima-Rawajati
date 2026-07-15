@@ -39,6 +39,7 @@ android.keystore
 # Logs
 *.log
 npm-debug.log*
+node_modules/
 
 # Generated media work files
 tools/__pycache__/

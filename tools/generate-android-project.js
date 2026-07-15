@@ -10,6 +10,7 @@
 
 const fs   = require('fs');
 const path = require('path');
+const os   = require('os');
 const https = require('https');
 const http  = require('http');
 
@@ -28,6 +29,7 @@ const MASK_URL = manifest.maskableIconUrl || ICON_URL;
 const V_CODE   = String(manifest.appVersion     || '1');
 const V_NAME   = String(manifest.appVersionName || '1.0.0');
 const MIN_SDK  = manifest.minSdkVersion || 21;
+const ENABLE_NOTIFICATIONS = manifest.enableNotifications === true;
 
 // Colour without '#'
 function hex(c) { return c.replace('#',''); }
@@ -166,11 +168,28 @@ write('app/proguard-rules.pro', '# Add project specific ProGuard rules here.\n')
 const SITE_ORIGIN = `https://${HOST}`;
 const LAUNCH_URL  = `${SITE_ORIGIN}${START}`;
 const WEB_MANIFEST = manifest.webManifestUrl || `${SITE_ORIGIN}/manifest.json`;
+const NOTIFICATION_PERMISSION = ENABLE_NOTIFICATIONS
+  ? '    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n'
+  : '';
+const NOTIFICATION_COMPONENTS = ENABLE_NOTIFICATIONS ? `
+        <service
+            android:name=".DelegationService"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.support.customtabs.trusted.TRUSTED_WEB_ACTIVITY_SERVICE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name="com.google.androidbrowserhelper.trusted.NotificationPermissionRequestActivity" />
+` : '';
 
 write('app/src/main/AndroidManifest.xml', `<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+${NOTIFICATION_PERMISSION}
 
     <application
         android:allowBackup="true"
@@ -237,19 +256,19 @@ write('app/src/main/AndroidManifest.xml', `<?xml version="1.0" encoding="utf-8"?
             </intent-filter>
         </activity>
 
-        <service
-            android:name="com.google.androidbrowserhelper.trusted.DelegationService"
-            android:exported="true"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="android.support.customtabs.trusted.TRUSTED_WEB_ACTIVITY_SERVICE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </service>
-
+${NOTIFICATION_COMPONENTS}
     </application>
 </manifest>
 `);
+
+if (ENABLE_NOTIFICATIONS) {
+  write(`app/src/main/java/${PKG_ID.replace(/\./g, '/')}/DelegationService.java`, `package ${PKG_ID};
+
+public class DelegationService extends
+        com.google.androidbrowserhelper.trusted.DelegationService {
+}
+`);
+}
 
 // ── 9. res/values ────────────────────────────────────────────────
 write('app/src/main/res/values/strings.xml', `<?xml version="1.0" encoding="utf-8"?>
@@ -302,7 +321,7 @@ async function setupIcons() {
   ];
 
   const src512 = 'img/icons/icon-512.png';
-  const tmpIcon = '/tmp/prima-icon-512.png';
+  const tmpIcon = path.join(os.tmpdir(), 'prima-icon-512.png');
 
   // Use local icon if it exists, otherwise download
   if (fs.existsSync(src512)) {

@@ -11,6 +11,8 @@
 - **Suara Warga** — form masukan & rating.
 - **Admin Panel** — statistik penggunaan, ekspor feedback, generate QR.
 - **PWA** — installable, offline-capable via Service Worker.
+- **Pengumuman dari Dokumen** — PDF/foto/Word/Excel → OCR → draft AI → review admin → publish.
+- **Notifikasi Warga** — Web Push opt-in untuk pengumuman yang sudah diperiksa admin.
 
 ## Stack
 
@@ -135,6 +137,39 @@ Token GitHub disimpan di Vercel env vars — **tidak pernah** menyentuh browser.
 - Untuk `dokumenUnduh` (JSON kompleks): isi dengan JSON array string seperti `[{"nama":"Form A","url":"..."}]`
 
 **Sumber data sekarang:** [`data/prima-data.json`](data/prima-data.json) — file ini di-fetch async oleh `js/data.js` saat halaman dimuat.
+
+### Pengumuman AI + Web Push
+
+Fitur pengumuman memakai alur aman: dokumen dibaca di perangkat admin, AI membuat draft, lalu admin memeriksa sebelum menekan **Publish & Broadcast**. Pengumuman disimpan ke GitHub dan dicerminkan ke Redis agar langsung tampil tanpa menunggu deployment.
+
+Tambahkan environment variables berikut di Vercel untuk Production, Preview, dan Development:
+
+```text
+UPSTASH_REDIS_REST_URL=https://...
+UPSTASH_REDIS_REST_TOKEN=...
+PUSH_NOTIFICATIONS_ENABLED=true
+VAPID_PUBLIC_KEY=...
+VAPID_PRIVATE_KEY=...
+VAPID_SUBJECT=mailto:kel.rawajati@jakarta.go.id
+```
+
+Buat pasangan VAPID satu kali:
+
+```bash
+npx web-push generate-vapid-keys
+```
+
+Simpan private key hanya di Vercel. Public key memang dikirim ke perangkat warga untuk membuat subscription.
+
+Secara default endpoint draft memakai provider/model AI aktif milik PRIMA. Jika ingin model khusus pengumuman, tambahkan:
+
+```text
+ANNOUNCEMENT_AI_PROVIDER=minimax
+ANNOUNCEMENT_AI_MODEL=MiniMax-M3
+ANNOUNCEMENT_AI_BASE_URL=https://api.minimax.io/v1/chat/completions
+```
+
+`OPENROUTER_API_KEY` atau `MINIMAX_API_KEY` tetap wajib sesuai provider. Bila Redis/VAPID belum lengkap, kontrol notifikasi otomatis menampilkan status *Belum dikonfigurasi* dan endpoint broadcast menolak pengiriman.
 
 ## Lisensi
 

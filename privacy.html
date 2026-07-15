@@ -99,7 +99,7 @@
 </header>
 
 <main class="privacy-body">
-  <p class="privacy-meta">Terakhir diperbarui: <strong>Mei 2026</strong></p>
+  <p class="privacy-meta">Terakhir diperbarui: <strong>15 Juli 2026</strong></p>
 
   <p>
     Kebijakan Privasi ini menjelaskan bagaimana aplikasi dan situs web <strong>PRIMA</strong>
@@ -166,6 +166,19 @@
     dalam chat AI.
   </p>
 
+  <h2>4A. Pengumuman berbantuan AI dan notifikasi</h2>
+  <p>
+    Pengguna Panel Admin dapat mengunggah dokumen publik untuk dijadikan draft pengumuman. PDF hasil pindai dan foto
+    dibaca dengan OCR pada perangkat admin. Teks hasil ekstraksi kemudian dapat dikirim ke penyedia AI yang dikonfigurasi
+    untuk menyusun draft. AI tidak memublikasikan informasi secara otomatis; administrator wajib memeriksa dan menyetujui draft.
+  </p>
+  <p>
+    Notifikasi hanya diaktifkan setelah Anda menekan tombol <strong>Aktifkan notifikasi</strong> dan memberikan izin perangkat.
+    Endpoint dan kunci teknis subscription disimpan pada Upstash Redis untuk keperluan pengiriman, tidak dimasukkan ke GitHub
+    atau analytics, dan tidak digunakan untuk iklan. Subscription dihapus ketika Anda berhenti berlangganan atau ketika layanan
+    push menyatakan endpoint sudah tidak berlaku. Anda dapat mematikan notifikasi melalui PRIMA atau pengaturan perangkat.
+  </p>
+
   <h2>5. Penyimpanan dan keamanan</h2>
   <ul>
     <li>Aplikasi di-host pada infrastruktur cloud (<strong>Vercel</strong>) dengan koneksi terenkripsi (HTTPS).</li>
@@ -190,6 +203,11 @@
     <li><strong>Kamera</strong> — jika digunakan untuk memindai QR Code; tidak diakses tanpa interaksi Anda.</li>
     <li><strong>Penyimpanan lokal</strong> — untuk preferensi dan cache agar Aplikasi berfungsi offline sebagian (PWA).</li>
   </ul>
+
+  <p>
+    Izin notifikasi hanya diminta setelah tindakan pengguna. Jika diizinkan, aplikasi menyimpan subscription teknis
+    untuk mengirim pengumuman ketika PRIMA tidak sedang dibuka. Izin dapat dicabut kapan saja dari aplikasi atau pengaturan Android/browser.
+  </p>
 
   <h2>8. Anak-anak</h2>
   <p>

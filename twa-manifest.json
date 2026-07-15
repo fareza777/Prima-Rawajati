@@ -10,13 +10,13 @@
   "navigationDividerColor": "#0A1F44",
   "navigationDividerColorDark": "#0A1F44",
   "backgroundColor": "#0A1F44",
-  "enableNotifications": false,
+  "enableNotifications": true,
   "startUrl": "/",
   "iconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512.png",
   "maskableIconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512-maskable.png",
   "monochromeIconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512.png",
-  "appVersion": "18",
-  "appVersionName": "1.1.7",
+  "appVersion": "19",
+  "appVersionName": "1.2.0",
   "signingKey": {
     "path": "android.keystore",
     "alias": "prima"
