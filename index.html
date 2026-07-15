@@ -443,6 +443,14 @@
 
   <!-- ── Panel: Info Kelurahan ── -->
   <div id="info-panel-kelurahan" class="info-panel">
+    <section class="push-card" aria-labelledby="push-card-title">
+      <div class="push-card-icon" aria-hidden="true"><i data-lucide="bell-ring"></i></div>
+      <div class="push-card-copy">
+        <div class="push-card-heading"><strong id="push-card-title">Notifikasi Info Rawajati</strong><span class="push-status" data-push-status>Memeriksa…</span></div>
+        <p data-push-detail>Dapatkan pengumuman penting langsung di perangkat ini.</p>
+      </div>
+      <button type="button" class="push-action" data-push-action>Aktifkan notifikasi</button>
+    </section>
     <div class="info-tab-bar info-tab-bar--kelurahan" role="tablist" aria-label="Kategori info kelurahan">
       <button type="button" class="info-tab active" data-panel="kelurahan" data-tab="pengumuman" role="tab" aria-selected="true">Pengumuman</button>
       <button type="button" class="info-tab" data-panel="kelurahan" data-tab="kel-kegiatan" role="tab" aria-selected="false">Kegiatan</button>
@@ -648,6 +656,11 @@
 
     <!-- Action list -->
     <section class="about-actions" aria-label="Lainnya">
+      <div class="about-action about-push-control">
+        <span class="aa-ico"><i data-lucide="bell-ring"></i></span>
+        <span class="aa-copy"><strong>Notifikasi warga · <span data-push-status>Memeriksa…</span></strong><small data-push-detail>Pengumuman penting di perangkat ini</small></span>
+        <button type="button" class="about-inline-action" data-push-action>Aktifkan</button>
+      </div>
       <button type="button" class="about-action" onclick="showPrimaOnboarding()">
         <span class="aa-ico"><i data-lucide="book-open"></i></span>
         <span class="aa-copy"><strong>Panduan singkat</strong><small>Cara memakai fitur-fitur PRIMA</small></span>
@@ -959,6 +972,8 @@
 <script src="js/analytics.js"></script>
 <!-- Main App -->
 <script src="js/app.js"></script>
+<!-- Resident Web Push controls; permission is requested only after a button press -->
+<script type="module" src="js/push.js"></script>
 
 <!-- Inline: quick-layanan + admin helpers + PWA SW -->
 <script>

@@ -75,3 +75,33 @@ self.addEventListener('fetch', e => {
 self.addEventListener('message', e => {
   if (e.data === 'SKIP_WAITING') self.skipWaiting();
 });
+
+self.addEventListener('push', event => {
+  let data = {};
+  try { data = event.data ? event.data.json() : {}; } catch {}
+  const safeUrl = typeof data.url === 'string' && data.url.startsWith('/') && !data.url.startsWith('//')
+    ? data.url
+    : '/?s=info';
+  event.waitUntil(self.registration.showNotification(data.title || 'PRIMA Rawajati', {
+    body: data.body || 'Ada informasi terbaru untuk warga.',
+    icon: '/img/icons/icon-192.png',
+    badge: '/img/icons/icon-192.png',
+    tag: data.tag || 'prima-info',
+    renotify: false,
+    data: { url: safeUrl }
+  }));
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  const url = event.notification?.data?.url || '/?s=info';
+  event.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(async clients => {
+    for (const client of clients) {
+      if (new URL(client.url).origin === self.location.origin) {
+        await client.navigate(url);
+        return client.focus();
+      }
+    }
+    return self.clients.openWindow(url);
+  }));
+});

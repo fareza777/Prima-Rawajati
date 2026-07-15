@@ -5025,3 +5025,29 @@ button.fl-link {
 @media (prefers-reduced-motion: reduce) {
   .about-hero-glow { animation: none; }
 }
+/* PRIMA resident notification controls */
+.push-card {
+  margin: 0 16px 14px;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 10px 12px;
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--gold) 42%, var(--border));
+  border-radius: 16px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--gold) 10%, var(--surface)), var(--surface));
+  box-shadow: 0 8px 24px rgba(10, 31, 68, .08);
+}
+.push-card-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; background: var(--navy-900); color: var(--gold); }
+.push-card-icon svg { width: 20px; }
+.push-card-copy { min-width: 0; }
+.push-card-heading { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.push-card-copy p { margin: 4px 0 0; color: var(--text-muted); font-size: 12px; line-height: 1.5; }
+.push-status { padding: 3px 7px; border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: .02em; background: var(--surface-2); color: var(--text-muted); }
+.push-status[data-state="active"] { background: rgba(26, 127, 78, .13); color: #167447; }
+.push-status[data-state="blocked"] { background: rgba(193, 39, 45, .12); color: #a52328; }
+.push-action { grid-column: 2; justify-self: start; border: 0; border-radius: 10px; padding: 9px 12px; background: var(--navy-900); color: #fff; font-weight: 750; font-size: 12px; cursor: pointer; }
+.push-action:disabled { opacity: .55; cursor: wait; }
+.about-push-control { cursor: default; }
+.about-inline-action { flex: 0 0 auto; border: 1px solid var(--border); border-radius: 9px; padding: 7px 9px; background: var(--surface-2); color: var(--text); font-weight: 700; font-size: 11px; }
+@media (min-width: 640px) { .push-card { margin-left: auto; margin-right: auto; max-width: 536px; } }
