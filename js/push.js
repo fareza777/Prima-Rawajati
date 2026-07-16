@@ -15,12 +15,18 @@ const STATUS = {
   unconfigured: { code: 'unconfigured', label: 'Belum dikonfigurasi', detail: 'Layanan notifikasi belum diaktifkan oleh pengelola PRIMA.', action: '' }
 };
 
+const PUSH_ONBOARDING_STORAGE_KEY = 'prima_push_onboarding_v1';
+
 export function mapPushStatus(state = {}) {
   if (!state.supported) return STATUS.unsupported;
   if (!state.configured) return STATUS.unconfigured;
   if (state.permission === 'denied') return STATUS.blocked;
   if (state.permission === 'granted' && state.subscribed) return STATUS.active;
   return STATUS.inactive;
+}
+
+export function shouldShowPushOnboarding({ statusCode, permission, seen } = {}) {
+  return statusCode === 'inactive' && permission === 'default' && seen !== true;
 }
 
 export function createPrimaPush(deps = {}) {
@@ -30,6 +36,8 @@ export function createPrimaPush(deps = {}) {
   const notification = deps.Notification || root?.Notification;
   let config = { enabled: false, publicKey: '' };
   let subscription = null;
+  let onboardingTimer = null;
+  let previousFocus = null;
 
   function supported() {
     return Boolean(root && notification && navigatorObj?.serviceWorker && root.PushManager);
@@ -60,12 +68,80 @@ export function createPrimaPush(deps = {}) {
     });
   }
 
+  function onboardingSeen() {
+    try {
+      const storage = Object.hasOwn(deps, 'storage') ? deps.storage : root?.localStorage;
+      return storage?.getItem(PUSH_ONBOARDING_STORAGE_KEY) === 'seen';
+    } catch {
+      return false;
+    }
+  }
+
+  function rememberOnboarding() {
+    try {
+      const storage = Object.hasOwn(deps, 'storage') ? deps.storage : root?.localStorage;
+      storage?.setItem(PUSH_ONBOARDING_STORAGE_KEY, 'seen');
+    } catch {
+      // Private browsing/storage failures must not block notification controls.
+    }
+  }
+
+  function closeOnboarding({ remember = true } = {}) {
+    if (!root?.document) return;
+    if (remember) rememberOnboarding();
+    const overlay = root.document.querySelector('[data-push-onboarding]');
+    if (!overlay) return;
+    overlay.hidden = true;
+    overlay.setAttribute('aria-hidden', 'true');
+    root.document.body?.classList.remove('push-onboarding-open');
+    if (previousFocus?.isConnected) previousFocus.focus();
+    previousFocus = null;
+  }
+
+  function scheduleOnboarding(delay = 450) {
+    if (!root?.document || onboardingTimer) return;
+    const schedule = root.setTimeout?.bind(root) || setTimeout;
+    onboardingTimer = schedule(() => {
+      onboardingTimer = null;
+      maybeShowOnboarding();
+    }, delay);
+  }
+
+  function maybeShowOnboarding() {
+    if (!root?.document) return false;
+    const current = status();
+    const eligible = shouldShowPushOnboarding({
+      statusCode: current.code,
+      permission: notification?.permission || 'default',
+      seen: onboardingSeen()
+    });
+    if (!eligible) return false;
+
+    const introVisible = root.document.querySelector('#app-onboarding:not([hidden])');
+    const appBusy = root.document.body?.classList.contains('splash-active') || introVisible;
+    if (appBusy) {
+      scheduleOnboarding();
+      return false;
+    }
+
+    const overlay = root.document.querySelector('[data-push-onboarding]');
+    if (!overlay || !overlay.hidden) return false;
+    previousFocus = root.document.activeElement;
+    overlay.hidden = false;
+    overlay.setAttribute('aria-hidden', 'false');
+    root.document.body?.classList.add('push-onboarding-open');
+    const focusPrimary = () => overlay.querySelector('[data-push-onboarding-activate]')?.focus();
+    if (typeof root.requestAnimationFrame === 'function') root.requestAnimationFrame(focusPrimary);
+    else focusPrimary();
+    return true;
+  }
+
   async function registration() {
     return navigatorObj.serviceWorker.ready;
   }
 
   async function init() {
-    if (!supported()) { render(); return status(); }
+    if (!supported()) { render(); scheduleOnboarding(); return status(); }
     try {
       const response = await fetchImpl('/api/push-config', { cache: 'no-store' });
       const payload = await response.json();
@@ -75,6 +151,7 @@ export function createPrimaPush(deps = {}) {
       config = { enabled: false, publicKey: '' };
     }
     render();
+    scheduleOnboarding();
     return status();
   }
 
@@ -130,15 +207,52 @@ export function createPrimaPush(deps = {}) {
     }
   }
 
+  async function handleOnboardingActivate(event) {
+    const button = event.currentTarget;
+    button.disabled = true;
+    rememberOnboarding();
+    try {
+      await subscribe();
+    } catch (error) {
+      if (typeof root?.showToast === 'function') root.showToast(`âŒ ${error.message}`);
+    } finally {
+      closeOnboarding({ remember: false });
+      button.disabled = false;
+      render();
+    }
+  }
+
+  function bindOnboarding() {
+    if (!root?.document) return;
+    const activate = root.document.querySelector('[data-push-onboarding-activate]');
+    const later = root.document.querySelector('[data-push-onboarding-later]');
+    if (activate && !activate.dataset.pushOnboardingBound) {
+      activate.dataset.pushOnboardingBound = '1';
+      activate.addEventListener('click', handleOnboardingActivate);
+    }
+    if (later && !later.dataset.pushOnboardingBound) {
+      later.dataset.pushOnboardingBound = '1';
+      later.addEventListener('click', () => closeOnboarding());
+    }
+    const page = root.document.documentElement;
+    if (page && !page.dataset.pushOnboardingKeysBound) {
+      page.dataset.pushOnboardingKeysBound = '1';
+      root.document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !root.document.querySelector('[data-push-onboarding]')?.hidden) closeOnboarding();
+      });
+    }
+  }
+
   function bind() {
     root?.document?.querySelectorAll('[data-push-action]').forEach(button => {
       if (button.dataset.pushBound) return;
       button.dataset.pushBound = '1';
       button.addEventListener('click', handleAction);
     });
+    bindOnboarding();
   }
 
-  return { init, subscribe, unsubscribe, getStatus: status, render, bind };
+  return { init, subscribe, unsubscribe, getStatus: status, render, bind, maybeShowOnboarding };
 }
 
 if (typeof window !== 'undefined') {

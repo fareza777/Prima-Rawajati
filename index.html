@@ -951,6 +951,31 @@
      SCRIPTS
 ═══════════════════════════════════════════ -->
 <!-- Lucide Icons (pinned to v0 — v1+ has breaking API changes) -->
+<!-- Pengingat notifikasi untuk pengguna yang belum pernah memilih. -->
+<div class="push-onboarding" data-push-onboarding hidden aria-hidden="true">
+  <div class="push-onboarding-backdrop" aria-hidden="true"></div>
+  <section class="push-onboarding-dialog" role="dialog" aria-modal="true" aria-labelledby="push-onboarding-title" aria-describedby="push-onboarding-description">
+    <div class="push-onboarding-visual" aria-hidden="true">
+      <span class="push-onboarding-ring push-onboarding-ring--outer"></span>
+      <span class="push-onboarding-ring push-onboarding-ring--inner"></span>
+      <span class="push-onboarding-bell"><i data-lucide="bell-ring"></i></span>
+    </div>
+    <div class="push-onboarding-copy">
+      <span class="push-onboarding-kicker">INFO RESMI RAWAJATI</span>
+      <h2 id="push-onboarding-title">Jangan lewatkan info penting</h2>
+      <p id="push-onboarding-description">Aktifkan notifikasi agar pengumuman dan kegiatan terbaru Kelurahan Rawajati langsung muncul di HP Anda.</p>
+    </div>
+    <div class="push-onboarding-actions">
+      <button type="button" class="push-onboarding-primary" data-push-onboarding-activate>
+        <i data-lucide="bell-plus" aria-hidden="true"></i>
+        <span>Aktifkan sekarang</span>
+      </button>
+      <button type="button" class="push-onboarding-secondary" data-push-onboarding-later>Nanti saja</button>
+    </div>
+    <p class="push-onboarding-note"><i data-lucide="shield-check" aria-hidden="true"></i> Gratis, aman, dan dapat dimatikan kapan saja.</p>
+  </section>
+</div>
+
 <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 <!-- Leaflet.js -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
