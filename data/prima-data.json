@@ -27,7 +27,7 @@
       "lng": 106.852497
     },
     "versi": "1.0.0",
-    "terakhirUpdate": "2026-07-15T23:26:11.791Z",
+    "terakhirUpdate": "2026-07-16T01:52:27.848Z",
     "instagram": "kelrawajati"
   },
   "layanan": [
@@ -1355,7 +1355,7 @@
         "penyelenggara": "Suku Dinas Lingkungan Hidup Kota Administrasi Jakarta Selatan",
         "ringkasan": "Uji emisi kendaraan bermotor gratis untuk ASN, PPPK, PJLP, dan masyarakat di wilayah Kecamatan Pancoran pada Kamis, 16 Juli 2026 pukul 09.00–14.00 WIB.",
         "deskripsi": "Pelaksanaan Uji Emisi Kendaraan Bermotor (Vehicle Emission Spotcheck) Gratis yang diselenggarakan oleh Sudin Lingkungan Hidup Kota Administrasi Jakarta Selatan. Kegiatan terbuka untuk partisipasi ASN, PPPK, PJLP, dan masyarakat di wilayah Kecamatan Pancoran.",
-        "penting": false,
+        "penting": "",
         "sumber": {
           "instansi": "Kecamatan Pancoran, Kota Administrasi Jakarta Selatan",
           "nomorDokumen": "586/-LH.02.00",
@@ -1369,7 +1369,8 @@
         "notification": {
           "enabled": true,
           "title": "Uji Emisi Gratis di Kecamatan Pancoran, 16 Juli 2026",
-          "body": "Uji emisi kendaraan gratis, Kamis 16 Juli 2026 pukul 09.00–14.00 WIB di Halaman Belakang Kantor Kecamatan Pancoran."
+          "body": "Uji emisi kendaraan gratis, Kamis 16 Juli 2026 pukul 09.00–14.00 WIB di Halaman Belakang Kantor Kecamatan Pancoran.",
+          "url": ""
         },
         "warnings": [
           "NIP penandatangan terdeteksi pada dokumen dan dihapus sesuai aturan privasi.",
@@ -1377,7 +1378,8 @@
           "Nama penandatangan terdeteksi pada dokumen dan dihapus sesuai aturan privasi."
         ],
         "createdAt": "2026-07-15T23:25:12.235Z",
-        "updatedAt": "2026-07-15T23:26:07.129Z"
+        "updatedAt": "2026-07-15T23:26:07.129Z",
+        "gambar": ""
       },
       {
         "id": "pg-ikm-semester1-2026",
