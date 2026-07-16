@@ -25,8 +25,12 @@ export function mapPushStatus(state = {}) {
   return STATUS.inactive;
 }
 
-export function shouldShowPushOnboarding({ statusCode, permission, seen } = {}) {
-  return statusCode === 'inactive' && permission === 'default' && seen !== true;
+export function shouldShowPushOnboarding({ statusCode, permission, seen, appReady = true, introVisible = false } = {}) {
+  return statusCode === 'inactive'
+    && permission === 'default'
+    && seen !== true
+    && appReady
+    && !introVisible;
 }
 
 export function createPrimaPush(deps = {}) {
@@ -110,16 +114,16 @@ export function createPrimaPush(deps = {}) {
   function maybeShowOnboarding() {
     if (!root?.document) return false;
     const current = status();
-    const eligible = shouldShowPushOnboarding({
+    const onboardingState = {
       statusCode: current.code,
       permission: notification?.permission || 'default',
       seen: onboardingSeen()
-    });
-    if (!eligible) return false;
+    };
+    if (!shouldShowPushOnboarding(onboardingState)) return false;
 
-    const introVisible = root.document.querySelector('#app-onboarding:not([hidden])');
-    const appBusy = root.document.body?.classList.contains('splash-active') || introVisible;
-    if (appBusy) {
+    const introVisible = Boolean(root.document.querySelector('#app-onboarding:not([hidden])'));
+    const appReady = Boolean(root.document.body?.classList.contains('app-ready'));
+    if (!shouldShowPushOnboarding({ ...onboardingState, appReady, introVisible })) {
       scheduleOnboarding();
       return false;
     }

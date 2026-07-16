@@ -24,6 +24,8 @@ test('shows onboarding only for an unseen eligible inactive user', () => {
   assert.equal(shouldShowPushOnboarding({ statusCode: 'active', permission: 'granted', seen: false }), false);
   assert.equal(shouldShowPushOnboarding({ statusCode: 'blocked', permission: 'denied', seen: false }), false);
   assert.equal(shouldShowPushOnboarding({ statusCode: 'inactive', permission: 'default', seen: true }), false);
+  assert.equal(shouldShowPushOnboarding({ statusCode: 'inactive', permission: 'default', seen: false, appReady: false }), false);
+  assert.equal(shouldShowPushOnboarding({ statusCode: 'inactive', permission: 'default', seen: false, introVisible: true }), false);
 });
 
 test('app shell contains push onboarding controls and a fresh cache version', async () => {
