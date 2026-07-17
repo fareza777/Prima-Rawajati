@@ -15,6 +15,7 @@ const STATUS = {
   unconfigured: { code: 'unconfigured', label: 'Belum dikonfigurasi', detail: 'Layanan notifikasi belum diaktifkan oleh pengelola PRIMA.', action: '' }
 };
 
+export const PUSH_ONBOARDING_ENABLED = false;
 const PUSH_ONBOARDING_STORAGE_KEY = 'prima_push_onboarding_v1';
 
 export function mapPushStatus(state = {}) {
@@ -103,7 +104,7 @@ export function createPrimaPush(deps = {}) {
   }
 
   function scheduleOnboarding(delay = 450) {
-    if (!root?.document || onboardingTimer) return;
+    if (!PUSH_ONBOARDING_ENABLED || !root?.document || onboardingTimer) return;
     const schedule = root.setTimeout?.bind(root) || setTimeout;
     onboardingTimer = schedule(() => {
       onboardingTimer = null;
@@ -112,7 +113,7 @@ export function createPrimaPush(deps = {}) {
   }
 
   function maybeShowOnboarding() {
-    if (!root?.document) return false;
+    if (!PUSH_ONBOARDING_ENABLED || !root?.document) return false;
     const current = status();
     const onboardingState = {
       statusCode: current.code,
