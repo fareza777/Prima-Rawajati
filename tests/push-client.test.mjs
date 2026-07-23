@@ -28,8 +28,8 @@ test('shows onboarding only for an unseen eligible inactive user', () => {
   assert.equal(shouldShowPushOnboarding({ statusCode: 'inactive', permission: 'default', seen: false, introVisible: true }), false);
 });
 
-test('keeps automatic push onboarding disabled while Play Store notification support is pending', () => {
-  assert.equal(PUSH_ONBOARDING_ENABLED, false);
+test('enables automatic push onboarding after the Play Store notification update', () => {
+  assert.equal(PUSH_ONBOARDING_ENABLED, true);
 });
 
 test('app shell contains push onboarding controls and a fresh cache version', async () => {
@@ -39,5 +39,5 @@ test('app shell contains push onboarding controls and a fresh cache version', as
   assert.match(html, /data-push-onboarding(?:[\s=>]|$)/);
   assert.match(html, /data-push-onboarding-activate(?:[\s=>]|$)/);
   assert.match(html, /data-push-onboarding-later(?:[\s=>]|$)/);
-  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.1'/);
+  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.3'/);
 });
