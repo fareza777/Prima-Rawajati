@@ -34,10 +34,12 @@ test('enables automatic push onboarding after the Play Store notification update
 
 test('app shell contains push onboarding controls and a fresh cache version', async () => {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+  const pushClient = await readFile(new URL('../js/push.js', import.meta.url), 'utf8');
   const serviceWorker = await readFile(new URL('../sw.js', import.meta.url), 'utf8');
 
   assert.match(html, /data-push-onboarding(?:[\s=>]|$)/);
   assert.match(html, /data-push-onboarding-activate(?:[\s=>]|$)/);
   assert.match(html, /data-push-onboarding-later(?:[\s=>]|$)/);
-  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.3'/);
+  assert.match(pushClient, /prima_push_onboarding_v2/);
+  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.4'/);
 });
