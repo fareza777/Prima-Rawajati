@@ -7,6 +7,14 @@ export function urlBase64ToUint8Array(value) {
   return Uint8Array.from([...decode].map(char => char.charCodeAt(0)));
 }
 
+export function withTimeout(promise, timeoutMs, message = 'Proses notifikasi terlalu lama.') {
+  let timer;
+  const timeout = new Promise((_, reject) => {
+    timer = setTimeout(() => reject(new Error(message)), timeoutMs);
+  });
+  return Promise.race([Promise.resolve(promise), timeout]).finally(() => clearTimeout(timer));
+}
+
 const STATUS = {
   active: { code: 'active', label: 'Aktif', detail: 'Pengumuman penting akan dikirim ke perangkat ini.', action: 'Matikan notifikasi' },
   inactive: { code: 'inactive', label: 'Belum aktif', detail: 'Aktifkan agar tidak ketinggalan informasi terbaru Rawajati.', action: 'Aktifkan notifikasi' },
@@ -160,20 +168,32 @@ export function createPrimaPush(deps = {}) {
     return status();
   }
 
-  async function subscribe() {
+  async function subscribe(options = {}) {
     if (!supported() || !config.enabled) return status();
-    const permission = await notification.requestPermission();
+    const onProgress = typeof options.onProgress === 'function' ? options.onProgress : () => {};
+    onProgress('Meminta izin Android...');
+    const permission = await withTimeout(
+      notification.requestPermission(),
+      15000,
+      'Izin Android tidak merespons. Buka Pengaturan HP > Aplikasi > PRIMA > Notifikasi > Izinkan, lalu coba lagi.'
+    );
     if (permission !== 'granted') { render(); return status(); }
-    const reg = await registration();
-    subscription = await reg.pushManager.getSubscription() || await reg.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(config.publicKey)
-    });
-    const response = await fetchImpl('/api/push-subscriptions', {
+    onProgress('Menyiapkan notifikasi...');
+    const reg = await withTimeout(registration(), 10000, 'Service worker notifikasi belum siap. Coba tutup dan buka kembali PRIMA.');
+    subscription = await reg.pushManager.getSubscription() || await withTimeout(
+      reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(config.publicKey)
+      }),
+      15000,
+      'Pendaftaran notifikasi tidak selesai. Periksa koneksi lalu coba lagi.'
+    );
+    onProgress('Menyimpan perangkat...');
+    const response = await withTimeout(fetchImpl('/api/push-subscriptions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(subscription.toJSON ? subscription.toJSON() : subscription)
-    });
+    }), 15000, 'Server notifikasi tidak merespons. Coba lagi beberapa saat.');
     if (!response.ok) throw new Error((await response.json().catch(() => ({}))).error || 'Gagal menyimpan notifikasi.');
     render();
     return status();
@@ -214,15 +234,27 @@ export function createPrimaPush(deps = {}) {
 
   async function handleOnboardingActivate(event) {
     const button = event.currentTarget;
+    const buttonLabel = button.querySelector('span');
+    const description = root?.document?.querySelector('#push-onboarding-description');
+    const defaultDescription = 'Aktifkan notifikasi agar pengumuman dan kegiatan terbaru Kelurahan Rawajati langsung muncul di HP Anda.';
     button.disabled = true;
-    rememberOnboarding();
+    if (description) description.textContent = defaultDescription;
+    let completed = false;
     try {
-      await subscribe();
+      const current = await subscribe({
+        onProgress: label => { if (buttonLabel) buttonLabel.textContent = label; }
+      });
+      completed = ['active', 'blocked'].includes(current.code);
+      if (completed) {
+        rememberOnboarding();
+        closeOnboarding({ remember: false });
+      }
     } catch (error) {
-      if (typeof root?.showToast === 'function') root.showToast(`âŒ ${error.message}`);
+      if (description) description.textContent = error.message;
+      if (typeof root?.showToast === 'function') root.showToast(`Gagal: ${error.message}`);
     } finally {
-      closeOnboarding({ remember: false });
       button.disabled = false;
+      if (buttonLabel) buttonLabel.textContent = completed ? 'Aktif' : 'Coba lagi';
       render();
     }
   }

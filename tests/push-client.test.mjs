@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { PUSH_ONBOARDING_ENABLED, urlBase64ToUint8Array, mapPushStatus, shouldShowPushOnboarding } from '../js/push.js';
+import { PUSH_ONBOARDING_ENABLED, urlBase64ToUint8Array, mapPushStatus, shouldShowPushOnboarding, withTimeout } from '../js/push.js';
 
 test('converts a URL-safe VAPID key to bytes', () => {
   assert.deepEqual([...urlBase64ToUint8Array('AQIDBA')], [1, 2, 3, 4]);
@@ -32,6 +32,14 @@ test('enables automatic push onboarding after the Play Store notification update
   assert.equal(PUSH_ONBOARDING_ENABLED, true);
 });
 
+test('bounds an unresolved notification permission request', async () => {
+  await assert.rejects(
+    withTimeout(new Promise(() => {}), 5, 'Izin Android tidak merespons.'),
+    /Izin Android tidak merespons\./
+  );
+  assert.equal(await withTimeout(Promise.resolve('granted'), 50), 'granted');
+});
+
 test('app shell contains push onboarding controls and a fresh cache version', async () => {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
   const pushClient = await readFile(new URL('../js/push.js', import.meta.url), 'utf8');
@@ -41,5 +49,5 @@ test('app shell contains push onboarding controls and a fresh cache version', as
   assert.match(html, /data-push-onboarding-activate(?:[\s=>]|$)/);
   assert.match(html, /data-push-onboarding-later(?:[\s=>]|$)/);
   assert.match(pushClient, /prima_push_onboarding_v2/);
-  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.4'/);
+  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.5'/);
 });
