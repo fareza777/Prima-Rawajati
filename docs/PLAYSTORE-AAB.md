@@ -9,12 +9,12 @@ AAB **tidak** disimpan di repo (file signed + besar). Dibuat otomatis oleh GitHu
 3. Tunggu status **hijau** (~3–5 menit)
 4. Buka run tersebut → scroll ke **Artifacts**
 5. Unduh **`prima-aab-v*`** (file ZIP berisi `.aab`)
-6. Extract ZIP → upload file **`PRIMA-v1.2.0-code19-targetSdk35.aab`**
-7. Upload ke Play Console → Internal testing
+6. Extract ZIP → upload file **`PRIMA-v1.2.1-code20-targetSdk36.aab`**
+7. Upload ke Play Console → Production (atau Internal testing dulu)
 
 **PENTING:** Jangan upload `intermediary-bundle.aab` — file itu **belum di-sign** dan Play Console akan menolak.
 
-**Cek sebelum upload:** Di Play Console, bundle harus menampilkan **Target SDK 35**, **versionCode 19**, dan **versionName 1.2.0**. Versi ini mengaktifkan delegasi izin notifikasi TWA.
+**Cek sebelum upload:** Di Play Console, bundle harus menampilkan **Target SDK 36**, **versionCode 20**, dan **versionName 1.2.1**. Versi ini memenuhi kebijakan Play (target Android 16 / API 36).
 
 ## Verifikasi notifikasi sebelum Production
 
@@ -38,5 +38,5 @@ Jika secret hilang, jalankan workflow sekali, salin BASE64 dari log step **Setup
 
 ## Upload Play Console
 
-- **Release name**: `1.2.0`
-- File: `app-release.aab` dari dalam ZIP artifact
+- **Release name**: `1.2.1`
+- File: `PRIMA-v1.2.1-code20-targetSdk36.aab` dari dalam ZIP artifact

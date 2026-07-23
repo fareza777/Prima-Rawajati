@@ -27,7 +27,7 @@ env:
   # Semua package yang masih dipakai di Play (AAB lama + app baru)
   ASSETLINK_PACKAGES: id.rawajati.prima,id.kelurahan.rawajati.prima
   KEY_ALIAS:     prima
-  GRADLE_VER:    8.4
+  GRADLE_VER:    8.11.1
 
 jobs:
   build-android:
@@ -61,7 +61,7 @@ jobs:
           echo "ANDROID_SDK_ROOT=${SDK}" >> "$GITHUB_ENV"
           yes | "$SDK/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
           "$SDK/cmdline-tools/latest/bin/sdkmanager" \
-            "build-tools;35.0.0" "platforms;android-35" 2>&1 | tail -3
+            "build-tools;36.0.0" "platforms;android-36" 2>&1 | tail -3
 
       # ── 5. Keystore ───────────────────────────────────────────────
       - name: Setup signing keystore
@@ -210,7 +210,7 @@ jobs:
           VC=$(python3 -c "import json; print(json.load(open('twa-manifest.json'))['appVersion'])")
           VN=$(python3 -c "import json; print(json.load(open('twa-manifest.json'))['appVersionName'])")
           mkdir -p dist
-          OUT="dist/PRIMA-v${VN}-code${VC}-targetSdk35.aab"
+          OUT="dist/PRIMA-v${VN}-code${VC}-targetSdk36.aab"
           cp "$AAB" "$OUT"
           echo "labeled=${OUT}" >> "$GITHUB_OUTPUT"
           echo "✅ File untuk Play Console: $(basename "$OUT")"
@@ -220,7 +220,7 @@ jobs:
         if: ${{ steps.labeled.outputs.labeled != '' }}
         uses: actions/upload-artifact@v4
         with:
-          name: prima-aab-v${{ github.run_number }}-sdk35
+          name: prima-aab-v${{ github.run_number }}-sdk36
           path: dist/
           retention-days: 60
 
@@ -322,10 +322,10 @@ jobs:
             VN=$(python3 -c "import json; print(json.load(open('twa-manifest.json'))['appVersionName'])" 2>/dev/null || echo "?")
             echo "| versionCode | **${VC}** |"
             echo "| versionName | **${VN}** |"
-            echo "| targetSdk | **35** |"
+            echo "| targetSdk | **36** |"
             echo ""
             echo "### Langkah selanjutnya"
-            echo "1. Download artifact **prima-aab-v*-sdk35** → file \`PRIMA-v*-code*-targetSdk35.aab\`"
+            echo "1. Download artifact **prima-aab-v*-sdk36** → file \`PRIMA-v*-code*-targetSdk36.aab\`"
             echo "2. Upload ke [Google Play Console](https://play.google.com/console)"
             echo "3. Simpan \`KEYSTORE_BASE64\` dari log step 5 sebagai GitHub secret"
           } >> "$GITHUB_STEP_SUMMARY"

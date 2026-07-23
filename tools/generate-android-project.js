@@ -85,7 +85,7 @@ include ':app'
 
 // ── 2. Root build.gradle ──────────────────────────────────────────
 write('build.gradle', `plugins {
-    id 'com.android.application' version '8.2.2' apply false
+    id 'com.android.application' version '8.9.1' apply false
 }
 `);
 
@@ -99,7 +99,7 @@ org.gradle.parallel=true
 // ── 4. gradle-wrapper.properties ─────────────────────────────────
 write('gradle/wrapper/gradle-wrapper.properties', `distributionBase=GRADLE_USER_HOME
 distributionPath=wrapper/dists
-distributionUrl=https\\://services.gradle.org/distributions/gradle-8.4-bin.zip
+distributionUrl=https\\://services.gradle.org/distributions/gradle-8.11.1-bin.zip
 zipStoreBase=GRADLE_USER_HOME
 zipStorePath=wrapper/dists
 `);
@@ -133,12 +133,12 @@ write('app/build.gradle', `plugins {
 
 android {
     namespace '${PKG_ID}'
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         applicationId '${PKG_ID}'
         minSdk ${MIN_SDK}
-        targetSdk 35
+        targetSdk 36
         versionCode ${V_CODE}
         versionName '${V_NAME}'
     }

@@ -3,7 +3,7 @@
 // ================================================================
 
 const PRIMA_PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=id.rawajati.prima';
-const PRIMA_APP_VERSION = '1.1.7';
+const PRIMA_APP_VERSION = '1.2.1';
 const PRIMA_PACKAGE_ID = 'id.rawajati.prima';
 
 // First-run onboarding. Disimpan per perangkat dan dapat dibuka ulang dari header.
