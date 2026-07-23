@@ -48,6 +48,6 @@ test('app shell contains push onboarding controls and a fresh cache version', as
   assert.match(html, /data-push-onboarding(?:[\s=>]|$)/);
   assert.match(html, /data-push-onboarding-activate(?:[\s=>]|$)/);
   assert.match(html, /data-push-onboarding-later(?:[\s=>]|$)/);
-  assert.match(pushClient, /prima_push_onboarding_v2/);
-  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.5'/);
+  assert.match(pushClient, /prima_push_onboarding_v3/);
+  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.6'/);
 });

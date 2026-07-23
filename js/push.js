@@ -24,7 +24,7 @@ const STATUS = {
 };
 
 export const PUSH_ONBOARDING_ENABLED = true;
-const PUSH_ONBOARDING_STORAGE_KEY = 'prima_push_onboarding_v2';
+const PUSH_ONBOARDING_STORAGE_KEY = 'prima_push_onboarding_v3';
 
 export function mapPushStatus(state = {}) {
   if (!state.supported) return STATUS.unsupported;
