@@ -5,10 +5,18 @@ import { readFile } from 'node:fs/promises';
 test('Android generator wires TWA notification delegation when enabled', async () => {
   const source = await readFile(new URL('../tools/generate-android-project.cjs', import.meta.url), 'utf8');
 
+  assert.match(source, /androidbrowserhelper:2\.7\.2/);
   assert.match(source, /android\.permission\.POST_NOTIFICATIONS/);
   assert.match(source, /NotificationPermissionRequestActivity/);
   assert.match(source, /class DelegationService extends/);
   assert.match(source, /android:name="\.DelegationService"/);
+  assert.match(source, /android\.support\.customtabs\.trusted\.SMALL_ICON/);
+  assert.match(source, /@drawable\/ic_notification/);
+  assert.match(source, /class PrimaLauncherActivity extends/);
+  assert.match(source, /NotificationUtils\.createNotificationChannel/);
+  assert.match(source, /ActivityCompat\.requestPermissions/);
+  assert.match(source, /const LAUNCHER_ACTIVITY = ENABLE_NOTIFICATIONS/);
+  assert.match(source, /\? '\.PrimaLauncherActivity'/);
   assert.match(source, /manifest\.enableNotifications/);
   assert.match(source, /os\.tmpdir\(\)/);
 });

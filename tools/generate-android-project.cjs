@@ -157,7 +157,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.5.0'
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.7.2'
 }
 `);
 
@@ -168,6 +168,9 @@ write('app/proguard-rules.pro', '# Add project specific ProGuard rules here.\n')
 const SITE_ORIGIN = `https://${HOST}`;
 const LAUNCH_URL  = `${SITE_ORIGIN}${START}`;
 const WEB_MANIFEST = manifest.webManifestUrl || `${SITE_ORIGIN}/manifest.json`;
+const LAUNCHER_ACTIVITY = ENABLE_NOTIFICATIONS
+  ? '.PrimaLauncherActivity'
+  : 'com.google.androidbrowserhelper.trusted.LauncherActivity';
 const NOTIFICATION_PERMISSION = ENABLE_NOTIFICATIONS
   ? '    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n'
   : '';
@@ -176,6 +179,9 @@ const NOTIFICATION_COMPONENTS = ENABLE_NOTIFICATIONS ? `
             android:name=".DelegationService"
             android:exported="true"
             android:enabled="true">
+            <meta-data
+                android:name="android.support.customtabs.trusted.SMALL_ICON"
+                android:resource="@drawable/ic_notification" />
             <intent-filter>
                 <action android:name="android.support.customtabs.trusted.TRUSTED_WEB_ACTIVITY_SERVICE" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -207,7 +213,7 @@ ${NOTIFICATION_PERMISSION}
             android:value="${WEB_MANIFEST}" />
 
         <activity
-            android:name="com.google.androidbrowserhelper.trusted.LauncherActivity"
+            android:name="${LAUNCHER_ACTIVITY}"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
@@ -268,6 +274,80 @@ public class DelegationService extends
         com.google.androidbrowserhelper.trusted.DelegationService {
 }
 `);
+
+  write(`app/src/main/java/${PKG_ID.replace(/\./g, '/')}/PrimaLauncherActivity.java`, `package ${PKG_ID};
+
+import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.google.androidbrowserhelper.trusted.LauncherActivity;
+import com.google.androidbrowserhelper.trusted.NotificationUtils;
+
+public class PrimaLauncherActivity extends LauncherActivity {
+    private static final int NOTIFICATION_PERMISSION_REQUEST = 1201;
+    private static final String PREFERENCES = "prima_native_permissions";
+    private static final String HAS_ASKED_NOTIFICATIONS = "has_asked_notifications";
+
+    @Override
+    protected boolean shouldLaunchImmediately() {
+        NotificationUtils.createNotificationChannel(
+                this,
+                getString(R.string.notification_channel_name)
+        );
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+                || ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+
+        SharedPreferences preferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+        if (preferences.getBoolean(HAS_ASKED_NOTIFICATIONS, false)) {
+            return true;
+        }
+
+        preferences.edit().putBoolean(HAS_ASKED_NOTIFICATIONS, true).apply();
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                NOTIFICATION_PERMISSION_REQUEST
+        );
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            String[] permissions,
+            int[] grantResults
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == NOTIFICATION_PERMISSION_REQUEST && !isFinishing()) {
+            launchTwa();
+        }
+    }
+}
+`);
+
+  write('app/src/main/res/drawable/ic_notification.xml', `<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M12,22c1.1,0 2,-0.9 2,-2h-4c0,1.1 0.9,2 2,2zM18,16v-5c0,-3.07 -1.63,-5.64 -4.5,-6.32V4c0,-0.83 -0.67,-1.5 -1.5,-1.5S10.5,3.17 10.5,4v0.68C7.64,5.36 6,7.92 6,11v5l-2,2v1h16v-1l-2,-2z" />
+</vector>
+`);
 }
 
 // ── 9. res/values ────────────────────────────────────────────────
@@ -275,6 +355,7 @@ write('app/src/main/res/values/strings.xml', `<?xml version="1.0" encoding="utf-
 <resources>
     <string name="app_name">${APP_NAME}</string>
     <string name="launcher_name">${LAUNCHER}</string>
+    <string name="notification_channel_name">Info Kelurahan Rawajati</string>
     <string name="asset_statements" translatable="false">
         [{
             \\"relation\\": [\\"delegate_permission/common.handle_all_urls\\"],
