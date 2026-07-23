@@ -17,7 +17,7 @@ on:
       - 'manifest.json'
       - 'twa-manifest.json'
       - '.github/workflows/build-android.yml'
-      - 'tools/generate-android-project.js'
+      - 'tools/generate-android-project.cjs'
 
 permissions:
   contents: write
@@ -126,7 +126,7 @@ jobs:
       # ── 7. Generate Android project (zero-dependency template) ────
       # Pure Node.js stdlib — no @bubblewrap/core dependency
       - name: Generate Android project from template
-        run: node tools/generate-android-project.js 2>&1
+        run: node tools/generate-android-project.cjs 2>&1
 
       # ── 8. Download Gradle ${{ env.GRADLE_VER }} ──────────────────
       - name: Download Gradle ${{ env.GRADLE_VER }}
