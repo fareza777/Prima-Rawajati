@@ -4,8 +4,12 @@ import { readFile } from 'node:fs/promises';
 
 test('Android generator wires TWA notification delegation when enabled', async () => {
   const source = await readFile(new URL('../tools/generate-android-project.cjs', import.meta.url), 'utf8');
+  const manifest = JSON.parse(
+    await readFile(new URL('../twa-manifest.json', import.meta.url), 'utf8')
+  );
 
   assert.match(source, /androidbrowserhelper:2\.7\.2/);
+  assert.ok(manifest.minSdkVersion >= 23, 'Android Browser Helper 2.7.2 requires minSdk 23');
   assert.match(source, /android\.permission\.POST_NOTIFICATIONS/);
   assert.match(source, /NotificationPermissionRequestActivity/);
   assert.match(source, /class DelegationService extends/);
