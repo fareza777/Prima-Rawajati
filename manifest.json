@@ -2,7 +2,7 @@
   "id": "/",
   "name": "PRIMA – Kelurahan Rawajati",
   "short_name": "PRIMA",
-  "description": "Informasi layanan warga Rawajati (bukan app resmi pemerintah). Sumber: jakarta.go.id & selatan.jakarta.go.id.",
+  "description": "Informasi layanan warga Rawajati (bukan app resmi pemerintah). Sumber: jakarta.go.id & kependudukancapil.jakarta.go.id.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

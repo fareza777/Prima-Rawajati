@@ -13,8 +13,8 @@
         "url": "https://jakarta.go.id/"
       },
       {
-        "label": "selatan.jakarta.go.id (Kota Jaksel)",
-        "url": "https://selatan.jakarta.go.id/"
+        "label": "kependudukancapil.jakarta.go.id (Dukcapil DKI)",
+        "url": "https://kependudukancapil.jakarta.go.id/"
       },
       {
         "label": "JAKI — pengaduan DKI",
@@ -1616,7 +1616,7 @@
         "ini apa",
         "tentang"
       ],
-      "jawaban": "ℹ️ **Tentang PRIMA:**\n\n**PRIMA** (Platform Ringkas Interaktif Masyarakat) membantu warga Rawajati mengakses **informasi layanan kelurahan** kapan saja.\n\n⚠️ **PRIMA bukan aplikasi pemerintah** — bukan representasi resmi instansi negara. Informasi mengacu sumber resmi (jakarta.go.id, selatan.jakarta.go.id, kontak kelurahan).\n\n📋 **Fitur:** syarat surat, peta, info warga, Tanya AI, Suara Warga."
+      "jawaban": "ℹ️ **Tentang PRIMA:**\n\n**PRIMA** (Platform Ringkas Interaktif Masyarakat) membantu warga Rawajati mengakses **informasi layanan kelurahan** kapan saja.\n\n⚠️ **PRIMA bukan aplikasi pemerintah** — bukan representasi resmi instansi negara. Informasi mengacu sumber resmi (jakarta.go.id, kependudukancapil.jakarta.go.id, kontak kelurahan).\n\n📋 **Fitur:** syarat surat, peta, info warga, Tanya AI, Suara Warga."
     },
     {
       "intent": "salam",
