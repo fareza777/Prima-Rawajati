@@ -1,7 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { PUSH_ONBOARDING_ENABLED, urlBase64ToUint8Array, mapPushStatus, shouldShowPushOnboarding, withTimeout } from '../js/push.js';
+import {
+  PUSH_FEATURE_ENABLED,
+  PUSH_ONBOARDING_ENABLED,
+  createPrimaPush,
+  urlBase64ToUint8Array,
+  mapPushStatus,
+  shouldShowPushOnboarding,
+  withTimeout
+} from '../js/push.js';
 
 test('converts a URL-safe VAPID key to bytes', () => {
   assert.deepEqual([...urlBase64ToUint8Array('AQIDBA')], [1, 2, 3, 4]);
@@ -28,8 +36,24 @@ test('shows onboarding only for an unseen eligible inactive user', () => {
   assert.equal(shouldShowPushOnboarding({ statusCode: 'inactive', permission: 'default', seen: false, introVisible: true }), false);
 });
 
-test('enables automatic push onboarding after the Play Store notification update', () => {
-  assert.equal(PUSH_ONBOARDING_ENABLED, true);
+test('pauses notification activation while the Play Store update is under review', async () => {
+  let permissionRequests = 0;
+  const push = createPrimaPush({
+    root: { PushManager() {} },
+    navigator: { serviceWorker: {} },
+    Notification: {
+      permission: 'default',
+      requestPermission() {
+        permissionRequests += 1;
+        return Promise.resolve('granted');
+      }
+    }
+  });
+
+  assert.equal(PUSH_FEATURE_ENABLED, false);
+  assert.equal(PUSH_ONBOARDING_ENABLED, false);
+  assert.equal((await push.subscribe()).code, 'paused');
+  assert.equal(permissionRequests, 0);
 });
 
 test('bounds an unresolved notification permission request', async () => {
@@ -49,5 +73,5 @@ test('app shell contains push onboarding controls and a fresh cache version', as
   assert.match(html, /data-push-onboarding-activate(?:[\s=>]|$)/);
   assert.match(html, /data-push-onboarding-later(?:[\s=>]|$)/);
   assert.match(pushClient, /prima_push_onboarding_v3/);
-  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.6'/);
+  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.7'/);
 });

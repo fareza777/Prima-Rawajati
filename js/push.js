@@ -16,6 +16,7 @@ export function withTimeout(promise, timeoutMs, message = 'Proses notifikasi ter
 }
 
 const STATUS = {
+  paused: { code: 'paused', label: 'Ditunda sementara', detail: 'Notifikasi akan diaktifkan setelah pembaruan aplikasi tersedia di Play Store.', action: '' },
   active: { code: 'active', label: 'Aktif', detail: 'Pengumuman penting akan dikirim ke perangkat ini.', action: 'Matikan notifikasi' },
   inactive: { code: 'inactive', label: 'Belum aktif', detail: 'Aktifkan agar tidak ketinggalan informasi terbaru Rawajati.', action: 'Aktifkan notifikasi' },
   blocked: { code: 'blocked', label: 'Diblokir di pengaturan', detail: 'Izinkan notifikasi PRIMA melalui pengaturan aplikasi atau browser.', action: 'Lihat petunjuk' },
@@ -23,7 +24,8 @@ const STATUS = {
   unconfigured: { code: 'unconfigured', label: 'Belum dikonfigurasi', detail: 'Layanan notifikasi belum diaktifkan oleh pengelola PRIMA.', action: '' }
 };
 
-export const PUSH_ONBOARDING_ENABLED = true;
+export const PUSH_FEATURE_ENABLED = false;
+export const PUSH_ONBOARDING_ENABLED = PUSH_FEATURE_ENABLED;
 const PUSH_ONBOARDING_STORAGE_KEY = 'prima_push_onboarding_v3';
 
 export function mapPushStatus(state = {}) {
@@ -57,6 +59,7 @@ export function createPrimaPush(deps = {}) {
   }
 
   function status() {
+    if (!PUSH_FEATURE_ENABLED) return STATUS.paused;
     return mapPushStatus({
       supported: supported(),
       configured: config.enabled,
@@ -154,6 +157,11 @@ export function createPrimaPush(deps = {}) {
   }
 
   async function init() {
+    if (!PUSH_FEATURE_ENABLED) {
+      closeOnboarding({ remember: false });
+      render();
+      return status();
+    }
     if (!supported()) { render(); scheduleOnboarding(); return status(); }
     try {
       const response = await fetchImpl('/api/push-config', { cache: 'no-store' });
@@ -169,6 +177,7 @@ export function createPrimaPush(deps = {}) {
   }
 
   async function subscribe(options = {}) {
+    if (!PUSH_FEATURE_ENABLED) return status();
     if (!supported() || !config.enabled) return status();
     const onProgress = typeof options.onProgress === 'function' ? options.onProgress : () => {};
     onProgress('Meminta izin Android...');
