@@ -18,7 +18,13 @@ test('Android generator wires TWA notification delegation when enabled', async (
   assert.match(source, /@drawable\/ic_notification/);
   assert.match(source, /class PrimaLauncherActivity extends/);
   assert.match(source, /NotificationUtils\.createNotificationChannel/);
-  assert.match(source, /ActivityCompat\.requestPermissions/);
+  assert.doesNotMatch(source, /ActivityCompat\.requestPermissions/);
+  assert.doesNotMatch(source, /onRequestPermissionsResult/);
+  assert.doesNotMatch(source, /launchTwa\(\)/);
+  assert.match(
+    source,
+    /protected boolean shouldLaunchImmediately\(\)[\s\S]*NotificationUtils\.createNotificationChannel\([\s\S]*return true;/
+  );
   assert.match(source, /const LAUNCHER_ACTIVITY = ENABLE_NOTIFICATIONS/);
   assert.match(source, /\? '\.PrimaLauncherActivity'/);
   assert.match(source, /manifest\.enableNotifications/);

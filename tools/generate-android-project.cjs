@@ -277,62 +277,17 @@ public class DelegationService extends
 
   write(`app/src/main/java/${PKG_ID.replace(/\./g, '/')}/PrimaLauncherActivity.java`, `package ${PKG_ID};
 
-import android.Manifest;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import com.google.androidbrowserhelper.trusted.LauncherActivity;
 import com.google.androidbrowserhelper.trusted.NotificationUtils;
 
 public class PrimaLauncherActivity extends LauncherActivity {
-    private static final int NOTIFICATION_PERMISSION_REQUEST = 1201;
-    private static final String PREFERENCES = "prima_native_permissions";
-    private static final String HAS_ASKED_NOTIFICATIONS = "has_asked_notifications";
-
     @Override
     protected boolean shouldLaunchImmediately() {
         NotificationUtils.createNotificationChannel(
                 this,
                 getString(R.string.notification_channel_name)
         );
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
-                || ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.POST_NOTIFICATIONS
-                ) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-
-        SharedPreferences preferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        if (preferences.getBoolean(HAS_ASKED_NOTIFICATIONS, false)) {
-            return true;
-        }
-
-        preferences.edit().putBoolean(HAS_ASKED_NOTIFICATIONS, true).apply();
-        ActivityCompat.requestPermissions(
-                this,
-                new String[]{Manifest.permission.POST_NOTIFICATIONS},
-                NOTIFICATION_PERMISSION_REQUEST
-        );
-        return false;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode,
-            String[] permissions,
-            int[] grantResults
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == NOTIFICATION_PERMISSION_REQUEST && !isFinishing()) {
-            launchTwa();
-        }
+        return true;
     }
 }
 `);
