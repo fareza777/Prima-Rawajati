@@ -188,7 +188,9 @@ const NOTIFICATION_COMPONENTS = ENABLE_NOTIFICATIONS ? `
             </intent-filter>
         </service>
 
-        <activity android:name="com.google.androidbrowserhelper.trusted.NotificationPermissionRequestActivity" />
+        <activity
+            android:name="com.google.androidbrowserhelper.trusted.NotificationPermissionRequestActivity"
+            android:exported="false" />
 ` : '';
 
 write('app/src/main/AndroidManifest.xml', `<?xml version="1.0" encoding="utf-8"?>
