@@ -24,7 +24,7 @@ const STATUS = {
   unconfigured: { code: 'unconfigured', label: 'Belum dikonfigurasi', detail: 'Layanan notifikasi belum diaktifkan oleh pengelola PRIMA.', action: '' }
 };
 
-export const PUSH_FEATURE_ENABLED = false;
+export const PUSH_FEATURE_ENABLED = true;
 export const PUSH_ONBOARDING_ENABLED = PUSH_FEATURE_ENABLED;
 const PUSH_ONBOARDING_STORAGE_KEY = 'prima_push_onboarding_v3';
 

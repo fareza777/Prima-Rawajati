@@ -36,7 +36,7 @@ test('shows onboarding only for an unseen eligible inactive user', () => {
   assert.equal(shouldShowPushOnboarding({ statusCode: 'inactive', permission: 'default', seen: false, introVisible: true }), false);
 });
 
-test('pauses notification activation while the Play Store update is under review', async () => {
+test('never prompts for permission before the server reports push is configured', async () => {
   let permissionRequests = 0;
   const push = createPrimaPush({
     root: { PushManager() {} },
@@ -50,10 +50,57 @@ test('pauses notification activation while the Play Store update is under review
     }
   });
 
-  assert.equal(PUSH_FEATURE_ENABLED, false);
-  assert.equal(PUSH_ONBOARDING_ENABLED, false);
-  assert.equal((await push.subscribe()).code, 'paused');
+  assert.equal(PUSH_FEATURE_ENABLED, true);
+  assert.equal(PUSH_ONBOARDING_ENABLED, true);
+  assert.equal((await push.subscribe()).code, 'unconfigured');
   assert.equal(permissionRequests, 0);
+});
+
+test('activates notifications once the server reports push is configured', async () => {
+  let permissionRequests = 0;
+  const saved = [];
+  const subscription = {
+    endpoint: 'https://push.example/abc',
+    toJSON: () => ({ endpoint: 'https://push.example/abc' })
+  };
+  const notification = {
+    permission: 'default',
+    requestPermission() {
+      permissionRequests += 1;
+      notification.permission = 'granted';
+      return Promise.resolve('granted');
+    }
+  };
+
+  const push = createPrimaPush({
+    root: { PushManager() {} },
+    navigator: {
+      serviceWorker: {
+        ready: Promise.resolve({
+          pushManager: {
+            getSubscription: () => Promise.resolve(null),
+            subscribe: () => Promise.resolve(subscription)
+          }
+        })
+      }
+    },
+    Notification: notification,
+    fetch: async (url, options) => {
+      if (url === '/api/push-config') {
+        return { ok: true, json: async () => ({ enabled: true, publicKey: 'AQIDBA' }) };
+      }
+      saved.push(JSON.parse(options.body));
+      return { ok: true, json: async () => ({ ok: true }) };
+    }
+  });
+
+  await push.init();
+  assert.equal(permissionRequests, 0, 'init must not prompt on startup');
+
+  const result = await push.subscribe();
+  assert.equal(permissionRequests, 1);
+  assert.equal(result.code, 'active');
+  assert.deepEqual(saved, [{ endpoint: 'https://push.example/abc' }]);
 });
 
 test('bounds an unresolved notification permission request', async () => {
