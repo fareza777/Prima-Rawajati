@@ -123,16 +123,18 @@ function showPrimaOnboarding() {
   const splash = document.getElementById('app-splash');
   if (!splash) return;
 
-  const MIN_SHOW_MS = 2350;
+  // Cold start must stay well under Play review's patience window: a long
+  // splash reads as "app doesn't load". Content-first, branding second.
+  const MIN_SHOW_MS = 600;
   const EXIT_MS = 700;
-  const MAX_WAIT_MS = 10000;
+  const MAX_WAIT_MS = 3000;
   const startedAt = Date.now();
 
   const statusEl = document.getElementById('splash-status');
   const statusSteps = [
-  { at: 0,    text: 'Menyiapkan layanan…' },
-  { at: 850,  text: 'Memuat data kelurahan…' },
-  { at: 1700, text: 'PRIMA siap digunakan' },
+  { at: 0,   text: 'Menyiapkan layanan…' },
+  { at: 250, text: 'Memuat data kelurahan…' },
+  { at: 500, text: 'PRIMA siap digunakan' },
   ];
   statusSteps.forEach(({ at, text }) => {
     setTimeout(() => { if (statusEl && !splash.classList.contains('splash--exit')) statusEl.textContent = text; }, at);

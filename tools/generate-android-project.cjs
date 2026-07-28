@@ -47,6 +47,16 @@ function write(filePath, content) {
   console.log('  +', filePath);
 }
 
+// Java sources are hand-editable: once committed, the repo copy wins so CI never
+// silently discards launcher/service changes made in the project.
+function writeIfAbsent(filePath, content) {
+  if (fs.existsSync(filePath)) {
+    console.log('  =', filePath, '(dipertahankan dari repo)');
+    return;
+  }
+  write(filePath, content);
+}
+
 function download(url, dest) {
   return new Promise((resolve, reject) => {
     fs.mkdirSync(path.dirname(dest), { recursive: true });
@@ -243,6 +253,12 @@ ${NOTIFICATION_PERMISSION}
                 android:name="android.support.customtabs.trusted.SPLASH_SCREEN_BACKGROUND_COLOR"
                 android:resource="@color/colorPrimary" />
             <meta-data
+                android:name="android.support.customtabs.trusted.SPLASH_IMAGE_DRAWABLE"
+                android:resource="@drawable/splash" />
+            <meta-data
+                android:name="android.support.customtabs.trusted.FILE_PROVIDER_AUTHORITY"
+                android:value="${PKG_ID}.fileprovider" />
+            <meta-data
                 android:name="android.support.customtabs.trusted.SPLASH_SCREEN_FADE_OUT_DURATION"
                 android:value="800" />
             <meta-data
@@ -264,20 +280,29 @@ ${NOTIFICATION_PERMISSION}
             </intent-filter>
         </activity>
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${PKG_ID}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
 ${NOTIFICATION_COMPONENTS}
     </application>
 </manifest>
 `);
 
 if (ENABLE_NOTIFICATIONS) {
-  write(`app/src/main/java/${PKG_ID.replace(/\./g, '/')}/DelegationService.java`, `package ${PKG_ID};
+  writeIfAbsent(`app/src/main/java/${PKG_ID.replace(/\./g, '/')}/DelegationService.java`, `package ${PKG_ID};
 
 public class DelegationService extends
         com.google.androidbrowserhelper.trusted.DelegationService {
 }
 `);
 
-  write(`app/src/main/java/${PKG_ID.replace(/\./g, '/')}/PrimaLauncherActivity.java`, `package ${PKG_ID};
+  writeIfAbsent(`app/src/main/java/${PKG_ID.replace(/\./g, '/')}/PrimaLauncherActivity.java`, `package ${PKG_ID};
 
 import com.google.androidbrowserhelper.trusted.LauncherActivity;
 import com.google.androidbrowserhelper.trusted.NotificationUtils;
@@ -306,6 +331,13 @@ public class PrimaLauncherActivity extends LauncherActivity {
 </vector>
 `);
 }
+
+// androidbrowserhelper hands the splash image to Chrome through this FileProvider.
+write('app/src/main/res/xml/filepaths.xml', `<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <files-path name="twa_splash" path="twa_splash/" />
+</paths>
+`);
 
 // ── 9. res/values ────────────────────────────────────────────────
 write('app/src/main/res/values/strings.xml', `<?xml version="1.0" encoding="utf-8"?>
@@ -370,25 +402,43 @@ async function setupIcons() {
     try {
       await download(ICON_URL, tmpIcon);
     } catch(e) {
-      console.warn('  ⚠️  Icon download failed:', e.message, '— using placeholder');
-      return;
+      // The manifest hard-references @mipmap/ic_launcher and @drawable/splash,
+      // so continuing here would only produce a project that fails in aapt.
+      throw new Error(`Icon tidak tersedia (${e.message}) — ic_launcher & splash tidak bisa dibuat.`);
     }
   }
 
-  // Resize with ImageMagick's `convert` (installed on ubuntu-latest)
+  // ImageMagick 7 ships `magick`; older images ship `convert`. Neither is
+  // preinstalled on current ubuntu-latest runners, so probe before resizing.
   const {execSync} = require('child_process');
+  const resizer = ['magick', 'convert'].find(bin => {
+    try { execSync(`${bin} -version`, {stdio: 'ignore'}); return true; }
+    catch { return false; }
+  });
+  if (!resizer) {
+    console.warn('  ⚠️  ImageMagick tidak tersedia — semua density akan memakai ikon 512px.');
+    console.warn('     Tambahkan "sudo apt-get install -y imagemagick" di workflow.');
+  }
+
   for (const {dir, size} of iconSizes) {
     const dest = `app/src/main/res/${dir}/ic_launcher.png`;
     fs.mkdirSync(`app/src/main/res/${dir}`, {recursive: true});
-    try {
-      execSync(`convert "${tmpIcon}" -resize ${size}x${size} "${dest}"`, {stdio: 'inherit'});
+    if (resizer) {
+      execSync(`${resizer} "${tmpIcon}" -resize ${size}x${size} "${dest}"`, {stdio: 'inherit'});
       console.log(`  + ${dest} (${size}px)`);
-    } catch(e) {
-      // Fallback: just copy the 512px version
+    } else {
       fs.copyFileSync(tmpIcon, dest);
-      console.log(`  + ${dest} (${size}px — copy, convert not available)`);
+      console.log(`  + ${dest} (⚠️  512px copy)`);
     }
   }
+
+  // Native splash shown by androidbrowserhelper before Chrome paints the web
+  // app — without it a cold start is just a blank colorBackground rectangle.
+  // 512px in drawable-xxxhdpi renders as a 128dp logo.
+  const splashDest = 'app/src/main/res/drawable-xxxhdpi/splash.png';
+  fs.mkdirSync(path.dirname(splashDest), {recursive: true});
+  fs.copyFileSync(tmpIcon, splashDest);
+  console.log('  +', splashDest);
 }
 
 // ── 11. gradle-wrapper.jar ────────────────────────────────────────

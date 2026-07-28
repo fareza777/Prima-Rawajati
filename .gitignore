@@ -11,8 +11,15 @@ desktop.ini
 # Vercel
 .vercel/
 
-# Android (generated locally by tools/generate-android-project.js; built in CI)
-app/
+# Android (generated locally by tools/generate-android-project.cjs; built in CI)
+# Hand-written Java IS tracked — CI does a clean checkout, so anything not
+# committed here gets replaced by the generator template and never ships.
+app/*
+!app/src/
+app/src/*
+!app/src/main/
+app/src/main/*
+!app/src/main/java/
 build.gradle
 settings.gradle
 gradle.properties

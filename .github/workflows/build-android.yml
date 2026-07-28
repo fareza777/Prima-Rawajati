@@ -52,6 +52,12 @@ jobs:
         with:
           node-version: '20'
 
+      # ── 3b. ImageMagick (resize ikon launcher per density) ────────
+      # Tidak lagi preinstalled di ubuntu-latest; tanpa ini semua density
+      # dapat ikon 512px yang sama.
+      - name: Install ImageMagick
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq imagemagick
+
       # ── 4. Android SDK build-tools ────────────────────────────────
       - name: Accept Android SDK licenses & install build-tools
         run: |
