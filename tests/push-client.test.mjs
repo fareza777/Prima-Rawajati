@@ -27,13 +27,60 @@ test('maps notification permissions without prompting', () => {
   assert.equal(mapPushStatus({ supported: true, configured: true, permission: 'granted', subscribed: false }).code, 'inactive');
 });
 
-test('shows onboarding only for an unseen eligible inactive user', () => {
+test('shows onboarding to an unseen user who has not granted notifications yet', () => {
   assert.equal(shouldShowPushOnboarding({ statusCode: 'inactive', permission: 'default', seen: false }), true);
+
+  // Android 13+ reports denied/blocked for a fresh install that was never
+  // asked — these users are the ones who most need the offer.
+  assert.equal(shouldShowPushOnboarding({ statusCode: 'blocked', permission: 'denied', seen: false }), true);
+
   assert.equal(shouldShowPushOnboarding({ statusCode: 'active', permission: 'granted', seen: false }), false);
-  assert.equal(shouldShowPushOnboarding({ statusCode: 'blocked', permission: 'denied', seen: false }), false);
+  assert.equal(shouldShowPushOnboarding({ statusCode: 'unsupported', permission: 'default', seen: false }), false);
+  assert.equal(shouldShowPushOnboarding({ statusCode: 'unconfigured', permission: 'default', seen: false }), false);
   assert.equal(shouldShowPushOnboarding({ statusCode: 'inactive', permission: 'default', seen: true }), false);
   assert.equal(shouldShowPushOnboarding({ statusCode: 'inactive', permission: 'default', seen: false, appReady: false }), false);
   assert.equal(shouldShowPushOnboarding({ statusCode: 'inactive', permission: 'default', seen: false, introVisible: true }), false);
+});
+
+test('a blocked device still gets a permission request before any settings advice', async () => {
+  let permissionRequests = 0;
+  const notification = {
+    permission: 'denied',
+    requestPermission() {
+      permissionRequests += 1;
+      notification.permission = 'granted';
+      return Promise.resolve('granted');
+    }
+  };
+  const subscription = {
+    endpoint: 'https://push.example/blocked',
+    toJSON: () => ({ endpoint: 'https://push.example/blocked' })
+  };
+
+  const push = createPrimaPush({
+    root: { PushManager() {} },
+    navigator: {
+      serviceWorker: {
+        ready: Promise.resolve({
+          pushManager: {
+            getSubscription: () => Promise.resolve(null),
+            subscribe: () => Promise.resolve(subscription)
+          }
+        })
+      }
+    },
+    Notification: notification,
+    fetch: async (url) => url === '/api/push-config'
+      ? { ok: true, json: async () => ({ enabled: true, publicKey: 'AQIDBA' }) }
+      : { ok: true, json: async () => ({ ok: true }) }
+  });
+
+  await push.init();
+  assert.equal(push.getStatus().code, 'blocked');
+
+  const result = await push.subscribe();
+  assert.equal(permissionRequests, 1, 'must ask instead of only pointing at settings');
+  assert.equal(result.code, 'active');
 });
 
 test('never prompts for permission before the server reports push is configured', async () => {

@@ -19,7 +19,9 @@ const STATUS = {
   paused: { code: 'paused', label: 'Ditunda sementara', detail: 'Notifikasi akan diaktifkan setelah pembaruan aplikasi tersedia di Play Store.', action: '' },
   active: { code: 'active', label: 'Aktif', detail: 'Pengumuman penting akan dikirim ke perangkat ini.', action: 'Matikan notifikasi' },
   inactive: { code: 'inactive', label: 'Belum aktif', detail: 'Aktifkan agar tidak ketinggalan informasi terbaru Rawajati.', action: 'Aktifkan notifikasi' },
-  blocked: { code: 'blocked', label: 'Diblokir di pengaturan', detail: 'Izinkan notifikasi PRIMA melalui pengaturan aplikasi atau browser.', action: 'Lihat petunjuk' },
+  // Android 13+ reports "denied" for a freshly installed app that has never
+  // been asked, so this state is not evidence the user blocked anything.
+  blocked: { code: 'blocked', label: 'Belum diizinkan', detail: 'Aktifkan agar pengumuman dan kegiatan kelurahan muncul di HP Anda.', action: 'Aktifkan notifikasi' },
   unsupported: { code: 'unsupported', label: 'Tidak didukung', detail: 'Perangkat atau browser ini belum mendukung Web Push.', action: '' },
   unconfigured: { code: 'unconfigured', label: 'Belum dikonfigurasi', detail: 'Layanan notifikasi belum diaktifkan oleh pengelola PRIMA.', action: '' }
 };
@@ -36,9 +38,15 @@ export function mapPushStatus(state = {}) {
   return STATUS.inactive;
 }
 
+// "denied" is included on purpose: on Android 13+ a newly installed app holds
+// POST_NOTIFICATIONS in that state until it asks, so gating on "default" alone
+// hides the offer from exactly the users who still need to see it.
+const OFFERABLE_STATUS = ['inactive', 'blocked'];
+const OFFERABLE_PERMISSION = ['default', 'denied'];
+
 export function shouldShowPushOnboarding({ statusCode, permission, seen, appReady = true, introVisible = false } = {}) {
-  return statusCode === 'inactive'
-    && permission === 'default'
+  return OFFERABLE_STATUS.includes(statusCode)
+    && OFFERABLE_PERMISSION.includes(permission)
     && seen !== true
     && appReady
     && !introVisible;
@@ -79,7 +87,7 @@ export function createPrimaPush(deps = {}) {
     root.document.querySelectorAll('[data-push-action]').forEach(button => {
       button.hidden = !current.action;
       button.textContent = current.action;
-      button.dataset.pushAction = current.code === 'active' ? 'unsubscribe' : current.code === 'blocked' ? 'help' : 'subscribe';
+      button.dataset.pushAction = current.code === 'active' ? 'unsubscribe' : 'subscribe';
       button.disabled = ['unsupported', 'unconfigured'].includes(current.code);
     });
   }
@@ -230,9 +238,14 @@ export function createPrimaPush(deps = {}) {
     const action = event.currentTarget?.dataset.pushAction;
     event.currentTarget.disabled = true;
     try {
-      if (action === 'unsubscribe') await unsubscribe();
-      else if (action === 'help') showBlockedHelp();
-      else await subscribe();
+      if (action === 'unsubscribe') {
+        await unsubscribe();
+      } else {
+        // Always attempt the request first. Only a refusal that survives the
+        // prompt earns the "go to system settings" instructions.
+        const current = await subscribe();
+        if (current.code === 'blocked') showBlockedHelp();
+      }
     } catch (error) {
       if (typeof root?.showToast === 'function') root.showToast(`❌ ${error.message}`);
     } finally {
@@ -254,6 +267,7 @@ export function createPrimaPush(deps = {}) {
         onProgress: label => { if (buttonLabel) buttonLabel.textContent = label; }
       });
       completed = ['active', 'blocked'].includes(current.code);
+      if (current.code === 'blocked') showBlockedHelp();
       if (completed) {
         rememberOnboarding();
         closeOnboarding({ remember: false });
