@@ -191,7 +191,11 @@ test('recovers when a subscription from an older VAPID key blocks registration',
             getSubscription: async () => (attempts === 0 ? null : (staleExists ? stale : null)),
             subscribe: async () => {
               attempts += 1;
-              if (attempts === 1) throw new Error('Registration failed - push service error');
+              if (attempts === 1) {
+                throw new Error(
+                  'Registration failed - A subscription with a different applicationServerKey already exists'
+                );
+              }
               return fresh;
             }
           }
@@ -210,6 +214,42 @@ test('recovers when a subscription from an older VAPID key blocks registration',
   assert.equal(attempts, 2, 'must retry after dropping the stale subscription');
   assert.equal(unsubscribed, true);
   assert.equal(result.code, 'active');
+});
+
+test('keeps an existing subscription when the failure is not a key conflict', async () => {
+  let unsubscribed = false;
+  const existing = {
+    endpoint: 'https://push.example/works',
+    unsubscribe: async () => { unsubscribed = true; return true; }
+  };
+  const notification = {
+    permission: 'granted',
+    requestPermission: async () => 'granted'
+  };
+
+  const push = createPrimaPush({
+    root: { PushManager() {} },
+    navigator: {
+      serviceWorker: {
+        ready: Promise.resolve({
+          pushManager: {
+            // Nothing on this registration at subscribe time, but a working
+            // subscription exists elsewhere on the profile.
+            getSubscription: async () => (unsubscribed ? null : existing),
+            subscribe: async () => { throw new Error('Registration failed - push service error'); }
+          }
+        })
+      }
+    },
+    Notification: notification,
+    fetch: async (url) => url === '/api/push-config'
+      ? { ok: true, json: async () => ({ enabled: true, publicKey: 'AQIDBA' }) }
+      : { ok: true, json: async () => ({ ok: true }) }
+  });
+
+  await push.init();
+  await push.subscribe().catch(() => {});
+  assert.equal(unsubscribed, false, 'an unrelated failure must not destroy a working subscription');
 });
 
 test('surfaces the original error when there is no stale subscription to drop', async () => {

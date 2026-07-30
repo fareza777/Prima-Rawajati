@@ -206,6 +206,10 @@ export function createPrimaPush(deps = {}) {
     try {
       return await reg.pushManager.subscribe(params);
     } catch (error) {
+      // Only a key conflict justifies discarding an existing subscription.
+      // Doing it on any failure would destroy a working one — the browser tab
+      // and the TWA share it — and leave the user worse off than before.
+      if (!/applicationServerKey|gcm_sender_id/i.test(String(error?.message))) throw error;
       const stale = await reg.pushManager.getSubscription();
       if (!stale) throw error;
       await stale.unsubscribe();
