@@ -31,6 +31,17 @@ const V_NAME   = String(manifest.appVersionName || '1.0.0');
 const MIN_SDK  = manifest.minSdkVersion || 21;
 const ENABLE_NOTIFICATIONS = manifest.enableNotifications === true;
 
+// Pinned deliberately. androidbrowserhelper 2.7.2 drags in appcompat,
+// androidx.startup, emoji2 and kotlin, and every build shipping it (code 20+)
+// was rejected by Play as "app doesn't open or load". 2.5.0 is the version
+// running in production as code 19.
+const ABH_VERSION = manifest.androidBrowserHelperVersion || '2.5.0';
+const TARGET_SDK  = manifest.targetSdkVersion || 36;
+
+// Native splash needs a FileProvider and is unproven on this app; keep it
+// opt-in so a launch regression can never come from it.
+const ENABLE_NATIVE_SPLASH = manifest.enableNativeSplash === true;
+
 // Colour without '#'
 function hex(c) { return c.replace('#',''); }
 
@@ -143,12 +154,12 @@ write('app/build.gradle', `plugins {
 
 android {
     namespace '${PKG_ID}'
-    compileSdk 36
+    compileSdk ${TARGET_SDK}
 
     defaultConfig {
         applicationId '${PKG_ID}'
         minSdk ${MIN_SDK}
-        targetSdk 36
+        targetSdk ${TARGET_SDK}
         versionCode ${V_CODE}
         versionName '${V_NAME}'
     }
@@ -167,7 +178,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.7.2'
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:${ABH_VERSION}'
 }
 `);
 
@@ -178,12 +189,33 @@ write('app/proguard-rules.pro', '# Add project specific ProGuard rules here.\n')
 const SITE_ORIGIN = `https://${HOST}`;
 const LAUNCH_URL  = `${SITE_ORIGIN}${START}`;
 const WEB_MANIFEST = manifest.webManifestUrl || `${SITE_ORIGIN}/manifest.json`;
-const LAUNCHER_ACTIVITY = ENABLE_NOTIFICATIONS
-  ? '.PrimaLauncherActivity'
-  : 'com.google.androidbrowserhelper.trusted.LauncherActivity';
+// Always the library launcher, exactly as in production code 19. The custom
+// subclass only pre-created the notification channel, which androidx's
+// TrustedWebActivityService already does when it posts a notification.
+const LAUNCHER_ACTIVITY = 'com.google.androidbrowserhelper.trusted.LauncherActivity';
 const NOTIFICATION_PERMISSION = ENABLE_NOTIFICATIONS
   ? '    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n'
   : '';
+const NATIVE_SPLASH_METADATA = ENABLE_NATIVE_SPLASH ? `            <meta-data
+                android:name="android.support.customtabs.trusted.SPLASH_IMAGE_DRAWABLE"
+                android:resource="@drawable/splash" />
+            <meta-data
+                android:name="android.support.customtabs.trusted.FILE_PROVIDER_AUTHORITY"
+                android:value="${PKG_ID}.fileprovider" />
+` : '';
+
+const NATIVE_SPLASH_PROVIDER = ENABLE_NATIVE_SPLASH ? `
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${PKG_ID}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+` : '';
+
 const NOTIFICATION_COMPONENTS = ENABLE_NOTIFICATIONS ? `
         <service
             android:name=".DelegationService"
@@ -252,13 +284,7 @@ ${NOTIFICATION_PERMISSION}
             <meta-data
                 android:name="android.support.customtabs.trusted.SPLASH_SCREEN_BACKGROUND_COLOR"
                 android:resource="@color/colorPrimary" />
-            <meta-data
-                android:name="android.support.customtabs.trusted.SPLASH_IMAGE_DRAWABLE"
-                android:resource="@drawable/splash" />
-            <meta-data
-                android:name="android.support.customtabs.trusted.FILE_PROVIDER_AUTHORITY"
-                android:value="${PKG_ID}.fileprovider" />
-            <meta-data
+${NATIVE_SPLASH_METADATA}            <meta-data
                 android:name="android.support.customtabs.trusted.SPLASH_SCREEN_FADE_OUT_DURATION"
                 android:value="800" />
             <meta-data
@@ -279,17 +305,7 @@ ${NOTIFICATION_PERMISSION}
                     android:host="${HOST}" />
             </intent-filter>
         </activity>
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${PKG_ID}.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
-        </provider>
-${NOTIFICATION_COMPONENTS}
+${NATIVE_SPLASH_PROVIDER}${NOTIFICATION_COMPONENTS}
     </application>
 </manifest>
 `);
@@ -299,23 +315,6 @@ if (ENABLE_NOTIFICATIONS) {
 
 public class DelegationService extends
         com.google.androidbrowserhelper.trusted.DelegationService {
-}
-`);
-
-  writeIfAbsent(`app/src/main/java/${PKG_ID.replace(/\./g, '/')}/PrimaLauncherActivity.java`, `package ${PKG_ID};
-
-import com.google.androidbrowserhelper.trusted.LauncherActivity;
-import com.google.androidbrowserhelper.trusted.NotificationUtils;
-
-public class PrimaLauncherActivity extends LauncherActivity {
-    @Override
-    protected boolean shouldLaunchImmediately() {
-        NotificationUtils.createNotificationChannel(
-                this,
-                getString(R.string.notification_channel_name)
-        );
-        return true;
-    }
 }
 `);
 
@@ -333,11 +332,13 @@ public class PrimaLauncherActivity extends LauncherActivity {
 }
 
 // androidbrowserhelper hands the splash image to Chrome through this FileProvider.
-write('app/src/main/res/xml/filepaths.xml', `<?xml version="1.0" encoding="utf-8"?>
+if (ENABLE_NATIVE_SPLASH) {
+  write('app/src/main/res/xml/filepaths.xml', `<?xml version="1.0" encoding="utf-8"?>
 <paths>
     <files-path name="twa_splash" path="twa_splash/" />
 </paths>
 `);
+}
 
 // ── 9. res/values ────────────────────────────────────────────────
 write('app/src/main/res/values/strings.xml', `<?xml version="1.0" encoding="utf-8"?>
@@ -432,13 +433,13 @@ async function setupIcons() {
     }
   }
 
-  // Native splash shown by androidbrowserhelper before Chrome paints the web
-  // app — without it a cold start is just a blank colorBackground rectangle.
-  // 512px in drawable-xxxhdpi renders as a 128dp logo.
-  const splashDest = 'app/src/main/res/drawable-xxxhdpi/splash.png';
-  fs.mkdirSync(path.dirname(splashDest), {recursive: true});
-  fs.copyFileSync(tmpIcon, splashDest);
-  console.log('  +', splashDest);
+  if (ENABLE_NATIVE_SPLASH) {
+    // 512px in drawable-xxxhdpi renders as a 128dp logo.
+    const splashDest = 'app/src/main/res/drawable-xxxhdpi/splash.png';
+    fs.mkdirSync(path.dirname(splashDest), {recursive: true});
+    fs.copyFileSync(tmpIcon, splashDest);
+    console.log('  +', splashDest);
+  }
 }
 
 // ── 11. gradle-wrapper.jar ────────────────────────────────────────

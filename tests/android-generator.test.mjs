@@ -8,27 +8,42 @@ test('Android generator wires TWA notification delegation when enabled', async (
     await readFile(new URL('../twa-manifest.json', import.meta.url), 'utf8')
   );
 
-  assert.match(source, /androidbrowserhelper:2\.7\.2/);
-  assert.ok(manifest.minSdkVersion >= 23, 'Android Browser Helper 2.7.2 requires minSdk 23');
   assert.match(source, /android\.permission\.POST_NOTIFICATIONS/);
   assert.match(source, /NotificationPermissionRequestActivity/);
   assert.match(source, /class DelegationService extends/);
   assert.match(source, /android:name="\.DelegationService"/);
   assert.match(source, /android\.support\.customtabs\.trusted\.SMALL_ICON/);
   assert.match(source, /@drawable\/ic_notification/);
-  assert.match(source, /class PrimaLauncherActivity extends/);
-  assert.match(source, /NotificationUtils\.createNotificationChannel/);
-  assert.doesNotMatch(source, /ActivityCompat\.requestPermissions/);
-  assert.doesNotMatch(source, /onRequestPermissionsResult/);
-  assert.doesNotMatch(source, /launchTwa\(\)/);
-  assert.match(
-    source,
-    /protected boolean shouldLaunchImmediately\(\)[\s\S]*NotificationUtils\.createNotificationChannel\([\s\S]*return true;/
-  );
-  assert.match(source, /const LAUNCHER_ACTIVITY = ENABLE_NOTIFICATIONS/);
-  assert.match(source, /\? '\.PrimaLauncherActivity'/);
   assert.match(source, /manifest\.enableNotifications/);
   assert.match(source, /os\.tmpdir\(\)/);
+  assert.ok(manifest.enableNotifications === true, 'notification delegation must stay on');
+});
+
+test('Android build pins the configuration proven in production code 19', async () => {
+  const source = await readFile(new URL('../tools/generate-android-project.cjs', import.meta.url), 'utf8');
+  const manifest = JSON.parse(
+    await readFile(new URL('../twa-manifest.json', import.meta.url), 'utf8')
+  );
+
+  // code 19 (ABH 2.5.0) runs in production; every build shipping 2.7.2
+  // (code 20-24) was reported by Play as "app doesn't open or load".
+  assert.equal(manifest.androidBrowserHelperVersion, '2.5.0');
+  assert.equal(manifest.minSdkVersion, 21);
+  assert.doesNotMatch(source, /androidbrowserhelper:2\.7\.2/);
+  assert.match(source, /androidbrowserhelper:\$\{ABH_VERSION\}/);
+
+  // Play requires API 36 for updates from 2026-08-31; code 20 already shipped
+  // targetSdk 36 alongside ABH 2.5.0, so it is not implicated in the crash.
+  assert.equal(manifest.targetSdkVersion, 36);
+
+  // The library launcher only — no custom subclass in the startup path.
+  assert.match(source, /const LAUNCHER_ACTIVITY = 'com\.google\.androidbrowserhelper\.trusted\.LauncherActivity'/);
+  assert.doesNotMatch(source, /class PrimaLauncherActivity/);
+  assert.doesNotMatch(source, /shouldLaunchImmediately/);
+
+  // Native splash stays opt-in and off until a build is verified on a device.
+  assert.equal(manifest.enableNativeSplash, false);
+  assert.match(source, /const ENABLE_NATIVE_SPLASH = manifest\.enableNativeSplash === true/);
 });
 
 test('Android generator keeps committed Java sources instead of overwriting them', async () => {
@@ -36,20 +51,6 @@ test('Android generator keeps committed Java sources instead of overwriting them
 
   assert.match(source, /function writeIfAbsent\(/);
   assert.match(source, /writeIfAbsent\(`app\/src\/main\/java\/\$\{PKG_ID[\s\S]*?DelegationService\.java`/);
-  assert.match(source, /writeIfAbsent\(`app\/src\/main\/java\/\$\{PKG_ID[\s\S]*?PrimaLauncherActivity\.java`/);
-});
-
-test('Android generator ships a native splash so cold start is not a blank screen', async () => {
-  const source = await readFile(new URL('../tools/generate-android-project.cjs', import.meta.url), 'utf8');
-
-  assert.match(source, /SPLASH_IMAGE_DRAWABLE/);
-  assert.match(source, /@drawable\/splash/);
-  assert.match(source, /SPLASH_SCREEN_BACKGROUND_COLOR/);
-  assert.match(source, /FILE_PROVIDER_AUTHORITY/);
-  assert.match(source, /androidx\.core\.content\.FileProvider/);
-  assert.match(source, /res\/xml\/filepaths\.xml/);
-  assert.match(source, /twa_splash/);
-  assert.match(source, /drawable-xxxhdpi\/splash\.png/);
 });
 
 test('Android generator resizes launcher icons per density when ImageMagick exists', async () => {
