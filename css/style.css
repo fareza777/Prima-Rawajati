@@ -1825,7 +1825,16 @@ a.download-btn, .download-btn {
   font-weight: 600;
   z-index: 1000;
   transition: transform .4s var(--ease-spring);
-  white-space: nowrap;
+  /* Long messages used to run off both edges: centred + nowrap + no max-width.
+     width:max-content is required — with left:50% the shrink-to-fit width is
+     capped at the space to the right edge, so max-width alone stays narrow. */
+  width: max-content;
+  max-width: min(90vw, 420px);
+  white-space: pre-wrap;
+  /* break-word, not anywhere: `anywhere` also shrinks the intrinsic width and
+     squeezes the toast into a narrow column. */
+  overflow-wrap: break-word;
+  text-align: center;
   box-shadow: 0 12px 30px rgba(10,31,68,.35);
   border: 1px solid rgba(212,175,55,.35);
 }

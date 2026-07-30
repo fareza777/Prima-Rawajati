@@ -3203,13 +3203,17 @@ function printQR() {
 }
 
 // ── UTILS ────────────────────────────────────────────────────────
-function showToast(message, duration = 2500) {
+function showToast(message, duration) {
   const existing = document.querySelector('.toast');
   if (existing) existing.remove();
 
+  const text = String(message ?? '');
+  // A 2.5s glance is not enough for a long error; scale with length.
+  const visibleFor = duration ?? Math.min(9000, Math.max(2500, text.length * 80));
+
   const toast = document.createElement('div');
   toast.className = 'toast';
-  toast.textContent = message;
+  toast.textContent = text;
   document.body.appendChild(toast);
 
   requestAnimationFrame(() => {
@@ -3219,7 +3223,7 @@ function showToast(message, duration = 2500) {
   setTimeout(() => {
     toast.classList.remove('show');
     setTimeout(() => toast.remove(), 300);
-  }, duration);
+  }, visibleFor);
 }
 
 function getCurrentTime() {
