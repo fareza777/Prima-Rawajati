@@ -8,8 +8,23 @@ import {
   urlBase64ToUint8Array,
   mapPushStatus,
   shouldShowPushOnboarding,
+  describePushEnvironment,
   withTimeout
 } from '../js/push.js';
+
+test('fingerprints the engine that produced a push failure', () => {
+  const chromeTwa = 'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 Chrome/141.0.0.0 Mobile Safari/537.36';
+  assert.equal(
+    describePushEnvironment({ userAgent: chromeTwa, permission: 'granted', standalone: true }),
+    'Chrome 141 · TWA · izin:granted'
+  );
+
+  const webview = 'Mozilla/5.0 (Linux; Android 14; wv) AppleWebKit/537.36 Version/4.0 Chrome/141.0.0.0 Mobile Safari/537.36';
+  assert.match(describePushEnvironment({ userAgent: webview, permission: 'granted' }), /^WebView/);
+
+  assert.match(describePushEnvironment({ userAgent: 'MiuiBrowser/17', permission: 'default' }), /^browser lain/);
+  assert.equal(describePushEnvironment(), 'browser lain · tab · izin:?');
+});
 
 test('converts a URL-safe VAPID key to bytes', () => {
   assert.deepEqual([...urlBase64ToUint8Array('AQIDBA')], [1, 2, 3, 4]);

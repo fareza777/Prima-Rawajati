@@ -15,6 +15,17 @@ export function withTimeout(promise, timeoutMs, message = 'Proses notifikasi ter
   return Promise.race([Promise.resolve(promise), timeout]).finally(() => clearTimeout(timer));
 }
 
+// Compact environment fingerprint appended to activation failures. Push can
+// fail inside a TWA while working in the same device's browser, and the error
+// message alone does not say which engine or permission state produced it.
+export function describePushEnvironment({ userAgent = '', permission = '?', standalone = false } = {}) {
+  const chrome = /Chrome\/(\d+)/.exec(userAgent);
+  const engine = / wv\b|\bwv\)/.test(userAgent)
+    ? 'WebView'
+    : chrome ? `Chrome ${chrome[1]}` : 'browser lain';
+  return `${engine} · ${standalone ? 'TWA' : 'tab'} · izin:${permission}`;
+}
+
 const STATUS = {
   paused: { code: 'paused', label: 'Ditunda sementara', detail: 'Notifikasi akan diaktifkan setelah pembaruan aplikasi tersedia di Play Store.', action: '' },
   active: { code: 'active', label: 'Aktif', detail: 'Pengumuman penting akan dikirim ke perangkat ini.', action: 'Matikan notifikasi' },
@@ -243,6 +254,14 @@ export function createPrimaPush(deps = {}) {
     return status();
   }
 
+  function environmentTag() {
+    return describePushEnvironment({
+      userAgent: navigatorObj?.userAgent || '',
+      permission: notification?.permission || '?',
+      standalone: Boolean(root?.matchMedia?.('(display-mode: standalone)')?.matches)
+    });
+  }
+
   function showBlockedHelp() {
     const message = 'Buka Pengaturan aplikasi PRIMA → Notifikasi → Izinkan notifikasi.';
     if (typeof root?.showToast === 'function') root.showToast(message);
@@ -262,7 +281,8 @@ export function createPrimaPush(deps = {}) {
         if (current.code === 'blocked') showBlockedHelp();
       }
     } catch (error) {
-      if (typeof root?.showToast === 'function') root.showToast(`❌ ${error.message}`);
+      const detail = `${error.name || 'Error'}: ${error.message} [${environmentTag()}]`;
+      if (typeof root?.showToast === 'function') root.showToast(`❌ ${detail}`);
     } finally {
       event.currentTarget.disabled = false;
       render();
@@ -288,8 +308,9 @@ export function createPrimaPush(deps = {}) {
         closeOnboarding({ remember: false });
       }
     } catch (error) {
-      if (description) description.textContent = error.message;
-      if (typeof root?.showToast === 'function') root.showToast(`Gagal: ${error.message}`);
+      const detail = `${error.name || 'Error'}: ${error.message} [${environmentTag()}]`;
+      if (description) description.textContent = detail;
+      if (typeof root?.showToast === 'function') root.showToast(`Gagal: ${detail}`);
     } finally {
       button.disabled = false;
       if (buttonLabel) buttonLabel.textContent = completed ? 'Aktif' : 'Coba lagi';
