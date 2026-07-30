@@ -262,6 +262,30 @@ export function createPrimaPush(deps = {}) {
     });
   }
 
+  // Push registration can fail in a TWA while succeeding in a browser tab on
+  // the same profile. These are the facts that tell those cases apart.
+  async function collectDiagnostics() {
+    const facts = [environmentTag()];
+    try {
+      const reg = await navigatorObj.serviceWorker.getRegistration();
+      facts.push(`sw:${reg ? (reg.active ? 'aktif' : 'belum-aktif') : 'tidak-ada'}`);
+      facts.push(`kendali:${navigatorObj.serviceWorker.controller ? 'ya' : 'tidak'}`);
+      if (reg) {
+        const existing = await reg.pushManager.getSubscription();
+        facts.push(`langganan:${existing ? 'ada' : 'kosong'}`);
+      }
+    } catch {
+      facts.push('sw:error');
+    }
+    try {
+      const state = await navigatorObj.permissions.query({ name: 'notifications' });
+      facts.push(`query:${state.state}`);
+    } catch {
+      facts.push('query:n/a');
+    }
+    return facts.join(' · ');
+  }
+
   function showBlockedHelp() {
     const message = 'Buka Pengaturan aplikasi PRIMA → Notifikasi → Izinkan notifikasi.';
     if (typeof root?.showToast === 'function') root.showToast(message);
@@ -281,8 +305,8 @@ export function createPrimaPush(deps = {}) {
         if (current.code === 'blocked') showBlockedHelp();
       }
     } catch (error) {
-      const detail = `${error.name || 'Error'}: ${error.message} [${environmentTag()}]`;
-      if (typeof root?.showToast === 'function') root.showToast(`❌ ${detail}`);
+      const detail = `${error.name || 'Error'}: ${error.message}\n${await collectDiagnostics()}`;
+      if (typeof root?.showToast === 'function') root.showToast(`❌ ${detail}`, 20000);
     } finally {
       event.currentTarget.disabled = false;
       render();
@@ -308,9 +332,9 @@ export function createPrimaPush(deps = {}) {
         closeOnboarding({ remember: false });
       }
     } catch (error) {
-      const detail = `${error.name || 'Error'}: ${error.message} [${environmentTag()}]`;
+      const detail = `${error.name || 'Error'}: ${error.message}\n${await collectDiagnostics()}`;
       if (description) description.textContent = detail;
-      if (typeof root?.showToast === 'function') root.showToast(`Gagal: ${detail}`);
+      if (typeof root?.showToast === 'function') root.showToast(`Gagal: ${detail}`, 20000);
     } finally {
       button.disabled = false;
       if (buttonLabel) buttonLabel.textContent = completed ? 'Aktif' : 'Coba lagi';
