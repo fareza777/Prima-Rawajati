@@ -280,6 +280,49 @@ test('surfaces the original error when there is no stale subscription to drop', 
   await assert.rejects(push.subscribe(), /Registration failed - push service error/);
 });
 
+test('retries a transient Chrome push service error without deleting subscriptions', async () => {
+  const fresh = {
+    endpoint: 'https://push.example/recovered',
+    toJSON: () => ({ endpoint: 'https://push.example/recovered' })
+  };
+  const delays = [];
+  let attempts = 0;
+  const notification = {
+    permission: 'granted',
+    requestPermission: async () => 'granted'
+  };
+
+  const push = createPrimaPush({
+    root: { PushManager() {} },
+    wait: async delay => { delays.push(delay); },
+    navigator: {
+      serviceWorker: {
+        ready: Promise.resolve({
+          pushManager: {
+            getSubscription: async () => null,
+            subscribe: async () => {
+              attempts += 1;
+              if (attempts < 3) throw new Error('Registration failed - push service error');
+              return fresh;
+            }
+          }
+        })
+      }
+    },
+    Notification: notification,
+    fetch: async (url) => url === '/api/push-config'
+      ? { ok: true, json: async () => ({ enabled: true, publicKey: 'AQIDBA' }) }
+      : { ok: true, json: async () => ({ ok: true }) }
+  });
+
+  await push.init();
+  const result = await push.subscribe();
+
+  assert.equal(attempts, 3);
+  assert.deepEqual(delays, [600, 1200]);
+  assert.equal(result.code, 'active');
+});
+
 test('bounds an unresolved notification permission request', async () => {
   await assert.rejects(
     withTimeout(new Promise(() => {}), 5, 'Izin Android tidak merespons.'),
@@ -297,5 +340,5 @@ test('app shell contains push onboarding controls and a fresh cache version', as
   assert.match(html, /data-push-onboarding-activate(?:[\s=>]|$)/);
   assert.match(html, /data-push-onboarding-later(?:[\s=>]|$)/);
   assert.match(pushClient, /prima_push_onboarding_v3/);
-  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.7'/);
+  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.8'/);
 });

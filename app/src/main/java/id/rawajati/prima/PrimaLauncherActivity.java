@@ -12,6 +12,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.androidbrowserhelper.trusted.LauncherActivity;
+import com.google.androidbrowserhelper.trusted.NotificationUtils;
 
 /**
  * Requests POST_NOTIFICATIONS natively before handing over to the TWA.
@@ -42,6 +43,14 @@ public class PrimaLauncherActivity extends LauncherActivity {
 
     @Override
     protected boolean shouldLaunchImmediately() {
+        // Chrome delegates TWA notifications to this Android channel. Creating
+        // it before either permission or PushManager registration keeps the
+        // native permission state and the delegated notification state aligned.
+        NotificationUtils.createNotificationChannel(
+                this,
+                getString(R.string.notification_channel_name)
+        );
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             return true;
         }

@@ -68,6 +68,7 @@ export function createPrimaPush(deps = {}) {
   const fetchImpl = deps.fetch || root?.fetch?.bind(root);
   const navigatorObj = deps.navigator || root?.navigator;
   const notification = deps.Notification || root?.Notification;
+  const wait = deps.wait || (delay => new Promise(resolve => setTimeout(resolve, delay)));
   let config = { enabled: false, publicKey: '' };
   let subscription = null;
   let onboardingTimer = null;
@@ -203,8 +204,22 @@ export function createPrimaPush(deps = {}) {
       userVisibleOnly: true,
       applicationServerKey: urlBase64ToUint8Array(config.publicKey)
     };
+
+    async function registerWithPushServiceRetry() {
+      const delays = [600, 1200];
+      for (let attempt = 0; ; attempt += 1) {
+        try {
+          return await reg.pushManager.subscribe(params);
+        } catch (error) {
+          const transient = /push service error|could not connect to push server/i.test(String(error?.message));
+          if (!transient || attempt >= delays.length) throw error;
+          await wait(delays[attempt]);
+        }
+      }
+    }
+
     try {
-      return await reg.pushManager.subscribe(params);
+      return await registerWithPushServiceRetry();
     } catch (error) {
       // Only a key conflict justifies discarding an existing subscription.
       // Doing it on any failure would destroy a working one — the browser tab
@@ -213,7 +228,7 @@ export function createPrimaPush(deps = {}) {
       const stale = await reg.pushManager.getSubscription();
       if (!stale) throw error;
       await stale.unsubscribe();
-      return reg.pushManager.subscribe(params);
+      return registerWithPushServiceRetry();
     }
   }
 

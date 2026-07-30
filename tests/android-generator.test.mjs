@@ -66,6 +66,7 @@ test('launcher asks for POST_NOTIFICATIONS natively without blocking startup', a
   assert.match(source, /PrimaLauncherActivity\.java`;[\s\S]*?throw new Error/);
 
   assert.match(launcher, /Manifest\.permission\.POST_NOTIFICATIONS/);
+  assert.match(launcher, /NotificationUtils\.createNotificationChannel/);
   assert.match(launcher, /ActivityCompat\.requestPermissions/);
   assert.match(launcher, /onRequestPermissionsResult/);
   assert.match(launcher, /launchTwa\(\)/);
