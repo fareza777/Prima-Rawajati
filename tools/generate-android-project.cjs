@@ -36,6 +36,12 @@ const ENABLE_NOTIFICATIONS = manifest.enableNotifications === true;
 // was rejected by Play as "app doesn't open or load". 2.5.0 is the version
 // running in production as code 19.
 const ABH_VERSION = manifest.androidBrowserHelperVersion || '2.5.0';
+
+// androidbrowserhelper 2.5.0 pins androidx.browser 1.4.0 (2021), which predates
+// both POST_NOTIFICATIONS and today's TWA notification delegation. Raise just
+// this library so push registration can work, without pulling back the
+// appcompat/emoji2/startup/kotlin bundle that made code 20-24 crash on launch.
+const BROWSER_VERSION = manifest.androidxBrowserVersion || '1.8.0';
 const TARGET_SDK  = manifest.targetSdkVersion || 36;
 
 // Native splash needs a FileProvider and is unproven on this app; keep it
@@ -179,6 +185,7 @@ android {
 
 dependencies {
     implementation 'com.google.androidbrowserhelper:androidbrowserhelper:${ABH_VERSION}'
+    implementation 'androidx.browser:browser:${BROWSER_VERSION}'
 }
 `);
 

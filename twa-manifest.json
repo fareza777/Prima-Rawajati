@@ -15,8 +15,8 @@
   "iconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512.png",
   "maskableIconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512-maskable.png",
   "monochromeIconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512.png",
-  "appVersion": "26",
-  "appVersionName": "1.2.7",
+  "appVersion": "27",
+  "appVersionName": "1.2.8",
   "signingKey": {
     "path": "android.keystore",
     "alias": "prima"
@@ -29,6 +29,7 @@
   "minSdkVersion": 21,
   "targetSdkVersion": 36,
   "androidBrowserHelperVersion": "2.5.0",
+  "androidxBrowserVersion": "1.8.0",
   "enableNativeSplash": false,
   "fingerprints": [
     "8A:33:6F:13:8F:11:05:5B:C0:C2:BB:20:39:3C:16:E0:76:0F:C5:12:77:2C:C0:F9:8F:19:3A:69:C5:EC:76:E6",

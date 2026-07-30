@@ -32,6 +32,11 @@ test('Android build pins the configuration proven in production code 19', async 
   assert.doesNotMatch(source, /androidbrowserhelper:2\.7\.2/);
   assert.match(source, /androidbrowserhelper:\$\{ABH_VERSION\}/);
 
+  // androidx.browser is raised on its own: ABH 2.5.0 would otherwise pin the
+  // 2021 release that predates TWA notification delegation.
+  assert.equal(manifest.androidxBrowserVersion, '1.8.0');
+  assert.match(source, /androidx\.browser:browser:\$\{BROWSER_VERSION\}/);
+
   // Play requires API 36 for updates from 2026-08-31; code 20 already shipped
   // targetSdk 36 alongside ABH 2.5.0, so it is not implicated in the crash.
   assert.equal(manifest.targetSdkVersion, 36);
