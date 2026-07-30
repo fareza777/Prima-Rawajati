@@ -184,6 +184,24 @@ export function createPrimaPush(deps = {}) {
     return status();
   }
 
+  // Chrome refuses to register a new applicationServerKey while a subscription
+  // created with an older VAPID key still exists, failing with "Registration
+  // failed". Drop the stale one and retry once.
+  async function subscribeFresh(reg) {
+    const params = {
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(config.publicKey)
+    };
+    try {
+      return await reg.pushManager.subscribe(params);
+    } catch (error) {
+      const stale = await reg.pushManager.getSubscription();
+      if (!stale) throw error;
+      await stale.unsubscribe();
+      return reg.pushManager.subscribe(params);
+    }
+  }
+
   async function subscribe(options = {}) {
     if (!PUSH_FEATURE_ENABLED) return status();
     if (!supported() || !config.enabled) return status();
@@ -198,10 +216,7 @@ export function createPrimaPush(deps = {}) {
     onProgress('Menyiapkan notifikasi...');
     const reg = await withTimeout(registration(), 10000, 'Service worker notifikasi belum siap. Coba tutup dan buka kembali PRIMA.');
     subscription = await reg.pushManager.getSubscription() || await withTimeout(
-      reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(config.publicKey)
-      }),
+      subscribeFresh(reg),
       15000,
       'Pendaftaran notifikasi tidak selesai. Periksa koneksi lalu coba lagi.'
     );

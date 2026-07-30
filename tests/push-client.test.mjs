@@ -150,6 +150,81 @@ test('activates notifications once the server reports push is configured', async
   assert.deepEqual(saved, [{ endpoint: 'https://push.example/abc' }]);
 });
 
+test('recovers when a subscription from an older VAPID key blocks registration', async () => {
+  const fresh = { endpoint: 'https://push.example/fresh', toJSON: () => ({ endpoint: 'https://push.example/fresh' }) };
+  let unsubscribed = false;
+  let attempts = 0;
+  let staleExists = true;
+
+  const stale = {
+    endpoint: 'https://push.example/stale',
+    unsubscribe: async () => { unsubscribed = true; staleExists = false; return true; }
+  };
+  const notification = {
+    permission: 'default',
+    requestPermission: async () => { notification.permission = 'granted'; return 'granted'; }
+  };
+
+  const push = createPrimaPush({
+    root: { PushManager() {} },
+    navigator: {
+      serviceWorker: {
+        ready: Promise.resolve({
+          pushManager: {
+            // The active registration reports nothing, but Chrome still holds
+            // an FCM registration bound to the previous key.
+            getSubscription: async () => (attempts === 0 ? null : (staleExists ? stale : null)),
+            subscribe: async () => {
+              attempts += 1;
+              if (attempts === 1) throw new Error('Registration failed - push service error');
+              return fresh;
+            }
+          }
+        })
+      }
+    },
+    Notification: notification,
+    fetch: async (url) => url === '/api/push-config'
+      ? { ok: true, json: async () => ({ enabled: true, publicKey: 'AQIDBA' }) }
+      : { ok: true, json: async () => ({ ok: true }) }
+  });
+
+  await push.init();
+  const result = await push.subscribe();
+
+  assert.equal(attempts, 2, 'must retry after dropping the stale subscription');
+  assert.equal(unsubscribed, true);
+  assert.equal(result.code, 'active');
+});
+
+test('surfaces the original error when there is no stale subscription to drop', async () => {
+  const notification = {
+    permission: 'default',
+    requestPermission: async () => { notification.permission = 'granted'; return 'granted'; }
+  };
+
+  const push = createPrimaPush({
+    root: { PushManager() {} },
+    navigator: {
+      serviceWorker: {
+        ready: Promise.resolve({
+          pushManager: {
+            getSubscription: async () => null,
+            subscribe: async () => { throw new Error('Registration failed - push service error'); }
+          }
+        })
+      }
+    },
+    Notification: notification,
+    fetch: async (url) => url === '/api/push-config'
+      ? { ok: true, json: async () => ({ enabled: true, publicKey: 'AQIDBA' }) }
+      : { ok: true, json: async () => ({ ok: true }) }
+  });
+
+  await push.init();
+  await assert.rejects(push.subscribe(), /Registration failed - push service error/);
+});
+
 test('bounds an unresolved notification permission request', async () => {
   await assert.rejects(
     withTimeout(new Promise(() => {}), 5, 'Izin Android tidak merespons.'),
