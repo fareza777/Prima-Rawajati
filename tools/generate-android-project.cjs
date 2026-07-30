@@ -189,10 +189,19 @@ write('app/proguard-rules.pro', '# Add project specific ProGuard rules here.\n')
 const SITE_ORIGIN = `https://${HOST}`;
 const LAUNCH_URL  = `${SITE_ORIGIN}${START}`;
 const WEB_MANIFEST = manifest.webManifestUrl || `${SITE_ORIGIN}/manifest.json`;
-// Always the library launcher, exactly as in production code 19. The custom
-// subclass only pre-created the notification channel, which androidx's
-// TrustedWebActivityService already does when it posts a notification.
-const LAUNCHER_ACTIVITY = 'com.google.androidbrowserhelper.trusted.LauncherActivity';
+// With notifications on, launch through the committed subclass so the Android
+// 13+ POST_NOTIFICATIONS prompt is actually shown; Chrome cannot raise it from
+// the web side once the permission reads as denied.
+const LAUNCHER_ACTIVITY = ENABLE_NOTIFICATIONS
+  ? '.PrimaLauncherActivity'
+  : 'com.google.androidbrowserhelper.trusted.LauncherActivity';
+
+if (ENABLE_NOTIFICATIONS) {
+  const launcherSource = `app/src/main/java/${PKG_ID.replace(/\./g, '/')}/PrimaLauncherActivity.java`;
+  if (!fs.existsSync(launcherSource)) {
+    throw new Error(`${launcherSource} hilang — manifest merujuk .PrimaLauncherActivity`);
+  }
+}
 const NOTIFICATION_PERMISSION = ENABLE_NOTIFICATIONS
   ? '    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n'
   : '';
