@@ -71,6 +71,11 @@ export function createPrimaPush(deps = {}) {
   const wait = deps.wait || (delay => new Promise(resolve => setTimeout(resolve, delay)));
   let config = { enabled: false, publicKey: '' };
   let subscription = null;
+  // Keep the registration prepared during startup. When permission is already
+  // granted, subscribe() can call PushManager immediately from the click
+  // instead of awaiting getRegistration() first. Chrome's push service uses
+  // that transient user activation signal in a TWA.
+  let readyRegistration = null;
   let onboardingTimer = null;
   let previousFocus = null;
 
@@ -202,7 +207,10 @@ export function createPrimaPush(deps = {}) {
       const response = await fetchImpl('/api/push-config', { cache: 'no-store' });
       const payload = await response.json();
       config = { enabled: Boolean(payload.enabled), publicKey: String(payload.publicKey || '') };
-      if (config.enabled) subscription = await (await ensureRegistration()).pushManager.getSubscription();
+      if (config.enabled) {
+        readyRegistration = await ensureRegistration();
+        subscription = await readyRegistration.pushManager.getSubscription();
+      }
     } catch {
       config = { enabled: false, publicKey: '' };
     }
@@ -251,20 +259,34 @@ export function createPrimaPush(deps = {}) {
     if (!PUSH_FEATURE_ENABLED) return status();
     if (!supported() || !config.enabled) return status();
     const onProgress = typeof options.onProgress === 'function' ? options.onProgress : () => {};
-    onProgress('Meminta izin Android...');
-    const permission = await withTimeout(
-      notification.requestPermission(),
-      15000,
-      'Izin Android tidak merespons. Buka Pengaturan HP > Aplikasi > PRIMA > Notifikasi > Izinkan, lalu coba lagi.'
-    );
+    // If Android permission is already granted, do not await another promise
+    // before PushManager.subscribe(). This preserves the click's transient
+    // user activation required by recent Chrome versions.
+    let permission = notification.permission;
+    if (permission !== 'granted') {
+      onProgress('Meminta izin Android...');
+      permission = await withTimeout(
+        notification.requestPermission(),
+        15000,
+        'Izin Android tidak merespons. Buka Pengaturan HP > Aplikasi > PRIMA > Notifikasi > Izinkan, lalu coba lagi.'
+      );
+    }
     if (permission !== 'granted') { render(); return status(); }
     onProgress('Menyiapkan notifikasi...');
-    const reg = await withTimeout(ensureRegistration(), 10000, 'Service worker notifikasi belum siap. Coba tutup dan buka kembali PRIMA.');
-    subscription = await reg.pushManager.getSubscription() || await withTimeout(
-      subscribeFresh(reg),
-      15000,
-      'Pendaftaran notifikasi tidak selesai. Periksa koneksi lalu coba lagi.'
+    const reg = readyRegistration || await withTimeout(
+      ensureRegistration(),
+      10000,
+      'Service worker notifikasi belum siap. Coba tutup dan buka kembali PRIMA.'
     );
+    if (!subscription) {
+      // subscribeFresh() is invoked before the first await in this branch, so
+      // PushManager.subscribe() still runs inside the user's click gesture.
+      subscription = await withTimeout(
+        subscribeFresh(reg),
+        15000,
+        'Pendaftaran notifikasi tidak selesai. Periksa koneksi lalu coba lagi.'
+      );
+    }
     onProgress('Menyimpan perangkat...');
     const response = await withTimeout(fetchImpl('/api/push-subscriptions', {
       method: 'POST',

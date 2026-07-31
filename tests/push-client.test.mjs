@@ -165,6 +165,49 @@ test('activates notifications once the server reports push is configured', async
   assert.deepEqual(saved, [{ endpoint: 'https://push.example/abc' }]);
 });
 
+test('subscribes directly from a granted-permission click', async () => {
+  let userActivation = true;
+  let activationAtSubscribe = false;
+  let permissionRequests = 0;
+  const subscription = {
+    endpoint: 'https://push.example/gesture',
+    toJSON: () => ({ endpoint: 'https://push.example/gesture' })
+  };
+  const notification = {
+    permission: 'granted',
+    requestPermission: async () => {
+      permissionRequests += 1;
+      return 'granted';
+    }
+  };
+  const registration = {
+    pushManager: {
+      getSubscription: async () => null,
+      subscribe: () => {
+        activationAtSubscribe = userActivation;
+        return Promise.resolve(subscription);
+      }
+    }
+  };
+
+  const push = createPrimaPush({
+    root: { PushManager() {} },
+    navigator: { serviceWorker: { ready: Promise.resolve(registration) } },
+    Notification: notification,
+    fetch: async (url) => url === '/api/push-config'
+      ? { ok: true, json: async () => ({ enabled: true, publicKey: 'AQIDBA' }) }
+      : { ok: true, json: async () => ({ ok: true }) }
+  });
+
+  await push.init();
+  const result = await push.subscribe();
+  userActivation = false;
+
+  assert.equal(permissionRequests, 0, 'must not request permission again');
+  assert.equal(activationAtSubscribe, true, 'subscribe must run in the click activation');
+  assert.equal(result.code, 'active');
+});
+
 test('recovers when a subscription from an older VAPID key blocks registration', async () => {
   const fresh = { endpoint: 'https://push.example/fresh', toJSON: () => ({ endpoint: 'https://push.example/fresh' }) };
   let unsubscribed = false;
