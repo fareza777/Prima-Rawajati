@@ -204,31 +204,45 @@ export function createPrimaPush(deps = {}) {
       userVisibleOnly: true,
       applicationServerKey: urlBase64ToUint8Array(config.publicKey)
     };
+    const isPushServiceError = error => /push service error|could not connect to push server/i.test(String(error?.message));
 
-    async function registerWithPushServiceRetry() {
+    async function registerWithPushServiceRetry(registration) {
       const delays = [600, 1200];
       for (let attempt = 0; ; attempt += 1) {
         try {
-          return await reg.pushManager.subscribe(params);
+          return await registration.pushManager.subscribe(params);
         } catch (error) {
-          const transient = /push service error|could not connect to push server/i.test(String(error?.message));
-          if (!transient || attempt >= delays.length) throw error;
+          if (!isPushServiceError(error) || attempt >= delays.length) throw error;
           await wait(delays[attempt]);
         }
       }
     }
 
     try {
-      return await registerWithPushServiceRetry();
+      return await registerWithPushServiceRetry(reg);
     } catch (error) {
       // Only a key conflict justifies discarding an existing subscription.
       // Doing it on any failure would destroy a working one — the browser tab
       // and the TWA share it — and leave the user worse off than before.
+      if (isPushServiceError(error)) {
+        // A Play update can leave Chrome with an empty but broken registration.
+        // Reset only this app's registration, never a working subscription.
+        const unregister = reg?.unregister;
+        const register = navigatorObj?.serviceWorker?.register;
+        if (typeof unregister === 'function' && typeof register === 'function') {
+          await unregister.call(reg).catch(() => false);
+          const freshRegistration = await register.call(navigatorObj.serviceWorker, 'sw.js', {
+            updateViaCache: 'none'
+          });
+          return registerWithPushServiceRetry(freshRegistration);
+        }
+        throw error;
+      }
       if (!/applicationServerKey|gcm_sender_id/i.test(String(error?.message))) throw error;
       const stale = await reg.pushManager.getSubscription();
       if (!stale) throw error;
       await stale.unsubscribe();
-      return registerWithPushServiceRetry();
+      return registerWithPushServiceRetry(reg);
     }
   }
 

@@ -323,6 +323,63 @@ test('retries a transient Chrome push service error without deleting subscriptio
   assert.equal(result.code, 'active');
 });
 
+test('resets an empty service worker registration after a persistent push service error', async () => {
+  const fresh = {
+    endpoint: 'https://push.example/recovered-after-reset',
+    toJSON: () => ({ endpoint: 'https://push.example/recovered-after-reset' })
+  };
+  const delays = [];
+  let firstAttempts = 0;
+  let unregisterCalled = false;
+  let registerCalls = 0;
+  const registrationAfterReset = {
+    pushManager: {
+      getSubscription: async () => null,
+      subscribe: async () => fresh
+    }
+  };
+  const brokenRegistration = {
+    pushManager: {
+      getSubscription: async () => null,
+      subscribe: async () => {
+        firstAttempts += 1;
+        throw new Error('Registration failed - push service error');
+      }
+    },
+    unregister: async () => { unregisterCalled = true; return true; }
+  };
+  const notification = {
+    permission: 'granted',
+    requestPermission: async () => 'granted'
+  };
+  const push = createPrimaPush({
+    root: { PushManager() {} },
+    wait: async delay => { delays.push(delay); },
+    navigator: {
+      serviceWorker: {
+        ready: Promise.resolve(brokenRegistration),
+        register: async () => {
+          registerCalls += 1;
+          return registrationAfterReset;
+        }
+      }
+    },
+    Notification: notification,
+    fetch: async (url) => url === '/api/push-config'
+      ? { ok: true, json: async () => ({ enabled: true, publicKey: 'AQIDBA' }) }
+      : { ok: true, json: async () => ({ ok: true }) }
+  });
+
+  await push.init();
+  const result = await push.subscribe();
+
+  assert.equal(firstAttempts, 3, 'must exhaust transient retries before resetting');
+  assert.deepEqual(delays, [600, 1200]);
+  assert.equal(unregisterCalled, true);
+  assert.equal(registerCalls, 1);
+  assert.equal(result.code, 'active');
+});
+
 test('bounds an unresolved notification permission request', async () => {
   await assert.rejects(
     withTimeout(new Promise(() => {}), 5, 'Izin Android tidak merespons.'),
@@ -340,5 +397,5 @@ test('app shell contains push onboarding controls and a fresh cache version', as
   assert.match(html, /data-push-onboarding-activate(?:[\s=>]|$)/);
   assert.match(html, /data-push-onboarding-later(?:[\s=>]|$)/);
   assert.match(pushClient, /prima_push_onboarding_v3/);
-  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.8'/);
+  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.9'/);
 });
