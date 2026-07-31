@@ -323,43 +323,15 @@ test('retries a transient Chrome push service error without deleting subscriptio
   assert.equal(result.code, 'active');
 });
 
-test('resets an empty service worker registration after a persistent push service error', async () => {
-  const fresh = {
-    endpoint: 'https://push.example/recovered-after-reset',
-    toJSON: () => ({ endpoint: 'https://push.example/recovered-after-reset' })
-  };
+test('does not unregister the service worker on a persistent push service error', async () => {
   const delays = [];
-  let firstAttempts = 0;
+  let attempts = 0;
   let unregisterCalled = false;
-  let registerCalls = 0;
-  const installingWorker = {
-    state: 'installing',
-    addEventListener: (event, listener) => {
-      if (event !== 'statechange') return;
-      queueMicrotask(() => {
-        installingWorker.state = 'activated';
-        registrationAfterReset.active = {};
-        listener();
-      });
-    },
-    removeEventListener: () => {}
-  };
-  const registrationAfterReset = {
-    active: null,
-    installing: installingWorker,
-    pushManager: {
-      getSubscription: async () => null,
-      subscribe: async () => {
-        if (!registrationAfterReset.active) throw new Error('Registration failed - push service error');
-        return fresh;
-      }
-    }
-  };
   const brokenRegistration = {
     pushManager: {
       getSubscription: async () => null,
       subscribe: async () => {
-        firstAttempts += 1;
+        attempts += 1;
         throw new Error('Registration failed - push service error');
       }
     },
@@ -375,9 +347,51 @@ test('resets an empty service worker registration after a persistent push servic
     navigator: {
       serviceWorker: {
         ready: Promise.resolve(brokenRegistration),
+        register: async () => brokenRegistration
+      }
+    },
+    Notification: notification,
+    fetch: async (url) => url === '/api/push-config'
+      ? { ok: true, json: async () => ({ enabled: true, publicKey: 'AQIDBA' }) }
+      : { ok: true, json: async () => ({ ok: true }) }
+  });
+
+  await push.init();
+  await assert.rejects(push.subscribe(), /Registration failed - push service error/);
+
+  assert.equal(attempts, 3, 'must exhaust transient retries before returning the original error');
+  assert.deepEqual(delays, [600, 1200]);
+  assert.equal(unregisterCalled, false, 'a push error must not remove the service worker');
+});
+
+test('re-registers the service worker when an update left no registration', async () => {
+  const fresh = {
+    endpoint: 'https://push.example/recovered-without-service-worker',
+    toJSON: () => ({ endpoint: 'https://push.example/recovered-with-service-worker' })
+  };
+  let registerCalls = 0;
+  let currentRegistration = null;
+  const activeRegistration = {
+    active: {},
+    pushManager: {
+      getSubscription: async () => null,
+      subscribe: async () => fresh
+    }
+  };
+  const notification = {
+    permission: 'granted',
+    requestPermission: async () => 'granted'
+  };
+  const push = createPrimaPush({
+    root: { PushManager() {} },
+    navigator: {
+      serviceWorker: {
+        ready: new Promise(() => {}),
+        getRegistration: async () => currentRegistration,
         register: async () => {
           registerCalls += 1;
-          return registrationAfterReset;
+          currentRegistration = activeRegistration;
+          return currentRegistration;
         }
       }
     },
@@ -390,9 +404,6 @@ test('resets an empty service worker registration after a persistent push servic
   await push.init();
   const result = await push.subscribe();
 
-  assert.equal(firstAttempts, 3, 'must exhaust transient retries before resetting');
-  assert.deepEqual(delays, [600, 1200]);
-  assert.equal(unregisterCalled, true);
   assert.equal(registerCalls, 1);
   assert.equal(result.code, 'active');
 });

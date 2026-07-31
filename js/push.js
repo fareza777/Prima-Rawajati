@@ -176,25 +176,19 @@ export function createPrimaPush(deps = {}) {
     return navigatorObj.serviceWorker.ready;
   }
 
-  async function waitForServiceWorkerActivation(reg) {
-    if (reg?.active || reg?.installing?.state === 'activated') return reg;
-    const worker = reg?.installing || reg?.waiting;
-    if (!worker || typeof worker.addEventListener !== 'function') return reg;
-    const activation = new Promise((resolve, reject) => {
-      const cleanup = () => worker.removeEventListener?.('statechange', onState);
-      const onState = () => {
-        if (reg.active || worker.state === 'activated') {
-          cleanup();
-          resolve(reg);
-        } else if (worker.state === 'redundant') {
-          cleanup();
-          reject(new Error('Service worker notifikasi gagal aktif.'));
-        }
-      };
-      worker.addEventListener('statechange', onState);
-      onState();
-    });
-    return withTimeout(activation, 10000, 'Service worker notifikasi belum aktif. Coba buka kembali PRIMA.');
+  async function ensureRegistration() {
+    const serviceWorker = navigatorObj?.serviceWorker;
+    try {
+      const existing = await serviceWorker?.getRegistration?.();
+      if (existing) return existing;
+    } catch {
+      // Fall through to the normal ready/register path.
+    }
+    if (typeof serviceWorker?.register === 'function') {
+      const created = await serviceWorker.register('sw.js', { updateViaCache: 'none' });
+      if (created) return created;
+    }
+    return registration();
   }
 
   async function init() {
@@ -208,7 +202,7 @@ export function createPrimaPush(deps = {}) {
       const response = await fetchImpl('/api/push-config', { cache: 'no-store' });
       const payload = await response.json();
       config = { enabled: Boolean(payload.enabled), publicKey: String(payload.publicKey || '') };
-      if (config.enabled) subscription = await (await registration()).pushManager.getSubscription();
+      if (config.enabled) subscription = await (await ensureRegistration()).pushManager.getSubscription();
     } catch {
       config = { enabled: false, publicKey: '' };
     }
@@ -245,21 +239,6 @@ export function createPrimaPush(deps = {}) {
       // Only a key conflict justifies discarding an existing subscription.
       // Doing it on any failure would destroy a working one — the browser tab
       // and the TWA share it — and leave the user worse off than before.
-      if (isPushServiceError(error)) {
-        // A Play update can leave Chrome with an empty but broken registration.
-        // Reset only this app's registration, never a working subscription.
-        const unregister = reg?.unregister;
-        const register = navigatorObj?.serviceWorker?.register;
-        if (typeof unregister === 'function' && typeof register === 'function') {
-          await unregister.call(reg).catch(() => false);
-          const freshRegistration = await register.call(navigatorObj.serviceWorker, 'sw.js', {
-            updateViaCache: 'none'
-          });
-          const activeRegistration = await waitForServiceWorkerActivation(freshRegistration);
-          return registerWithPushServiceRetry(activeRegistration);
-        }
-        throw error;
-      }
       if (!/applicationServerKey|gcm_sender_id/i.test(String(error?.message))) throw error;
       const stale = await reg.pushManager.getSubscription();
       if (!stale) throw error;
@@ -280,7 +259,7 @@ export function createPrimaPush(deps = {}) {
     );
     if (permission !== 'granted') { render(); return status(); }
     onProgress('Menyiapkan notifikasi...');
-    const reg = await withTimeout(registration(), 10000, 'Service worker notifikasi belum siap. Coba tutup dan buka kembali PRIMA.');
+    const reg = await withTimeout(ensureRegistration(), 10000, 'Service worker notifikasi belum siap. Coba tutup dan buka kembali PRIMA.');
     subscription = await reg.pushManager.getSubscription() || await withTimeout(
       subscribeFresh(reg),
       15000,
