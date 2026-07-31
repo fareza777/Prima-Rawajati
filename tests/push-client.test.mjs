@@ -332,10 +332,27 @@ test('resets an empty service worker registration after a persistent push servic
   let firstAttempts = 0;
   let unregisterCalled = false;
   let registerCalls = 0;
+  const installingWorker = {
+    state: 'installing',
+    addEventListener: (event, listener) => {
+      if (event !== 'statechange') return;
+      queueMicrotask(() => {
+        installingWorker.state = 'activated';
+        registrationAfterReset.active = {};
+        listener();
+      });
+    },
+    removeEventListener: () => {}
+  };
   const registrationAfterReset = {
+    active: null,
+    installing: installingWorker,
     pushManager: {
       getSubscription: async () => null,
-      subscribe: async () => fresh
+      subscribe: async () => {
+        if (!registrationAfterReset.active) throw new Error('Registration failed - push service error');
+        return fresh;
+      }
     }
   };
   const brokenRegistration = {
@@ -397,5 +414,5 @@ test('app shell contains push onboarding controls and a fresh cache version', as
   assert.match(html, /data-push-onboarding-activate(?:[\s=>]|$)/);
   assert.match(html, /data-push-onboarding-later(?:[\s=>]|$)/);
   assert.match(pushClient, /prima_push_onboarding_v3/);
-  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.9'/);
+  assert.match(serviceWorker, /const CACHE = 'prima-v4\.12\.10'/);
 });

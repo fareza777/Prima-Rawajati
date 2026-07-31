@@ -176,6 +176,27 @@ export function createPrimaPush(deps = {}) {
     return navigatorObj.serviceWorker.ready;
   }
 
+  async function waitForServiceWorkerActivation(reg) {
+    if (reg?.active || reg?.installing?.state === 'activated') return reg;
+    const worker = reg?.installing || reg?.waiting;
+    if (!worker || typeof worker.addEventListener !== 'function') return reg;
+    const activation = new Promise((resolve, reject) => {
+      const cleanup = () => worker.removeEventListener?.('statechange', onState);
+      const onState = () => {
+        if (reg.active || worker.state === 'activated') {
+          cleanup();
+          resolve(reg);
+        } else if (worker.state === 'redundant') {
+          cleanup();
+          reject(new Error('Service worker notifikasi gagal aktif.'));
+        }
+      };
+      worker.addEventListener('statechange', onState);
+      onState();
+    });
+    return withTimeout(activation, 10000, 'Service worker notifikasi belum aktif. Coba buka kembali PRIMA.');
+  }
+
   async function init() {
     if (!PUSH_FEATURE_ENABLED) {
       closeOnboarding({ remember: false });
@@ -234,7 +255,8 @@ export function createPrimaPush(deps = {}) {
           const freshRegistration = await register.call(navigatorObj.serviceWorker, 'sw.js', {
             updateViaCache: 'none'
           });
-          return registerWithPushServiceRetry(freshRegistration);
+          const activeRegistration = await waitForServiceWorkerActivation(freshRegistration);
+          return registerWithPushServiceRetry(activeRegistration);
         }
         throw error;
       }
