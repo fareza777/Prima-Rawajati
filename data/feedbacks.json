@@ -23,5 +23,20 @@
     "hp": "",
     "fiturFavorit": "Kebersihan lingkungan",
     "aksesInfo": "🟢 Biasa"
+  },
+  {
+    "id": 1785831546404,
+    "timestamp": "2026-08-04T08:19:06.404Z",
+    "jenisSuara": "Pelayanan Kelurahan",
+    "jenisKey": "pelayanan",
+    "topik": "Antrian & jam pelayanan",
+    "rating": 5,
+    "urgensi": "🟡 Perlu ditindaklanjuti",
+    "masukan": "Tolong setiap bulan diinfokan atau dibuatkan tanda kalender utk jumat  minggu ke 2 dan sabtu minggu ke 4 itu tanggal pastinya tanggal berapa untuk pelayanan sampai malam, menghindari perbedaan persepsi urutan minggu.",
+    "nama": "Michelle",
+    "rt": "003/011",
+    "hp": "081390533395",
+    "fiturFavorit": "Antrian & jam pelayanan",
+    "aksesInfo": "🟡 Perlu ditindaklanjuti"
   }
 ]
