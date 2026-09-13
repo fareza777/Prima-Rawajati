@@ -1,9 +1,9 @@
 // PRIMA – Multi-Provider AI Proxy (Vercel Edge Function)
 // Supports: OpenRouter, OpenAI, Anthropic, Google Gemini, MiniMax, Custom endpoint
-// API keys stored in server env vars. Client sends provider + baseUrl.
+// OpenRouter primary: nvidia/nemotron-3.5-lightning:free
+// Fallback chain: Ultra :free → Lightning :free → Super :free
 export const config = { runtime: 'edge' };
 
-// Provider → default baseUrl + env var name (keys are lowercase)
 const PROVIDER_CONFIG = {
   openrouter: { base: 'https://openrouter.ai/api/v1/chat/completions', envKey: 'OPENROUTER_API_KEY' },
   openai:     { base: 'https://api.openai.com/v1/chat/completions',     envKey: 'OPENAI_API_KEY' },
@@ -12,6 +12,12 @@ const PROVIDER_CONFIG = {
   minimax:    { base: 'https://api.minimax.io/v1/chat/completions',     envKey: 'MINIMAX_API_KEY' },
   custom:     { base: '', envKey: 'CUSTOM_AI_API_KEY' }
 };
+
+const DEFAULT_OPENROUTER_FALLBACKS = [
+  'nvidia/nemotron-3-ultra-550b-a55b:free',
+  'nvidia/nemotron-3.5-lightning:free',
+  'nvidia/nemotron-3-super-120b-a12b:free'
+];
 
 function resolveProvider(provider) {
   const key = String(provider || 'openrouter').toLowerCase();
@@ -45,7 +51,6 @@ function resolveApiKey(cfg, providerKey, clientApiKey) {
     }
   }
 
-  // Server env wins; client key only for custom provider testing
   if (!key && providerKey === 'custom' && clientApiKey) {
     key = String(clientApiKey).trim().replace(/^["']|["']$/g, '');
   }
@@ -60,6 +65,23 @@ function buildUpstreamBody(providerKey, model, messages, stream, temperature, ma
     body.top_p = 0.95;
   }
   return body;
+}
+
+function buildModelChain(primary, fallbacks, providerKey) {
+  const extras = Array.isArray(fallbacks) && fallbacks.length
+    ? fallbacks
+    : (providerKey === 'openrouter' ? DEFAULT_OPENROUTER_FALLBACKS : []);
+  const chain = [primary, ...extras].map(m => String(m || '').trim()).filter(Boolean);
+  const seen = new Set();
+  return chain.filter(id => {
+    if (seen.has(id)) return false;
+    seen.add(id);
+    return true;
+  });
+}
+
+function shouldRetryUpstream(status) {
+  return status === 402 || status === 404 || status === 429 || status === 502 || status === 503 || status === 504 || status >= 500;
 }
 
 export default async function handler(req) {
@@ -82,7 +104,8 @@ export default async function handler(req) {
     max_tokens = 800,
     provider = 'openrouter',
     baseUrl,
-    apiKey: clientApiKey
+    apiKey: clientApiKey,
+    fallbacks
   } = body || {};
 
   if (!model || !Array.isArray(messages) || !messages.length) {
@@ -105,9 +128,7 @@ export default async function handler(req) {
     }, 500, req);
   }
 
-  const resolvedModel = resolveModel(model, provider);
   const origin = req.headers.get('origin') || 'https://prima-rawajati.vercel.app';
-
   const headers = {
     'Authorization': `Bearer ${apiKey}`,
     'Content-Type': 'application/json'
@@ -117,29 +138,53 @@ export default async function handler(req) {
     headers['X-Title'] = 'PRIMA Rawajati';
   }
 
-  const upstream = await fetch(endpoint, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(buildUpstreamBody(providerKey, resolvedModel, messages, stream, temperature, max_tokens))
-  });
+  const primary = resolveModel(model, provider);
+  const chain = buildModelChain(primary, fallbacks, providerKey);
+  let lastStatus = 502;
+  let lastDetail = '';
 
-  if (!upstream.ok) {
-    const detail = await upstream.text().catch(() => '');
-    let message = `Provider ${provider} mengembalikan HTTP ${upstream.status}`;
-    if (upstream.status === 401) {
-      message = 'Autentikasi MiniMax gagal. Periksa MINIMAX_API_KEY di Vercel (Production) — gunakan key dari platform.minimax.io.';
+  for (const candidate of chain) {
+    const resolvedModel = resolveModel(candidate, provider);
+    const upstream = await fetch(endpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(buildUpstreamBody(providerKey, resolvedModel, messages, stream, temperature, max_tokens))
+    });
+
+    if (upstream.ok) {
+      return new Response(upstream.body, {
+        status: upstream.status,
+        headers: {
+          'Content-Type': upstream.headers.get('content-type') || 'text/event-stream',
+          'Cache-Control': 'no-cache, no-transform',
+          'X-PRIMA-Model': resolvedModel,
+          ...corsHeaders(req)
+        }
+      });
     }
-    return json({ error: message, status: upstream.status, detail: detail.slice(0, 300) }, upstream.status, req);
+
+    lastStatus = upstream.status;
+    lastDetail = await upstream.text().catch(() => '');
+    if (!shouldRetryUpstream(upstream.status) || candidate === chain[chain.length - 1]) {
+      break;
+    }
   }
 
-  return new Response(upstream.body, {
-    status: upstream.status,
-    headers: {
-      'Content-Type': upstream.headers.get('content-type') || 'text/event-stream',
-      'Cache-Control': 'no-cache, no-transform',
-      ...corsHeaders(req)
-    }
-  });
+  let message = `Provider ${provider} mengembalikan HTTP ${lastStatus}`;
+  if (lastStatus === 401) {
+    message = providerKey === 'openrouter'
+      ? 'Autentikasi OpenRouter gagal. Periksa OPENROUTER_API_KEY di Vercel (Production).'
+      : 'Autentikasi MiniMax gagal. Periksa MINIMAX_API_KEY di Vercel (Production) — gunakan key dari platform.minimax.io.';
+  } else if (lastStatus === 429) {
+    message = 'Kuota/rate-limit model OpenRouter habis. Mencoba fallback gagal — coba lagi nanti.';
+  }
+
+  return json({
+    error: message,
+    status: lastStatus,
+    detail: lastDetail.slice(0, 300),
+    tried: chain
+  }, lastStatus >= 400 && lastStatus < 600 ? lastStatus : 502, req);
 }
 
 function corsHeaders(req) {

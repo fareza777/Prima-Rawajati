@@ -17,16 +17,16 @@ const PRIMA_AI = (() => {
   }
 
   const DEFAULT_MODELS = [
-    { id: 'MiniMax-M3', label: 'MiniMax M3 (MiniMax)', short: 'MiniMax M3' },
-    { id: 'google/gemma-4-26b-a4b-it:free', label: 'Gemma 4 26B (Google)', short: 'Gemma 4' },
-    { id: 'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free', label: 'Nemotron 3 Nano 30B (Reasoning)', short: 'Nemotron Nano' },
-    { id: 'nvidia/nemotron-3-super-120b-a12b:free', label: 'Nemotron 3 Super 120B', short: 'Nemotron Super' },
-    { id: 'qwen/qwen3.6-flash', label: 'Qwen 3.6 Flash (Alibaba)', short: 'Qwen 3.6' },
-    { id: 'deepseek/deepseek-chat-v3.1:free', label: 'DeepSeek V3.1 (Free)', short: 'DeepSeek V3.1' },
-    // Fallback yang sudah pasti tersedia di OpenRouter free tier:
-    { id: 'google/gemma-2-9b-it:free', label: 'Gemma 2 9B (Fallback)', short: 'Gemma 2' },
-    { id: 'meta-llama/llama-3.1-8b-instruct:free', label: 'Llama 3.1 8B (Fallback)', short: 'Llama 3.1' },
-    { id: 'mistralai/mistral-7b-instruct:free', label: 'Mistral 7B (Fallback)', short: 'Mistral 7B' }
+    { id: 'nvidia/nemotron-3.5-lightning:free', label: 'Nemotron 3.5 Lightning (Primary)', short: 'Lightning' },
+    { id: 'nvidia/nemotron-3-ultra-550b-a55b:free', label: 'Nemotron 3 Ultra (Fallback)', short: 'Ultra' },
+    { id: 'nvidia/nemotron-3-super-120b-a12b:free', label: 'Nemotron 3 Super (Fallback)', short: 'Super' }
+  ];
+
+  // Primary Lightning → Ultra → Lightning → Super (dedupe saat chain dibangun)
+  const FALLBACK_MODELS = [
+    'nvidia/nemotron-3-ultra-550b-a55b:free',
+    'nvidia/nemotron-3.5-lightning:free',
+    'nvidia/nemotron-3-super-120b-a12b:free'
   ];
 
   let _models = null; // null = belum di-load dari PRIMA_DATA
@@ -48,12 +48,12 @@ const PRIMA_AI = (() => {
       id: String(m.id || m.model || '').trim(),
       label: String(m.label || m.id || '').trim(),
       short: String(m.short || m.label || '').trim()
-    })).filter(m => m.id && m.id.includes('/'));
+    })).filter(m => m.id && (m.id.includes('/') || /^[A-Za-z][A-Za-z0-9._-]{1,63}$/.test(m.id)));
   }
 
   function addModel(m) {
     const clean = { id: String(m.id).trim(), label: String(m.label || m.id).trim(), short: String(m.short || m.label).trim() };
-    if (!clean.id.includes('/')) return false;
+    if (!isValidModelId(clean.id)) return false;
     const list = getModels().slice();
     if (list.find(x => x.id === clean.id)) return false; // already exists
     list.push(clean);
@@ -69,6 +69,20 @@ const PRIMA_AI = (() => {
   }
 
   const DEFAULT_MODEL = DEFAULT_MODELS[0].id;
+
+  function getFallbackChain(primaryModel) {
+    const fromData = window.PRIMA_DATA?.aiSettings?.fallbackModels;
+    const configured = Array.isArray(fromData) && fromData.length
+      ? fromData.map(String)
+      : FALLBACK_MODELS.slice();
+    const chain = [primaryModel, ...configured].filter(Boolean);
+    const seen = new Set();
+    return chain.filter(id => {
+      if (seen.has(id)) return false;
+      seen.add(id);
+      return true;
+    });
+  }
 
   function isValidModelId(id) {
     return typeof id === 'string' && (/^[a-z0-9_-]+\/[a-z0-9._:-]+$/i.test(id) || /^[A-Za-z][A-Za-z0-9._-]{1,63}$/.test(id));
@@ -243,7 +257,7 @@ KONTAK KELURAHAN:
    */
   async function streamChat(history, userMessage, opts = {}) {
     const { provider, baseUrl } = getProviderSettings();
-    const model = normalizeModelId(opts.model || getSelectedModel(), provider);
+    const primary = normalizeModelId(opts.model || getSelectedModel(), provider);
     const docs = retrieveContext(userMessage, 10);
     const systemPrompt = buildSystemPrompt(docs);
 
@@ -256,72 +270,103 @@ KONTAK KELURAHAN:
       { role: 'user', content: userMessage }
     ];
 
-    let response;
-    try {
-      response = await fetch(getEndpoint(), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model, messages, stream: true, temperature: 0.4, max_tokens: 800, provider, baseUrl }),
-        signal: opts.signal
-      });
-    } catch (e) {
-      opts.onError?.(e);
-      return { ok: false, error: e.message, retrievedDocs: docs };
-    }
+    const chain = getFallbackChain(primary);
+    let lastError = null;
 
-    if (!response.ok) {
-      const errText = await response.text().catch(() => '');
-      let msg = `HTTP ${response.status}`;
+    for (let i = 0; i < chain.length; i++) {
+      const model = normalizeModelId(chain[i], provider);
+      let response;
       try {
-        const parsed = JSON.parse(errText);
-        if (parsed.error) msg = typeof parsed.error === 'string' ? parsed.error : JSON.stringify(parsed.error);
-      } catch {
-        if (errText) msg += ': ' + errText.slice(0, 120);
-      }
-      const err = new Error(msg);
-      opts.onError?.(err);
-      return { ok: false, error: msg, status: response.status, retrievedDocs: docs };
-    }
-
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
-    let full = '';
-
-    try {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-
-        // Parse SSE lines
-        const lines = buffer.split('\n');
-        buffer = lines.pop(); // keep incomplete line
-
-        for (const line of lines) {
-          const trimmed = line.trim();
-          if (!trimmed || !trimmed.startsWith('data:')) continue;
-          const data = trimmed.slice(5).trim();
-          if (data === '[DONE]') continue;
-          try {
-            const parsed = JSON.parse(data);
-            const delta = parsed.choices?.[0]?.delta?.content
-                       || parsed.choices?.[0]?.message?.content
-                       || parsed.choices?.[0]?.delta?.reasoning_content
-                       || '';
-            if (delta) {
-              full += delta;
-              opts.onToken?.(delta);
-            }
-          } catch { /* skip malformed chunk */ }
+        response = await fetch(getEndpoint(), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model,
+            messages,
+            stream: true,
+            temperature: 0.4,
+            max_tokens: 800,
+            provider,
+            baseUrl,
+            fallbacks: chain.slice(i + 1)
+          }),
+          signal: opts.signal
+        });
+      } catch (e) {
+        lastError = e;
+        if (e.name === 'AbortError') {
+          opts.onError?.(e);
+          return { ok: false, error: e.message, retrievedDocs: docs };
         }
+        continue;
       }
-    } catch (e) {
-      if (e.name !== 'AbortError') opts.onError?.(e);
+
+      if (!response.ok) {
+        const errText = await response.text().catch(() => '');
+        let msg = `HTTP ${response.status}`;
+        try {
+          const parsed = JSON.parse(errText);
+          if (parsed.error) msg = typeof parsed.error === 'string' ? parsed.error : JSON.stringify(parsed.error);
+        } catch {
+          if (errText) msg += ': ' + errText.slice(0, 120);
+        }
+        lastError = new Error(msg);
+        // Rate limit / model unavailable → coba fallback berikutnya
+        if (response.status === 429 || response.status === 404 || response.status >= 500 || response.status === 402 || response.status === 503) {
+          continue;
+        }
+        opts.onError?.(lastError);
+        return { ok: false, error: msg, status: response.status, retrievedDocs: docs, model };
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      let full = '';
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+
+          const lines = buffer.split('\n');
+          buffer = lines.pop();
+
+          for (const line of lines) {
+            const trimmed = line.trim();
+            if (!trimmed || !trimmed.startsWith('data:')) continue;
+            const data = trimmed.slice(5).trim();
+            if (data === '[DONE]') continue;
+            try {
+              const parsed = JSON.parse(data);
+              const delta = parsed.choices?.[0]?.delta?.content
+                         || parsed.choices?.[0]?.message?.content
+                         || parsed.choices?.[0]?.delta?.reasoning_content
+                         || '';
+              if (delta) {
+                full += delta;
+                opts.onToken?.(delta);
+              }
+            } catch { /* skip malformed chunk */ }
+          }
+        }
+      } catch (e) {
+        if (e.name === 'AbortError') {
+          opts.onError?.(e);
+          return { ok: false, error: e.message, retrievedDocs: docs, model };
+        }
+        lastError = e;
+        continue;
+      }
+
+      opts.onDone?.(full);
+      return { ok: true, text: full, retrievedDocs: docs, model };
     }
 
-    opts.onDone?.(full);
-    return { ok: true, text: full, retrievedDocs: docs };
+    const err = lastError || new Error('Semua model OpenRouter gagal merespons');
+    opts.onError?.(err);
+    return { ok: false, error: err.message, retrievedDocs: docs };
   }
 
   // ── MODEL SELECTION ────────────────────────────────────────────
@@ -370,6 +415,8 @@ KONTAK KELURAHAN:
     addModel,
     removeModel,
     DEFAULT_MODEL,
+    FALLBACK_MODELS,
+    getFallbackChain,
     streamChat,
     retrieveContext,
     buildSystemPrompt,

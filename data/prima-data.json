@@ -2385,55 +2385,30 @@
   ],
   "aiSettings": {
     "enabled": true,
-    "model": "MiniMax-M3",
-    "provider": "MiniMax",
-    "baseUrl": "https://api.minimax.io/v1/chat/completions"
+    "provider": "openrouter",
+    "model": "nvidia/nemotron-3.5-lightning:free",
+    "baseUrl": "https://openrouter.ai/api/v1/chat/completions",
+    "fallbackModels": [
+      "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "nvidia/nemotron-3.5-lightning:free",
+      "nvidia/nemotron-3-super-120b-a12b:free"
+    ]
   },
   "aiModels": [
     {
-      "id": "MiniMax-M3",
-      "label": "MiniMax M3 (MiniMax)",
-      "short": "MiniMax M3"
+      "id": "nvidia/nemotron-3.5-lightning:free",
+      "label": "Nemotron 3.5 Lightning (Primary)",
+      "short": "Lightning"
     },
     {
-      "id": "google/gemma-4-26b-a4b-it:free",
-      "label": "Gemma 4 26B (Google)",
-      "short": "Gemma 4"
-    },
-    {
-      "id": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
-      "label": "Nemotron 3 Nano 30B (Reasoning)",
-      "short": "Nemotron Nano"
+      "id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "label": "Nemotron 3 Ultra (Fallback)",
+      "short": "Ultra"
     },
     {
       "id": "nvidia/nemotron-3-super-120b-a12b:free",
-      "label": "Nemotron 3 Super 120B",
-      "short": "Nemotron Super"
-    },
-    {
-      "id": "qwen/qwen3.5-flash-02-23",
-      "label": "Qwen Qwen3.5 Flash 02 23",
-      "short": "Qwen3.5 Flash 02 2"
-    },
-    {
-      "id": "deepseek/deepseek-v4-flash",
-      "label": "Deepseek V4 Flash",
-      "short": "Deepseek V4 Flash"
-    },
-    {
-      "id": "qwen/qwen3.6-flash",
-      "label": "Qwen 3.6 Flash",
-      "short": "Qwen3.6 Flash"
-    },
-    {
-      "id": "openai/gpt-5.1-codex-mini",
-      "label": "Openai Gpt 5.1 Codex Mini",
-      "short": "Gpt 5.1 Codex Mini"
-    },
-    {
-      "id": "inclusionai/ling-2.6-flash",
-      "label": "Inclusionai Ling 2.6 Flash",
-      "short": "Ling 2.6 Flash"
+      "label": "Nemotron 3 Super (Fallback)",
+      "short": "Super"
     }
   ],
   "knowledgeBase": [
