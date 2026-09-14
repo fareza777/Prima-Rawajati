@@ -17,17 +17,11 @@ const PRIMA_AI = (() => {
   }
 
   const DEFAULT_MODELS = [
-    { id: 'nvidia/nemotron-3.5-lightning:free', label: 'Nemotron 3.5 Lightning (Primary)', short: 'Lightning' },
-    { id: 'nvidia/nemotron-3-ultra-550b-a55b:free', label: 'Nemotron 3 Ultra (Fallback)', short: 'Ultra' },
-    { id: 'nvidia/nemotron-3-super-120b-a12b:free', label: 'Nemotron 3 Super (Fallback)', short: 'Super' }
+    { id: 'qwen/qwen3.7-flash', label: 'Qwen 3.7 Flash (OpenRouter)', short: 'Qwen 3.7 Flash' }
   ];
 
-  // Primary Lightning → Ultra → Lightning → Super (dedupe saat chain dibangun)
-  const FALLBACK_MODELS = [
-    'nvidia/nemotron-3-ultra-550b-a55b:free',
-    'nvidia/nemotron-3.5-lightning:free',
-    'nvidia/nemotron-3-super-120b-a12b:free'
-  ];
+  // Tanpa fallback default — pakai model yang dipilih admin saja.
+  const FALLBACK_MODELS = [];
 
   let _models = null; // null = belum di-load dari PRIMA_DATA
 

@@ -1,7 +1,6 @@
 // PRIMA – Multi-Provider AI Proxy (Vercel Edge Function)
 // Supports: OpenRouter, OpenAI, Anthropic, Google Gemini, MiniMax, Custom endpoint
-// OpenRouter primary: nvidia/nemotron-3.5-lightning:free
-// Fallback chain: Ultra :free → Lightning :free → Super :free
+// OpenRouter primary: qwen/qwen3.7-flash
 export const config = { runtime: 'edge' };
 
 const PROVIDER_CONFIG = {
@@ -13,11 +12,7 @@ const PROVIDER_CONFIG = {
   custom:     { base: '', envKey: 'CUSTOM_AI_API_KEY' }
 };
 
-const DEFAULT_OPENROUTER_FALLBACKS = [
-  'nvidia/nemotron-3-ultra-550b-a55b:free',
-  'nvidia/nemotron-3.5-lightning:free',
-  'nvidia/nemotron-3-super-120b-a12b:free'
-];
+const DEFAULT_OPENROUTER_FALLBACKS = [];
 
 function resolveProvider(provider) {
   const key = String(provider || 'openrouter').toLowerCase();
