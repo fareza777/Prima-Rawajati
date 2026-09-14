@@ -223,6 +223,7 @@ ATURAN MUTLAK:
 6. Selalu sebutkan bahwa semua layanan **GRATIS**.
 7. Jika pertanyaan di luar topik kelurahan, arahkan kembali dengan sopan.
 8. Jangan klaim sebagai aplikasi/situs resmi pemerintah. Rujuk sumber resmi bila perlu: jakarta.go.id, kependudukancapil.jakarta.go.id.
+9. Jawab langsung ke warga. Jangan menuliskan proses berpikir / thinking process di jawaban.
 
 KONTEKS DATA (relevan dengan pertanyaan saat ini):
 ${ctxBlocks || '(tidak ada konteks spesifik — pakai pengetahuan umum tentang PRIMA Rawajati saja)'}
@@ -279,7 +280,8 @@ KONTAK KELURAHAN:
             messages,
             stream: true,
             temperature: 0.4,
-            max_tokens: 800,
+            max_tokens: 2000,
+            reasoning: { max_tokens: 256 },
             provider,
             baseUrl,
             fallbacks: chain.slice(i + 1)
@@ -334,10 +336,11 @@ KONTAK KELURAHAN:
             if (data === '[DONE]') continue;
             try {
               const parsed = JSON.parse(data);
-              const delta = parsed.choices?.[0]?.delta?.content
-                         || parsed.choices?.[0]?.message?.content
-                         || parsed.choices?.[0]?.delta?.reasoning_content
-                         || '';
+            const delta = parsed.choices?.[0]?.delta?.content
+                       || parsed.choices?.[0]?.message?.content
+                       || '';
+            // Abaikan delta.reasoning / reasoning_content — Qwen 3.7 Flash
+            // mengirim thinking di situ; jawaban warga ada di content.
               if (delta) {
                 full += delta;
                 opts.onToken?.(delta);

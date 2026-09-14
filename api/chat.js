@@ -52,12 +52,17 @@ function resolveApiKey(cfg, providerKey, clientApiKey) {
   return key;
 }
 
-function buildUpstreamBody(providerKey, model, messages, stream, temperature, max_tokens) {
+function buildUpstreamBody(providerKey, model, messages, stream, temperature, max_tokens, extra = {}) {
   const body = { model, messages, stream, temperature, max_tokens };
   if (providerKey === 'minimax') {
     body.reasoning_split = true;
     body.thinking = { type: 'disabled' };
     body.top_p = 0.95;
+  }
+  // Qwen 3.7 Flash (dan reasoning model OpenRouter lain) sering menghabiskan
+  // budget di field reasoning. Cap reasoning supaya sisa token untuk jawaban.
+  if (providerKey === 'openrouter') {
+    body.reasoning = extra.reasoning || { max_tokens: 256 };
   }
   return body;
 }
@@ -96,11 +101,12 @@ export default async function handler(req) {
     messages,
     stream = true,
     temperature = 0.4,
-    max_tokens = 800,
+    max_tokens = 2000,
     provider = 'openrouter',
     baseUrl,
     apiKey: clientApiKey,
-    fallbacks
+    fallbacks,
+    reasoning
   } = body || {};
 
   if (!model || !Array.isArray(messages) || !messages.length) {
@@ -143,7 +149,7 @@ export default async function handler(req) {
     const upstream = await fetch(endpoint, {
       method: 'POST',
       headers,
-      body: JSON.stringify(buildUpstreamBody(providerKey, resolvedModel, messages, stream, temperature, max_tokens))
+      body: JSON.stringify(buildUpstreamBody(providerKey, resolvedModel, messages, stream, temperature, max_tokens, { reasoning }))
     });
 
     if (upstream.ok) {
