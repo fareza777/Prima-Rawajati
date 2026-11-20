@@ -28,7 +28,7 @@ test('Android build pins the configuration proven in production code 19', async 
   // code 19 (ABH 2.5.0) runs in production; every build shipping 2.7.2
   // (code 20-24) was reported by Play as "app doesn't open or load".
   assert.equal(manifest.androidBrowserHelperVersion, '2.5.0');
-  assert.equal(manifest.minSdkVersion, 21);
+  assert.equal(manifest.minSdkVersion, 24);
   assert.doesNotMatch(source, /androidbrowserhelper:2\.7\.2/);
   assert.match(source, /androidbrowserhelper:\$\{ABH_VERSION\}/);
 
