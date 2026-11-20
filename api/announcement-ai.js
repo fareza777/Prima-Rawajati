@@ -96,7 +96,7 @@ async function defaultCallAI({ prompt, body, env }) {
   if (!apiKey || !model) throw new Error('AI_NOT_CONFIGURED');
   const headers = { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' };
   if (!isMinimax) {
-    headers['HTTP-Referer'] = 'https://prima-rawajati.vercel.app';
+    headers['HTTP-Referer'] = 'https://prima-rawajati.fajar-mreza.workers.dev';
     headers['X-Title'] = 'PRIMA Announcement Admin';
   }
   const upstream = await fetch(endpoint, {

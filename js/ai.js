@@ -6,7 +6,7 @@
 
 const PRIMA_AI = (() => {
   const ENDPOINT = '/api/chat';
-  const PRODUCTION_ENDPOINT = 'https://prima-rawajati.vercel.app/api/chat';
+  const PRODUCTION_ENDPOINT = 'https://prima-rawajati.fajar-mreza.workers.dev/api/chat';
 
   function getEndpoint() {
     const host = window.location.hostname;

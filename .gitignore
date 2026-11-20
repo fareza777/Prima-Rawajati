@@ -58,3 +58,7 @@ img/play/video/qa/
 .vercel
 .env*.local
 .prima-admin-secrets.txt
+
+# Cloudflare
+.wrangler/
+.dev.vars

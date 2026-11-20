@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "prima-rawajati",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-11-01",
+  // process.env (read by api/*.js) is populated from vars + secrets, and
+  // web-push (api/push-broadcast.js) gets its Node built-ins.
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    // The site is plain static files at the repo root; .assetsignore keeps
+    // server code, tests, tooling and repo metadata out of the upload.
+    "directory": ".",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    // Same as the old vercel.json catch-all rewrite to /index.html.
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "workers_dev": true,
+  "preview_urls": true,
+  "observability": { "enabled": true },
+  // Non-secret config. Secrets (OPENROUTER_API_KEY, GITHUB_TOKEN,
+  // ADMIN_SECRET, VAPID_PRIVATE_KEY, UPSTASH_REDIS_REST_TOKEN, …) are set
+  // with `wrangler secret put` / the dashboard. See MIGRATION-CLOUDFLARE.md.
+  "vars": {
+    "GITHUB_REPO": "fareza777/Prima-Rawajati",
+    "GITHUB_BRANCH": "main"
+  }
+}

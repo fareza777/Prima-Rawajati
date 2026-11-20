@@ -1,0 +1,24 @@
+# Not part of the public site (Workers Static Assets upload exclusions)
+.git
+.github
+.gitignore
+.assetsignore
+.env*
+.dev.vars*
+.wrangler
+node_modules
+api
+worker
+tests
+tools
+app
+docs
+package.json
+package-lock.json
+vercel.json
+wrangler.jsonc
+README.md
+MIGRATION-CLOUDFLARE.md
+android.keystore
+*.aab
+*.apk
