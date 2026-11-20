@@ -1,6 +1,6 @@
 {
   "packageId": "id.rawajati.prima",
-  "host": "prima-rawajati.vercel.app",
+  "host": "prima-rawajati.fajar-mreza.workers.dev",
   "name": "PRIMA – Kelurahan Rawajati",
   "launcherName": "PRIMA",
   "display": "standalone",
@@ -12,11 +12,11 @@
   "backgroundColor": "#0A1F44",
   "enableNotifications": true,
   "startUrl": "/",
-  "iconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512.png",
-  "maskableIconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512-maskable.png",
-  "monochromeIconUrl": "https://prima-rawajati.vercel.app/img/icons/icon-512.png",
-  "appVersion": "29",
-  "appVersionName": "1.2.10",
+  "iconUrl": "https://prima-rawajati.fajar-mreza.workers.dev/img/icons/icon-512.png",
+  "maskableIconUrl": "https://prima-rawajati.fajar-mreza.workers.dev/img/icons/icon-512-maskable.png",
+  "monochromeIconUrl": "https://prima-rawajati.fajar-mreza.workers.dev/img/icons/icon-512.png",
+  "appVersion": "30",
+  "appVersionName": "1.2.11",
   "signingKey": {
     "path": "android.keystore",
     "alias": "prima"
@@ -25,7 +25,7 @@
   "enableSiteSettingsShortcut": false,
   "isChromeOSOnly": false,
   "isMetaQuest": false,
-  "fullScopeUrl": "https://prima-rawajati.vercel.app/",
+  "fullScopeUrl": "https://prima-rawajati.fajar-mreza.workers.dev/",
   "minSdkVersion": 21,
   "targetSdkVersion": 36,
   "androidBrowserHelperVersion": "2.5.0",
@@ -35,7 +35,7 @@
     "8A:33:6F:13:8F:11:05:5B:C0:C2:BB:20:39:3C:16:E0:76:0F:C5:12:77:2C:C0:F9:8F:19:3A:69:C5:EC:76:E6",
     "43:78:0B:51:37:3F:8D:79:3D:DF:44:0A:BB:D3:8F:62:6B:1A:67:8D:EC:F2:4C:6C:F5:89:3E:21:EE:C3:77:5E"
   ],
-  "webManifestUrl": "https://prima-rawajati.vercel.app/manifest.json",
+  "webManifestUrl": "https://prima-rawajati.fajar-mreza.workers.dev/manifest.json",
   "generatorApp": "bubblewrap-cli",
   "features": {},
   "alphaDependencies": { "enabled": false },
@@ -45,13 +45,13 @@
       "name": "Layanan Surat",
       "short_name": "Layanan",
       "url": "/?s=layanan",
-      "icons": [{ "src": "https://prima-rawajati.vercel.app/img/icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "https://prima-rawajati.fajar-mreza.workers.dev/img/icons/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Tanya PRIMA",
       "short_name": "Chatbot",
       "url": "/?s=chat",
-      "icons": [{ "src": "https://prima-rawajati.vercel.app/img/icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "https://prima-rawajati.fajar-mreza.workers.dev/img/icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }
