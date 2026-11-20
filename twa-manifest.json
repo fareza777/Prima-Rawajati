@@ -15,8 +15,8 @@
   "iconUrl": "https://prima-rawajati.fajar-mreza.workers.dev/img/icons/icon-512.png",
   "maskableIconUrl": "https://prima-rawajati.fajar-mreza.workers.dev/img/icons/icon-512-maskable.png",
   "monochromeIconUrl": "https://prima-rawajati.fajar-mreza.workers.dev/img/icons/icon-512.png",
-  "appVersion": "30",
-  "appVersionName": "1.2.11",
+  "appVersion": "31",
+  "appVersionName": "1.2.12",
   "signingKey": {
     "path": "android.keystore",
     "alias": "prima"
@@ -26,7 +26,7 @@
   "isChromeOSOnly": false,
   "isMetaQuest": false,
   "fullScopeUrl": "https://prima-rawajati.fajar-mreza.workers.dev/",
-  "minSdkVersion": 21,
+  "minSdkVersion": 24,
   "targetSdkVersion": 36,
   "androidBrowserHelperVersion": "2.5.0",
   "androidxBrowserVersion": "1.8.0",

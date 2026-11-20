@@ -28,7 +28,7 @@ const ICON_URL = manifest.iconUrl     || `https://${HOST}/img/icons/icon-512.png
 const MASK_URL = manifest.maskableIconUrl || ICON_URL;
 const V_CODE   = String(manifest.appVersion     || '1');
 const V_NAME   = String(manifest.appVersionName || '1.0.0');
-const MIN_SDK  = manifest.minSdkVersion || 21;
+const MIN_SDK  = manifest.minSdkVersion || 24;
 const ENABLE_NOTIFICATIONS = manifest.enableNotifications === true;
 
 // Pinned deliberately. androidbrowserhelper 2.7.2 drags in appcompat,
