@@ -129,7 +129,7 @@ export default async function handler(req) {
     }, 500, req);
   }
 
-  const origin = req.headers.get('origin') || 'https://prima-rawajati.vercel.app';
+  const origin = req.headers.get('origin') || 'https://prima-rawajati.fajar-mreza.workers.dev';
   const headers = {
     'Authorization': `Bearer ${apiKey}`,
     'Content-Type': 'application/json'
